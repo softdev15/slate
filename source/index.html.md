@@ -1,15 +1,11 @@
 ---
-title: API Reference
+title: Shipamax Freight Forwarding API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
-  - ruby
-  - python
-  - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
+  - <a href='mailto:support@shipamax.com'>Get a Developer Key</a>
 
 includes:
   - errors
@@ -19,221 +15,69 @@ search: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Shipamax Freight Forwarding API. The Shipamax freight forwarding API converts documents into structured JSON.
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+If you have any questions please contact techsupport@shipamax.com.
 
-This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
+Example code can be found at
+[https://github.com/shipamax/samples/tree/master/freightforwarding](https://github.com/shipamax/samples/tree/master/freightforwarding)
 
-# Authentication
+# Workflow
 
-> To authorize, use this code:
+There are two ways for sending data to the Shipamax API.
 
-```ruby
-require 'kittn'
+1. Pushing directly to the API
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
+2. Forwarding of e-mails
 
-```python
-import kittn
+## API
+The workflow of the API is
 
-api = kittn.authorize('meowmeowmeow')
-```
+1. Login and get an access token
+
+2. Post a document with a custom ID to be parsed
+
+3. Retrieve the parsing results via custom ID
+
+4. Log out and invalidate the access token
+
+
+## E-mail forwarding to API
+The workflow of email to API is
+1. Send email to forwarding address provided by Shipamax. If you need one please contact
+[support@shipamax.com](support@shipamax.com)
+2. Login to API and get an access token
+3. Retrieve the parsing results. Information about the custom ID can be found below.
+4. Log out and invalidate the access token
+
+# Logging in
+
+> To log in, use this code:
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+
+curl -X POST --header 'Content-Type: application/json'
+  -d '{"username":"[USERNAME]", "password":"[PASSWORD]"}'
+  'https://developer.shipamax-api.com/api/users/login?version=190206'
 ```
 
-```javascript
-const kittn = require('kittn');
+> Make sure to replace `[USERNAME]` with your username and `[PASSWORD]` with your password respectively.
 
-let api = kittn.authorize('meowmeowmeow');
-```
+Shipamax requires you to log in before any calls with your username and password. See the example on the side how to log in and obtain an access token.
 
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
+Shipamax expects for the access token to be included in all API requests to the server in a header that looks like the following:
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>[USERNAME]</code> and <code>[PASSWORD]</code> with your personal login details.
 </aside>
 
-# Kittens
+# Custom ID for email forwarding
 
-## Get All Kittens
+When you forward emails to a forwarding account you will need to match that email to a custom ID so you can retrieve the results via API. You can use the Message-ID field to query parsing results.
 
-```ruby
-require 'kittn'
+![alt text](./images/messageid.png)
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
-
+In this example custom ID would be <5c52f8e7.1c69fb81.e6555.702d@mx.google.com>.
+More information about the email Message-ID can be found here
+[https://tools.ietf.org/html/rfc5322](https://tools.ietf.org/html/rfc5322)
