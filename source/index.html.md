@@ -3,6 +3,7 @@ title: Shipamax Freight Forwarding API Reference
 
 toc_footers:
   - <a href='mailto:support@shipamax.com'>Get a Developer Key</a>
+  - <a href='https://github.com/softdev15/slate'><img src="./images/github.png"/>Contribute to these Docs</a>
 
 
 search: true
