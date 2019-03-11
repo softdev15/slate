@@ -60,7 +60,6 @@ html, body {
   width: $nav-width;
   background-color: $nav-bg;
   font-size: 13px;
-  font-weight: bold;
 
   // language selector for mobile devices
   .lang-selector {
@@ -74,8 +73,10 @@ html, body {
   // This is the logo at the top of the ToC
   .logo {
     display: block;
-    max-width: 100%;
-    margin: 10px 10px $logo-margin 10px;
+    max-width: 55%;
+    margin: 30px auto;
+    // max-width: 100%;
+    // margin: 10px 10px $logo-margin 10px;
   }
 
   &>.search {
@@ -141,7 +142,7 @@ html, body {
     list-style: none;
     margin: 0;
     padding: 0;
-    line-height: 28px;
+    line-height: 32px;
   }
 
   li {
@@ -155,6 +156,7 @@ html, body {
   .toc-link.active {
     background-color: $nav-active-bg;
     color: $nav-active-text;
+    font-weight: 900;
   }
 
   // this is parent links of the currently selected ToC entry
@@ -166,12 +168,18 @@ html, body {
   .toc-list-h2 {
     display: none;
     background-color: $nav-subitem-bg;
-    font-weight: 500;
+    padding-left: 25px;
+    font-weight: 400;
+  }
+
+  .toc-h1 {
+    padding-left: $nav-padding + $nav-indent;
+    font-size: 16px;
   }
 
   .toc-h2 {
     padding-left: $nav-padding + $nav-indent;
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .toc-footer {
