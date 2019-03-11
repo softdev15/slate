@@ -3,6 +3,7 @@ title: Shipamax Freight Forwarding API Reference
 
 toc_footers:
   - <a href='mailto:support@shipamax.com'>Get a Developer Key</a>
+  - <a href='https://github.com/softdev15/slate'><img src="./images/github.png"/>Contribute to these Docs</a>
 
 
 search: true
@@ -32,8 +33,6 @@ Unless specified otherwise, requests with a body attached should be sent with a 
 ### Authorization
 
 With the exception of logging in, all API methods require you to be authenticated. Once you have an access token ([see below](#logging-in)) you can send it along with any API requests you make in a header. If your access token was `abc123`, you would send it as the HTTP header `Authorization: abc123`.
-<aside class="warning">For an email with multiple attachments, all of the document container objects will have the same custom ID.</aside>
-<aside class="success">For an email with multiple attachments, all of the document container objects will have the same custom ID.</aside>
 
 # Common actions
 

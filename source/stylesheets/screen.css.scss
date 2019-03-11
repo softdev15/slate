@@ -49,7 +49,6 @@ html, body {
 
 .toc-wrapper {
   transition: left 0.3s ease-in-out;
-
   overflow-y: auto;
   overflow-x: hidden;
   position: fixed;
@@ -59,6 +58,7 @@ html, body {
   bottom: 0;
   width: $nav-width;
   background-color: $nav-bg;
+  border-right: 1px solid $nav-border;
   font-size: 13px;
 
   // language selector for mobile devices
@@ -142,7 +142,7 @@ html, body {
     list-style: none;
     margin: 0;
     padding: 0;
-    line-height: 32px;
+    line-height: 35px;
   }
 
   li {
@@ -156,7 +156,6 @@ html, body {
   .toc-link.active {
     background-color: $nav-active-bg;
     color: $nav-active-text;
-    font-weight: 900;
   }
 
   // this is parent links of the currently selected ToC entry
@@ -168,7 +167,6 @@ html, body {
   .toc-list-h2 {
     display: none;
     background-color: $nav-subitem-bg;
-    padding-left: 25px;
     font-weight: 400;
   }
 
@@ -178,14 +176,13 @@ html, body {
   }
 
   .toc-h2 {
-    padding-left: $nav-padding + $nav-indent;
+    padding-left: 50px;
     font-size: 16px;
   }
 
   .toc-footer {
     padding: 1em 0;
     margin-top: 1em;
-    border-top: 1px dashed $nav-footer-border-color;
 
     li,a {
       color: $nav-text;
@@ -197,9 +194,23 @@ html, body {
     }
 
     li {
-      font-size: 0.8em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9em;
+      text-align: center;
       line-height: 1.7;
       text-decoration: none;
+
+      a {
+        display: flex;
+        align-items: center;
+      }
+
+      img {
+        height: 14px;
+        margin-right: 5px;
+      }
     }
   }
 }
@@ -361,7 +372,7 @@ html, body {
     margin-top: 2em;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
-    background-color: #fdfdfd;
+    background-color: $header-bg;
   }
 
   h1:first-child, div:first-child + h1 {
@@ -417,6 +428,10 @@ html, body {
   table {
     margin-bottom: 1em;
     overflow: auto;
+
+    tbody {
+    }
+
     th,td {
       text-align: left;
       vertical-align: top;
@@ -428,7 +443,6 @@ html, body {
 
     th {
       padding: 5px 10px;
-      border-bottom: 1px solid #ccc;
       vertical-align: bottom;
     }
 
@@ -436,16 +450,12 @@ html, body {
       padding: 10px;
     }
 
-    tr:last-child {
-      border-bottom: 1px solid #ccc;
-    }
-
     tr:nth-child(odd)>td {
-      background-color: lighten($main-bg,4.2%);
+      background-color: $table-child-odd;
     }
 
     tr:nth-child(even)>td {
-      background-color: lighten($main-bg,2.4%);
+      background-color: $table-child-even;
     }
   }
 
@@ -553,7 +563,6 @@ html, body {
     a {
       color: #fff;
       text-decoration: none;
-      border-bottom: dashed 1px #ccc;
     }
   }
 
