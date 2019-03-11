@@ -32,6 +32,8 @@ Unless specified otherwise, requests with a body attached should be sent with a 
 ### Authorization
 
 With the exception of logging in, all API methods require you to be authenticated. Once you have an access token ([see below](#logging-in)) you can send it along with any API requests you make in a header. If your access token was `abc123`, you would send it as the HTTP header `Authorization: abc123`.
+<aside class="warning">For an email with multiple attachments, all of the document container objects will have the same custom ID.</aside>
+<aside class="success">For an email with multiple attachments, all of the document container objects will have the same custom ID.</aside>
 
 # Common actions
 
@@ -139,7 +141,7 @@ Finally, the `results` property is an array of the document container details fo
 
 A "document container" is a file that may contain a document. So, for example, "bol.pdf" is a PDF file that contains a bill of lading. We seperate the concepts of the *file* and the *document contained* in the file, so that "bol.pdf" is a `DocumentContainer`, while the bill of lading itself is a `BillOfLading`.
 
-<aside class="notice">
+<aside class="warning">
 KNOWN ISSUE: The document containers that we return in the <code>results</code> array may not be fully processed. This means that you may get a document container that should contain a bill of lading, but where the <code>billOfLading</code> property of that document container is empty. We aim to make it possible to determine the difference between an empty document container and an unprocessed document container in the future.
 </aside>
 
