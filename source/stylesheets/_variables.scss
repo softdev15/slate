@@ -23,18 +23,19 @@ under the License.
 
 // BACKGROUND COLORS
 ////////////////////
-$nav-bg: #1A2D3A !default;
+$nav-bg: #fff !default;
+$nav-border: #e2e2e8 !default;
 $examples-bg: #1A2D3A !default;
 $code-bg: #141e25 !default;
 $code-annotation-bg: #141e25 !default;
-$nav-subitem-bg: #234356 !default;
-$nav-active-bg: #234356 !default;
-$nav-active-parent-bg: #234356 !default; // parent links of the current section
+$nav-subitem-bg: #F5F6F7 !default;
+$nav-active-bg: #1f4d6d !default;
+$nav-active-parent-bg: #F5F6F7 !default; // parent links of the current section
 $lang-select-border: #000 !default;
-$lang-select-bg: #234356 !default;
+$lang-select-bg: #F5F6F7 !default;
 $lang-select-active-bg: $examples-bg !default; // feel free to change this to blue or something
 $lang-select-pressed-bg: #111 !default; // color of language tab bg when mouse is pressed
-$main-bg: #F5F6F7 !default;
+$main-bg: #fff !default;
 $aside-notice-bg: #ffac9071 !default;
 $aside-notice-border: #fe663a !default;
 $aside-warning-bg: #ffd3d5 !default;
@@ -49,12 +50,12 @@ $search-highlight: #a3e0ff !default;
 ////////////////////
 $main-text: #333 !default; // main content text color
 $main-link-text: #1B78B3 !default; // main content text color
-$nav-text: #fff !default;
-$nav-active-text: #FE663A !default;
-$nav-active-parent-text: #fff !default; // parent links of the current section
-$lang-select-text: #fff !default; // color of unselected language tab text
-$lang-select-active-text: #fff !default; // color of selected language tab text
-$lang-select-pressed-text: #fff !default; // color of language tab text when mouse is pressed
+$nav-text: #1A2D3A !default;
+$nav-active-text: #fff !default;
+$nav-active-parent-text: #1A2D3A !default; // parent links of the current section
+$lang-select-text: #1A2D3A !default; // color of unselected language tab text
+$lang-select-active-text: #1A2D3A !default; // color of selected language tab text
+$lang-select-pressed-text: #1A2D3A !default; // color of language tab text when mouse is pressed
 
 
 // SIZES

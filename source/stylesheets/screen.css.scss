@@ -49,7 +49,6 @@ html, body {
 
 .toc-wrapper {
   transition: left 0.3s ease-in-out;
-
   overflow-y: auto;
   overflow-x: hidden;
   position: fixed;
@@ -59,6 +58,7 @@ html, body {
   bottom: 0;
   width: $nav-width;
   background-color: $nav-bg;
+  border-right: 1px solid $nav-border;
   font-size: 13px;
 
   // language selector for mobile devices
@@ -142,7 +142,7 @@ html, body {
     list-style: none;
     margin: 0;
     padding: 0;
-    line-height: 32px;
+    line-height: 35px;
   }
 
   li {
@@ -156,7 +156,6 @@ html, body {
   .toc-link.active {
     background-color: $nav-active-bg;
     color: $nav-active-text;
-    font-weight: 900;
   }
 
   // this is parent links of the currently selected ToC entry
@@ -168,7 +167,6 @@ html, body {
   .toc-list-h2 {
     display: none;
     background-color: $nav-subitem-bg;
-    padding-left: 25px;
     font-weight: 400;
   }
 
@@ -178,7 +176,7 @@ html, body {
   }
 
   .toc-h2 {
-    padding-left: $nav-padding + $nav-indent;
+    padding-left: 50px;
     font-size: 16px;
   }
 
@@ -417,6 +415,9 @@ html, body {
   table {
     margin-bottom: 1em;
     overflow: auto;
+    tbody {
+      background: $nav-subitem-bg;
+    }
     th,td {
       text-align: left;
       vertical-align: top;
@@ -438,14 +439,6 @@ html, body {
 
     tr:last-child {
       border-bottom: 1px solid #ccc;
-    }
-
-    tr:nth-child(odd)>td {
-      background-color: lighten($main-bg,4.2%);
-    }
-
-    tr:nth-child(even)>td {
-      background-color: lighten($main-bg,2.4%);
     }
   }
 
