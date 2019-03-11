@@ -3,6 +3,7 @@ title: Shipamax Freight Forwarding API Reference
 
 toc_footers:
   - <a href='mailto:support@shipamax.com'>Get a Developer Key</a>
+  - <a href='https://github.com/softdev15/slate'><img src="./images/github.png"/>Contribute to these Docs</a>
 
 
 search: true
@@ -139,7 +140,7 @@ Finally, the `results` property is an array of the document container details fo
 
 A "document container" is a file that may contain a document. So, for example, "bol.pdf" is a PDF file that contains a bill of lading. We seperate the concepts of the *file* and the *document contained* in the file, so that "bol.pdf" is a `DocumentContainer`, while the bill of lading itself is a `BillOfLading`.
 
-<aside class="notice">
+<aside class="warning">
 KNOWN ISSUE: The document containers that we return in the <code>results</code> array may not be fully processed. This means that you may get a document container that should contain a bill of lading, but where the <code>billOfLading</code> property of that document container is empty. We aim to make it possible to determine the difference between an empty document container and an unprocessed document container in the future.
 </aside>
 

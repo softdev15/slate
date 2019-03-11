@@ -49,7 +49,6 @@ html, body {
 
 .toc-wrapper {
   transition: left 0.3s ease-in-out;
-
   overflow-y: auto;
   overflow-x: hidden;
   position: fixed;
@@ -59,8 +58,8 @@ html, body {
   bottom: 0;
   width: $nav-width;
   background-color: $nav-bg;
+  border-right: 1px solid $nav-border;
   font-size: 13px;
-  font-weight: bold;
 
   // language selector for mobile devices
   .lang-selector {
@@ -74,8 +73,10 @@ html, body {
   // This is the logo at the top of the ToC
   .logo {
     display: block;
-    max-width: 100%;
-    margin: 10px 10px $logo-margin 10px;
+    max-width: 55%;
+    margin: 30px auto;
+    // max-width: 100%;
+    // margin: 10px 10px $logo-margin 10px;
   }
 
   &>.search {
@@ -141,7 +142,7 @@ html, body {
     list-style: none;
     margin: 0;
     padding: 0;
-    line-height: 28px;
+    line-height: 35px;
   }
 
   li {
@@ -166,18 +167,22 @@ html, body {
   .toc-list-h2 {
     display: none;
     background-color: $nav-subitem-bg;
-    font-weight: 500;
+    font-weight: 400;
+  }
+
+  .toc-h1 {
+    padding-left: $nav-padding + $nav-indent;
+    font-size: 16px;
   }
 
   .toc-h2 {
-    padding-left: $nav-padding + $nav-indent;
-    font-size: 12px;
+    padding-left: 50px;
+    font-size: 16px;
   }
 
   .toc-footer {
     padding: 1em 0;
     margin-top: 1em;
-    border-top: 1px dashed $nav-footer-border-color;
 
     li,a {
       color: $nav-text;
@@ -189,9 +194,23 @@ html, body {
     }
 
     li {
-      font-size: 0.8em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9em;
+      text-align: center;
       line-height: 1.7;
       text-decoration: none;
+
+      a {
+        display: flex;
+        align-items: center;
+      }
+
+      img {
+        height: 14px;
+        margin-right: 5px;
+      }
     }
   }
 }
@@ -346,14 +365,14 @@ html, body {
 
   h1 {
     @extend %header-font;
-    font-size: 25px;
+    font-size: 27px;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
     margin-bottom: $h1-margin-bottom;
     margin-top: 2em;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
-    background-color: #fdfdfd;
+    background-color: $header-bg;
   }
 
   h1:first-child, div:first-child + h1 {
@@ -363,7 +382,7 @@ html, body {
 
   h2 {
     @extend %header-font;
-    font-size: 19px;
+    font-size: 22px;
     margin-top: 4em;
     margin-bottom: 0;
     border-top: 1px solid #ccc;
@@ -390,6 +409,16 @@ html, body {
     font-size: 10px;
   }
 
+  a {
+    color: $main-link-text;
+    text-decoration: none;
+    word-break: break-word;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   hr {
     margin: 2em 0;
     border-top: 2px solid $examples-bg;
@@ -399,6 +428,10 @@ html, body {
   table {
     margin-bottom: 1em;
     overflow: auto;
+
+    tbody {
+    }
+
     th,td {
       text-align: left;
       vertical-align: top;
@@ -410,7 +443,6 @@ html, body {
 
     th {
       padding: 5px 10px;
-      border-bottom: 1px solid #ccc;
       vertical-align: bottom;
     }
 
@@ -418,16 +450,12 @@ html, body {
       padding: 10px;
     }
 
-    tr:last-child {
-      border-bottom: 1px solid #ccc;
-    }
-
     tr:nth-child(odd)>td {
-      background-color: lighten($main-bg,4.2%);
+      background-color: $table-child-odd;
     }
 
     tr:nth-child(even)>td {
-      background-color: lighten($main-bg,2.4%);
+      background-color: $table-child-even;
     }
   }
 
@@ -449,7 +477,7 @@ html, body {
   }
 
   code {
-    background-color: rgba(0,0,0,0.05);
+    background-color: rgba(0, 25, 84, 0.1);
     padding: 3px;
     border-radius: 3px;
     @extend %break-words;
@@ -468,13 +496,19 @@ html, body {
     margin-bottom: 1.5em;
     background: $aside-notice-bg;
     line-height: 1.6;
+    border-top: 1px solid $aside-notice-border;
+    border-bottom: 1px solid $aside-notice-border;
 
     &.warning {
       background-color: $aside-warning-bg;
+      border-top: 1px solid $aside-warning-border;
+      border-bottom: 1px solid $aside-warning-border;
     }
 
     &.success {
       background-color: $aside-success-bg;
+      border-top: 1px solid $aside-success-border;
+      border-bottom: 1px solid $aside-success-border;
     }
   }
 
@@ -500,8 +534,7 @@ html, body {
     padding: 2px;
     margin: -3px;
     border-radius: 4px;
-    border: 1px solid #F7E633;
-    background: linear-gradient(to top left, #F7E633 0%, #F1D32F 100%);
+    background: $search-highlight;
   }
 }
 
@@ -530,7 +563,6 @@ html, body {
     a {
       color: #fff;
       text-decoration: none;
-      border-bottom: dashed 1px #ccc;
     }
   }
 
