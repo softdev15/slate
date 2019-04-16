@@ -238,11 +238,173 @@ You can see all of the properties of the various REST objects in our [reference 
 | /DocumentContainers/query  | GET  | Described above.  |
 | /DocumentContainers/upload | POST | Describved above. |
 
+```javascript
+// Query Document Containers
+
+Example Request:
+customIds: ci1
+
+Example Response:
+{
+  "invalid": [],
+  "processing": [],
+  "results": [
+    {
+      "created": "2018-10-09T12:00:00.000Z",
+      "unqId": "xxx1",
+      "customId": "ci1",
+      "companyId": 1000,
+      "documentType": 1,
+      "filename": "BILL OF LADING",
+      "sourceId": null,
+      "id": 100,
+      "feedback": [],
+      "arrivalNotice": [],
+      "billOfLading": [
+        {
+          "documentId": 100,
+          "billOfLadingNo": "MAE123",
+          "bookingNo": "111",
+          "shipper": "SHIPPER A",
+          "consignee": "A DIFFERENT PLACE",
+          "notify": "A DIFFERENT PLACE",
+          "goodsDescription": "GOODS DESC",
+          "grossWeight": "6111 kg",
+          "colliNo": "COLLI_NO 1",
+          "destinationAgent": null,
+          "vessel": "SATURN",
+          "carrier": "HAMBURG",
+          "isMasterBillOfLading": true,
+          "isSeawayBill": false,
+          "grossVolume": null,
+          "id": 1,
+          "container": [
+            {
+              "billOfLadingId": 1,
+              "sealNo": "MLLL111",
+              "containerNo": null,
+              "numberPieces": null,
+              "pieceType": null,
+              "weight": null,
+              "volume": null,
+              "containerType": null,
+              "id": 1
+            }
+          ],
+          "goods": []
+        }
+      ],
+      "deliveryOrder": [],
+      "supplierInvoice": []
+    },
+    {
+      "created": "2018-10-09T12:00:00.000Z",
+      "unqId": "xxx4",
+      "customId": "ci1",
+      "companyId": 1000,
+      "documentType": 4,
+      "filename": "SUPPLIER INVOICE",
+      "sourceId": null,
+      "id": 101,
+      "feedback": [],
+      "arrivalNotice": [],
+      "billOfLading": [],
+      "deliveryOrder": [],
+      "supplierInvoice": [
+        {
+          "documentId": 101,
+          "documentProducer": null,
+          "invoiceNumber": "021R 0322 3288729ISS",
+          "invoiceDate": "2018-09-30T23:00:00.000Z",
+          "due": "2018-11-09T00:00:00.000Z",
+          "buyersReference": "BUYERAF23456",
+          "suppliersReference": "SUPPLIER12345678",
+          "shipmentNumber": "SHIPMENT927LKJHGTR",
+          "netTotal": "3970.8",
+          "netTotalCurrency": "EUR",
+          "vatTotal": "1029.2",
+          "vatCurrency": "EUR",
+          "grossTotal": "5000",
+          "grossTotalCurrency": "EUR",
+          "id": 1,
+          "lineItems": [
+            {
+              "supplierInvoiceId": 1,
+              "description": "CHAIRS OF SOME SORT",
+              "unitPrice": "20",
+              "unitPriceCurrency": "EUR",
+              "numberOfUnits": "10",
+              "unitType": "PKG",
+              "vatRate": "10",
+              "totalVat": "20",
+              "totalVatCurrency": "EUR",
+              "netTotal": "180",
+              "netTotalCurrency": "EUR",
+              "grossTotal": "200",
+              "grossTotalCurrency": "EUR",
+              "containerNumber": "SDFGHJKIUYT123456",
+              "id": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+```javascript
+// Upload Doucment
+
+please check "Uploading Documents Via API" description.
+```
 ## Arrival notice
 | Endpoint            | Verb  | Description                                                                     |
 | ------------------- | ----- | ------------------------------------------------------------------------------- |
 | /ArrivalNotice/{id} | PATCH | Update an existing ArrivalNotice. Only changed properties need to be included.  |
 | /ArrivalNotice/{id} | PUT   | Replace an existing ArrivalNotice. Any properties not included will be removed. |
+
+```javascript
+//Update Arrival Notice
+
+Example Request:
+  id: 111
+  data: {
+    "documentId": 121,
+    "billOfLadingNo": "BOLA",
+    "vessel": "vessel",
+    "terminal": "terminal",
+    "eta": "2019-04-09T15:49:44.409Z"
+  }
+
+Example Response:
+{
+  "documentId": 121,
+  "billOfLadingNo": "BOL",
+  "vessel": "vessel",
+  "terminal": "terminal",
+  "eta": "2019-04-09T15:49:44.409Z",
+  "id": 111
+}
+```
+
+```javascript
+//Replace Arrival Notice
+
+Example Request:
+  id: 111
+  data: {
+    "documentId": 122,
+    "billOfLadingNo": "BOLB"
+  }
+
+Example Response:
+{
+  "documentId": 122,
+  "billOfLadingNo": "BOLB",
+  "id": 111
+}
+```
 
 ## Arrival notice container
 | Endpoint                      | Verb   | Description                                                                              |
@@ -252,11 +414,167 @@ You can see all of the properties of the various REST objects in our [reference 
 | /ArrivalNoticeContainers      | POST   | Create a new ArrivalNoticeContainer. Must include the parent ID.                         |
 | /ArrivalNoticeContainers/{id} | DELETE | Delete an ArrivalNoticeContainer.                                                        |
 
+```javascript
+//Update Arrival Notice Container
+
+Example Request:
+id: 222
+data: {
+  "arrivalNoticeId": 233,
+  "container": "CONT1",
+  "pieceCount": 10,
+  "weight": 11,
+  "pin": "PIN1"
+}
+
+Example Response:
+{
+  "arrivalNoticeId": 233,
+  "container": "CONT1",
+  "pieceCount": 10,
+  "weight": 11,
+  "pin": "PIN1",
+  "id": 222
+}
+```
+
+```javascript
+// Replace Arrival Notice Container
+
+Example Request:
+id: 222
+data: {
+  "arrivalNoticeId": 234,
+  "container": "CONT2",
+  "pieceCount": 20,
+  "pin": "PIN2"
+}
+
+Example Response:
+{
+  "arrivalNoticeId": 234,
+  "container": "CONT2",
+  "pieceCount": 20,
+  "pin": "PIN2",
+  "id": 222
+}
+```
+
+```javascript
+// Create New Arrival Notice Container
+
+Example Request:
+{
+  "arrivalNoticeId": 244,
+  "container": "CONT3",
+  "pieceCount": 30,
+  "weight": 30,
+  "pin": "PIN3"
+}
+
+Example Response:
+{
+  "arrivalNoticeId": 244,
+  "container": "CONT3",
+  "pieceCount": 30,
+  "weight": 30,
+  "pin": "PIN3",
+  "id": 255
+}
+```
+
+```javascript
+// Delete Arrival Notice Container
+
+Example Request:
+id: 255
+
+Example response:
+{
+  "count": 1
+}
+```
+
 ## Bill of lading
 | Endpoint            | Verb  | Description                                                                    |
 | ------------------- | ----- | ------------------------------------------------------------------------------ |
 | /BillOfLadings/{id} | PATCH | Update an existing BillOfLading. Only changed properties need to be included.  |
 | /BillOfLadings/{id} | PUT   | Replace an existing BillOfLading. Any properties not included will be removed. |
+
+```javascript
+// Update Bill Of Lading
+
+Example Request:
+id: 333
+data: {
+  "documentId": 344,
+  "billOfLadingNo": "BOL2",
+  "bookingNo": "BOOKING1",
+  "shipper": "SHIPPER1",
+  "consignee": "CONSIGNEE1",
+  "notify": "NOTIFY1",
+  "goodsDescription": "DESCRIPTION1",
+  "grossWeight": "10KG",
+  "colliNo": "COLLINO1",
+  "destinationAgent": "AGENT1",
+  "vessel": "VESSEL1",
+  "carrier": "string",
+  "isMasterBillOfLading": true,
+  "isSeawayBill": true
+}
+
+Example response:
+{
+  "documentId": 344,
+  "billOfLadingNo": "BOL2",
+  "bookingNo": "BOOKING1",
+  "shipper": "SHIPPER1",
+  "consignee": "CONSIGNEE1",
+  "notify": "NOTIFY1",
+  "goodsDescription": "DESCRIPTION1",
+  "grossWeight": "10KG",
+  "colliNo": "COLLINO1",
+  "destinationAgent": "AGENT1",
+  "vessel": "VESSEL1",
+  "carrier": "string",
+  "isMasterBillOfLading": true,
+  "isSeawayBill": true,
+  "grossVolume": null,
+  "id": 333
+}
+```
+
+```javascript
+// Replace Bill Of Lading
+
+Example Request:
+id: 333
+data: {
+  "documentId": 345,
+  "billOfLadingNo": "BOL3",
+  "bookingNo": "BOOKING2",
+  "shipper": "SHIPPER2",
+  "consignee": "CONSIGNEE2",
+  "notify": "NOTIFY2",
+  "goodsDescription": "DESCRIPTION2",
+  "carrier": "CARRIER2",
+  "isSeawayBill": false
+}
+
+Example Response:
+{
+  "documentId": 345,
+  "billOfLadingNo": "BOL3",
+  "bookingNo": "BOOKING2",
+  "shipper": "SHIPPER2",
+  "consignee": "CONSIGNEE2",
+  "notify": "NOTIFY2",
+  "goodsDescription": "DESCRIPTION2",
+  "carrier": "CARRIER2",
+  "isSeawayBill": false,
+  "id": 333
+}
+```
 
 ## Bill of lading container
 | Endpoint                     | Verb   | Description                                                                             |
@@ -266,6 +584,97 @@ You can see all of the properties of the various REST objects in our [reference 
 | /BillOfLadingContainers      | POST   | Create a new BillOfLadingContainer. Must include the parent ID.                         |
 | /BillOfLadingContainers/{id} | DELETE | Delete a BillOfLadingContainer.                                                         |
 
+```javascript
+// Update Bill Of Lading Container
+
+Example Request:
+id: 444
+data: {
+  "billOfLadingId": 455,
+  "sealNo": "SEAL1",
+  "containerNo": "CONTAINER1",
+  "numberPieces": 40,
+  "pieceType": "PTYPE1",
+  "weight": "10 KG",
+  "volume": "20.33",
+  "containerType": "CTYPE1"
+}
+
+Example Response:
+{
+  "billOfLadingId": 455,
+  "sealNo": "SEAL1",
+  "containerNo": "CONTAINER1",
+  "numberPieces": 40,
+  "pieceType": "PTYPE1",
+  "weight": "10 KG",
+  "volume": "20.33",
+  "containerType": "CTYPE1",
+  "id": 444
+}
+```
+
+```javascript
+// Replace Bill Of Lading
+
+Example Request:
+id: 444
+data: {
+  "billOfLadingId": 456,
+  "sealNo":"SEAL2",
+  "containerType": "CTYPE2"
+}
+
+Example Response:
+{
+  "billOfLadingId": 456,
+  "sealNo": "SEAL2",
+  "containerType": "CTYPE2",
+  "id": 444
+}
+```
+
+```javascript
+// Create Bill Of Lading
+
+Example Request:
+{
+  "billOfLadingId": 457,
+  "sealNo": "SEAL3",
+  "containerNo": "CONT3",
+  "numberPieces": 20,
+  "pieceType": "PTYPE2",
+  "weight": "20KG",
+  "volume": "30.22",
+  "containerType": "CTYPE2"
+}
+
+Example Response:
+{
+  "billOfLadingId": 457,
+  "sealNo": "SEAL3",
+  "containerNo": "CONT3",
+  "numberPieces": 20,
+  "pieceType": "PTYPE2",
+  "weight": "20KG",
+  "volume": "30.22",
+  "containerType": "CTYPE2",
+  "id": 445
+}
+```
+
+```javascript
+// Delete Bill Of Lading
+
+Example Request:
+id: 445
+
+Example response:
+{
+  "count": 1
+}
+```
+
 ## Bill of lading goods
 | Endpoint                | Verb   | Description                                                                         |
 | ----------------------- | ------ | ----------------------------------------------------------------------------------- |
@@ -274,11 +683,126 @@ You can see all of the properties of the various REST objects in our [reference 
 | /BillOfLadingGoods      | POST   | Create a new BillOfLadingGoods. Must include the parent ID.                         |
 | /BillOfLadingGoods/{id} | DELETE | Delete a BillOfLadingGoods.                                                         |
 
+```javascript
+// Update Bill Of Lading Goods
+
+Example Request:
+id: 555
+data: {
+  "billOfLadingId": 466,
+  "goodsDescription": "DESCRIPTION1",
+  "hsCode": "HSCODE1",
+  "containerNo": "CONTAINER1"
+}
+
+Example Response:
+{
+  "billOfLadingId": 466,
+  "goodsDescription": "DESCRIPTION1",
+  "hsCode": "HSCODE1",
+  "containerNo": "CONTAINER1",
+  "id": 555
+}
+```
+
+```javascript
+// Replace Bill Of Lading Goods
+
+Example Request:
+id: 555
+data: {
+  "billOfLadingId": 467,
+  "goodsDescription": "DESCRIPTION2"
+}
+
+Example Response:
+{
+  "billOfLadingId": 467,
+  "goodsDescription": "DESCRIPTION2",
+  "id": 555
+}
+```
+
+```javascript
+// Create Bill Of Lading Goods
+
+Example Request:
+{
+  "billOfLadingId": 568,
+  "goodsDescription": "DESCRIPTION3",
+  "hsCode": "HSCODE3",
+  "containerNo": "CONTAINER3"
+}
+
+Example Response:
+{
+  "billOfLadingId": 568,
+  "goodsDescription": "DESCRIPTION3",
+  "hsCode": "HSCODE3",
+  "containerNo": "CONTAINER3",
+  "id": 556
+}
+```
+
+```javascript
+// Delete Bill Of Lading Goods
+
+Example Request:
+id: 556
+
+Example Response:
+{
+  "count": 1
+}
+```
+
 ## Delivery order
 | Endpoint             | Verb  | Description                                                                     |
 | -------------------- | ----- | ------------------------------------------------------------------------------- |
 | /DeliveryOrders/{id} | PATCH | Update an existing DeliveryOrder. Only changed properties need to be included.  |
 | /DeliveryOrders/{id} | PUT   | Replace an existing DeliveryOrder. Any properties not included will be removed. |
+
+```javascript
+// Update Delivery Order
+
+Example Request:
+id: 666
+data: {
+  "documentId": 677,
+  "billOfLadingNo": "BOL1",
+  "vessel": "VESSEL1",
+  "terminal": "TERMINAL1",
+  "eta": "2019-04-10T08:52:43.119Z"
+}
+
+Example Response:
+{
+  "documentId": 677,
+  "billOfLadingNo": "BOL1",
+  "vessel": "VESSEL1",
+  "terminal": "TERMINAL1",
+  "eta": "2019-04-10T08:52:43.119Z",
+  "id": 666
+}
+```
+
+```javascript
+// Replace Delivery Order
+
+Example Request:
+id: 666
+data: {
+  "documentId": 678,
+  "eta": "2019-05-10T08:52:43.128Z"
+}
+
+Example Response:
+{
+  "documentId": 678,
+  "eta": "2019-05-10T08:52:43.128Z",
+  "id": 666
+}
+```
 
 ## Delivery order container
 | Endpoint                      | Verb   | Description                                                                              |
@@ -288,11 +812,168 @@ You can see all of the properties of the various REST objects in our [reference 
 | /DeliveryOrderContainers      | POST   | Create a new DeliveryOrderContainer. Must include the parent ID.                         |
 | /DeliveryOrderContainers/{id} | DELETE | Delete a DeliveryOrderContainer.                                                         |
 
+```javascript
+// Update Delivery Order Container
+
+Example Request:
+id: 777
+data: {
+  "deliveryOrderId": 787,
+  "container": "CONTAINER1",
+  "pincode": "PINCODE1",
+  "containerType": "CTYPE1",
+  "pickupTerminal": "PTERMINAL1",
+  "pickUpReference": "PREFERENCE1",
+  "turnInTerminal": "TTERMINAL1",
+  "turnInReference": "TREFERENCE1"
+}
+
+Example Response:
+data: {
+  "deliveryOrderId": 787,
+  "container": "CONTAINER1",
+  "pincode": "PINCODE1",
+  "containerType": "CTYPE1",
+  "pickupTerminal": "PTERMINAL1",
+  "pickUpReference": "PREFERENCE1",
+  "pickupValidTo": null,
+  "turnInTerminal": "TTERMINAL1",
+  "turnInReference": "TREFERENCE1",
+  "turnInValidTo": null,
+  "id": 777
+}
+```
+
+```javascript
+// Replace Delivery Order Container
+
+Example Request:
+id: 777
+data: {
+  "deliveryOrderId": 788,
+  "container": "CONTAINER2",
+  "turnInValidTo": "2019-05-10T08:52:43.128Z"
+}
+
+Example Response:
+{
+  "deliveryOrderId": 788,
+  "container": "CONTAINER2",
+  "turnInValidTo": "2019-05-10T08:52:43.128Z",
+  "id": 777
+}
+```
+
+```javascript
+// Create Delivery order Container
+
+Example Request:
+data: {
+  "deliveryOrderId": 789,
+  "container": "CONTAINER3",
+  "pincode": "PINCODE3",
+  "containerType": "CTYPE3",
+  "pickUpReference": "PREFERENCE3",
+  "pickupValidTo": "2019-06-10T08:52:43.128Z"
+}
+
+Example Response:
+{
+  "deliveryOrderId": 789,
+  "container": "CONTAINER3",
+  "pincode": "PINCODE3",
+  "containerType": "CTYPE3",
+  "pickUpReference": "PREFERENCE3",
+  "pickupValidTo": "2019-06-10T08:52:43.128Z",
+  "id": 778
+}
+```
+
+```javascript
+// Delete Delivery Order Container
+
+Example Request:
+id: 778
+
+Example Response:
+{
+  "count": 1
+}
+```
+
 ## Supplier invoice
 | Endpoint               | Verb  | Description                                                                       |
 | ---------------------- | ----- | --------------------------------------------------------------------------------- |
 | /SupplierInvoices/{id} | PATCH | Update an existing SupplierInvoice. Only changed properties need to be included.  |
 | /SupplierInvoices/{id} | PUT   | Replace an existing SupplierInvoice. Any properties not included will be removed. |
+
+```javascript
+// Update Supplier Invoice
+
+Example Request:
+id: 888
+data: {
+  "documentId": 899,
+  "documentProducer": "DPRODUCER1",
+  "invoiceNumber": "INVOICE1",
+  "invoiceDate": "2019-04-10T08:52:43.265Z",
+  "due": "2019-04-10T08:52:43.265Z",
+  "buyersReference": "BREFERENCE1",
+  "suppliersReference": "SREFERENCE",
+  "shipmentNumber": "SHIPMENT1",
+  "netTotal": 6789.1,
+  "netTotalCurrency": "EUR",
+  "vatTotal": 1234.2,
+  "vatCurrency": "EUR",
+  "grossTotal": 8023.3,
+  "grossTotalCurrency": "EUR"
+}
+
+Example Response:
+{
+  "documentId": 899,
+  "documentProducer": "DPRODUCER1",
+  "invoiceNumber": "INVOICE1",
+  "invoiceDate": "2019-04-10T08:52:43.265Z",
+  "due": "2019-04-10T08:52:43.265Z",
+  "buyersReference": "BREFERENCE1",
+  "suppliersReference": "SREFERENCE",
+  "shipmentNumber": "SHIPMENT1",
+  "netTotal": 6789.1,
+  "netTotalCurrency": "EUR",
+  "vatTotal": 1234.2,
+  "vatCurrency": "EUR",
+  "grossTotal": 8023.3,
+  "grossTotalCurrency": "EUR",
+  "id": 888
+}
+```
+
+```javascript
+// Replace Supplier Invoice
+
+Example Request:
+id: 888
+data: {
+  "documentId": 900,
+  "documentProducer": "DPRODUCER2",
+  "invoiceNumber": "INVOICE2",
+  "due": "2019-04-11T08:52:43.271Z",
+  "buyersReference": "BREFERENCE2",
+  "shipmentNumber": "SHIPMENT2"
+}
+
+Example Response:
+{
+  "documentId": 900,
+  "documentProducer": "DPRODUCER2",
+  "invoiceNumber": "INVOICE2",
+  "due": "2019-04-11T08:52:43.271Z",
+  "buyersReference": "BREFERENCE2",
+  "shipmentNumber": "SHIPMENT2",
+  "id": 888
+}
+```
 
 ## Supplier invoice line item
 | Endpoint                       | Verb   | Description                                                                               |
@@ -300,15 +981,151 @@ You can see all of the properties of the various REST objects in our [reference 
 | /SupplierInvoiceLineItems/{id} | PATCH  | Update an existing SupplierInvoiceLineItem. Only changed properties need to be included.  |
 | /SupplierInvoiceLineItems/{id} | PUT    | Replace an existing SupplierInvoiceLineItem. Any properties not included will be removed. |
 | /SupplierInvoiceLineItems      | POST   | Create a new SupplierInvoiceLineItem. Must include the parent ID.                         |
-| /SupplierInvoiceLineItems/{id} | DELETE | Delete a SupplierInvoiceLineItem.              |
+| /SupplierInvoiceLineItems/{id} | DELETE | Delete a SupplierInvoiceLineItem.                                                         |
+
+```javascript
+// Update Supplier Invoice Line Item
+
+Example Request:
+id: 999
+data: {
+  "supplierInvoiceId": 911,
+  "description": "DESCRIPTION1",
+  "unitPrice": 20,
+  "unitPriceCurrency": "EUR",
+  "numberOfUnits": 10,
+  "unitType": "PKG",
+  "vatRate": 10,
+  "totalVat": 20,
+  "totalVatCurrency": "EUR",
+  "netTotal": 180,
+  "netTotalCurrency": "EUR",
+  "grossTotal": 200,
+  "grossTotalCurrency": "EUR",
+  "containerNumber": "CONTAINER1"
+}
+
+Example Response:
+{
+  "supplierInvoiceId": 911,
+  "description": "DESCRIPTION1",
+  "unitPrice": 20,
+  "unitPriceCurrency": "EUR",
+  "numberOfUnits": 10,
+  "unitType": "PKG",
+  "vatRate": 10,
+  "totalVat": 20,
+  "totalVatCurrency": "EUR",
+  "netTotal": 180,
+  "netTotalCurrency": "EUR",
+  "grossTotal": 200,
+  "grossTotalCurrency": "EUR",
+  "containerNumber": "CONTAINER1",
+  "id": 999
+}
+```
+
+```javascript
+// Replace Supplier Invoice Line Item
+
+Example Request:
+id: 999
+data: {
+  "supplierInvoiceId": 912,
+  "containerNumber": "CONTAINER2"
+}
+
+Example Response:
+{
+  "supplierInvoiceId": 912,
+  "containerNumber": "CONTAINER2",
+  "id": 999
+}
+```
+
+```javascript
+// Create Supplier Invoice Line Item
+
+Example Request:
+data: {
+  "supplierInvoiceId": 913,
+  "description": "DESCRIPTION3",
+  "containerNumber": "CONTAINER3"
+}
+
+Example Response:
+{
+  "supplierInvoiceId": 913,
+  "description": "DESCRIPTION3",
+  "containerNumber": "CONTAINER3",
+  "id": 1000
+}
+```
+
+```javascript
+// Delete Supplier Invoice Line Item
+
+Example Request:
+id: 1000
+
+Example Response:
+{
+  "count": 1
+}
+```
 
 ## Feedback
 | Endpoint    | Verb | Description      |
 | ----------- | ---- | ---------------- |
 | /Feedbacks/ | POST | Described above. |
 
+```javascript
+// Post a Feedback
+
+Example Request:
+data: {
+  "feedbackType": 2,
+  "value":"some feedback",
+  "userId": 100,
+  "documentId": 2000
+}
+
+Example Response:
+{
+  "feedbackType": 2,
+  "value": "some feedback",
+  "userId": 100,
+  "documentId": 2000,
+  "id": 400
+}
+```
+
 ## User
 | Endpoint      | Verb | Description                           |
 | ------------- | ---- | ------------------------------------- |
 | /users/login  | POST | Described above.                      |
 | /users/logout | POST | Invalidates the current access token. |
+
+```javascript
+// User Login
+Example Request:
+data: {
+  "email":"user@shipamax.com",
+  "password":"userpassword"
+}
+
+Example Response:
+{
+  "id": "pN8W73JD8TlCUF1MizlCPtvmhWxRSDLJruUeSBB7QlGQqsMiYrGizlWMWHcrVJjQ",
+  "ttl": 1209600,
+  "created": "2019-04-10T11:04:31.499Z",
+  "userId": 100
+}
+```
+
+```javascript
+// User Logout
+
+Example Response:
+"no content"
+```
