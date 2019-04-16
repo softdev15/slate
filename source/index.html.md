@@ -156,7 +156,8 @@ Users will always see the most recent corrected version of any document. However
   "feedbackType": "number",
   "value": "string",
   "userId": "number",
-  "documentId": "number"
+  "documentId": "number",
+  "customId": "string"
 }
 ```
 
@@ -169,37 +170,44 @@ You can pass on feedback from your users about the quality of the document parse
 - `value`: A JSON encoded object, specific to the type of feedback. All kinds of feedback object allow a `comment` property for free-text remarks related to the feedback.
 - `userId`: The ID of the user on whose behalf you are saving the feedback.
 - `documentId`: The ID of the document container to which the feedback relates. Note that this is *not* the `customId`, but the `id` field of the `DocumentContainer` object received from the `query` API call.
+- `customId`: The ID of the mail to which the feedback relates.
 
 
 ### Feedback types
-
-```javascript
-// DocumentMissed feedback type
-{
-  "comment": "optional free text comment",
-  "type": "BillOfLading"
-}
-```
-
-```javascript
-// All quality feedback types
-{
-  "comment": "optional free text comment",
-  "rating": 1,
-  "id": 1234
-}
-```
-
 | ID  | Name                   | Description                                                  |
 | --- | ---------------------- | ------------------------------------------------------------ |
-| 1   | DocumentMissed         | The file contained a document that the system has not parsed |  |
+| 1   | DocumentMissed         | The file contained a document that the system has not parsed |
 | 2   | BillOfLadingQuality    | A rating for the parsing quality of a bill of lading         |
 | 3   | ArrivalNoticeQuality   | A rating for the parsing quality of an arrival notice        |
 | 4   | DeliveryOrderQuality   | A rating for the parsing quality of a delivery order         |
 | 5   | SupplierInvoiceQuality | A rating for the parsing quality of a supplier invoice       |
 
 ```javascript
+// DocumentMissed feedback
+
+{
+  "feedbackType": 1,
+  "customId": "xxx",
+  "userId": 1,
+  "value": "{value: { rating: -2}}"
+}
+```
+
+```javascript
+// All quality feedback types
+
+{
+  "feedback_type":2
+  "value": "{value: {rating: 1}}",
+  "documentId": 123,
+  "userId": 1,
+  "customId": "YYY"
+}
+```
+
+```javascript
 // Document container details
+
 {
   "id": 123,
   ...
@@ -214,19 +222,17 @@ You can pass on feedback from your users about the quality of the document parse
 
 ```javascript
 // Feedback for the above bill of lading
+
 {
   "feedbackType": 2,
-  "value": {
-    "comment": "The parser did a great job, even though the doc was a bad photocopy",
-    "rating": 1,
-    "id": 345,
-  },
+  "value": "{value: {rating: 1}}",
   "userId": 1,
   "documentId": 123
+  "customId": XXX
 }
 ```
 
-For the quality feedback, the rating should be `-1` for a negative review, `0` for neutral review, and `1` for a positive review. The `id` should be the ID received for the specific document, and the `type` property is a string representing the missed document type: `BillOfLading`, `ArrivalNotice`, `DeliveryOrder`, `SupplierInvoice`.
+For the quality feedback, the rating should be `-2` for a document missed review, `-1` for a negative review, `0` for neutral review, and `1` for a positive review.  and the `feedbnack_type` property is an integer representing the type: `DocumentMissed`, `BillOfLading`, `ArrivalNotice`, `DeliveryOrder`, `SupplierInvoice`.
 
 # Reference
 
@@ -1083,19 +1089,21 @@ Example Response:
 // Post a Feedback
 
 Example Request:
-data: {
-  "feedbackType": 2,
-  "value":"some feedback",
-  "userId": 100,
-  "documentId": 2000
-}
+  data: {
+    "feedbackType": 2,
+    "value":"{value: {rating: 0}",
+    "userId": 100,
+    "documentId": 2000,
+    "customId": "ZZZ"
+  }
 
 Example Response:
 {
   "feedbackType": 2,
-  "value": "some feedback",
+  "value":"{value: {rating: 0}",
   "userId": 100,
   "documentId": 2000,
+  "customId": "ZZZ",
   "id": 400
 }
 ```
