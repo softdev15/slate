@@ -9,10 +9,10 @@ pushd ..  > /dev/null
 
 case "$1" in
   prod)
-    BUCKET=s3://ff-api-docs
+    BUCKET=s3://docs.shipamax.com
     ;;
   staging)
-    BUCKET=s3://ff-api-docs-staging
+    BUCKET=s3://docs-staging.shipamax.com
     ;;
   *)
     echo "Must specify deployment type."
@@ -22,7 +22,7 @@ esac
 
 AWS_ACCOUNT=$(get_aws_account)
 echo "AWS Account: '$AWS_ACCOUNT'"
-if [ "$AWS_ACCOUNT" != "freightforwarding" ]; then
+if [ "$AWS_ACCOUNT" != "shipamax-bulk" ]; then
 	echo "Wrong AWS account. Double check that the correct AWS credentials are set."
 	exit
 fi
