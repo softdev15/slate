@@ -379,7 +379,6 @@ Example Request:
     "documentId": 121,
     "billOfLadingNo": "BOLA",
     "vessel": "vessel",
-    "terminal": "terminal",
     "eta": "2019-04-09T15:49:44.409Z"
   }
 
@@ -388,7 +387,6 @@ Example Response:
   "documentId": 121,
   "billOfLadingNo": "BOL",
   "vessel": "vessel",
-  "terminal": "terminal",
   "eta": "2019-04-09T15:49:44.409Z",
   "id": 111
 }
@@ -777,7 +775,6 @@ data: {
   "documentId": 677,
   "billOfLadingNo": "BOL1",
   "vessel": "VESSEL1",
-  "terminal": "TERMINAL1",
   "eta": "2019-04-10T08:52:43.119Z"
 }
 
@@ -786,7 +783,6 @@ Example Response:
   "documentId": 677,
   "billOfLadingNo": "BOL1",
   "vessel": "VESSEL1",
-  "terminal": "TERMINAL1",
   "eta": "2019-04-10T08:52:43.119Z",
   "id": 666
 }
