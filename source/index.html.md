@@ -315,23 +315,9 @@ Example Response:
             {
               "billOfLadingId": "1",
               "goodsDescription": "DESCRIPTION2",
-              "hsCode": "40092200.00",
-              "containerNo": null,
-              "id": 2
-            },
-            {
-              "billOfLadingId": "1",
-              "goodsDescription": "DESCRIPTION3",
-              "hsCode": "84813000",
-              "containerNo": null,
-              "id": 3
-            },
-            {
-              "billOfLadingId": "1",
-              "goodsDescription": "DESCRIPTION4",
               "hsCode": "7307990000",
               "containerNo": null,
-              "id": 4
+              "id": 2
             }]
         }
       ],
@@ -558,7 +544,7 @@ data: {
   "carrier": "string",
   "isMasterBillOfLading": true,
   "isSeawayBill": true,
-  "voyageNumber": "VoyageNo"
+  "voyageNumber": "9304W"
 }
 
 Example response:
@@ -576,7 +562,7 @@ Example response:
   "isMasterBillOfLading": true,
   "isSeawayBill": true,
   "grossVolume": null,
-  "voyageNumber": "VoyageNo",
+  "voyageNumber": "9304W",
   "loadPort": null,
   "dischargePort": null,
   "shippedOnBoardDate": null,
