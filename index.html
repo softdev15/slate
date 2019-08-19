@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Reference</title>
+    <title>Shipamax Freight Forwarding API Reference</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -199,9 +199,10 @@
     <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print.css" rel="stylesheet" media="print" />
       <script src="javascripts/all.js"></script>
+    <link href="images/favicon.ico" rel="icon" type="image/ico" />
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;,&quot;javascript&quot;]">
+  <body class="index" data-languages="[]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -209,296 +210,1301 @@
       </span>
     </a>
     <div class="toc-wrapper">
-      <img src="images/logo.png" class="logo" alt="Logo" />
-        <div class="lang-selector">
-              <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="ruby">ruby</a>
-              <a href="#" data-language-name="python">python</a>
-              <a href="#" data-language-name="javascript">javascript</a>
-        </div>
+      <img src="images/logo-dark-color.svg" class="logo" alt="Logo dark color" />
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
         </div>
         <ul class="search-results"></ul>
       <ul id="toc" class="toc-list-h1">
           <li>
-            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
-          </li>
-          <li>
-            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
-          </li>
-          <li>
-            <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
+            <a href="#getting-started" class="toc-h1 toc-link" data-title="Getting started">Getting started</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-kittens" class="toc-h2 toc-link" data-title="Get All Kittens">Get All Kittens</a>
-                  </li>
-                  <li>
-                    <a href="#get-a-specific-kitten" class="toc-h2 toc-link" data-title="Get a Specific Kitten">Get a Specific Kitten</a>
-                  </li>
-                  <li>
-                    <a href="#delete-a-specific-kitten" class="toc-h2 toc-link" data-title="Delete a Specific Kitten">Delete a Specific Kitten</a>
+                    <a href="#api-basics" class="toc-h2 toc-link" data-title="API basics">API basics</a>
                   </li>
               </ul>
           </li>
           <li>
-            <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
+            <a href="#common-actions" class="toc-h1 toc-link" data-title="Common actions">Common actions</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#logging-in" class="toc-h2 toc-link" data-title="Logging in">Logging in</a>
+                  </li>
+                  <li>
+                    <a href="#uploading-documents" class="toc-h2 toc-link" data-title="Uploading documents">Uploading documents</a>
+                  </li>
+                  <li>
+                    <a href="#querying-documents" class="toc-h2 toc-link" data-title="Querying documents">Querying documents</a>
+                  </li>
+                  <li>
+                    <a href="#corrections" class="toc-h2 toc-link" data-title="Corrections">Corrections</a>
+                  </li>
+                  <li>
+                    <a href="#providing-feedback" class="toc-h2 toc-link" data-title="Providing feedback">Providing feedback</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#reference" class="toc-h1 toc-link" data-title="Reference">Reference</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#document-container" class="toc-h2 toc-link" data-title="Document container">Document container</a>
+                  </li>
+                  <li>
+                    <a href="#arrival-notice" class="toc-h2 toc-link" data-title="Arrival notice">Arrival notice</a>
+                  </li>
+                  <li>
+                    <a href="#arrival-notice-container" class="toc-h2 toc-link" data-title="Arrival notice container">Arrival notice container</a>
+                  </li>
+                  <li>
+                    <a href="#bill-of-lading" class="toc-h2 toc-link" data-title="Bill of lading">Bill of lading</a>
+                  </li>
+                  <li>
+                    <a href="#bill-of-lading-container" class="toc-h2 toc-link" data-title="Bill of lading container">Bill of lading container</a>
+                  </li>
+                  <li>
+                    <a href="#bill-of-lading-goods" class="toc-h2 toc-link" data-title="Bill of lading goods">Bill of lading goods</a>
+                  </li>
+                  <li>
+                    <a href="#delivery-order" class="toc-h2 toc-link" data-title="Delivery order">Delivery order</a>
+                  </li>
+                  <li>
+                    <a href="#delivery-order-container" class="toc-h2 toc-link" data-title="Delivery order container">Delivery order container</a>
+                  </li>
+                  <li>
+                    <a href="#supplier-invoice" class="toc-h2 toc-link" data-title="Supplier invoice">Supplier invoice</a>
+                  </li>
+                  <li>
+                    <a href="#supplier-invoice-line-item" class="toc-h2 toc-link" data-title="Supplier invoice line item">Supplier invoice line item</a>
+                  </li>
+                  <li>
+                    <a href="#feedback" class="toc-h2 toc-link" data-title="Feedback">Feedback</a>
+                  </li>
+                  <li>
+                    <a href="#user" class="toc-h2 toc-link" data-title="User">User</a>
+                  </li>
+              </ul>
           </li>
       </ul>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-            <li><a href='https://github.com/lord/slate'>Documentation Powered by Slate</a></li>
+            <li><a href='mailto:support@shipamax.com'>Get a Developer Key</a></li>
+            <li><a href='https://github.com/softdev15/slate'><img src="./images/github.png"/>Contribute to these Docs</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+        <h1 id='getting-started'>Getting started</h1>
+<p>The Shipmax Freight Forwarding API allows developers to create applications that automatically extra data from various documents received by their businesses.</p>
 
-<p>We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<p>If you would like to use this API and are not already a Shipamax Freight Forwarding customer, please contact our <a href="mailto:support@shipamax.com">support team</a>.</p>
 
-<p>This example API documentation page was created with <a href="https://github.com/lord/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&#39;s documentation.</p>
-<h1 id='authentication'>Authentication</h1>
-<blockquote>
-<p>To authorize, use this code:</p>
-</blockquote>
-<pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
+<p>Example code can be found at
+<a href="https://github.com/shipamax/samples/tree/master/freightforwarding">https://github.com/shipamax/samples/tree/master/freightforwarding</a></p>
+<h2 id='api-basics'>API basics</h2>
+<p>The API is <a href="https://en.wikipedia.org/wiki/Representational_state_transfer#Applied_to_Web_services">RESTful</a>, and messages are encoded as JSON documents</p>
+<h3 id='endpoint'>Endpoint</h3>
+<p>The base URI for all API endpoints is <code>https://developer.shipamax-api.com/api/v1/</code>.</p>
+<h3 id='content-type'>Content type</h3>
+<p>Unless specified otherwise, requests with a body attached should be sent with a <code>Content-Type: application/json</code> HTTP header.</p>
+<h3 id='authorization'>Authorization</h3>
+<p>With the exception of logging in, all API methods require you to be authenticated. Once you have an access token (<a href="#logging-in">see below</a>) you can send it along with any API requests you make in a header. If your access token was <code>abc123</code>, you would send it as the HTTP header <code>Authorization: abc123</code>.</p>
+<h1 id='common-actions'>Common actions</h1>
+<p>The full API details are laid out in the reference section below. This section gives a simple overview of the most common API methods.</p>
+<h2 id='logging-in'>Logging in</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"me@example.com"</span><span class="p">,</span>
+  <span class="s2">"password"</span><span class="p">:</span> <span class="s2">"abc123"</span>
+<span class="p">}</span>
 </code></pre>
-<blockquote>
-<p>Make sure to replace <code>meowmeowmeow</code> with your API key.</p>
-</blockquote>
+<p>Log in by making a <code>POST</code> request to <code>https://developer.shipamax-api.com/api/v1/users/login</code>. The body of the request must be a JSON encoded object with string properties &#39;username&#39; and &#39;password&#39;.</p>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"id"</span><span class="p">:</span><span class="s2">"AAAAAA"</span><span class="p">,</span>
+  <span class="s2">"ttl"</span><span class="p">:</span> <span class="mi">1209600</span><span class="p">,</span>
+  <span class="s2">"created"</span><span class="p">:</span> <span class="s2">"2019-03-04T11:24:32.815Z"</span><span class="p">,</span>
+  <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">1</span>
+<span class="p">}</span>
+</code></pre>
+<p>If the details you have supplied are correct then the response will also be a JSON object. The <code>id</code> property contains your access token.</p>
+<h2 id='uploading-documents'>Uploading documents</h2>
+<p>There are two ways to send documents to be processed.</p>
+<h3 id='via-the-api'>Via the API</h3><pre class="highlight http tab-http"><code><span class="nf">POST</span> <span class="nn">/api/v1/DocumentContainers/upload?customId=XYZ</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">developer.shipamax-api.com</span>
+<span class="na">Authorization</span><span class="p">:</span> <span class="s">abc123</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">multipart/form-data; boundary=------------------------d74496d66958873e</span>
 
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
+--------------------------d74496d66958873e
+Content-Disposition: form-data; name="file"; filename="bol.pdf"
+Content-Type: application/pdf
 
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
+contents of the file
+--------------------------d74496d66958873e--
+</code></pre>
+<p>You can upload new documents by making a <code>POST</code> request to <code>https://developer.shipamax-api.com/api/v1/DocumentContainers/upload</code>. These requests require  a <code>customId</code> parameter, which is your identifier for this document. This is the ID that you will use to retrieve the processed document in the future. The ID does <em>not</em> need to be unique across your company, but re-using an ID will lead to all documents that share that ID being retrieved when you call the <code>query</code> endpoint.</p>
 
-<p><code>Authorization: meowmeowmeow</code></p>
+<p>The body of the upload request should be a <code>multipart/form-data</code> encoded form including at least one file.</p>
 
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+<p>The filename and the <code>name</code> parameter of the uploaded file can both be whatever you wish. If you attach more than one file to an upload request only the first will be processed.</p>
+<h3 id='via-email'>Via email</h3>
+<p>As part of the developer sign up process you are assigned an email forwarding address. If you need one please contact
+<a href="support@shipamax.com">support@shipamax.com</a>.</p>
+
+<p>Any attachments found in emails sent to that address will be processed as though they had been individually uploaded throught the API.</p>
+<h4 id='custom-id-for-email-forwarding'>Custom ID for email forwarding</h4>
+<p>When you forward emails to a forwarding account you will need to match that email to a custom ID so you can retrieve the results via API. You can use the Message-ID field to query parsing results.</p>
+
+<p><img src="images/messageid.png" alt="alt text" /></p>
+
+<p>In this example custom ID would be <code>5c52f8e7.1c69fb81.e6555.702d@mx.google.com</code>.
+More information about the email Message-ID can be found here
+<a href="https://tools.ietf.org/html/rfc5322">https://tools.ietf.org/html/rfc5322</a>.</p>
+
+<aside class="notice">For an email with multiple attachments, all of the document container objects will have the same custom ID.</aside>
+<h2 id='querying-documents'>Querying documents</h2>
+<p>To find out the processing status of uploaded documents and retrieve the results, you can make a <code>GET</code> request to <code>https://developer.shipamax-api.com/api/v1/DocumentContainers/query</code>. The single required query parameter is <code>customIds</code> and should be a JSON encoded array of custom IDs.</p>
+
+<p>In the case of documents sent to us via email, the custom ID will be the <code>Message-ID</code> header of the email that we receive. For documents uploaded via the API, the custom ID is provided by you as detailed above.</p>
+<pre class="highlight javascript tab-javascript"><code><span class="c1">// REQUEST:</span>
+<span class="c1">// https://developer.shipamax-api.com/api/v1/DocumentContainers/query?customIds=%5B%22XYZ%22,%22ABC%22,%22DEF%22%5D</span>
+
+<span class="c1">// RESPONSE:</span>
+<span class="p">{</span>
+  <span class="s2">"invalid"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"ABC"</span><span class="p">],</span>
+  <span class="s2">"processing"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"DEF"</span><span class="p">],</span>
+  <span class="s2">"results"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">"created"</span><span class="p">:</span> <span class="s2">"2018-10-09T12:00:00.000Z"</span><span class="p">,</span>
+      <span class="s2">"customId"</span><span class="p">:</span> <span class="s2">"XYZ"</span><span class="p">,</span>
+      <span class="s2">"filename"</span><span class="p">:</span> <span class="s2">"bol.pdf"</span><span class="p">,</span>
+      <span class="s2">"id"</span><span class="p">:</span> <span class="mi">123</span><span class="p">,</span>
+
+      <span class="p">...</span><span class="nx">detail</span> <span class="nx">omitted</span><span class="p">,</span> <span class="nx">see</span> <span class="nx">below</span><span class="p">...</span>
+    <span class="p">},</span>
+  <span class="p">],</span>
+<span class="p">}</span>
+</code></pre>
+<p>The result is a JSON object with three keys. The <code>invalid</code> property is an array of custom ID strings that we did not recognise. That is, the ID is not a match for any uploaded document or received email.</p>
+
+<p>The <code>processing</code> property is an array of customId strings for which we do have a record of receiving, but that we have not yet started parsing.</p>
+
+<p>Finally, the <code>results</code> property is an array of the document container details for the remaining custom IDs.</p>
+
+<p>A &quot;document container&quot; is a file that may contain a document. So, for example, &quot;bol.pdf&quot; is a PDF file that contains a bill of lading. We seperate the concepts of the <em>file</em> and the <em>document contained</em> in the file, so that &quot;bol.pdf&quot; is a <code>DocumentContainer</code>, while the bill of lading itself is a <code>BillOfLading</code>.</p>
+
+<aside class="warning">
+KNOWN ISSUE: The document containers that we return in the <code>results</code> array may not be fully processed. This means that you may get a document container that should contain a bill of lading, but where the <code>billOfLading</code> property of that document container is empty. We aim to make it possible to determine the difference between an empty document container and an unprocessed document container in the future.
 </aside>
-<h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<h2 id='corrections'>Corrections</h2>
+<p>You may find that the parser has made a mistake when reading a document. You can submit corrections to documents using the <code>PUT</code> and <code>POST</code> REST actions for the appropriate objects, as detailed in the reference section below.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
+<p>Users will always see the most recent corrected version of any document. However, for the purposes of improving our parser, we always keep a copy of the original parsed version of any document for comparison.</p>
+<h2 id='providing-feedback'>Providing feedback</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"feedbackType"</span><span class="p">:</span> <span class="s2">"number"</span><span class="p">,</span>
+  <span class="s2">"value"</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">,</span>
+  <span class="s2">"userId"</span><span class="p">:</span> <span class="s2">"number"</span><span class="p">,</span>
+  <span class="s2">"documentId"</span><span class="p">:</span> <span class="s2">"number"</span><span class="p">,</span>
+  <span class="s2">"customId"</span><span class="p">:</span> <span class="s2">"string"</span>
+<span class="p">}</span>
 </code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
-<p>This endpoint retrieves all kittens.</p>
-<h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://example.com/api/kittens</code></p>
-<h3 id='query-parameters'>Query Parameters</h3>
+<p>You can pass on feedback from your users about the quality of the document parser using the feedback API.</p>
+
+<p><code>POST</code> a request to <code>https://developer.shipamax-api.com/api/v1/Feedback/</code>. The body of the request should be a JSON encoded object.</p>
+
+<ul>
+<li><code>feedbackType</code>: See the table below</li>
+<li><code>value</code>: A JSON encoded object, specific to the type of feedback. All kinds of feedback object allow a <code>comment</code> property for free-text remarks related to the feedback.</li>
+<li><code>userId</code>: The ID of the user on whose behalf you are saving the feedback.</li>
+<li><code>documentId</code>: The ID of the document container to which the feedback relates. Note that this is <em>not</em> the <code>customId</code>, but the <code>id</code> field of the <code>DocumentContainer</code> object received from the <code>query</code> API call.</li>
+<li><code>customId</code>: The ID of the mail to which the feedback relates.</li>
+</ul>
+<h3 id='feedback-types'>Feedback types</h3>
 <table><thead>
 <tr>
-<th>Parameter</th>
-<th>Default</th>
+<th>ID</th>
+<th>Name</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
+<td>1</td>
+<td>DocumentMissed</td>
+<td>The file contained a document that the system has not parsed</td>
 </tr>
 <tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
+<td>2</td>
+<td>BillOfLadingQuality</td>
+<td>A rating for the parsing quality of a bill of lading</td>
+</tr>
+<tr>
+<td>3</td>
+<td>ArrivalNoticeQuality</td>
+<td>A rating for the parsing quality of an arrival notice</td>
+</tr>
+<tr>
+<td>4</td>
+<td>DeliveryOrderQuality</td>
+<td>A rating for the parsing quality of a delivery order</td>
+</tr>
+<tr>
+<td>5</td>
+<td>SupplierInvoiceQuality</td>
+<td>A rating for the parsing quality of a supplier invoice</td>
 </tr>
 </tbody></table>
+<pre class="highlight javascript tab-javascript"><code><span class="c1">// DocumentMissed feedback</span>
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-<h2 id='get-a-specific-kitten'>Get a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<span class="p">{</span>
+  <span class="s2">"feedbackType"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="s2">"customId"</span><span class="p">:</span> <span class="s2">"xxx"</span><span class="p">,</span>
+  <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="s2">"value"</span><span class="p">:</span> <span class="s2">"{value: { rating: -2}}"</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// All quality feedback types</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<span class="p">{</span>
+  <span class="s2">"feedback_type"</span><span class="p">:</span><span class="mi">2</span>
+  <span class="s2">"value"</span><span class="p">:</span> <span class="s2">"{value: {rating: 1}}"</span><span class="p">,</span>
+  <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">123</span><span class="p">,</span>
+  <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="s2">"customId"</span><span class="p">:</span> <span class="s2">"YYY"</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Document container details</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
+<span class="p">{</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">123</span><span class="p">,</span>
+  <span class="p">...</span>
+  <span class="s2">"billOfLading"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">"id"</span><span class="p">:</span> <span class="mi">345</span>
+      <span class="p">...</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Feedback for the above bill of lading</span>
 
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="p">{</span>
+  <span class="s2">"feedbackType"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="s2">"value"</span><span class="p">:</span> <span class="s2">"{value: {rating: 1}}"</span><span class="p">,</span>
+  <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">123</span>
+  <span class="s2">"customId"</span><span class="p">:</span> <span class="nx">XXX</span>
+<span class="p">}</span>
 </code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>This endpoint retrieves a specific kitten.</p>
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-<h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters'>URL Parameters</h3>
+<p>For the quality feedback, the rating should be <code>-2</code> for a document missed review, <code>-1</code> for a negative review, <code>0</code> for neutral review, and <code>1</code> for a positive review.  and the <code>feedbnack_type</code> property is an integer representing the type: <code>DocumentMissed</code>, <code>BillOfLading</code>, <code>ArrivalNotice</code>, <code>DeliveryOrder</code>, <code>SupplierInvoice</code>.</p>
+<h1 id='reference'>Reference</h1>
+<p>You can see all of the properties of the various REST objects in our <a href="http://storage.shipamax-api.com/ApiDefinition.xlsx">reference spreadsheet</a>.</p>
+<h2 id='document-container'>Document container</h2>
 <table><thead>
 <tr>
-<th>Parameter</th>
+<th>Endpoint</th>
+<th>Verb</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
+<td>/DocumentContainers/query</td>
+<td>GET</td>
+<td>Described above.</td>
+</tr>
+<tr>
+<td>/DocumentContainers/upload</td>
+<td>POST</td>
+<td>Describved above.</td>
 </tr>
 </tbody></table>
-<h2 id='delete-a-specific-kitten'>Delete a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<pre class="highlight javascript tab-javascript"><code><span class="c1">// Query Document Containers</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">customIds</span><span class="p">:</span> <span class="nx">ci1</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -X DELETE
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"invalid"</span><span class="p">:</span> <span class="p">[],</span>
+  <span class="s2">"processing"</span><span class="p">:</span> <span class="p">[],</span>
+  <span class="s2">"results"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">"created"</span><span class="p">:</span> <span class="s2">"2018-10-09T12:00:00.000Z"</span><span class="p">,</span>
+      <span class="s2">"unqId"</span><span class="p">:</span> <span class="s2">"xxx1"</span><span class="p">,</span>
+      <span class="s2">"customId"</span><span class="p">:</span> <span class="s2">"ci1"</span><span class="p">,</span>
+      <span class="s2">"companyId"</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+      <span class="s2">"documentType"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="s2">"filename"</span><span class="p">:</span> <span class="s2">"BILL OF LADING"</span><span class="p">,</span>
+      <span class="s2">"sourceId"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+      <span class="s2">"id"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+      <span class="s2">"feedback"</span><span class="p">:</span> <span class="p">[],</span>
+      <span class="s2">"arrivalNotice"</span><span class="p">:</span> <span class="p">[],</span>
+      <span class="s2">"billOfLading"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+          <span class="s2">"billOfLadingNo"</span><span class="p">:</span> <span class="s2">"MAE123"</span><span class="p">,</span>
+          <span class="s2">"bookingNo"</span><span class="p">:</span> <span class="s2">"111"</span><span class="p">,</span>
+          <span class="s2">"shipper"</span><span class="p">:</span> <span class="s2">"SHIPPER A"</span><span class="p">,</span>
+          <span class="s2">"consignee"</span><span class="p">:</span> <span class="s2">"A DIFFERENT PLACE"</span><span class="p">,</span>
+          <span class="s2">"notify"</span><span class="p">:</span> <span class="s2">"A DIFFERENT PLACE"</span><span class="p">,</span>
+          <span class="s2">"grossWeight"</span><span class="p">:</span> <span class="s2">"6111 kg"</span><span class="p">,</span>
+          <span class="s2">"destinationAgent"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+          <span class="s2">"vessel"</span><span class="p">:</span> <span class="s2">"SATURN"</span><span class="p">,</span>
+          <span class="s2">"carrier"</span><span class="p">:</span> <span class="s2">"HAMBURG"</span><span class="p">,</span>
+          <span class="s2">"isMasterBillOfLading"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+          <span class="s2">"isSeawayBill"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+          <span class="s2">"grossVolume"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+          <span class="s2">"voyageNumber"</span><span class="p">:</span> <span class="s2">"9304W"</span><span class="p">,</span>
+          <span class="s2">"loadPort"</span><span class="p">:</span> <span class="s2">"KARACHI"</span><span class="p">,</span>
+          <span class="s2">"dischargePort"</span><span class="p">:</span> <span class="s2">"ROTTERDAM"</span><span class="p">,</span>
+          <span class="s2">"shippedOnBoardDate"</span><span class="p">:</span> <span class="s2">"2019-02-21 00:00:00.000000"</span><span class="p">,</span>
+          <span class="s2">"paymentTerms"</span><span class="p">:</span> <span class="s2">"FREIGHT COLLECT"</span><span class="p">,</span>
+          <span class="s2">"category"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+          <span class="s2">"subcategory"</span><span class="p">:</span> <span class="s2">"SEAWAY BILL"</span><span class="p">,</span>
+          <span class="s2">"secondNotify"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+          <span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+          <span class="s2">"container"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+              <span class="s2">"billOfLadingId"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+              <span class="s2">"containerNo"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+              <span class="s2">"numberPieces"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+              <span class="s2">"pieceType"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+              <span class="s2">"weight"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+              <span class="s2">"volume"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+              <span class="s2">"containerType"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+              <span class="s2">"seals"</span><span class="p">:[</span>
+                <span class="s2">"MLLL111"</span>
+              <span class="p">],</span>
+              <span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span>
+            <span class="p">}</span>
+          <span class="p">],</span>
+          <span class="s2">"goods"</span><span class="p">:</span> <span class="p">[{</span>
+              <span class="s2">"billOfLadingId"</span><span class="p">:</span> <span class="s2">"1"</span><span class="p">,</span>
+              <span class="s2">"goodsDescription"</span><span class="p">:</span> <span class="s2">"DESCRIPTION1"</span><span class="p">,</span>
+              <span class="s2">"hsCode"</span><span class="p">:</span> <span class="s2">"9404904000"</span><span class="p">,</span>
+              <span class="s2">"containerNo"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+              <span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+              <span class="s2">"billOfLadingId"</span><span class="p">:</span> <span class="s2">"1"</span><span class="p">,</span>
+              <span class="s2">"goodsDescription"</span><span class="p">:</span> <span class="s2">"DESCRIPTION2"</span><span class="p">,</span>
+              <span class="s2">"hsCode"</span><span class="p">:</span> <span class="s2">"7307990000"</span><span class="p">,</span>
+              <span class="s2">"containerNo"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+              <span class="s2">"id"</span><span class="p">:</span> <span class="mi">2</span>
+            <span class="p">}]</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="s2">"deliveryOrder"</span><span class="p">:</span> <span class="p">[],</span>
+      <span class="s2">"supplierInvoice"</span><span class="p">:</span> <span class="p">[]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">"created"</span><span class="p">:</span> <span class="s2">"2018-10-09T12:00:00.000Z"</span><span class="p">,</span>
+      <span class="s2">"unqId"</span><span class="p">:</span> <span class="s2">"xxx4"</span><span class="p">,</span>
+      <span class="s2">"customId"</span><span class="p">:</span> <span class="s2">"ci1"</span><span class="p">,</span>
+      <span class="s2">"companyId"</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+      <span class="s2">"documentType"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+      <span class="s2">"filename"</span><span class="p">:</span> <span class="s2">"SUPPLIER INVOICE"</span><span class="p">,</span>
+      <span class="s2">"sourceId"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+      <span class="s2">"id"</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span>
+      <span class="s2">"feedback"</span><span class="p">:</span> <span class="p">[],</span>
+      <span class="s2">"arrivalNotice"</span><span class="p">:</span> <span class="p">[],</span>
+      <span class="s2">"billOfLading"</span><span class="p">:</span> <span class="p">[],</span>
+      <span class="s2">"deliveryOrder"</span><span class="p">:</span> <span class="p">[],</span>
+      <span class="s2">"supplierInvoice"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span>
+          <span class="s2">"documentProducer"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+          <span class="s2">"invoiceNumber"</span><span class="p">:</span> <span class="s2">"021R 0322 3288729ISS"</span><span class="p">,</span>
+          <span class="s2">"invoiceDate"</span><span class="p">:</span> <span class="s2">"2018-09-30T23:00:00.000Z"</span><span class="p">,</span>
+          <span class="s2">"due"</span><span class="p">:</span> <span class="s2">"2018-11-09T00:00:00.000Z"</span><span class="p">,</span>
+          <span class="s2">"buyersReference"</span><span class="p">:</span> <span class="s2">"BUYERAF23456"</span><span class="p">,</span>
+          <span class="s2">"suppliersReference"</span><span class="p">:</span> <span class="s2">"SUPPLIER12345678"</span><span class="p">,</span>
+          <span class="s2">"shipmentNumber"</span><span class="p">:</span> <span class="s2">"SHIPMENT927LKJHGTR"</span><span class="p">,</span>
+          <span class="s2">"netTotal"</span><span class="p">:</span> <span class="s2">"3970.8"</span><span class="p">,</span>
+          <span class="s2">"netTotalCurrency"</span><span class="p">:</span> <span class="s2">"EUR"</span><span class="p">,</span>
+          <span class="s2">"vatTotal"</span><span class="p">:</span> <span class="s2">"1029.2"</span><span class="p">,</span>
+          <span class="s2">"vatCurrency"</span><span class="p">:</span> <span class="s2">"EUR"</span><span class="p">,</span>
+          <span class="s2">"grossTotal"</span><span class="p">:</span> <span class="s2">"5000"</span><span class="p">,</span>
+          <span class="s2">"grossTotalCurrency"</span><span class="p">:</span> <span class="s2">"EUR"</span><span class="p">,</span>
+          <span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+          <span class="s2">"lineItems"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+              <span class="s2">"supplierInvoiceId"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+              <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"CHAIRS OF SOME SORT"</span><span class="p">,</span>
+              <span class="s2">"unitPrice"</span><span class="p">:</span> <span class="s2">"20"</span><span class="p">,</span>
+              <span class="s2">"unitPriceCurrency"</span><span class="p">:</span> <span class="s2">"EUR"</span><span class="p">,</span>
+              <span class="s2">"numberOfUnits"</span><span class="p">:</span> <span class="s2">"10"</span><span class="p">,</span>
+              <span class="s2">"unitType"</span><span class="p">:</span> <span class="s2">"PKG"</span><span class="p">,</span>
+              <span class="s2">"vatRate"</span><span class="p">:</span> <span class="s2">"10"</span><span class="p">,</span>
+              <span class="s2">"totalVat"</span><span class="p">:</span> <span class="s2">"20"</span><span class="p">,</span>
+              <span class="s2">"totalVatCurrency"</span><span class="p">:</span> <span class="s2">"EUR"</span><span class="p">,</span>
+              <span class="s2">"netTotal"</span><span class="p">:</span> <span class="s2">"180"</span><span class="p">,</span>
+              <span class="s2">"netTotalCurrency"</span><span class="p">:</span> <span class="s2">"EUR"</span><span class="p">,</span>
+              <span class="s2">"grossTotal"</span><span class="p">:</span> <span class="s2">"200"</span><span class="p">,</span>
+              <span class="s2">"grossTotalCurrency"</span><span class="p">:</span> <span class="s2">"EUR"</span><span class="p">,</span>
+              <span class="s2">"containerNumber"</span><span class="p">:</span> <span class="s2">"SDFGHJKIUYT123456"</span><span class="p">,</span>
+              <span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span>
+            <span class="p">}</span>
+          <span class="p">]</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Upload Doucment</span>
 
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"deleted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">":("</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>This endpoint deletes a specific kitten.</p>
-<h3 id='http-request-3'>HTTP Request</h3>
-<p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters-2'>URL Parameters</h3>
+<span class="nx">please</span> <span class="nx">check</span> <span class="s2">"Uploading Documents Via API"</span> <span class="nx">description</span><span class="p">.</span>
+</code></pre><h2 id='arrival-notice'>Arrival notice</h2>
 <table><thead>
 <tr>
-<th>Parameter</th>
+<th>Endpoint</th>
+<th>Verb</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to delete</td>
+<td>/ArrivalNotice/{id}</td>
+<td>PATCH</td>
+<td>Update an existing ArrivalNotice. Only changed properties need to be included.</td>
+</tr>
+<tr>
+<td>/ArrivalNotice/{id}</td>
+<td>PUT</td>
+<td>Replace an existing ArrivalNotice. Any properties not included will be removed.</td>
 </tr>
 </tbody></table>
-<h1 id='errors'>Errors</h1>
-<aside class="notice">
-This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
-</aside>
+<pre class="highlight javascript tab-javascript"><code><span class="c1">//Update Arrival Notice</span>
 
-<p>The Kittn API uses the following error codes:</p>
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+  <span class="nl">id</span><span class="p">:</span> <span class="mi">111</span>
+  <span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">121</span><span class="p">,</span>
+    <span class="s2">"billOfLadingNo"</span><span class="p">:</span> <span class="s2">"BOLA"</span><span class="p">,</span>
+    <span class="s2">"vessel"</span><span class="p">:</span> <span class="s2">"vessel"</span><span class="p">,</span>
+    <span class="s2">"eta"</span><span class="p">:</span> <span class="s2">"2019-04-09T15:49:44.409Z"</span>
+  <span class="p">}</span>
 
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">121</span><span class="p">,</span>
+  <span class="s2">"billOfLadingNo"</span><span class="p">:</span> <span class="s2">"BOL"</span><span class="p">,</span>
+  <span class="s2">"vessel"</span><span class="p">:</span> <span class="s2">"vessel"</span><span class="p">,</span>
+  <span class="s2">"eta"</span><span class="p">:</span> <span class="s2">"2019-04-09T15:49:44.409Z"</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">111</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">//Replace Arrival Notice</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+  <span class="nl">id</span><span class="p">:</span> <span class="mi">111</span>
+  <span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">122</span><span class="p">,</span>
+    <span class="s2">"billOfLadingNo"</span><span class="p">:</span> <span class="s2">"BOLB"</span>
+  <span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">122</span><span class="p">,</span>
+  <span class="s2">"billOfLadingNo"</span><span class="p">:</span> <span class="s2">"BOLB"</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">111</span>
+<span class="p">}</span>
+</code></pre><h2 id='arrival-notice-container'>Arrival notice container</h2>
 <table><thead>
 <tr>
-<th>Error Code</th>
-<th>Meaning</th>
+<th>Endpoint</th>
+<th>Verb</th>
+<th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>400</td>
-<td>Bad Request -- Your request is invalid.</td>
+<td>/ArrivalNoticeContainers/{id}</td>
+<td>PATCH</td>
+<td>Update an existing ArrivalNoticeContainer. Only changed properties need to be included.</td>
 </tr>
 <tr>
-<td>401</td>
-<td>Unauthorized -- Your API key is wrong.</td>
+<td>/ArrivalNoticeContainers/{id}</td>
+<td>PUT</td>
+<td>Replace an existing ArrivalNoticeContainer. Any properties not included will be removed.</td>
 </tr>
 <tr>
-<td>403</td>
-<td>Forbidden -- The kitten requested is hidden for administrators only.</td>
+<td>/ArrivalNoticeContainers</td>
+<td>POST</td>
+<td>Create a new ArrivalNoticeContainer. Must include the parent ID.</td>
 </tr>
 <tr>
-<td>404</td>
-<td>Not Found -- The specified kitten could not be found.</td>
-</tr>
-<tr>
-<td>405</td>
-<td>Method Not Allowed -- You tried to access a kitten with an invalid method.</td>
-</tr>
-<tr>
-<td>406</td>
-<td>Not Acceptable -- You requested a format that isn&#39;t json.</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone -- The kitten requested has been removed from our servers.</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&#39;m a teapot.</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
+<td>/ArrivalNoticeContainers/{id}</td>
+<td>DELETE</td>
+<td>Delete an ArrivalNoticeContainer.</td>
 </tr>
 </tbody></table>
+<pre class="highlight javascript tab-javascript"><code><span class="c1">//Update Arrival Notice Container</span>
 
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">id</span><span class="p">:</span> <span class="mi">222</span>
+<span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"arrivalNoticeId"</span><span class="p">:</span> <span class="mi">233</span><span class="p">,</span>
+  <span class="s2">"container"</span><span class="p">:</span> <span class="s2">"CONT1"</span><span class="p">,</span>
+  <span class="s2">"pieceCount"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s2">"weight"</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+  <span class="s2">"pin"</span><span class="p">:</span> <span class="s2">"PIN1"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"arrivalNoticeId"</span><span class="p">:</span> <span class="mi">233</span><span class="p">,</span>
+  <span class="s2">"container"</span><span class="p">:</span> <span class="s2">"CONT1"</span><span class="p">,</span>
+  <span class="s2">"pieceCount"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s2">"weight"</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+  <span class="s2">"pin"</span><span class="p">:</span> <span class="s2">"PIN1"</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">222</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Replace Arrival Notice Container</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">id</span><span class="p">:</span> <span class="mi">222</span>
+<span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"arrivalNoticeId"</span><span class="p">:</span> <span class="mi">234</span><span class="p">,</span>
+  <span class="s2">"container"</span><span class="p">:</span> <span class="s2">"CONT2"</span><span class="p">,</span>
+  <span class="s2">"pieceCount"</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+  <span class="s2">"pin"</span><span class="p">:</span> <span class="s2">"PIN2"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"arrivalNoticeId"</span><span class="p">:</span> <span class="mi">234</span><span class="p">,</span>
+  <span class="s2">"container"</span><span class="p">:</span> <span class="s2">"CONT2"</span><span class="p">,</span>
+  <span class="s2">"pieceCount"</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+  <span class="s2">"pin"</span><span class="p">:</span> <span class="s2">"PIN2"</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">222</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Create New Arrival Notice Container</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"arrivalNoticeId"</span><span class="p">:</span> <span class="mi">244</span><span class="p">,</span>
+  <span class="s2">"container"</span><span class="p">:</span> <span class="s2">"CONT3"</span><span class="p">,</span>
+  <span class="s2">"pieceCount"</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="s2">"weight"</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="s2">"pin"</span><span class="p">:</span> <span class="s2">"PIN3"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"arrivalNoticeId"</span><span class="p">:</span> <span class="mi">244</span><span class="p">,</span>
+  <span class="s2">"container"</span><span class="p">:</span> <span class="s2">"CONT3"</span><span class="p">,</span>
+  <span class="s2">"pieceCount"</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="s2">"weight"</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="s2">"pin"</span><span class="p">:</span> <span class="s2">"PIN3"</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">255</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Delete Arrival Notice Container</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">id</span><span class="p">:</span> <span class="mi">255</span>
+
+<span class="nx">Example</span> <span class="nx">response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"count"</span><span class="p">:</span> <span class="mi">1</span>
+<span class="p">}</span>
+</code></pre><h2 id='bill-of-lading'>Bill of lading</h2>
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>Verb</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/BillOfLadings/{id}</td>
+<td>PATCH</td>
+<td>Update an existing BillOfLading. Only changed properties need to be included.</td>
+</tr>
+<tr>
+<td>/BillOfLadings/{id}</td>
+<td>PUT</td>
+<td>Replace an existing BillOfLading. Any properties not included will be removed.</td>
+</tr>
+</tbody></table>
+<pre class="highlight javascript tab-javascript"><code><span class="c1">// Update Bill Of Lading</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">id</span><span class="p">:</span> <span class="mi">333</span>
+<span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">344</span><span class="p">,</span>
+  <span class="s2">"billOfLadingNo"</span><span class="p">:</span> <span class="s2">"BOL2"</span><span class="p">,</span>
+  <span class="s2">"bookingNo"</span><span class="p">:</span> <span class="s2">"BOOKING1"</span><span class="p">,</span>
+  <span class="s2">"shipper"</span><span class="p">:</span> <span class="s2">"SHIPPER1"</span><span class="p">,</span>
+  <span class="s2">"consignee"</span><span class="p">:</span> <span class="s2">"CONSIGNEE1"</span><span class="p">,</span>
+  <span class="s2">"notify"</span><span class="p">:</span> <span class="s2">"NOTIFY1"</span><span class="p">,</span>
+  <span class="s2">"grossWeight"</span><span class="p">:</span> <span class="s2">"10KG"</span><span class="p">,</span>
+  <span class="s2">"destinationAgent"</span><span class="p">:</span> <span class="s2">"AGENT1"</span><span class="p">,</span>
+  <span class="s2">"vessel"</span><span class="p">:</span> <span class="s2">"VESSEL1"</span><span class="p">,</span>
+  <span class="s2">"carrier"</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">,</span>
+  <span class="s2">"isMasterBillOfLading"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="s2">"isSeawayBill"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="s2">"voyageNumber"</span><span class="p">:</span> <span class="s2">"9304W"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">344</span><span class="p">,</span>
+  <span class="s2">"billOfLadingNo"</span><span class="p">:</span> <span class="s2">"BOL2"</span><span class="p">,</span>
+  <span class="s2">"bookingNo"</span><span class="p">:</span> <span class="s2">"BOOKING1"</span><span class="p">,</span>
+  <span class="s2">"shipper"</span><span class="p">:</span> <span class="s2">"SHIPPER1"</span><span class="p">,</span>
+  <span class="s2">"consignee"</span><span class="p">:</span> <span class="s2">"CONSIGNEE1"</span><span class="p">,</span>
+  <span class="s2">"notify"</span><span class="p">:</span> <span class="s2">"NOTIFY1"</span><span class="p">,</span>
+  <span class="s2">"grossWeight"</span><span class="p">:</span> <span class="s2">"10KG"</span><span class="p">,</span>
+  <span class="s2">"destinationAgent"</span><span class="p">:</span> <span class="s2">"AGENT1"</span><span class="p">,</span>
+  <span class="s2">"vessel"</span><span class="p">:</span> <span class="s2">"VESSEL1"</span><span class="p">,</span>
+  <span class="s2">"carrier"</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">,</span>
+  <span class="s2">"isMasterBillOfLading"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="s2">"isSeawayBill"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="s2">"grossVolume"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="s2">"voyageNumber"</span><span class="p">:</span> <span class="s2">"9304W"</span><span class="p">,</span>
+  <span class="s2">"loadPort"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="s2">"dischargePort"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="s2">"shippedOnBoardDate"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="s2">"paymentTerms"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="s2">"category"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="s2">"subcategory"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="s2">"secondNotify"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">333</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Replace Bill Of Lading</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">id</span><span class="p">:</span> <span class="mi">333</span>
+<span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">345</span><span class="p">,</span>
+  <span class="s2">"billOfLadingNo"</span><span class="p">:</span> <span class="s2">"BOL3"</span><span class="p">,</span>
+  <span class="s2">"bookingNo"</span><span class="p">:</span> <span class="s2">"BOOKING2"</span><span class="p">,</span>
+  <span class="s2">"shipper"</span><span class="p">:</span> <span class="s2">"SHIPPER2"</span><span class="p">,</span>
+  <span class="s2">"consignee"</span><span class="p">:</span> <span class="s2">"CONSIGNEE2"</span><span class="p">,</span>
+  <span class="s2">"notify"</span><span class="p">:</span> <span class="s2">"NOTIFY2"</span><span class="p">,</span>
+  <span class="s2">"carrier"</span><span class="p">:</span> <span class="s2">"CARRIER2"</span><span class="p">,</span>
+  <span class="s2">"isSeawayBill"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="s2">"paymentTerms"</span><span class="p">:</span> <span class="s2">"FREIGHT PREPAID"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">345</span><span class="p">,</span>
+  <span class="s2">"billOfLadingNo"</span><span class="p">:</span> <span class="s2">"BOL3"</span><span class="p">,</span>
+  <span class="s2">"bookingNo"</span><span class="p">:</span> <span class="s2">"BOOKING2"</span><span class="p">,</span>
+  <span class="s2">"shipper"</span><span class="p">:</span> <span class="s2">"SHIPPER2"</span><span class="p">,</span>
+  <span class="s2">"consignee"</span><span class="p">:</span> <span class="s2">"CONSIGNEE2"</span><span class="p">,</span>
+  <span class="s2">"notify"</span><span class="p">:</span> <span class="s2">"NOTIFY2"</span><span class="p">,</span>
+  <span class="s2">"carrier"</span><span class="p">:</span> <span class="s2">"CARRIER2"</span><span class="p">,</span>
+  <span class="s2">"isSeawayBill"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="s2">"paymentTerms"</span><span class="p">:</span> <span class="s2">"FREIGHT PREPAID"</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">333</span>
+<span class="p">}</span>
+</code></pre><h2 id='bill-of-lading-container'>Bill of lading container</h2>
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>Verb</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/BillOfLadingContainers/{id}</td>
+<td>PATCH</td>
+<td>Update an existing BillOfLadingContainer. Only changed properties need to be included.</td>
+</tr>
+<tr>
+<td>/BillOfLadingContainers/{id}</td>
+<td>PUT</td>
+<td>Replace an existing BillOfLadingContainer. Any properties not included will be removed.</td>
+</tr>
+<tr>
+<td>/BillOfLadingContainers</td>
+<td>POST</td>
+<td>Create a new BillOfLadingContainer. Must include the parent ID.</td>
+</tr>
+<tr>
+<td>/BillOfLadingContainers/{id}</td>
+<td>DELETE</td>
+<td>Delete a BillOfLadingContainer.</td>
+</tr>
+</tbody></table>
+<pre class="highlight javascript tab-javascript"><code><span class="c1">// Update Bill Of Lading Container</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">id</span><span class="p">:</span> <span class="mi">444</span>
+<span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"billOfLadingId"</span><span class="p">:</span> <span class="mi">455</span><span class="p">,</span>
+  <span class="s2">"containerNo"</span><span class="p">:</span> <span class="s2">"CONTAINER1"</span><span class="p">,</span>
+  <span class="s2">"numberPieces"</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+  <span class="s2">"pieceType"</span><span class="p">:</span> <span class="s2">"PTYPE1"</span><span class="p">,</span>
+  <span class="s2">"weight"</span><span class="p">:</span> <span class="s2">"10 KG"</span><span class="p">,</span>
+  <span class="s2">"volume"</span><span class="p">:</span> <span class="s2">"20.33"</span><span class="p">,</span>
+  <span class="s2">"containerType"</span><span class="p">:</span> <span class="s2">"CTYPE1"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"billOfLadingId"</span><span class="p">:</span> <span class="mi">455</span><span class="p">,</span>
+  <span class="s2">"containerNo"</span><span class="p">:</span> <span class="s2">"CONTAINER1"</span><span class="p">,</span>
+  <span class="s2">"numberPieces"</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+  <span class="s2">"pieceType"</span><span class="p">:</span> <span class="s2">"PTYPE1"</span><span class="p">,</span>
+  <span class="s2">"weight"</span><span class="p">:</span> <span class="s2">"10 KG"</span><span class="p">,</span>
+  <span class="s2">"volume"</span><span class="p">:</span> <span class="s2">"20.33"</span><span class="p">,</span>
+  <span class="s2">"containerType"</span><span class="p">:</span> <span class="s2">"CTYPE1"</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">444</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Replace Bill Of Lading Container</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">id</span><span class="p">:</span> <span class="mi">444</span>
+<span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"billOfLadingId"</span><span class="p">:</span> <span class="mi">456</span><span class="p">,</span>
+  <span class="s2">"containerType"</span><span class="p">:</span> <span class="s2">"CTYPE2"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"billOfLadingId"</span><span class="p">:</span> <span class="mi">456</span><span class="p">,</span>
+  <span class="s2">"containerType"</span><span class="p">:</span> <span class="s2">"CTYPE2"</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">444</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Create Bill Of Lading Container</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"billOfLadingId"</span><span class="p">:</span> <span class="mi">457</span><span class="p">,</span>
+  <span class="s2">"containerNo"</span><span class="p">:</span> <span class="s2">"CONT3"</span><span class="p">,</span>
+  <span class="s2">"numberPieces"</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+  <span class="s2">"pieceType"</span><span class="p">:</span> <span class="s2">"PTYPE2"</span><span class="p">,</span>
+  <span class="s2">"weight"</span><span class="p">:</span> <span class="s2">"20KG"</span><span class="p">,</span>
+  <span class="s2">"volume"</span><span class="p">:</span> <span class="s2">"30.22"</span><span class="p">,</span>
+  <span class="s2">"containerType"</span><span class="p">:</span> <span class="s2">"CTYPE2"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"billOfLadingId"</span><span class="p">:</span> <span class="mi">457</span><span class="p">,</span>
+  <span class="s2">"containerNo"</span><span class="p">:</span> <span class="s2">"CONT3"</span><span class="p">,</span>
+  <span class="s2">"numberPieces"</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+  <span class="s2">"pieceType"</span><span class="p">:</span> <span class="s2">"PTYPE2"</span><span class="p">,</span>
+  <span class="s2">"weight"</span><span class="p">:</span> <span class="s2">"20KG"</span><span class="p">,</span>
+  <span class="s2">"volume"</span><span class="p">:</span> <span class="s2">"30.22"</span><span class="p">,</span>
+  <span class="s2">"containerType"</span><span class="p">:</span> <span class="s2">"CTYPE2"</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">445</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Delete Bill Of Lading Container</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">id</span><span class="p">:</span> <span class="mi">445</span>
+
+<span class="nx">Example</span> <span class="nx">response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"count"</span><span class="p">:</span> <span class="mi">1</span>
+<span class="p">}</span>
+</code></pre><h2 id='bill-of-lading-goods'>Bill of lading goods</h2>
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>Verb</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/BillOfLadingGoods/{id}</td>
+<td>PATCH</td>
+<td>Update an existing BillOfLadingGoods. Only changed properties need to be included.</td>
+</tr>
+<tr>
+<td>/BillOfLadingGoods/{id}</td>
+<td>PUT</td>
+<td>Replace an existing BillOfLadingGoods. Any properties not included will be removed.</td>
+</tr>
+<tr>
+<td>/BillOfLadingGoods</td>
+<td>POST</td>
+<td>Create a new BillOfLadingGoods. Must include the parent ID.</td>
+</tr>
+<tr>
+<td>/BillOfLadingGoods/{id}</td>
+<td>DELETE</td>
+<td>Delete a BillOfLadingGoods.</td>
+</tr>
+</tbody></table>
+<pre class="highlight javascript tab-javascript"><code><span class="c1">// Update Bill Of Lading Goods</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">id</span><span class="p">:</span> <span class="mi">555</span>
+<span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"billOfLadingId"</span><span class="p">:</span> <span class="mi">466</span><span class="p">,</span>
+  <span class="s2">"goodsDescription"</span><span class="p">:</span> <span class="s2">"DESCRIPTION1"</span><span class="p">,</span>
+  <span class="s2">"hsCode"</span><span class="p">:</span> <span class="s2">"HSCODE1"</span><span class="p">,</span>
+  <span class="s2">"containerNo"</span><span class="p">:</span> <span class="s2">"CONTAINER1"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"billOfLadingId"</span><span class="p">:</span> <span class="mi">466</span><span class="p">,</span>
+  <span class="s2">"goodsDescription"</span><span class="p">:</span> <span class="s2">"DESCRIPTION1"</span><span class="p">,</span>
+  <span class="s2">"hsCode"</span><span class="p">:</span> <span class="s2">"HSCODE1"</span><span class="p">,</span>
+  <span class="s2">"containerNo"</span><span class="p">:</span> <span class="s2">"CONTAINER1"</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">555</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Replace Bill Of Lading Goods</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">id</span><span class="p">:</span> <span class="mi">555</span>
+<span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"billOfLadingId"</span><span class="p">:</span> <span class="mi">467</span><span class="p">,</span>
+  <span class="s2">"goodsDescription"</span><span class="p">:</span> <span class="s2">"DESCRIPTION2"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"billOfLadingId"</span><span class="p">:</span> <span class="mi">467</span><span class="p">,</span>
+  <span class="s2">"goodsDescription"</span><span class="p">:</span> <span class="s2">"DESCRIPTION2"</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">555</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Create Bill Of Lading Goods</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"billOfLadingId"</span><span class="p">:</span> <span class="mi">568</span><span class="p">,</span>
+  <span class="s2">"goodsDescription"</span><span class="p">:</span> <span class="s2">"DESCRIPTION3"</span><span class="p">,</span>
+  <span class="s2">"hsCode"</span><span class="p">:</span> <span class="s2">"HSCODE3"</span><span class="p">,</span>
+  <span class="s2">"containerNo"</span><span class="p">:</span> <span class="s2">"CONTAINER3"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"billOfLadingId"</span><span class="p">:</span> <span class="mi">568</span><span class="p">,</span>
+  <span class="s2">"goodsDescription"</span><span class="p">:</span> <span class="s2">"DESCRIPTION3"</span><span class="p">,</span>
+  <span class="s2">"hsCode"</span><span class="p">:</span> <span class="s2">"HSCODE3"</span><span class="p">,</span>
+  <span class="s2">"containerNo"</span><span class="p">:</span> <span class="s2">"CONTAINER3"</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">556</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Delete Bill Of Lading Goods</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">id</span><span class="p">:</span> <span class="mi">556</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"count"</span><span class="p">:</span> <span class="mi">1</span>
+<span class="p">}</span>
+</code></pre><h2 id='delivery-order'>Delivery order</h2>
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>Verb</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/DeliveryOrders/{id}</td>
+<td>PATCH</td>
+<td>Update an existing DeliveryOrder. Only changed properties need to be included.</td>
+</tr>
+<tr>
+<td>/DeliveryOrders/{id}</td>
+<td>PUT</td>
+<td>Replace an existing DeliveryOrder. Any properties not included will be removed.</td>
+</tr>
+</tbody></table>
+<pre class="highlight javascript tab-javascript"><code><span class="c1">// Update Delivery Order</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">id</span><span class="p">:</span> <span class="mi">666</span>
+<span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">677</span><span class="p">,</span>
+  <span class="s2">"billOfLadingNo"</span><span class="p">:</span> <span class="s2">"BOL1"</span><span class="p">,</span>
+  <span class="s2">"vessel"</span><span class="p">:</span> <span class="s2">"VESSEL1"</span><span class="p">,</span>
+  <span class="s2">"eta"</span><span class="p">:</span> <span class="s2">"2019-04-10T08:52:43.119Z"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">677</span><span class="p">,</span>
+  <span class="s2">"billOfLadingNo"</span><span class="p">:</span> <span class="s2">"BOL1"</span><span class="p">,</span>
+  <span class="s2">"vessel"</span><span class="p">:</span> <span class="s2">"VESSEL1"</span><span class="p">,</span>
+  <span class="s2">"eta"</span><span class="p">:</span> <span class="s2">"2019-04-10T08:52:43.119Z"</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">666</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Replace Delivery Order</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">id</span><span class="p">:</span> <span class="mi">666</span>
+<span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">678</span><span class="p">,</span>
+  <span class="s2">"eta"</span><span class="p">:</span> <span class="s2">"2019-05-10T08:52:43.128Z"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">678</span><span class="p">,</span>
+  <span class="s2">"eta"</span><span class="p">:</span> <span class="s2">"2019-05-10T08:52:43.128Z"</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">666</span>
+<span class="p">}</span>
+</code></pre><h2 id='delivery-order-container'>Delivery order container</h2>
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>Verb</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/DeliveryOrderContainers/{id}</td>
+<td>PATCH</td>
+<td>Update an existing DeliveryOrderContainer. Only changed properties need to be included.</td>
+</tr>
+<tr>
+<td>/DeliveryOrderContainers/{id}</td>
+<td>PUT</td>
+<td>Replace an existing DeliveryOrderContainer. Any properties not included will be removed.</td>
+</tr>
+<tr>
+<td>/DeliveryOrderContainers</td>
+<td>POST</td>
+<td>Create a new DeliveryOrderContainer. Must include the parent ID.</td>
+</tr>
+<tr>
+<td>/DeliveryOrderContainers/{id}</td>
+<td>DELETE</td>
+<td>Delete a DeliveryOrderContainer.</td>
+</tr>
+</tbody></table>
+<pre class="highlight javascript tab-javascript"><code><span class="c1">// Update Delivery Order Container</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">id</span><span class="p">:</span> <span class="mi">777</span>
+<span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"deliveryOrderId"</span><span class="p">:</span> <span class="mi">787</span><span class="p">,</span>
+  <span class="s2">"container"</span><span class="p">:</span> <span class="s2">"CONTAINER1"</span><span class="p">,</span>
+  <span class="s2">"pincode"</span><span class="p">:</span> <span class="s2">"PINCODE1"</span><span class="p">,</span>
+  <span class="s2">"containerType"</span><span class="p">:</span> <span class="s2">"CTYPE1"</span><span class="p">,</span>
+  <span class="s2">"pickupTerminal"</span><span class="p">:</span> <span class="s2">"PTERMINAL1"</span><span class="p">,</span>
+  <span class="s2">"pickUpReference"</span><span class="p">:</span> <span class="s2">"PREFERENCE1"</span><span class="p">,</span>
+  <span class="s2">"turnInTerminal"</span><span class="p">:</span> <span class="s2">"TTERMINAL1"</span><span class="p">,</span>
+  <span class="s2">"turnInReference"</span><span class="p">:</span> <span class="s2">"TREFERENCE1"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"deliveryOrderId"</span><span class="p">:</span> <span class="mi">787</span><span class="p">,</span>
+  <span class="s2">"container"</span><span class="p">:</span> <span class="s2">"CONTAINER1"</span><span class="p">,</span>
+  <span class="s2">"pincode"</span><span class="p">:</span> <span class="s2">"PINCODE1"</span><span class="p">,</span>
+  <span class="s2">"containerType"</span><span class="p">:</span> <span class="s2">"CTYPE1"</span><span class="p">,</span>
+  <span class="s2">"pickupTerminal"</span><span class="p">:</span> <span class="s2">"PTERMINAL1"</span><span class="p">,</span>
+  <span class="s2">"pickUpReference"</span><span class="p">:</span> <span class="s2">"PREFERENCE1"</span><span class="p">,</span>
+  <span class="s2">"pickupValidTo"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="s2">"turnInTerminal"</span><span class="p">:</span> <span class="s2">"TTERMINAL1"</span><span class="p">,</span>
+  <span class="s2">"turnInReference"</span><span class="p">:</span> <span class="s2">"TREFERENCE1"</span><span class="p">,</span>
+  <span class="s2">"turnInValidTo"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">777</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Replace Delivery Order Container</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">id</span><span class="p">:</span> <span class="mi">777</span>
+<span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"deliveryOrderId"</span><span class="p">:</span> <span class="mi">788</span><span class="p">,</span>
+  <span class="s2">"container"</span><span class="p">:</span> <span class="s2">"CONTAINER2"</span><span class="p">,</span>
+  <span class="s2">"turnInValidTo"</span><span class="p">:</span> <span class="s2">"2019-05-10T08:52:43.128Z"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"deliveryOrderId"</span><span class="p">:</span> <span class="mi">788</span><span class="p">,</span>
+  <span class="s2">"container"</span><span class="p">:</span> <span class="s2">"CONTAINER2"</span><span class="p">,</span>
+  <span class="s2">"turnInValidTo"</span><span class="p">:</span> <span class="s2">"2019-05-10T08:52:43.128Z"</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">777</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Create Delivery order Container</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"deliveryOrderId"</span><span class="p">:</span> <span class="mi">789</span><span class="p">,</span>
+  <span class="s2">"container"</span><span class="p">:</span> <span class="s2">"CONTAINER3"</span><span class="p">,</span>
+  <span class="s2">"pincode"</span><span class="p">:</span> <span class="s2">"PINCODE3"</span><span class="p">,</span>
+  <span class="s2">"containerType"</span><span class="p">:</span> <span class="s2">"CTYPE3"</span><span class="p">,</span>
+  <span class="s2">"pickUpReference"</span><span class="p">:</span> <span class="s2">"PREFERENCE3"</span><span class="p">,</span>
+  <span class="s2">"pickupValidTo"</span><span class="p">:</span> <span class="s2">"2019-06-10T08:52:43.128Z"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"deliveryOrderId"</span><span class="p">:</span> <span class="mi">789</span><span class="p">,</span>
+  <span class="s2">"container"</span><span class="p">:</span> <span class="s2">"CONTAINER3"</span><span class="p">,</span>
+  <span class="s2">"pincode"</span><span class="p">:</span> <span class="s2">"PINCODE3"</span><span class="p">,</span>
+  <span class="s2">"containerType"</span><span class="p">:</span> <span class="s2">"CTYPE3"</span><span class="p">,</span>
+  <span class="s2">"pickUpReference"</span><span class="p">:</span> <span class="s2">"PREFERENCE3"</span><span class="p">,</span>
+  <span class="s2">"pickupValidTo"</span><span class="p">:</span> <span class="s2">"2019-06-10T08:52:43.128Z"</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">778</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Delete Delivery Order Container</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">id</span><span class="p">:</span> <span class="mi">778</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"count"</span><span class="p">:</span> <span class="mi">1</span>
+<span class="p">}</span>
+</code></pre><h2 id='supplier-invoice'>Supplier invoice</h2>
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>Verb</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/SupplierInvoices/{id}</td>
+<td>PATCH</td>
+<td>Update an existing SupplierInvoice. Only changed properties need to be included.</td>
+</tr>
+<tr>
+<td>/SupplierInvoices/{id}</td>
+<td>PUT</td>
+<td>Replace an existing SupplierInvoice. Any properties not included will be removed.</td>
+</tr>
+</tbody></table>
+<pre class="highlight javascript tab-javascript"><code><span class="c1">// Update Supplier Invoice</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">id</span><span class="p">:</span> <span class="mi">888</span>
+<span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">899</span><span class="p">,</span>
+  <span class="s2">"documentProducer"</span><span class="p">:</span> <span class="s2">"DPRODUCER1"</span><span class="p">,</span>
+  <span class="s2">"invoiceNumber"</span><span class="p">:</span> <span class="s2">"INVOICE1"</span><span class="p">,</span>
+  <span class="s2">"invoiceDate"</span><span class="p">:</span> <span class="s2">"2019-04-10T08:52:43.265Z"</span><span class="p">,</span>
+  <span class="s2">"due"</span><span class="p">:</span> <span class="s2">"2019-04-10T08:52:43.265Z"</span><span class="p">,</span>
+  <span class="s2">"buyersReference"</span><span class="p">:</span> <span class="s2">"BREFERENCE1"</span><span class="p">,</span>
+  <span class="s2">"suppliersReference"</span><span class="p">:</span> <span class="s2">"SREFERENCE"</span><span class="p">,</span>
+  <span class="s2">"shipmentNumber"</span><span class="p">:</span> <span class="s2">"SHIPMENT1"</span><span class="p">,</span>
+  <span class="s2">"netTotal"</span><span class="p">:</span> <span class="mf">6789.1</span><span class="p">,</span>
+  <span class="s2">"netTotalCurrency"</span><span class="p">:</span> <span class="s2">"EUR"</span><span class="p">,</span>
+  <span class="s2">"vatTotal"</span><span class="p">:</span> <span class="mf">1234.2</span><span class="p">,</span>
+  <span class="s2">"vatCurrency"</span><span class="p">:</span> <span class="s2">"EUR"</span><span class="p">,</span>
+  <span class="s2">"grossTotal"</span><span class="p">:</span> <span class="mf">8023.3</span><span class="p">,</span>
+  <span class="s2">"grossTotalCurrency"</span><span class="p">:</span> <span class="s2">"EUR"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">899</span><span class="p">,</span>
+  <span class="s2">"documentProducer"</span><span class="p">:</span> <span class="s2">"DPRODUCER1"</span><span class="p">,</span>
+  <span class="s2">"invoiceNumber"</span><span class="p">:</span> <span class="s2">"INVOICE1"</span><span class="p">,</span>
+  <span class="s2">"invoiceDate"</span><span class="p">:</span> <span class="s2">"2019-04-10T08:52:43.265Z"</span><span class="p">,</span>
+  <span class="s2">"due"</span><span class="p">:</span> <span class="s2">"2019-04-10T08:52:43.265Z"</span><span class="p">,</span>
+  <span class="s2">"buyersReference"</span><span class="p">:</span> <span class="s2">"BREFERENCE1"</span><span class="p">,</span>
+  <span class="s2">"suppliersReference"</span><span class="p">:</span> <span class="s2">"SREFERENCE"</span><span class="p">,</span>
+  <span class="s2">"shipmentNumber"</span><span class="p">:</span> <span class="s2">"SHIPMENT1"</span><span class="p">,</span>
+  <span class="s2">"netTotal"</span><span class="p">:</span> <span class="mf">6789.1</span><span class="p">,</span>
+  <span class="s2">"netTotalCurrency"</span><span class="p">:</span> <span class="s2">"EUR"</span><span class="p">,</span>
+  <span class="s2">"vatTotal"</span><span class="p">:</span> <span class="mf">1234.2</span><span class="p">,</span>
+  <span class="s2">"vatCurrency"</span><span class="p">:</span> <span class="s2">"EUR"</span><span class="p">,</span>
+  <span class="s2">"grossTotal"</span><span class="p">:</span> <span class="mf">8023.3</span><span class="p">,</span>
+  <span class="s2">"grossTotalCurrency"</span><span class="p">:</span> <span class="s2">"EUR"</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">888</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Replace Supplier Invoice</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">id</span><span class="p">:</span> <span class="mi">888</span>
+<span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">900</span><span class="p">,</span>
+  <span class="s2">"documentProducer"</span><span class="p">:</span> <span class="s2">"DPRODUCER2"</span><span class="p">,</span>
+  <span class="s2">"invoiceNumber"</span><span class="p">:</span> <span class="s2">"INVOICE2"</span><span class="p">,</span>
+  <span class="s2">"due"</span><span class="p">:</span> <span class="s2">"2019-04-11T08:52:43.271Z"</span><span class="p">,</span>
+  <span class="s2">"buyersReference"</span><span class="p">:</span> <span class="s2">"BREFERENCE2"</span><span class="p">,</span>
+  <span class="s2">"shipmentNumber"</span><span class="p">:</span> <span class="s2">"SHIPMENT2"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">900</span><span class="p">,</span>
+  <span class="s2">"documentProducer"</span><span class="p">:</span> <span class="s2">"DPRODUCER2"</span><span class="p">,</span>
+  <span class="s2">"invoiceNumber"</span><span class="p">:</span> <span class="s2">"INVOICE2"</span><span class="p">,</span>
+  <span class="s2">"due"</span><span class="p">:</span> <span class="s2">"2019-04-11T08:52:43.271Z"</span><span class="p">,</span>
+  <span class="s2">"buyersReference"</span><span class="p">:</span> <span class="s2">"BREFERENCE2"</span><span class="p">,</span>
+  <span class="s2">"shipmentNumber"</span><span class="p">:</span> <span class="s2">"SHIPMENT2"</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">888</span>
+<span class="p">}</span>
+</code></pre><h2 id='supplier-invoice-line-item'>Supplier invoice line item</h2>
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>Verb</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/SupplierInvoiceLineItems/{id}</td>
+<td>PATCH</td>
+<td>Update an existing SupplierInvoiceLineItem. Only changed properties need to be included.</td>
+</tr>
+<tr>
+<td>/SupplierInvoiceLineItems/{id}</td>
+<td>PUT</td>
+<td>Replace an existing SupplierInvoiceLineItem. Any properties not included will be removed.</td>
+</tr>
+<tr>
+<td>/SupplierInvoiceLineItems</td>
+<td>POST</td>
+<td>Create a new SupplierInvoiceLineItem. Must include the parent ID.</td>
+</tr>
+<tr>
+<td>/SupplierInvoiceLineItems/{id}</td>
+<td>DELETE</td>
+<td>Delete a SupplierInvoiceLineItem.</td>
+</tr>
+</tbody></table>
+<pre class="highlight javascript tab-javascript"><code><span class="c1">// Update Supplier Invoice Line Item</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">id</span><span class="p">:</span> <span class="mi">999</span>
+<span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"supplierInvoiceId"</span><span class="p">:</span> <span class="mi">911</span><span class="p">,</span>
+  <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"DESCRIPTION1"</span><span class="p">,</span>
+  <span class="s2">"unitPrice"</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+  <span class="s2">"unitPriceCurrency"</span><span class="p">:</span> <span class="s2">"EUR"</span><span class="p">,</span>
+  <span class="s2">"numberOfUnits"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s2">"unitType"</span><span class="p">:</span> <span class="s2">"PKG"</span><span class="p">,</span>
+  <span class="s2">"vatRate"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s2">"totalVat"</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+  <span class="s2">"totalVatCurrency"</span><span class="p">:</span> <span class="s2">"EUR"</span><span class="p">,</span>
+  <span class="s2">"netTotal"</span><span class="p">:</span> <span class="mi">180</span><span class="p">,</span>
+  <span class="s2">"netTotalCurrency"</span><span class="p">:</span> <span class="s2">"EUR"</span><span class="p">,</span>
+  <span class="s2">"grossTotal"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+  <span class="s2">"grossTotalCurrency"</span><span class="p">:</span> <span class="s2">"EUR"</span><span class="p">,</span>
+  <span class="s2">"containerNumber"</span><span class="p">:</span> <span class="s2">"CONTAINER1"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"supplierInvoiceId"</span><span class="p">:</span> <span class="mi">911</span><span class="p">,</span>
+  <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"DESCRIPTION1"</span><span class="p">,</span>
+  <span class="s2">"unitPrice"</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+  <span class="s2">"unitPriceCurrency"</span><span class="p">:</span> <span class="s2">"EUR"</span><span class="p">,</span>
+  <span class="s2">"numberOfUnits"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s2">"unitType"</span><span class="p">:</span> <span class="s2">"PKG"</span><span class="p">,</span>
+  <span class="s2">"vatRate"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s2">"totalVat"</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+  <span class="s2">"totalVatCurrency"</span><span class="p">:</span> <span class="s2">"EUR"</span><span class="p">,</span>
+  <span class="s2">"netTotal"</span><span class="p">:</span> <span class="mi">180</span><span class="p">,</span>
+  <span class="s2">"netTotalCurrency"</span><span class="p">:</span> <span class="s2">"EUR"</span><span class="p">,</span>
+  <span class="s2">"grossTotal"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+  <span class="s2">"grossTotalCurrency"</span><span class="p">:</span> <span class="s2">"EUR"</span><span class="p">,</span>
+  <span class="s2">"containerNumber"</span><span class="p">:</span> <span class="s2">"CONTAINER1"</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">999</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Replace Supplier Invoice Line Item</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">id</span><span class="p">:</span> <span class="mi">999</span>
+<span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"supplierInvoiceId"</span><span class="p">:</span> <span class="mi">912</span><span class="p">,</span>
+  <span class="s2">"containerNumber"</span><span class="p">:</span> <span class="s2">"CONTAINER2"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"supplierInvoiceId"</span><span class="p">:</span> <span class="mi">912</span><span class="p">,</span>
+  <span class="s2">"containerNumber"</span><span class="p">:</span> <span class="s2">"CONTAINER2"</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">999</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Create Supplier Invoice Line Item</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"supplierInvoiceId"</span><span class="p">:</span> <span class="mi">913</span><span class="p">,</span>
+  <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"DESCRIPTION3"</span><span class="p">,</span>
+  <span class="s2">"containerNumber"</span><span class="p">:</span> <span class="s2">"CONTAINER3"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"supplierInvoiceId"</span><span class="p">:</span> <span class="mi">913</span><span class="p">,</span>
+  <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"DESCRIPTION3"</span><span class="p">,</span>
+  <span class="s2">"containerNumber"</span><span class="p">:</span> <span class="s2">"CONTAINER3"</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">1000</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// Delete Supplier Invoice Line Item</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">id</span><span class="p">:</span> <span class="mi">1000</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"count"</span><span class="p">:</span> <span class="mi">1</span>
+<span class="p">}</span>
+</code></pre><h2 id='feedback'>Feedback</h2>
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>Verb</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/Feedbacks/</td>
+<td>POST</td>
+<td>Described above.</td>
+</tr>
+</tbody></table>
+<pre class="highlight javascript tab-javascript"><code><span class="c1">// Post a Feedback</span>
+
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+  <span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"feedbackType"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">"value"</span><span class="p">:</span><span class="s2">"{value: {rating: 0}"</span><span class="p">,</span>
+    <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">2000</span><span class="p">,</span>
+    <span class="s2">"customId"</span><span class="p">:</span> <span class="s2">"ZZZ"</span>
+  <span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"feedbackType"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="s2">"value"</span><span class="p">:</span><span class="s2">"{value: {rating: 0}"</span><span class="p">,</span>
+  <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+  <span class="s2">"documentId"</span><span class="p">:</span> <span class="mi">2000</span><span class="p">,</span>
+  <span class="s2">"customId"</span><span class="p">:</span> <span class="s2">"ZZZ"</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="mi">400</span>
+<span class="p">}</span>
+</code></pre><h2 id='user'>User</h2>
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>Verb</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/users/login</td>
+<td>POST</td>
+<td>Described above.</td>
+</tr>
+<tr>
+<td>/users/logout</td>
+<td>POST</td>
+<td>Invalidates the current access token.</td>
+</tr>
+</tbody></table>
+<pre class="highlight javascript tab-javascript"><code><span class="c1">// User Login</span>
+<span class="nx">Example</span> <span class="nx">Request</span><span class="p">:</span>
+<span class="nl">data</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"email"</span><span class="p">:</span><span class="s2">"user@shipamax.com"</span><span class="p">,</span>
+  <span class="s2">"password"</span><span class="p">:</span><span class="s2">"userpassword"</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="p">{</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"pN8W73JD8TlCUF1MizlCPtvmhWxRSDLJruUeSBB7QlGQqsMiYrGizlWMWHcrVJjQ"</span><span class="p">,</span>
+  <span class="s2">"ttl"</span><span class="p">:</span> <span class="mi">1209600</span><span class="p">,</span>
+  <span class="s2">"created"</span><span class="p">:</span> <span class="s2">"2019-04-10T11:04:31.499Z"</span><span class="p">,</span>
+  <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">100</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// User Logout</span>
+
+<span class="nx">Example</span> <span class="nx">Response</span><span class="p">:</span>
+<span class="s2">"no content"</span>
+</code></pre>
       </div>
       <div class="dark-box">
-          <div class="lang-selector">
-                <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="ruby">ruby</a>
-                <a href="#" data-language-name="python">python</a>
-                <a href="#" data-language-name="javascript">javascript</a>
-          </div>
       </div>
     </div>
   </body>
