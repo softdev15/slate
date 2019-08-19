@@ -274,30 +274,51 @@ Example Response:
           "shipper": "SHIPPER A",
           "consignee": "A DIFFERENT PLACE",
           "notify": "A DIFFERENT PLACE",
-          "goodsDescription": "GOODS DESC",
           "grossWeight": "6111 kg",
-          "colliNo": "COLLI_NO 1",
           "destinationAgent": null,
           "vessel": "SATURN",
           "carrier": "HAMBURG",
           "isMasterBillOfLading": true,
           "isSeawayBill": false,
           "grossVolume": null,
+          "voyageNumber": "9304W",
+          "loadPort": "KARACHI",
+          "dischargePort": "ROTTERDAM",
+          "shippedOnBoardDate": "2019-02-21 00:00:00.000000",
+          "paymentTerms": "FREIGHT COLLECT",
+          "category": true,
+          "subcategory": "SEAWAY BILL",
+          "secondNotify": null,
           "id": 1,
           "container": [
             {
               "billOfLadingId": 1,
-              "sealNo": "MLLL111",
               "containerNo": null,
               "numberPieces": null,
               "pieceType": null,
               "weight": null,
               "volume": null,
               "containerType": null,
+              "seals":[
+                "MLLL111"
+              ],
               "id": 1
             }
           ],
-          "goods": []
+          "goods": [{
+              "billOfLadingId": "1",
+              "goodsDescription": "DESCRIPTION1",
+              "hsCode": "9404904000",
+              "containerNo": null,
+              "id": 1
+            },
+            {
+              "billOfLadingId": "1",
+              "goodsDescription": "DESCRIPTION2",
+              "hsCode": "7307990000",
+              "containerNo": null,
+              "id": 2
+            }]
         }
       ],
       "deliveryOrder": [],
@@ -517,14 +538,13 @@ data: {
   "shipper": "SHIPPER1",
   "consignee": "CONSIGNEE1",
   "notify": "NOTIFY1",
-  "goodsDescription": "DESCRIPTION1",
   "grossWeight": "10KG",
-  "colliNo": "COLLINO1",
   "destinationAgent": "AGENT1",
   "vessel": "VESSEL1",
   "carrier": "string",
   "isMasterBillOfLading": true,
-  "isSeawayBill": true
+  "isSeawayBill": true,
+  "voyageNumber": "9304W"
 }
 
 Example response:
@@ -535,15 +555,21 @@ Example response:
   "shipper": "SHIPPER1",
   "consignee": "CONSIGNEE1",
   "notify": "NOTIFY1",
-  "goodsDescription": "DESCRIPTION1",
   "grossWeight": "10KG",
-  "colliNo": "COLLINO1",
   "destinationAgent": "AGENT1",
   "vessel": "VESSEL1",
   "carrier": "string",
   "isMasterBillOfLading": true,
   "isSeawayBill": true,
   "grossVolume": null,
+  "voyageNumber": "9304W",
+  "loadPort": null,
+  "dischargePort": null,
+  "shippedOnBoardDate": null,
+  "paymentTerms": null,
+  "category": null,
+  "subcategory": null,
+  "secondNotify": null,
   "id": 333
 }
 ```
@@ -560,9 +586,9 @@ data: {
   "shipper": "SHIPPER2",
   "consignee": "CONSIGNEE2",
   "notify": "NOTIFY2",
-  "goodsDescription": "DESCRIPTION2",
   "carrier": "CARRIER2",
-  "isSeawayBill": false
+  "isSeawayBill": false,
+  "paymentTerms": "FREIGHT PREPAID"
 }
 
 Example Response:
@@ -573,9 +599,9 @@ Example Response:
   "shipper": "SHIPPER2",
   "consignee": "CONSIGNEE2",
   "notify": "NOTIFY2",
-  "goodsDescription": "DESCRIPTION2",
   "carrier": "CARRIER2",
   "isSeawayBill": false,
+  "paymentTerms": "FREIGHT PREPAID"
   "id": 333
 }
 ```
@@ -595,7 +621,6 @@ Example Request:
 id: 444
 data: {
   "billOfLadingId": 455,
-  "sealNo": "SEAL1",
   "containerNo": "CONTAINER1",
   "numberPieces": 40,
   "pieceType": "PTYPE1",
@@ -607,7 +632,6 @@ data: {
 Example Response:
 {
   "billOfLadingId": 455,
-  "sealNo": "SEAL1",
   "containerNo": "CONTAINER1",
   "numberPieces": 40,
   "pieceType": "PTYPE1",
@@ -619,32 +643,29 @@ Example Response:
 ```
 
 ```javascript
-// Replace Bill Of Lading
+// Replace Bill Of Lading Container
 
 Example Request:
 id: 444
 data: {
   "billOfLadingId": 456,
-  "sealNo":"SEAL2",
   "containerType": "CTYPE2"
 }
 
 Example Response:
 {
   "billOfLadingId": 456,
-  "sealNo": "SEAL2",
   "containerType": "CTYPE2",
   "id": 444
 }
 ```
 
 ```javascript
-// Create Bill Of Lading
+// Create Bill Of Lading Container
 
 Example Request:
 {
   "billOfLadingId": 457,
-  "sealNo": "SEAL3",
   "containerNo": "CONT3",
   "numberPieces": 20,
   "pieceType": "PTYPE2",
@@ -656,7 +677,6 @@ Example Request:
 Example Response:
 {
   "billOfLadingId": 457,
-  "sealNo": "SEAL3",
   "containerNo": "CONT3",
   "numberPieces": 20,
   "pieceType": "PTYPE2",
@@ -668,7 +688,7 @@ Example Response:
 ```
 
 ```javascript
-// Delete Bill Of Lading
+// Delete Bill Of Lading Container
 
 Example Request:
 id: 445
