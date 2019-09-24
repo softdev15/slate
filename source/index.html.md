@@ -544,7 +544,8 @@ data: {
   "carrier": "string",
   "isMasterBillOfLading": true,
   "isSeawayBill": true,
-  "voyageNumber": "9304W"
+  "voyageNumber": "9304W",
+  "exportReference": "REF0001"
 }
 
 Example response:
@@ -570,6 +571,7 @@ Example response:
   "category": null,
   "subcategory": null,
   "secondNotify": null,
+  "exportReference": "REF0001",
   "id": 333
 }
 ```
@@ -588,7 +590,8 @@ data: {
   "notify": "NOTIFY2",
   "carrier": "CARRIER2",
   "isSeawayBill": false,
-  "paymentTerms": "FREIGHT PREPAID"
+  "paymentTerms": "FREIGHT PREPAID",
+  "exportReference": "REF0001"
 }
 
 Example Response:
@@ -601,7 +604,8 @@ Example Response:
   "notify": "NOTIFY2",
   "carrier": "CARRIER2",
   "isSeawayBill": false,
-  "paymentTerms": "FREIGHT PREPAID"
+  "paymentTerms": "FREIGHT PREPAID",
+  "exportReference": "REF0001",
   "id": 333
 }
 ```
