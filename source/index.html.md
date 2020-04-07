@@ -80,7 +80,7 @@ contents of the file
 --------------------------d74496d66958873e--
 ```
 
-You can upload new documents by making a `POST` request to `https://developer.shipamax-api.com/api/v1/DocumentContainers/upload`. These requests require  a `customId` parameter, which is your identifier for this document. This is the ID that you will use to retrieve the processed document in the future. The ID does *not* need to be unique across your company, but re-using an ID will lead to all documents that share that ID being retrieved when you call the `query` endpoint.
+You can upload new documents by making a `POST` request to `https://developer.shipamax-api.com/api/v1/DocumentContainers/upload`. These requests require  a `customId` query string parameter, which is your identifier for this document. This is the ID that you will use to retrieve the processed document in the future. The ID does *not* need to be unique across your company, but re-using an ID will lead to all documents that share that ID being retrieved when you call the `query` endpoint.
 
 The body of the upload request should be a `multipart/form-data` encoded form including at least one file.
 
@@ -257,6 +257,45 @@ Example Response:
   "results": [
     {
       "created": "2018-10-09T12:00:00.000Z",
+      "unqId": "xxx4",
+      "customId": "ci1",
+      "companyId": 1000,
+      "documentType": 4,
+      "filename": "SUPPLIER INVOICE",
+      "sourceId": null,
+      "id": 101,
+      "feedback": [],
+      "arrivalNotice": [],
+      "billOfLading": [],
+      "deliveryOrder": [],
+      "supplierInvoice": [
+        {
+          "documentId": 101,
+          "addressee": "Shipamax UK",
+          "addresseeCgwCode": "SMXUK",
+          "issuer": "Trucks Inc",
+          "issuerCgwCode": "TRK",
+          "invoiceNumber": "TRUCK0001",
+          "invoiceDate": "2020-01-01T00:00:00.000Z",
+          "grossTotal": "12345.67",
+          "netTotal": "12345.67",
+          "vatTotal": "0",
+          "currency": "GBP",
+          "currencyId": 826,
+          "validationResultId": null,
+          "id": 1,
+          "lineItems": [
+            {
+              "invoiceId": 1,
+              "jobRef": "S00000001",
+              "id": 52
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "created": "2018-10-09T12:00:00.000Z",
       "unqId": "xxx1",
       "customId": "ci1",
       "companyId": 1000,
@@ -323,58 +362,6 @@ Example Response:
       ],
       "deliveryOrder": [],
       "supplierInvoice": []
-    },
-    {
-      "created": "2018-10-09T12:00:00.000Z",
-      "unqId": "xxx4",
-      "customId": "ci1",
-      "companyId": 1000,
-      "documentType": 4,
-      "filename": "SUPPLIER INVOICE",
-      "sourceId": null,
-      "id": 101,
-      "feedback": [],
-      "arrivalNotice": [],
-      "billOfLading": [],
-      "deliveryOrder": [],
-      "supplierInvoice": [
-        {
-          "documentId": 101,
-          "documentProducer": null,
-          "invoiceNumber": "021R 0322 3288729ISS",
-          "invoiceDate": "2018-09-30T23:00:00.000Z",
-          "due": "2018-11-09T00:00:00.000Z",
-          "buyersReference": "BUYERAF23456",
-          "suppliersReference": "SUPPLIER12345678",
-          "shipmentNumber": "SHIPMENT927LKJHGTR",
-          "netTotal": "3970.8",
-          "netTotalCurrency": "EUR",
-          "vatTotal": "1029.2",
-          "vatCurrency": "EUR",
-          "grossTotal": "5000",
-          "grossTotalCurrency": "EUR",
-          "id": 1,
-          "lineItems": [
-            {
-              "supplierInvoiceId": 1,
-              "description": "CHAIRS OF SOME SORT",
-              "unitPrice": "20",
-              "unitPriceCurrency": "EUR",
-              "numberOfUnits": "10",
-              "unitType": "PKG",
-              "vatRate": "10",
-              "totalVat": "20",
-              "totalVatCurrency": "EUR",
-              "netTotal": "180",
-              "netTotalCurrency": "EUR",
-              "grossTotal": "200",
-              "grossTotalCurrency": "EUR",
-              "containerNumber": "SDFGHJKIUYT123456",
-              "id": 1
-            }
-          ]
-        }
-      ]
     }
   ]
 }
