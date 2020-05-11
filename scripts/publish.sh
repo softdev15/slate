@@ -10,9 +10,11 @@ pushd ..  > /dev/null
 case "$1" in
   prod)
     BUCKET=s3://docs.shipamax.com
+    CLOUDFRONT_DISTRIBUTION=E180ZGPYZKHXTO
     ;;
   staging)
     BUCKET=s3://docs-staging.shipamax.com
+    CLOUDFRONT_DISTRIBUTION=E4XMQCNIJA2LY
     ;;
   *)
     echo "Must specify deployment type."
@@ -41,6 +43,9 @@ bundle exec middleman build --clean
 
 echo "Uploading to S3"
 aws s3 sync build/ $BUCKET
+
+echo "Invalidating cache"
+invalidate_cloudfront_cache $CLOUDFRONT_DISTRIBUTION
 
 echo "Broadcast deployment"
 slack_notify "FF API docs deployed to $DEPLOY_ENV by $USER ($BRANCH/$HASH)"
