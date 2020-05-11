@@ -23,7 +23,7 @@ The API is [RESTful](https://en.wikipedia.org/wiki/Representational_state_transf
 
 **Endpoint**
 
-The base URL for all API endpoints is `https://developer.shipamax-api.com/api/v2/`.
+The base URL for all API endpoints is `https://customer.shipamax-api.com/api/v2/`.
 
 **Content type**
 
@@ -94,7 +94,7 @@ A FileGroup has association with Files which have association with BillOfLading 
 | -------------------------- | ---- | ----------------------------------------------------------- |
 | /FileGroup/{id}            | GET  | Get a Bill of Lading Group based on the given ID.           |
 
-Get a group by making a `GET` request to `https://developer.shipamax-api.com/api/v2/FileGroup/{id}`
+Get a group by making a `GET` request to `https://customer.shipamax-api.com/api/v2/FileGroup/{id}`
 
 > The GET FileGroup request returns JSON structured like this:
 
