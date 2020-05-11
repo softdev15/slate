@@ -11,32 +11,84 @@ search: true
 
 # Getting started	
 
-The Shipmax Freight Forwarding API allows developers to create applications that automatically extra data from various documents received by their businesses.	
+The Shipmax Freight Forwarding API allows developers to create applications that automatically extract data from various logistics documents received by their business.
+
+Currently the API supports data extraction from Master and House Bills of Lading. Accounts Payable Invoices and Commercial Invoices will be added by the end of Q3 2020. 
 
 If you would like to use this API and are not already a Shipamax Freight Forwarding customer, please contact our [support team](mailto:support@shipamax.com).	
 
-# API basics
+## API basics
 
-The API is [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer#Applied_to_Web_services), and messages are encoded as JSON documents
+The API is [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer#Applied_to_Web_services), and messages are encoded as JSON documents.
 
-### Endpoint
+**Endpoint**
 
-The base URI for all API endpoints is `https://developer.shipamax-api.com/api/v2/`.
+The base URL for all API endpoints is `https://developer.shipamax-api.com/api/v2/`.
 
-### Content type
+**Content type**
 
 Unless specified otherwise, requests with a body attached should be sent with a `Content-Type: application/json` HTTP header.
 
-# Authorization
+## Authorization
 
-All API methods require you to be authenticated. Once you have your access token, which will be given to you by the Shipamax Team, you can send it along with any API requests you make in a header. If your access token was `abc123token`, you would send it as the HTTP header `Authorization: Bearer abc123token`.
+All API methods require you to be authenticated. This is done using an access token which will be given to you by the Shipamax team. 
+
+This access token should be sent in the header of all API requests you make. If your access token was `abc123token`, you would send it as the HTTP header `Authorization: Bearer abc123token`.
 
 # Reference
 
+## Event Webhooks
+
+
+The webhooks will be triggered when a document successfully parses the first validation. The destination URL which webhooks should call will be provided by the customer to Shipamax, for example by email.
+
+The webhooks endpoint will send a request to the provided endpoint via POST with the following body
+
+> Body Definition
+
+```javascript
+{
+  "kind": "#shipamax-webhook",
+  "eventName": "[EVENT-NAME]",
+  "payload": {
+      "id": integer,
+     "exceptions": [EXCEPTION-LIST]
+   }
+}
+```
+
+Details of body definition
+
+Event names:
+
+- Validation/BillOfLadingGroup/Failure
+- Validation/BillOfLadingGroup/Success
+
+Exception list contains exception objects:
+
+{  
+ "code": integer,  
+ "description": string  
+}  
+
+> Example of body sent via webhook
+
+```javascript
+{
+  "kind": "#shipamax-webhook",
+  "eventName": "Validation/BillOfLadingGroup/Failure",
+  "payload": {
+     "id": 1,
+     "exceptions": [{ "code": 1, "description": "Bill of Lading: More than one MBL in group" }]
+   } 
+}
+```
 
 ## FileGroup
 
-A FileGroup is responsible for managing a group of Bill of Lading files. A FileGroup has association with Files which have association with BillOfLading Entities. The following endpoint is currently available
+Shipamax groups files that are assoicated into a FileGroup. For example, you may have received a Master BL with associated House BLs and these will be contained within the same FileGroup. 
+
+A FileGroup has association with Files which have association with BillOfLading Entities. The following endpoint is currently available
 
 | Endpoint                   | Verb | Description                                                 |
 | -------------------------- | ---- | ----------------------------------------------------------- |
@@ -168,48 +220,3 @@ Get a group by making a `GET` request to `https://developer.shipamax-api.com/api
 }
 ```
 
-## WebHooks
-
-The webhooks will be triggered when a document successfully parses the first validation. The destination URL which webhooks should call will be provided by the customer to Shipamax, for example by email.
-
-The webhooks endpoint will send a request to the provided endpoint via POST with the following body
-
-> Body Definition
-
-```javascript
-{
-  "kind": "#shipamax-webhook",
-  "eventName": "[EVENT-NAME]",
-  "payload": {
-      "id": integer,
-     "exceptions": [EXCEPTION-LIST]
-   }
-}
-```
-
-Details of body definition
-
-Event names:
-
-- Validation/BillOfLadingGroup/Failure
-- Validation/BillOfLadingGroup/Success
-
-Exception list contains exception objects:
-
-{  
- "code": integer,  
- "description": string  
-}  
-
-> Example of body sent via webhook
-
-```javascript
-{
-  "kind": "#shipamax-webhook",
-  "eventName": "Validation/BillOfLadingGroup/Failure",
-  "payload": {
-     "id": 1,
-     "exceptions": [{ "code": 1, "description": "Bill of Lading: More than one MBL in group" }]
-   } 
-}
-```
