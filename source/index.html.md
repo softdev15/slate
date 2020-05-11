@@ -45,6 +45,7 @@ A FileGroup is responsible for managing a group of Bill of Lading files. A FileG
 Get a group by making a `GET` request to `https://developer.shipamax-api.com/api/v2/FileGroup/{id}`
 
 > The GET FileGroup request returns JSON structured like this:
+
 ```json
 {
     "id": 1,
@@ -173,8 +174,9 @@ The webhooks will be triggered when a document successfully parses the first val
 
 The webhooks endpoint will send a request to the provided endpoint via POST with the following body
 
-Body Definition:
-```json
+> Body Definition
+
+```javascript
 {
   "kind": "#shipamax-webhook",
   "eventName": "[EVENT-NAME]",
@@ -185,18 +187,23 @@ Body Definition:
 }
 ```
 
+Details of body definition
+
 Event names:
+
 - Validation/BillOfLadingGroup/Failure
 - Validation/BillOfLadingGroup/Success
 
 Exception list contains exception objects:
-{
-    "code": integer, 
-    "description": string
-}
 
-> Body example
-```json
+{  
+ "code": integer,  
+ "description": string  
+}  
+
+> Example of body sent via webhook
+
+```javascript
 {
   "kind": "#shipamax-webhook",
   "eventName": "Validation/BillOfLadingGroup/Failure",
