@@ -1,3 +1,20 @@
+---
+title: Shipamax Freight Forwarding API Reference	
+
+toc_footers:	
+  - <a href='mailto:support@shipamax.com'>Get a Developer Key</a>	
+  - <a href='https://github.com/softdev15/slate'><img src="./images/github.png"/>Contribute to these Docs</a>	
+
+
+search: true	
+---	
+
+# Getting started	
+
+The Shipmax Freight Forwarding API allows developers to create applications that automatically extra data from various documents received by their businesses.	
+
+If you would like to use this API and are not already a Shipamax Freight Forwarding customer, please contact our [support team](mailto:support@shipamax.com).	
+
 # API basics
 
 The API is [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer#Applied_to_Web_services), and messages are encoded as JSON documents
