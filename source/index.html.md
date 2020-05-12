@@ -29,7 +29,7 @@ Unless specified otherwise, requests with a body attached should be sent with a 
 
 # Authorization
 
-All API methods require you to be authenticated. Once you have your access token, which will be given to you by the Shipamax Team, you can send it along with any API requests you make in a header. If your access token was `abc123token`, you would send it as the HTTP header `Authorization: bearer abc123token`.
+All API methods require you to be authenticated. Once you have your access token, which will be given to you by the Shipamax Team, you can send it along with any API requests you make in a header. If your access token was `abc123token`, you would send it as the HTTP header `Authorization: Bearer abc123token`.
 
 # Reference
 
@@ -45,7 +45,12 @@ The webhooks will be triggered when a document successfully parses the first val
   "eventName": "[EVENT-NAME]",
   "payload": {
     "fileGroupId": integer,
-    "exceptions": [EXCEPTION-LIST]
+    "exceptions": [
+        {
+            "code": ExceptionCode,
+            "description": string
+        }
+    ]
    }
 }
 ```
@@ -56,14 +61,7 @@ Event names:
 - Validation/BillOfLadingGroup/Failure  
 - Validation/BillOfLadingGroup/Success  
 ​
-> Exception list contains exception objects:
-
-```javascript
-{
- "code": ExceptionCode,  
- "description": string  
-}
-```
+For more details of exception codes, check our [list of exceptions](#list-of-exceptions)
 
 > Example of body sent via webhook:
 
@@ -72,7 +70,7 @@ Event names:
   "kind": "#shipamax-webhook",
   "eventName": "Validation/BillOfLadingGroup/Failure",
   "payload": {
-     "id": 1,
+     "fileGroupId": 1,
      "exceptions": [
          { 
              "code": 1, 
@@ -92,7 +90,7 @@ curl -X POST \
   "kind": "#shipamax-webhook",
   "eventName": "Validation/BillOfLadingGroup/Failure",
   "payload": {
-     "id": 1,
+     "fileGroupId": 1,
      "exceptions": [
          { 
              "code": 1, 
@@ -136,7 +134,7 @@ Get a group by making a `GET` request to `https://public.shipamax-api.com/api/v2
     },
     "files": [
         {
-            "id": inteher,
+            "id": integer,
             "filename": string,
             "created": "[ISO8601 timestamp]",
             "billOfLading": [
@@ -153,6 +151,27 @@ Get a group by making a `GET` request to `https://public.shipamax-api.com/api/v2
     ]
 }
 ```
+
+Definition of the object attributes
+
+| Attribut                                |  Description                                                    |
+| --------------------------------------- | --------------------------------------------------------------- |
+| lastValidationResult                    | Last validation's result of the current object                  |
+| lastValidationResult.valid              |            |
+| lastValidationResult.details            |            |
+| lastValidationResult.details.validator  |            |
+| lastValidationResult.details.exceptions |            |
+| files                                   | List of files                                                   |
+| files.filename                          |            |
+| files.billOfLading                      |            |
+| files.billOfLading.billOfLadingNo       |            |
+| files.billOfLading.bookingNo            |            |
+| files.billOfLading.exportReference      |            |
+| files.billOfLading.scac                 |            |
+| files.billOfLading.isRated              |            |
+| files.billOfLading.isDraft              |            |
+
+
 
 > Example:
 
@@ -200,11 +219,47 @@ Get a group by making a `GET` request to `https://public.shipamax-api.com/api/v2
 curl -X GET \
   https://public.shipamax-api.com/api/v2/FileGroup/{id} \
   -H "Content-Type: application/json" \
-  -H "Authorization: bearer {TOKEN}"
+  -H "Authorization: Bearer {TOKEN}"
 ```
 
-## Exception
+## Submit Exceptions
 
 For a full workflow Shipamax requires the customer to provide Exception information via API.
 
 Get a group by making a `POST` request to `https://public.shipamax-api.com/api/v2/Exception/{BL-Group-id}`
+
+
+## List of Exceptions
+
+Our validation system works with the following list of exceptions
+
+
+| Exception code  | Name                               | Description                                                |
+| --------------- | ---------------------------------- | ---------------------------------------------------------- |
+| 1               | SupplierInvoiceNumberMissing       | Supplier Invoice: Missing Invoice Number                   |
+| 2               | SupplierInvoiceDateMissing         | Supplier Invoice: Missing Invoice Date                     |
+| 3               | SupplierInvoiceIssuerMissing       | Supplier Invoice: Missing Issuer                           |
+| 4               | SupplierInvoiceTotalMissing        | Supplier Invoice: Missing Invoice Total                    |
+| 5               | SupplierInvoiceCurrencyMissing     | Supplier Invoice: Missing Invoice Currency                 |
+| 6               | SupplierInvoiceNoJobRefs           | Supplier Invoice: No Job references                        |
+| 7               | CargoWiseInvalidAddressee          | CargoWise: Invalid Addressee                               |
+| 8               | CargoWiseDuplicateInvoiceNumber    | CargoWise: Duplicate Invoice Number                        |
+| 9               | CargoWiseTotalMismatch             | CargoWise: Total didn't match accruals                     |
+| 10              | CargoWiseCurrencyMismatch          | CargoWise: Currencies didn't match                         |
+| 11              | CargoWiseVATMismatch               | CargoWise: VAT didn't match                                |
+| 12              | CargoWisePostFailed                | CargoWise: Failed to post to Cargowise                     |
+| 13              | CargoWiseAmbiguousCosts            | CargoWise: More than 1 accrual combination                 |
+| 14              | CargoWiseMissingIssuerCode         | CargoWise: Missing CargoWise code for issuer               |
+| 15              | CargoWiseApportionedToConsol       | CargoWise: One or more costs is apportioned to a consol    |
+| 16              | DemoSuccess                        | Demo: Document passed validation                           |
+| 17              | SupplierInvoiceFutureDate          | Supplier Invoice: Invoice date is in the future            |
+| 18              | CargoWiseShipmentNotFound          | CargoWise: Shipment not found                              |
+| 19              | CargoWiseRequestError              | CargoWise: Error on Cargowise HTTP request                 |
+| 20              | ValidatorError                     | The validation process itself failed                       |
+| 21              | CargoWiseInvoiceAlreadyExists      | CargoWise: Invoice Number already exists                   |
+| 22              | BillOfLadingMissingMBL             | Bill of Lading: Missing MBL                                |
+| 23              | BillOfLadingMultipleMBLs           | Bill of Lading: Multiple MBLs                              |
+| 24              | BillOfLadingMBLLikelyMisClassified | Bill of Lading: MBL likely mis-classified                  |
+| 25              | BillOfLadingMissingHBLs            | Bill of Lading: Missing HBLs                               |
+| 26              | ManualApprovalRequired             | CargoWise: Manual approval required to post                |
+| -1              | Custom                             | This message can be customized                             |
