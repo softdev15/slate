@@ -15,6 +15,17 @@ The Shipmax Freight Forwarding API allows developers to create applications that
 
 If you would like to use this API and are not already a Shipamax Freight Forwarding customer, please contact our [support team](mailto:support@shipamax.com).	
 
+
+# Requirements
+
+1. You will need to get an access token from Shipamax. If you don't have one, please contact our [support team](mailto:support@shipamax.com).	
+2. You will need to share your webhook endpoint with Shipamax.  
+
+# Email and webhook workflow
+Set up email forwarding to your Shipamax account. When emails arrive, they will be parsed and at the end a validation process will be triggered. This validation process will call the customer webhook endpoint and provide an ID, for example a fileGroupId. With this ID you can query the parsing results.  
+After receiving the parsing results and processing them in your workflow it is crucial to call the Shipamax exception endpoint. This allows Shipamax to provide a workflow for handling the exception in its Exception Manager and to improve the machine learning.
+
+
 # API basics
 
 The API is [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer#Applied_to_Web_services), and messages are encoded as JSON documents
@@ -103,7 +114,7 @@ curl -X POST \
 
 ## FileGroup
 
-Shipamax groups files that are assoicated with each other into a FileGroup. For example, you may have received a Master BL with associated House BLs and these will be contained within the same FileGroup.   
+Shipamax groups files that are associated with each other into a FileGroup. For example, you may have received a Master BL with associated House BLs and these will be contained within the same FileGroup.   
 ​  
 A FileGroup is a collection of Files which may contain a BillOfLading entity. The following endpoint is currently available
 
