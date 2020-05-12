@@ -11,22 +11,32 @@ search: true
 
 # Getting started	
 
-The Shipmax Freight Forwarding API allows developers to create applications that automatically extra data from various documents received by their businesses.	
+The Shipmax Freight Forwarding API allows developers to create applications that automatically extract data from various logistics documents received by their business.
 
-If you would like to use this API and are not already a Shipamax Freight Forwarding customer, please contact our [support team](mailto:support@shipamax.com).	
+Currently the API supports data extraction from Master and House Bills of Lading. Accounts Payable Invoices and Commercial Invoices will be added by the end of Q3 2020. 
 
-
-# Requirements
-
-1. You will need to get an access token from Shipamax. If you don't have one, please contact our [support team](mailto:support@shipamax.com).	
-2. You will need to share your webhook endpoint with Shipamax.  
-
-# Email and webhook workflow
-Set up email forwarding to your Shipamax account. When emails arrive, they will be parsed and at the end a validation process will be triggered. This validation process will call the customer webhook endpoint and provide an ID, for example a fileGroupId. With this ID you can query the parsing results.  
-After receiving the parsing results and processing them in your workflow it is crucial to call the Shipamax exception endpoint. This allows Shipamax to provide a workflow for handling the exception in its Exception Manager and to improve the machine learning.
+If you would like to use this API and are not already a Shipamax Freight Forwarding customer, please contact our [support team](mailto:support@shipamax.com).
 
 
-# API basics
+## Requirements
+
+1. You will need an access token to authenticate your requests. 
+2. You will need to share your webhook endpoint with Shipamax in order to receive notifications of new results. 
+3. You will need a Shipamax email address to forward documents to for parsing.  
+
+To arrange any of the above, please contact your Shipamax Customer Success Manager or our [support team](mailto:support@shipamax.com).	
+
+## Workflow
+Emails, containing Documents to be parsed, should be forwarded automatically or manually to your Shipamax email address. When emails arrive, the attached documents will be grouped into a FileGroup, categorised into a document type and the documents of supported document type will be parsed.
+
+Once parsing has been completed for all Documents in the FileGroup, the FileGroup will be validated against a set of rules to determine whether there are any exceptions. On completion of validation, the customer webhook endpoint will be called and provided with the FileGroup ID and the validation result. This ID can then be used to query for the parsing results. 
+
+After receiving the parsing results and processing them in your workflow, it is crucial to call the Shipamax validation endpoint to update Shipamax on whether you have successfully processed results or whether there is an exception. This allows Shipamax to provide a workflow for handling the exception in its Exception Manager and to improve the machine learning behind the data extraction.
+
+The Shipamax Exception Manager App enables users to view FileGroups with exceptions and manually make necessary additions or corrections to the data. Once complete they can resubmit the FileGroup for validation which will subsequently trigger another webhook notification. 
+
+
+## API basics
 
 The API is [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer#Applied_to_Web_services), and messages are encoded as JSON documents
 
@@ -38,16 +48,18 @@ The base URI for all API endpoints is `https://public.shipamax-api.com/api/v2/`.
 
 Unless specified otherwise, requests with a body attached should be sent with a `Content-Type: application/json` HTTP header.
 
-# Authorization
+## Authorization
 
-All API methods require you to be authenticated. Once you have your access token, which will be given to you by the Shipamax Team, you can send it along with any API requests you make in a header. If your access token was `abc123token`, you would send it as the HTTP header `Authorization: Bearer abc123token`.
+All API methods require you to be authenticated. This is done using an access token which will be given to you by the Shipamax team. 
+
+This access token should be sent in the header of all API requests you make. If your access token was `abc123token`, you would send it as the HTTP header `Authorization: Bearer abc123token`.
 
 # Reference
 
 ## Event Webhooks
-​
-The webhooks will be triggered when a document successfully parses the first validation. The destination URL which webhooks should call currently need to be provided by the customer to Shipamax, for example by email to the [support team](mailto:support@shipamax.com).
-​
+
+The webhooks will be triggered when there is a new validation result for a FileGroup. Currently you are required to manually provide Shipamax with the destination URL which the webhooks should call.
+
 > The webhook endpoint will send a request to the provided endpoint via POST with the following body:
 
 ```javascript
@@ -112,17 +124,17 @@ curl -X POST \
   }'
 ```
 
-## FileGroup
+## FileGroup Endpoint
 
 Shipamax groups files that are associated with each other into a FileGroup. For example, you may have received a Master BL with associated House BLs and these will be contained within the same FileGroup.   
 ​  
-A FileGroup is a collection of Files which may contain a BillOfLading entity. The following endpoint is currently available
+A FileGroup is a collection of Files which may contain a BillOfLading entity. The following endpoint is available.
 
 | Endpoint                   | Verb | Description                                                 |
 | -------------------------- | ---- | ----------------------------------------------------------- |
 | /FileGroup/{id}            | GET  | Get a Bill of Lading Group based on the given ID.           |
 
-Get a group by making a `GET` request to `https://public.shipamax-api.com/api/v2/FileGroup/{id}`
+Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/api/v2/FileGroup/{id}`
 
 > The GET FileGroup request returns JSON structured like this:
 
@@ -133,7 +145,7 @@ Get a group by making a `GET` request to `https://public.shipamax-api.com/api/v2
     "lastValidationResult": {
         "valid": boolean,
         "details": {
-            "validator": "CargoWiseValidator",
+            "validator": string,
             "exceptions": [
                 {
                     "code": integer,
@@ -165,39 +177,39 @@ Get a group by making a `GET` request to `https://public.shipamax-api.com/api/v2
 
 Definition of the object attributes
 
-| Attribut                                |  Description                                                    |
-| --------------------------------------- | --------------------------------------------------------------- |
-| lastValidationResult                    | Last validation's result of the current object                  |
-| lastValidationResult.valid              |            |
-| lastValidationResult.details            |            |
-| lastValidationResult.details.validator  |            |
-| lastValidationResult.details.exceptions |            |
-| files                                   | List of files                                                   |
-| files.filename                          |            |
-| files.billOfLading                      |            |
-| files.billOfLading.billOfLadingNo       |            |
-| files.billOfLading.bookingNo            |            |
-| files.billOfLading.exportReference      |            |
-| files.billOfLading.scac                 |            |
-| files.billOfLading.isRated              |            |
-| files.billOfLading.isDraft              |            |
+| Attribut                                |  Description                                                                                                                      |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| lastValidationResult                    | Last validation's result of the current object                                                                                    |
+| lastValidationResult.valid              | Is this is true, the object has parsed validation. If this is false, there has been an exception                                  |
+| lastValidationResult.details            | Further detail on the type of exception                                                                                           |
+| lastValidationResult.details.validator  | Shipamax has multiple validators for different workflows and integrations. This specifies from which validator issued this result |
+| lastValidationResult.details.exceptions | This details the specific exception which has been raised. These can be seen in our [list of exceptions](#list-of-exceptions)     |
+| files                                   | List of files within the FileGroup                                                                                                |
+| files.filename                          | The name of the file as received within the email                                                                                 |
+| files.billOfLading                      | The data extracted from this Bill of Lading File                                                                                  |
+| files.billOfLading.billOfLadingNo       | The Bill of Lading number as extracted from the Document.                                                                         |
+| files.billOfLading.bookingNo            | The Booking reference as extracted from the Document. This is the reference provided by Issuer to the Shipper                     |
+| files.billOfLading.exportReference      | The Export Reference as extracted from the document. This is the reference given by the Shipper to the Issuer                     |
+| files.billOfLading.scac                 | This is the SCAC code for the issuer of the Bill of Lading                                                                        |
+| files.billOfLading.isRated              | If isRated is True, then the Bill of Lading contains pricing for the transport of the goods                                       |
+| files.billOfLading.isDraft              | If isDraft is True, then this Bills of Lading is a Draft version and not Final                                                    |
 
 
 
 > Example:
 
 ```json
-​{
+{
     "id": 1,
     "created": "2020-05-07T15:24:47.338Z",
     "lastValidationResult": {
         "valid": false,
         "details": {
-            "validator": "CargoWiseValidator",
+            "validator": "BillOfLadingValidator",
             "exceptions": [
                 {
-                    "code": 9,
-                    "description": "CargoWise: Total didn't match accruals"
+                "code": 22,
+                "description": "Bill of Lading: Missing MBL"
                 }
             ]
         },
@@ -233,44 +245,94 @@ curl -X GET \
   -H "Authorization: Bearer {TOKEN}"
 ```
 
-## Submit Exceptions
+## Validation Endpoint
 
-For a full workflow Shipamax requires the customer to provide Exception information via API.
+For a full workflow Shipamax enables you to provide Validation results via API.
 
-Get a group by making a `POST` request to `https://public.shipamax-api.com/api/v2/Exception/{BL-Group-id}`
+The following endpoint is currently available:
 
+| Endpoint                         | Verb  | Description                                                                       |
+| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
+| /FileGroup/{id}/validationResult | POST  | Submit a new validationResult making it the lastValidationesult of the FileGroup  |
+
+Send a new validation result via `POST` request to `https://public.shipamax-api.com/api/v2/FileGroup/{id}/validationResult`
+
+> The POST validationResult request requires a body JSON structured like this:
+
+```json
+{
+    "valid": boolean,
+    "details":  {
+            "validator": string,
+            "exceptions": [
+                {
+                    "code": integer,
+                    "description": string (optional)
+                }
+            ]
+        }
+    }
+}
+```
+Definition of the object attributes
+
+| Attribute                               |  Description                                                      |
+| --------------------------------------- | ----------------------------------------------------------------- |
+| valid                                   | Definition whether the validation is successful or not            |
+| details.validator                       | The name of your validation service. E.g. "CompanyABCValidator"   |
+| details.exceptions.code                 | Exception unique code, check [codes](#list-of-exceptions)         |
+| details.exceptions.descpription         | Optional field, used in case of custom exception which code is -1 |
+
+> Example of body to be POSTED:
+
+```json
+{
+    "valid": false,
+    "details":  {
+            "validator": "CompanyABCValidator",
+            "exceptions": [
+                {
+                    "code": -1,
+                    "description": "Custom message for Invalid value"
+                }
+            ]
+        }
+}
+```
 
 ## List of Exceptions
 
 Our validation system works with the following list of exceptions
 
 
-| Exception code  | Name                               | Description                                                |
-| --------------- | ---------------------------------- | ---------------------------------------------------------- |
-| 1               | SupplierInvoiceNumberMissing       | Supplier Invoice: Missing Invoice Number                   |
-| 2               | SupplierInvoiceDateMissing         | Supplier Invoice: Missing Invoice Date                     |
-| 3               | SupplierInvoiceIssuerMissing       | Supplier Invoice: Missing Issuer                           |
-| 4               | SupplierInvoiceTotalMissing        | Supplier Invoice: Missing Invoice Total                    |
-| 5               | SupplierInvoiceCurrencyMissing     | Supplier Invoice: Missing Invoice Currency                 |
-| 6               | SupplierInvoiceNoJobRefs           | Supplier Invoice: No Job references                        |
-| 7               | CargoWiseInvalidAddressee          | CargoWise: Invalid Addressee                               |
-| 8               | CargoWiseDuplicateInvoiceNumber    | CargoWise: Duplicate Invoice Number                        |
-| 9               | CargoWiseTotalMismatch             | CargoWise: Total didn't match accruals                     |
-| 10              | CargoWiseCurrencyMismatch          | CargoWise: Currencies didn't match                         |
-| 11              | CargoWiseVATMismatch               | CargoWise: VAT didn't match                                |
-| 12              | CargoWisePostFailed                | CargoWise: Failed to post to Cargowise                     |
-| 13              | CargoWiseAmbiguousCosts            | CargoWise: More than 1 accrual combination                 |
-| 14              | CargoWiseMissingIssuerCode         | CargoWise: Missing CargoWise code for issuer               |
-| 15              | CargoWiseApportionedToConsol       | CargoWise: One or more costs is apportioned to a consol    |
-| 16              | DemoSuccess                        | Demo: Document passed validation                           |
-| 17              | SupplierInvoiceFutureDate          | Supplier Invoice: Invoice date is in the future            |
-| 18              | CargoWiseShipmentNotFound          | CargoWise: Shipment not found                              |
-| 19              | CargoWiseRequestError              | CargoWise: Error on Cargowise HTTP request                 |
-| 20              | ValidatorError                     | The validation process itself failed                       |
-| 21              | CargoWiseInvoiceAlreadyExists      | CargoWise: Invoice Number already exists                   |
-| 22              | BillOfLadingMissingMBL             | Bill of Lading: Missing MBL                                |
-| 23              | BillOfLadingMultipleMBLs           | Bill of Lading: Multiple MBLs                              |
-| 24              | BillOfLadingMBLLikelyMisClassified | Bill of Lading: MBL likely mis-classified                  |
-| 25              | BillOfLadingMissingHBLs            | Bill of Lading: Missing HBLs                               |
-| 26              | ManualApprovalRequired             | CargoWise: Manual approval required to post                |
-| -1              | Custom                             | This message can be customized                             |
+| Exception code  | Description                                                |
+| --------------- | ---------------------------------------------------------- |
+| 1               | Supplier Invoice: Missing Invoice Number                   |
+| 2               | Supplier Invoice: Missing Invoice Date                     |
+| 3               | Supplier Invoice: Missing Issuer                           |
+| 4               | Supplier Invoice: Missing Invoice Total                    |
+| 5               | Supplier Invoice: Missing Invoice Currency                 |
+| 6               | Supplier Invoice: No Job references                        |
+| 7               | CargoWise: Invalid Addressee                               |
+| 8               | CargoWise: Duplicate Invoice Number                        |
+| 9               | CargoWise: Total didn't match accruals                     |
+| 10              | CargoWise: Currencies didn't match                         |
+| 11              | CargoWise: VAT didn't match                                |
+| 12              | CargoWise: Failed to post to Cargowise                     |
+| 13              | CargoWise: More than 1 accrual combination                 |
+| 14              | CargoWise: Missing CargoWise code for issuer               |
+| 15              | CargoWise: One or more costs is apportioned to a consol    |
+| 16              | Demo: Document passed validation                           |
+| 17              | Supplier Invoice: Invoice date is in the future            |
+| 18              | CargoWise: Shipment not found                              |
+| 19              | CargoWise: Error on Cargowise HTTP request                 |
+| 20              | The validation process itself failed                       |
+| 21              | CargoWise: Invoice Number already exists                   |
+| 22              | Bill of Lading: Missing MBL                                |
+| 23              | Bill of Lading: Multiple MBLs                              |
+| 24              | Bill of Lading: MBL likely mis-classified                  |
+| 25              | Bill of Lading: Missing HBLs                               |
+| 26              | CargoWise: Manual approval required to post                |
+| 27              | Unable to Match to Job                                     |
+| 28              | Multiple possible Jobs                                     |
+| -1              | This message can be customized                             |
