@@ -17,3 +17,14 @@ function slack_notify() {
 function get_aws_account() {
   aws iam list-account-aliases --output text --query 'AccountAliases[0]' | sed 's/\"//g'
 }
+
+function invalidate_cloudfront_cache() {
+  DISTRIBUTION=$1
+
+  if [ -z "$DISTRIBUTION" ]; then
+    echo "Cloudfront Cache Invalidator: No distribution ID provided"
+    return
+  fi
+
+  aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION" --paths '/*'
+}
