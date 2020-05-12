@@ -165,7 +165,7 @@ Get a group by making a `GET` request to `https://public.shipamax-api.com/api/v2
 
 Definition of the object attributes
 
-| Attribut                                |  Description                                                    |
+| Attribute                               |  Description                                                    |
 | --------------------------------------- | --------------------------------------------------------------- |
 | lastValidationResult                    | Last validation's result of the current object                  |
 | lastValidationResult.valid              |            |
