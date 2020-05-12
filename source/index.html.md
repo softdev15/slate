@@ -177,7 +177,7 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
 
 Definition of the object attributes
 
-| Attribut                                |  Description                                                                                                                      |
+| Attribute                               |  Description                                                                                                                      |
 | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | lastValidationResult                    | Last validation's result of the current object                                                                                    |
 | lastValidationResult.valid              | Is this is true, the object has parsed validation. If this is false, there has been an exception                                  |
