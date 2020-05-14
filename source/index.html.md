@@ -174,7 +174,46 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
           "exportReference": string,
           "scac": string,
           "isRated": boolean,
-          "isDraft": boolean
+          "isDraft": boolean,
+          "shipper": string,
+          "shipperCWCode": string,
+          "consignee": string,
+          "consigneeCWCode": string,          
+          "notify": string,
+          "notifyCWCode": string,
+          "secondNotify": string,
+          "secondNotifyCWCode": string,
+          "destinationAgent": string,
+          "carrier": string,
+          "carrierCWCode": string,          
+          "grossWeight": string,
+          "grossVolume": string,
+          "vessel": string,
+          "vesselIMO": string,
+          "voyageNumber": string,
+          "loadPort": string,
+          "loadPortUnlocode": string,
+          "dischargePort": string,
+          "dischargePortUnlocode": string,
+          "shippedOnBoardDate": date,
+          "paymentTerms": string,
+          "category": string,
+          "subcategory": string,
+          "goodsDescription": string,
+          "transportMode": string,
+          "containerMode": string,
+          "shipmentType": string,
+          "container": [
+            {
+              "containerNo": string, 
+              "numberPieces": integer,
+              "pieceType": string,
+              "weight": string,
+              "volume": string,
+              "containerType": string,
+              "seals": string
+            }
+          ]
         }
       ]
     }
@@ -200,7 +239,41 @@ Definition of the object attributes
 | files.billOfLading.scac                 | This is the SCAC code for the issuer of the Bill of Lading                                                                        |
 | files.billOfLading.isRated              | If isRated is True, then the Bill of Lading contains pricing for the transport of the goods                                       |
 | files.billOfLading.isDraft              | If isDraft is True, then this Bills of Lading is a Draft version and not Final                                                    |
-
+| files.billOfLading.shipper              ||
+| files.billOfLading.shipperCWCode        ||
+| files.billOfLading.consignee            ||
+| files.billOfLading.consigneeCWCode      ||
+| files.billOfLading.notify               ||
+| files.billOfLading.notifyCWCode         ||
+| files.billOfLading.secondNotify         ||
+| files.billOfLading.secondNotifyCWCode   ||
+| files.billOfLading.destinationAgent     ||
+| files.billOfLading.carrier              ||
+| files.billOfLading.carrierCWCode        ||          
+| files.billOfLading.grossWeight          ||
+| files.billOfLading.grossVolume          ||
+| files.billOfLading.vessel               ||
+| files.billOfLading.vesselIMO            ||
+| files.billOfLading.voyageNumber         ||
+| files.billOfLading.loadPort             ||
+| files.billOfLading.loadPortUnlocode     ||
+| files.billOfLading.dischargePort        ||
+| files.billOfLading.dischargePortUnlocode||
+| files.billOfLading.shippedOnBoardDate   ||
+| files.billOfLading.paymentTerms         ||
+| files.billOfLading.category             ||
+| files.billOfLading.subcategory          ||
+| files.billOfLading.goodsDescription     ||
+| files.billOfLading.transportMode        ||
+| files.billOfLading.containerMode        ||
+| files.billOfLading.shipmentType         ||
+| files.billOfLading.container.containerNo         ||
+| files.billOfLading.container.numberPieces         ||
+| files.billOfLading.container.pieceType         ||
+| files.billOfLading.container.weight         ||
+| files.billOfLading.container.volume         ||
+| files.billOfLading.container.containerType         ||
+| files.billOfLading.container.seals         ||
 
 
 > Example:
@@ -364,14 +437,14 @@ For example with a secret of 12345 and a body of
 
 ```json
 {
-  kind: '#shipamax-webhook',
-  eventName: 'Validation/BillOfLadingGroup/Failure',
-  payload: {
-    'fileGroupId': 13704,
-    'exceptions': [
+  "kind": "#shipamax-webhook",
+  "eventName": "Validation/BillOfLadingGroup/Failure",
+  "payload": {
+    "fileGroupId": 13704,
+    "exceptions": [
       {
-        'code': 23,
-        'description': 'Bill of Lading: Multiple MBLs'
+        "code": 23,
+        "description": "Bill of Lading: Multiple MBLs"
       }
     ]
   }
