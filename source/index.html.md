@@ -468,7 +468,7 @@ When Shipamax send a webhook the requests are signed with a signature in the HTT
 Current version: v1
 
 To verify this signature, perform the following steps:  
-- Calculate the HMAC-SHA256 hash using the secret key
+- Calculate the HMAC-SHA256 hash using the secret key  
 - Compare the hash to the signature in the http header  
 - If they are equal the request is from Shipamax  
   
