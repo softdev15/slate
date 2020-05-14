@@ -211,7 +211,7 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
               "weight": string,
               "volume": string,
               "containerType": string,
-              "seals": string
+              "seals": [string]
             }
           ]
         }
@@ -338,13 +338,15 @@ Definition of the object attributes
           "shipmentType": "",
           "container": [
             {
-              "containerNo": "", 
+              "containerNo": "ABCD0123456", 
               "numberPieces": 10,
-              "pieceType": "",
+              "pieceType": "CTN",
               "weight": "",
               "volume": "",
-              "containerType": "",
-              "seals": ""
+              "containerType": "40GP",
+              "seals": [
+                "AB1234567"
+              ]
             }
           ]
         }
