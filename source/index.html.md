@@ -307,7 +307,46 @@ Definition of the object attributes
           "exportReference": "REF",
           "scac": "scac",
           "isRated": true,
-          "isDraft": false
+          "isDraft": false,
+          "shipper": "",
+          "shipperCWCode": "",
+          "consignee": "",
+          "consigneeCWCode": "",          
+          "notify": "",
+          "notifyCWCode": "",
+          "secondNotify": "",
+          "secondNotifyCWCode": "",
+          "destinationAgent": "",
+          "carrier": "",
+          "carrierCWCode": "",          
+          "grossWeight": "",
+          "grossVolume": "",
+          "vessel": "",
+          "vesselIMO": "",
+          "voyageNumber": "",
+          "loadPort": "",
+          "loadPortUnlocode": "",
+          "dischargePort": "",
+          "dischargePortUnlocode": "",
+          "shippedOnBoardDate": "2020-05-07T15:24:47.338Z",
+          "paymentTerms": "",
+          "category": "",
+          "subcategory": "",
+          "goodsDescription": "",
+          "transportMode": "",
+          "containerMode": "",
+          "shipmentType": "",
+          "container": [
+            {
+              "containerNo": "", 
+              "numberPieces": 10,
+              "pieceType": "",
+              "weight": "",
+              "volume": "",
+              "containerType": "",
+              "seals": ""
+            }
+          ]
         }
       ]
     }
@@ -382,7 +421,7 @@ Definition of the object attributes
 
 You can retrieve all files processed by Shipamax. For example you can retrieve a bill of lading which was send to Shipamax as an attachment to an email. Files can be retrieved via their unique ID. The response of the endpoint is a byte stream.
 
-https://public.shipamax-api.com/api/v2/File/get?uniqueId={unique-id}
+https://public.shipamax-api.com/api/v2/Files/get?uniqueId={unique-id}
 
 ## List of Exceptions
 
