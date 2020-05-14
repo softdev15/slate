@@ -81,15 +81,15 @@ For webhook security we sign inbound requests to your application with an X-Ship
 }
 ```
 
-The `eventName` property describes what caused the message to be sent. There are currently two events you could receive:
+The `eventName` property describes what caused the message to be sent. There are currently two events you could receive:  
   ​
-- `Validation/BillOfLadingGroup/Failure`
-- `Validation/BillOfLadingGroup/Success`
-
-These events are triggered when the bills of lading in a FileGroup fail and pass validation, respectively.
-​
-For more details of exception codes, check our [list of exceptions](#list-of-exceptions)
-
+- `Validation/BillOfLadingGroup/Failure`  
+- `Validation/BillOfLadingGroup/Success`  
+  
+These events are triggered when the bills of lading in a FileGroup fail and pass validation, respectively.  
+​  
+For more details of exception codes, check our [list of exceptions](#list-of-exceptions)  
+  
 > Example of body sent via webhook:
 
 ```javascript
@@ -421,7 +421,7 @@ Definition of the object attributes
 
 You can retrieve all files processed by Shipamax. For example you can retrieve a bill of lading which was send to Shipamax as an attachment to an email. Files can be retrieved via their unique ID. The response of the endpoint is a byte stream.
 
-https://public.shipamax-api.com/api/v2/Files/get?uniqueId={unique-id}
+https://public.shipamax-api.com/api/v2/Files/{unique-id}
 
 ## List of Exceptions
 
