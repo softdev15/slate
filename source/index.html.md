@@ -354,13 +354,15 @@ When Shipamax send a webhook the requests are signed with a signature in the HTT
 
 Current version: v1
 
-To verify this signature, perform the following steps:
-- Create a string that concatenates: Access token + request body
-- Create a SHA-256 hash of the resulting string
-- Compare the hash to the signature
-- If they are equal the request is from Shipamax
+To verify this signature, perform the following steps:  
+- Create a string that concatenates: Access token + request body  
+- Create a SHA-256 hash of the resulting string  
+- Compare the hash to the signature  
+- If they are equal the request is from Shipamax  
+  
+For example with a secret of 12345 and a body of  
 
-For example with a secret of 12345 and a body of
+```json
 {
   kind: '#shipamax-webhook',
   eventName: 'Validation/BillOfLadingGroup/Failure',
@@ -374,6 +376,8 @@ For example with a secret of 12345 and a body of
     ]
   }
 }
-
-The resulting hash would be:
-5ce9069f51dfb54f2b1b569bd04413bfedf7b2d6a596971161b6ffb49f3b2833
+```
+  
+The resulting hash would be:  
+5ce9069f51dfb54f2b1b569bd04413bfedf7b2d6a596971161b6ffb49f3b2833  
+  
