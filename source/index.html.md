@@ -61,6 +61,8 @@ This access token should be sent in the header of all API requests you make. If 
 
 The webhooks will be triggered when there is a new validation result for a FileGroup. Currently you are required to manually provide Shipamax with the destination URL which the webhooks should call.
 
+For webhook security we sign inbound requests to your application with an X-Shipamax-Signature HTTP header together with an X-Shipamax-Signature-Version header. See [Validating webhook signatures](#validating-webhook-signatures) for how to validate the requests.
+
 > The webhook endpoint will send a request to the provided endpoint via POST with a body in the following format:
 
 ```javascript
@@ -79,15 +81,15 @@ The webhooks will be triggered when there is a new validation result for a FileG
 }
 ```
 
-The `eventName` property describes what caused the message to be sent. There are currently two events you could receive:
+The `eventName` property describes what caused the message to be sent. There are currently two events you could receive:  
   ​
-- `Validation/BillOfLadingGroup/Failure`
-- `Validation/BillOfLadingGroup/Success`
-
-These events are triggered when the bills of lading in a FileGroup fail and pass validation, respectively.
-​
-For more details of exception codes, check our [list of exceptions](#list-of-exceptions)
-
+- `Validation/BillOfLadingGroup/Failure`  
+- `Validation/BillOfLadingGroup/Success`  
+  
+These events are triggered when the bills of lading in a FileGroup fail and pass validation, respectively.  
+​  
+For more details of exception codes, check our [list of exceptions](#list-of-exceptions)  
+  
 > Example of body sent via webhook:
 
 ```javascript
@@ -111,6 +113,8 @@ For more details of exception codes, check our [list of exceptions](#list-of-exc
 ```javascript
 curl -X POST \
   {CUSTOMER-WEBHOOK-URL} \
+  -H 'X-Shipamax-Signature-Version: v1' \  
+  -H 'X-Shipamax-Signature: {SIGNATURE}' \
   -d '{
   "kind": "#shipamax-webhook",
   "eventName": "Validation/BillOfLadingGroup/Failure",
@@ -161,6 +165,7 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
     {
       "id": integer,
       "filename": string,
+      "uniqueId": string,
       "created": "[ISO8601 timestamp]",
       "billOfLading": [
         {
@@ -169,7 +174,46 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
           "exportReference": string,
           "scac": string,
           "isRated": boolean,
-          "isDraft": boolean
+          "isDraft": boolean,
+          "shipper": string,
+          "shipperCWCode": string,
+          "consignee": string,
+          "consigneeCWCode": string,          
+          "notify": string,
+          "notifyCWCode": string,
+          "secondNotify": string,
+          "secondNotifyCWCode": string,
+          "destinationAgent": string,
+          "carrier": string,
+          "carrierCWCode": string,          
+          "grossWeight": string,
+          "grossVolume": string,
+          "vessel": string,
+          "vesselIMO": string,
+          "voyageNumber": string,
+          "loadPort": string,
+          "loadPortUnlocode": string,
+          "dischargePort": string,
+          "dischargePortUnlocode": string,
+          "shippedOnBoardDate": date,
+          "paymentTerms": string,
+          "category": string,
+          "subcategory": string,
+          "goodsDescription": string,
+          "transportMode": string,
+          "containerMode": string,
+          "shipmentType": string,
+          "container": [
+            {
+              "containerNo": string, 
+              "numberPieces": integer,
+              "pieceType": string,
+              "weight": string,
+              "volume": string,
+              "containerType": string,
+              "seals": [string]
+            }
+          ]
         }
       ]
     }
@@ -195,7 +239,41 @@ Definition of the object attributes
 | files.billOfLading.scac                 | This is the SCAC code for the issuer of the Bill of Lading                                                                        |
 | files.billOfLading.isRated              | If isRated is True, then the Bill of Lading contains pricing for the transport of the goods                                       |
 | files.billOfLading.isDraft              | If isDraft is True, then this Bills of Lading is a Draft version and not Final                                                    |
-
+| files.billOfLading.shipper              ||
+| files.billOfLading.shipperCWCode        ||
+| files.billOfLading.consignee            ||
+| files.billOfLading.consigneeCWCode      ||
+| files.billOfLading.notify               ||
+| files.billOfLading.notifyCWCode         ||
+| files.billOfLading.secondNotify         ||
+| files.billOfLading.secondNotifyCWCode   ||
+| files.billOfLading.destinationAgent     ||
+| files.billOfLading.carrier              ||
+| files.billOfLading.carrierCWCode        ||          
+| files.billOfLading.grossWeight          ||
+| files.billOfLading.grossVolume          ||
+| files.billOfLading.vessel               ||
+| files.billOfLading.vesselIMO            ||
+| files.billOfLading.voyageNumber         ||
+| files.billOfLading.loadPort             ||
+| files.billOfLading.loadPortUnlocode     ||
+| files.billOfLading.dischargePort        ||
+| files.billOfLading.dischargePortUnlocode||
+| files.billOfLading.shippedOnBoardDate   ||
+| files.billOfLading.paymentTerms         ||
+| files.billOfLading.category             ||
+| files.billOfLading.subcategory          ||
+| files.billOfLading.goodsDescription     ||
+| files.billOfLading.transportMode        ||
+| files.billOfLading.containerMode        ||
+| files.billOfLading.shipmentType         ||
+| files.billOfLading.container.containerNo         ||
+| files.billOfLading.container.numberPieces         ||
+| files.billOfLading.container.pieceType         ||
+| files.billOfLading.container.weight         ||
+| files.billOfLading.container.volume         ||
+| files.billOfLading.container.containerType         ||
+| files.billOfLading.container.seals         ||
 
 
 > Example:
@@ -229,7 +307,48 @@ Definition of the object attributes
           "exportReference": "REF",
           "scac": "scac",
           "isRated": true,
-          "isDraft": false
+          "isDraft": false,
+          "shipper": "",
+          "shipperCWCode": "",
+          "consignee": "",
+          "consigneeCWCode": "",          
+          "notify": "",
+          "notifyCWCode": "",
+          "secondNotify": "",
+          "secondNotifyCWCode": "",
+          "destinationAgent": "",
+          "carrier": "",
+          "carrierCWCode": "",          
+          "grossWeight": "",
+          "grossVolume": "",
+          "vessel": "",
+          "vesselIMO": "",
+          "voyageNumber": "",
+          "loadPort": "",
+          "loadPortUnlocode": "",
+          "dischargePort": "",
+          "dischargePortUnlocode": "",
+          "shippedOnBoardDate": "2020-05-07T15:24:47.338Z",
+          "paymentTerms": "",
+          "category": "",
+          "subcategory": "",
+          "goodsDescription": "",
+          "transportMode": "",
+          "containerMode": "",
+          "shipmentType": "",
+          "container": [
+            {
+              "containerNo": "ABCD0123456", 
+              "numberPieces": 10,
+              "pieceType": "CTN",
+              "weight": "",
+              "volume": "",
+              "containerType": "40GP",
+              "seals": [
+                "AB1234567"
+              ]
+            }
+          ]
         }
       ]
     }
@@ -300,6 +419,12 @@ Definition of the object attributes
 }
 ```
 
+## Get file Endpoint
+
+You can retrieve all files processed by Shipamax. For example you can retrieve a bill of lading which was send to Shipamax as an attachment to an email. Files can be retrieved via their unique ID. The response of the endpoint is a byte stream.
+
+https://public.shipamax-api.com/api/v2/Files/{id}
+
 ## List of Exceptions
 
 Exception codes other than -1 have a specific meaning within the Shipamax system, as listed in the table below. When creating a validation result you should use an existing code where there is an appropriate one available, or -1 if there is not. You can use any description you like for any code, but the default descriptions for each code that Shipamax generates are listed in the table.
@@ -336,3 +461,38 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 27              | Unable to Match to Job                                     |
 | 28              | Multiple possible Jobs                                     |
 | -1              | Custom exception                                           |
+
+
+## Validating webhook signatures
+
+When Shipamax send a webhook the requests are signed with a signature in the HTTP header. The signature will consist of a version number and an HMAC-SHA256 hash.
+
+Current version: v1
+
+To verify this signature, perform the following steps:  
+- Calculate the HMAC-SHA256 hash using the secret key  
+- Compare the hash to the signature in the http header  
+- If they are equal the request is from Shipamax  
+  
+For example with a secret of 12345 and a body of  
+
+```json
+{
+  "kind": "#shipamax-webhook",
+  "eventName": "Validation/BillOfLadingGroup/Failure",
+  "payload": {
+    "fileGroupId": 13704,
+    "exceptions": [
+      {
+        "code": 23,
+        "description": "Bill of Lading: Multiple MBLs"
+      }
+    ]
+  }
+}
+```
+  
+The resulting hash would be:  
+de6957d3af4e12b9d312da3be89070b2dbf5fbb40edce74f44e74bb38987d816  
+  
+  
