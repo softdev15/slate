@@ -460,16 +460,16 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 28              | Multiple possible Jobs                                     |
 | -1              | Custom exception                                           |
 
+
 ## Validating webhook signatures
 
-When Shipamax send a webhook the requests are signed with a signature in the HTTP header. The signature will consist of a version and a SHA-256 hash.
+When Shipamax send a webhook the requests are signed with a signature in the HTTP header. The signature will consist of a version number and an HMAC-SHA256 hash.
 
 Current version: v1
 
 To verify this signature, perform the following steps:  
-- Create a string that concatenates: Access token + request body  
-- Create a SHA-256 hash of the resulting string  
-- Compare the hash to the signature  
+- Calculate the HMAC-SHA256 hash using the secret key
+- Compare the hash to the signature in the http header  
 - If they are equal the request is from Shipamax  
   
 For example with a secret of 12345 and a body of  
@@ -491,5 +491,6 @@ For example with a secret of 12345 and a body of
 ```
   
 The resulting hash would be:  
-5ce9069f51dfb54f2b1b569bd04413bfedf7b2d6a596971161b6ffb49f3b2833  
+de6957d3af4e12b9d312da3be89070b2dbf5fbb40edce74f44e74bb38987d816  
+  
   
