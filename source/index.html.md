@@ -61,6 +61,8 @@ This access token should be sent in the header of all API requests you make. If 
 
 The webhooks will be triggered when there is a new validation result for a FileGroup. Currently you are required to manually provide Shipamax with the destination URL which the webhooks should call.
 
+For webhook security we sign inbound requests to your application with an X-Shipamax-Signature HTTP header together with an X-Shipamax-Signature-Version header. See [Validating webhook signatures](#validating-webhook-signatures) for how to validate the requests.
+
 > The webhook endpoint will send a request to the provided endpoint via POST with a body in the following format:
 
 ```javascript
@@ -111,6 +113,8 @@ For more details of exception codes, check our [list of exceptions](#list-of-exc
 ```javascript
 curl -X POST \
   {CUSTOMER-WEBHOOK-URL} \
+  -H 'X-Shipamax-Signature-Version: v1' \  
+  -H 'X-Shipamax-Signature: {SIGNATURE}' \
   -d '{
   "kind": "#shipamax-webhook",
   "eventName": "Validation/BillOfLadingGroup/Failure",
@@ -161,6 +165,7 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
     {
       "id": integer,
       "filename": string,
+      "uniqueId": string,
       "created": "[ISO8601 timestamp]",
       "billOfLading": [
         {
@@ -300,6 +305,12 @@ Definition of the object attributes
 }
 ```
 
+## Get file Endpoint
+
+You can retrieve all files processed by Shipamax. For example you can retrieve a bill of lading which was send to Shipamax as an attachment to an email. Files can be retrieved via their unique ID. The response of the endpoint is a byte stream.
+
+https://public.shipamax-api.com/api/v2/File/get?uniqueId={unique-id}
+
 ## List of Exceptions
 
 Exception codes other than -1 have a specific meaning within the Shipamax system, as listed in the table below. When creating a validation result you should use an existing code where there is an appropriate one available, or -1 if there is not. You can use any description you like for any code, but the default descriptions for each code that Shipamax generates are listed in the table.
@@ -336,3 +347,33 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 27              | Unable to Match to Job                                     |
 | 28              | Multiple possible Jobs                                     |
 | -1              | Custom exception                                           |
+
+## Validating webhook signatures
+
+When Shipamax send a webhook the requests are signed with a signature in the HTTP header. The signature will consist of a version and a SHA-256 hash.
+
+Current version: v1
+
+To verify this signature, perform the following steps:
+- Create a string that concatenates: Access token + request body
+- Create a SHA-256 hash of the resulting string
+- Compare the hash to the signature
+- If they are equal the request is from Shipamax
+
+For example with a secret of 12345 and a body of
+{
+  kind: '#shipamax-webhook',
+  eventName: 'Validation/BillOfLadingGroup/Failure',
+  payload: {
+    'fileGroupId': 13704,
+    'exceptions': [
+      {
+        'code': 23,
+        'description': 'Bill of Lading: Multiple MBLs'
+      }
+    ]
+  }
+}
+
+The resulting hash would be:
+5ce9069f51dfb54f2b1b569bd04413bfedf7b2d6a596971161b6ffb49f3b2833
