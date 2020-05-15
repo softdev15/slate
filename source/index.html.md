@@ -55,8 +55,6 @@ All API methods require you to be authenticated. This is done using an access to
 
 This access token should be sent in the header of all API requests you make. If your access token was `abc123token`, you would send it as the HTTP header `Authorization: Bearer abc123token`.
 
-# Reference
-
 ## Event Webhooks
 
 The webhooks will be triggered when there is a new validation result for a FileGroup. Currently you are required to manually provide Shipamax with the destination URL which the webhooks should call.
@@ -81,15 +79,15 @@ For webhook security we sign inbound requests to your application with an X-Ship
 }
 ```
 
-The `eventName` property describes what caused the message to be sent. There are currently two events you could receive:  
+The `eventName` property describes what caused the message to be sent. There are currently two events you could receive:
   ​
-- `Validation/BillOfLadingGroup/Failure`  
-- `Validation/BillOfLadingGroup/Success`  
-  
-These events are triggered when the bills of lading in a FileGroup fail and pass validation, respectively.  
-​  
-For more details of exception codes, check our [list of exceptions](#list-of-exceptions)  
-  
+- `Validation/BillOfLadingGroup/Failure`
+- `Validation/BillOfLadingGroup/Success`
+
+These events are triggered when the bills of lading in a FileGroup fail and pass validation, respectively.
+​
+For more details of exception codes, check our [list of exceptions](#list-of-exception-code-values)
+
 > Example of body sent via webhook:
 
 ```javascript
@@ -113,7 +111,7 @@ For more details of exception codes, check our [list of exceptions](#list-of-exc
 ```javascript
 curl -X POST \
   {CUSTOMER-WEBHOOK-URL} \
-  -H 'X-Shipamax-Signature-Version: v1' \  
+  -H 'X-Shipamax-Signature-Version: v1' \
   -H 'X-Shipamax-Signature: {SIGNATURE}' \
   -d '{
   "kind": "#shipamax-webhook",
@@ -129,6 +127,38 @@ curl -X POST \
    }
   }'
 ```
+
+## Validating webhook signatures
+
+When you receive a message on your configured webhook endpoint, you can check that the message really came from Shipamax by validating a signature that Shipamax will send with every request. You will receive a secret key as part of the onboarding process, and may receive new keys from us from time to time. This key is used to generate a cryptographic hash of the request.
+
+Each request will have the two HTTP headers `X-Shipamax-Signature-Version` and `X-Shipamax-Signature`.
+
+Currently all requests have a value of `v1` for the `X-Shipamax-Signature-Version` header. If in the future we change the method that you need to use to verify the signature, this version will be updated.
+
+To verify the message, use your secret key to generate an HMAC-SHA256 hash of the body of the HTTP request, and compare this to the value in the `X-Shipamax-Signature` header. If they match, then the message came from Shipamax. If they do not match then the message may have come from a malicious third-party, and should be ignored.
+
+For example with a secret of 12345 and a body of
+
+```json
+{
+  "kind": "#shipamax-webhook",
+  "eventName": "Validation/BillOfLadingGroup/Failure",
+  "payload": {
+    "fileGroupId": 13704,
+    "exceptions": [
+      {
+        "code": 23,
+        "description": "Bill of Lading: Multiple MBLs"
+      }
+    ]
+  }
+}
+```
+
+The resulting hash would be: `254c63d04d5c6d43cf8bb0b84830bfc51e40a97f6855b2357c02afa38a4b739f`
+
+# Reference
 
 ## FileGroup Endpoint
 
@@ -178,14 +208,14 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
           "shipper": string,
           "shipperCWCode": string,
           "consignee": string,
-          "consigneeCWCode": string,          
+          "consigneeCWCode": string,
           "notify": string,
           "notifyCWCode": string,
           "secondNotify": string,
           "secondNotifyCWCode": string,
           "destinationAgent": string,
           "carrier": string,
-          "carrierCWCode": string,          
+          "carrierCWCode": string,
           "grossWeight": string,
           "grossVolume": string,
           "vessel": string,
@@ -196,21 +226,21 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
           "dischargePort": string,
           "dischargePortUnlocode": string,
           "shippedOnBoardDate": date,
-          "paymentTerms": string,
+          "paymentTerms": PaymentTerm,
           "category": string,
-          "subcategory": string,
+          "releaseType": ReleaseType,
           "goodsDescription": string,
-          "transportMode": string,
-          "containerMode": string,
-          "shipmentType": string,
+          "transportMode": TransportMode,
+          "containerMode": ContainerMode,
+          "shipmentType": ConsolType | ShipmentType,
           "container": [
             {
-              "containerNo": string, 
+              "containerNo": string,
               "numberPieces": integer,
-              "pieceType": string,
+              "pieceType": PackageType,
               "weight": string,
               "volume": string,
-              "containerType": string,
+              "containerType": ContainerType,
               "seals": [string]
             }
           ]
@@ -229,7 +259,7 @@ Definition of the object attributes
 | lastValidationResult.isValid            | If validation was successful this flag will be true. If not, false.                                                               |
 | lastValidationResult.details            | Further detail on the type of exception                                                                                           |
 | lastValidationResult.details.validator  | Shipamax has multiple validators for different workflows and integrations. This specifies from which validator issued this result |
-| lastValidationResult.details.exceptions | The list of exceptions that caused validation to fail. Possible values can be seen in our [list of exceptions](#list-of-exceptions)     |
+| lastValidationResult.details.exceptions | The list of exceptions that caused validation to fail. Possible values can be seen in our [list of exceptions](#list-of-exception-code-values)     |
 | files                                   | List of files within the FileGroup                                                                                                |
 | files.filename                          | The name of the file as received within the email                                                                                 |
 | files.billOfLading                      | An array of bills of lading extracted from this file, if any.                                                                     |
@@ -249,7 +279,7 @@ Definition of the object attributes
 | files.billOfLading.secondNotifyCWCode   ||
 | files.billOfLading.destinationAgent     ||
 | files.billOfLading.carrier              ||
-| files.billOfLading.carrierCWCode        ||          
+| files.billOfLading.carrierCWCode        ||
 | files.billOfLading.grossWeight          ||
 | files.billOfLading.grossVolume          ||
 | files.billOfLading.vessel               ||
@@ -262,7 +292,7 @@ Definition of the object attributes
 | files.billOfLading.shippedOnBoardDate   ||
 | files.billOfLading.paymentTerms         ||
 | files.billOfLading.category             ||
-| files.billOfLading.subcategory          ||
+| files.billOfLading.releaseType          ||
 | files.billOfLading.goodsDescription     ||
 | files.billOfLading.transportMode        ||
 | files.billOfLading.containerMode        ||
@@ -311,14 +341,14 @@ Definition of the object attributes
           "shipper": "",
           "shipperCWCode": "",
           "consignee": "",
-          "consigneeCWCode": "",          
+          "consigneeCWCode": "",
           "notify": "",
           "notifyCWCode": "",
           "secondNotify": "",
           "secondNotifyCWCode": "",
           "destinationAgent": "",
           "carrier": "",
-          "carrierCWCode": "",          
+          "carrierCWCode": "",
           "grossWeight": "",
           "grossVolume": "",
           "vessel": "",
@@ -331,14 +361,14 @@ Definition of the object attributes
           "shippedOnBoardDate": "2020-05-07T15:24:47.338Z",
           "paymentTerms": "",
           "category": "",
-          "subcategory": "",
+          "releaseType": "",
           "goodsDescription": "",
           "transportMode": "",
           "containerMode": "",
           "shipmentType": "",
           "container": [
             {
-              "containerNo": "ABCD0123456", 
+              "containerNo": "ABCD0123456",
               "numberPieces": 10,
               "pieceType": "CTN",
               "weight": "",
@@ -399,7 +429,7 @@ Definition of the object attributes
 | --------------------------------------- | ----------------------------------------------------------------- |
 | isValid                                 | Definition whether the validation is successful or not            |
 | details.validator                       | Optional name of the application that produced this result, e.g. "CompanyABCValidator"   |
-| details.exceptions.code                 | Exception code, see the [list of exceptions](#list-of-exceptions)                |
+| details.exceptions.code                 | Exception code, see the [list of exceptions](#list-of-exception-code-values)                |
 | details.exceptions.description          | Optional field, used in case of custom exception which code is -1 |
 
 > Example of body to be POSTED:
@@ -425,7 +455,13 @@ You can retrieve all files processed by Shipamax. For example you can retrieve a
 
 https://public.shipamax-api.com/api/v2/Files/{id}
 
-## List of Exceptions
+## Lists of codes for fields
+
+Several fields listed in the sections above should usually only contain specific values from a known list. For example, where the type of the `releaseType` field of a billOfLading is given as `ReleaseType`, it means that the expected set of values comes from the [list of ReleaseType values](#list-of-releasetype-values).
+
+These values are show in the following lists.
+
+### List of ExceptionCode values
 
 Exception codes other than -1 have a specific meaning within the Shipamax system, as listed in the table below. When creating a validation result you should use an existing code where there is an appropriate one available, or -1 if there is not. You can use any description you like for any code, but the default descriptions for each code that Shipamax generates are listed in the table.
 
@@ -462,37 +498,111 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 28              | Multiple possible Jobs                                     |
 | -1              | Custom exception                                           |
 
+### List of PaymentTerm values
 
-## Validating webhook signatures
+| PaymentTerm | Description |
+| ----------- | ----------- |
+| CCX         | Collect     |
+| PPD         | Prepaid     |
 
-When Shipamax send a webhook the requests are signed with a signature in the HTTP header. The signature will consist of a version number and an HMAC-SHA256 hash.
+### List of ReleaseType values
 
-Current version: v1
+| ReleaseType | Description                              |
+| ----------- | ---------------------------------------- |
+| BRR         | Letter of Credit (Bank Release)          |
+| BSD         | Sight Draft (Bank Release)               |
+| BTD         | Time Draft (Bank Release)                |
+| CSH         | Company/Cashier Cheque                   |
+| CAD         | Cash Against Documents                   |
+| EBL         | Express Bill of Lading                   |
+| LOI         | Letter of Indemnity                      |
+| NON         | Not Negotiable unless consigned to Order |
+| OBO         | Original Bill - Surrendered at Origin    |
+| OBR         | Original Bill Required at Destination    |
+| SWB         | Sea Waybill                              |
 
-To verify this signature, perform the following steps:  
-- Calculate the HMAC-SHA256 hash using the secret key  
-- Compare the hash to the signature in the http header  
-- If they are equal the request is from Shipamax  
-  
-For example with a secret of 12345 and a body of  
+### List of ContainerType values
 
-```json
-{
-  "kind": "#shipamax-webhook",
-  "eventName": "Validation/BillOfLadingGroup/Failure",
-  "payload": {
-    "fileGroupId": 13704,
-    "exceptions": [
-      {
-        "code": 23,
-        "description": "Bill of Lading: Multiple MBLs"
-      }
-    ]
-  }
-}
-```
-  
-The resulting hash would be:  
-de6957d3af4e12b9d312da3be89070b2dbf5fbb40edce74f44e74bb38987d816  
-  
-  
+| ContainerType | Description                      |
+| ------------- | -------------------------------- |
+| 20NOR         | Twenty foot non-operating reefer |
+| 40FR          | Forty foot flatrack              |
+| 20FR          | Twenty foot flatrack             |
+| 40HC          | Forty foot high cube             |
+| 20GP          | Twenty foot general purpose      |
+| 40NOR         | Forty foot non-operating reefer  |
+| 40PL          | Forty foot platform              |
+| 40GP          | Forty foot general purpose       |
+| 20RE          | Twenty foot reefer               |
+| 20PL          | Twenty foot platform             |
+| 40RE          | Forty foot reefer                |
+| 20OT          | Twenty foot open top             |
+| 45HC          | Forty Five foot high cube        |
+| 40OT          | Forty foot open top              |
+| 40REHC        | Forty foot high cube reefer      |
+| 20HC          | Twenty foot high cube            |
+
+### List of ConsolType values
+
+| ConsolType | Description |
+| ---------- | ----------- |
+| AGT        | Agent       |
+| DRT        | Direct      |
+| CLD        | Co-Load     |
+| CHT        | Charter     |
+| COU        | Courier     |
+| OTH        | Other       |
+
+### List of TransportMode values
+
+| TransportMode | Description  |
+| ------------- | ------------ |
+| AIR           | Air Freight  |
+| SEA           | Sea Freight  |
+| ROA           | Road Freight |
+| RAI           | Rail Freight |
+
+### List of PackageType values
+
+| PackageType | Description        |
+| ----------- | ------------------ |
+| BAG         | Bag                |
+| BBG         | Bulk Bag           |
+| BBK         | Break Bulk         |
+| BLC         | Bale, Compressed   |
+| BLU         | Bale, Uncompressed |
+| BND         | Bundle             |
+| BOT         | Bottle             |
+| BOX         | Box                |
+| BSK         | Basket             |
+| CAS         | Case               |
+| COI         | Coil               |
+| CRD         | Cradle             |
+| CRT         | Crate              |
+| CTN         | Carton             |
+| CYL         | Cylinder           |
+| DOZ         | Dozen              |
+| DRM         | Drum               |
+| ENV         | Envelope           |
+| GRS         | Gross              |
+| KEG         | Keg                |
+| MIX         | Mix                |
+| PAI         | Pail               |
+| PCE         | Piece              |
+| PKG         | Package            |
+| PLT         | Pallet             |
+| REL         | Reel               |
+| RLL         | Roll               |
+| SHT         | Sheet              |
+| SKD         | Skid               |
+| SPL         | Spool              |
+| TOT         | Tote               |
+| TUB         | Tube               |
+| UNT         | Unit               |
+
+### List of ContainerMode values
+| PackageType | Description              |
+| ----------- | ------------------------ |
+| FCL         | Full Container Load      |
+| LCL         | Less than Container Load |
+| GRP         | Groupage                 |
