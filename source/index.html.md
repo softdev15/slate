@@ -168,9 +168,9 @@ A FileGroup is a collection of Files which may contain a BillOfLading entity. Th
 
 | Endpoint                   | Verb | Description                                                 |
 | -------------------------- | ---- | ----------------------------------------------------------- |
-| /FileGroup/{id}            | GET  | Get a Bill of Lading Group based on the given ID.           |
+| /FileGroups/{id}            | GET  | Get a Bill of Lading Group based on the given ID.           |
 
-Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/api/v2/FileGroup/{id}`
+Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/api/v2/FileGroups/{id}`
 
 > The GET FileGroup request returns JSON structured like this:
 
@@ -390,7 +390,7 @@ Definition of the object attributes
 
 ```javascript
 curl -X GET \
-  https://public.shipamax-api.com/api/v2/FileGroup/{id} \
+  https://public.shipamax-api.com/api/v2/FileGroups/{id} \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer {TOKEN}"
 ```
@@ -403,9 +403,9 @@ The following endpoint is currently available:
 
 | Endpoint                         | Verb  | Description                                                                       |
 | -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /FileGroup/{id}/validationResult | POST  | Submit a new validationResult making it the lastValidationesult of the FileGroup  |
+| /FileGroups/{id}/validationResult | POST  | Submit a new validationResult making it the lastValidationesult of the FileGroup  |
 
-Send a new validation result via `POST` request to `https://public.shipamax-api.com/api/v2/FileGroup/{id}/validationResult`
+Send a new validation result via `POST` request to `https://public.shipamax-api.com/api/v2/FileGroups/{id}/validationResult`
 
 > The POST validationResult request requires a body JSON structured like this:
 
