@@ -179,7 +179,7 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
   "id": integer,
   "created": "[ISO8601 timestamp]",
   "lastValidationResult": {
-    "isValid": boolean,
+    "isSuccess": boolean,
     "details": {
       "validator": string,
       "exceptions": [
@@ -256,7 +256,7 @@ Definition of the object attributes
 | Attribute                               |  Description                                                                                                                      |
 | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | lastValidationResult                    | The result of the most recent validation                                                                                          |
-| lastValidationResult.isValid            | If validation was successful this flag will be true. If not, false.                                                               |
+| lastValidationResult.isSuccess          | If validation was successful this flag will be true. If not, false.                                                               |
 | lastValidationResult.details            | Further detail on the type of exception                                                                                           |
 | lastValidationResult.details.validator  | Shipamax has multiple validators for different workflows and integrations. This specifies from which validator issued this result |
 | lastValidationResult.details.exceptions | The list of exceptions that caused validation to fail. Possible values can be seen in our [list of exceptions](#list-of-exception-code-values)     |
@@ -313,7 +313,7 @@ Definition of the object attributes
   "id": 1,
   "created": "2020-05-07T15:24:47.338Z",
   "lastValidationResult": {
-    "isValid": false,
+    "isSuccess": false,
     "details": {
       "validator": "BillOfLadingValidator",
       "exceptions": [
@@ -411,7 +411,7 @@ Send a new validation result via `POST` request to `https://public.shipamax-api.
 
 ```json
 {
-  "isValid": boolean,
+  "isSuccess": boolean,
   "details":  {
     "validator": string,
     "exceptions": [
@@ -427,7 +427,7 @@ Definition of the object attributes
 
 | Attribute                               |  Description                                                      |
 | --------------------------------------- | ----------------------------------------------------------------- |
-| isValid                                 | Definition whether the validation is successful or not            |
+| isSuccess                               | Definition whether the validation is successful or not            |
 | details.validator                       | Optional name of the application that produced this result, e.g. "CompanyABCValidator"   |
 | details.exceptions.code                 | Exception code, see the [list of exceptions](#list-of-exception-code-values)                |
 | details.exceptions.description          | Optional field, used in case of custom exception which code is -1 |
@@ -436,7 +436,7 @@ Definition of the object attributes
 
 ```json
 {
-  "isValid": false,
+  "isSuccess": false,
   "details":  {
     "validator": "CompanyABCValidator",
     "exceptions": [
