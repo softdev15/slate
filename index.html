@@ -321,14 +321,27 @@
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
-<p>The <code>eventName</code> property describes what caused the message to be sent. There are currently two events you could receive:
-  ​
-- <code>Validation/BillOfLadingGroup/Failure</code>
-- <code>Validation/BillOfLadingGroup/Success</code></p>
+<p>The <code>eventName</code> property describes what caused the message to be sent. There are currently two events you could receive:</p>
+
+<table><thead>
+<tr>
+<th>Event Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Validation/BillOfLadingGroup/Success</td>
+<td>Validation finished and succeed</td>
+</tr>
+<tr>
+<td>Validation/BillOfLadingGroup/Failure</td>
+<td>Validation finished with exceptions</td>
+</tr>
+</tbody></table>
 
 <p>These events are triggered when the bills of lading in a FileGroup fail and pass validation, respectively.
 ​
-For more details of exception codes, check our <a href="#list-of-exception-code-values">list of exceptions</a></p>
+For more details of exception codes, check our <a href="#list-of-exceptioncode-values">list of exceptions</a></p>
 
 <blockquote>
 <p>Example of body sent via webhook:</p>
@@ -517,7 +530,7 @@ A FileGroup is a collection of Files which may contain a BillOfLading entity. Th
 </tr>
 <tr>
 <td>lastValidationResult.details.exceptions</td>
-<td>The list of exceptions that caused validation to fail. Possible values can be seen in our <a href="#list-of-exception-code-values">list of exceptions</a></td>
+<td>The list of exceptions that caused validation to fail. Possible values can be seen in our <a href="#list-of-exceptioncode-values">list of exceptions</a></td>
 </tr>
 <tr>
 <td>files</td>
@@ -838,7 +851,7 @@ A FileGroup is a collection of Files which may contain a BillOfLading entity. Th
 </tr>
 <tr>
 <td>details.exceptions.code</td>
-<td>Exception code, see the <a href="#list-of-exception-code-values">list of exceptions</a></td>
+<td>Exception code, see the <a href="#list-of-exceptioncode-values">list of exceptions</a></td>
 </tr>
 <tr>
 <td>details.exceptions.description</td>
