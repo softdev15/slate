@@ -80,13 +80,15 @@ For webhook security we sign inbound requests to your application with an X-Ship
 ```
 
 The `eventName` property describes what caused the message to be sent. There are currently two events you could receive:
-  ​
-- `Validation/BillOfLadingGroup/Failure`
-- `Validation/BillOfLadingGroup/Success`
+  
+| Event Name                                   | Description                          |
+| -------------------------------------------- | ------------------------------------ |
+| Validation/BillOfLadingGroup/Success         | Validation finished and succeed      |
+| Validation/BillOfLadingGroup/Failure         | Validation finished with exceptions  |
 
 These events are triggered when the bills of lading in a FileGroup fail and pass validation, respectively.
 ​
-For more details of exception codes, check our [list of exceptions](#list-of-exception-code-values)
+For more details of exception codes, check our [list of exceptions](#list-of-exceptioncode-values)
 
 > Example of body sent via webhook:
 
@@ -259,7 +261,7 @@ Definition of the object attributes
 | lastValidationResult.isSuccess          | If validation was successful this flag will be true. If not, false.                                                               |
 | lastValidationResult.details            | Further detail on the type of exception                                                                                           |
 | lastValidationResult.details.validator  | Shipamax has multiple validators for different workflows and integrations. This specifies from which validator issued this result |
-| lastValidationResult.details.exceptions | The list of exceptions that caused validation to fail. Possible values can be seen in our [list of exceptions](#list-of-exception-code-values)     |
+| lastValidationResult.details.exceptions | The list of exceptions that caused validation to fail. Possible values can be seen in our [list of exceptions](#list-of-exceptioncode-values)     |
 | files                                   | List of files within the FileGroup                                                                                                |
 | files.filename                          | The name of the file as received within the email                                                                                 |
 | files.billOfLading                      | An array of bills of lading extracted from this file, if any.                                                                     |
@@ -429,7 +431,7 @@ Definition of the object attributes
 | --------------------------------------- | ----------------------------------------------------------------- |
 | isSuccess                               | Definition whether the validation is successful or not            |
 | details.validator                       | Optional name of the application that produced this result, e.g. "CompanyABCValidator"   |
-| details.exceptions.code                 | Exception code, see the [list of exceptions](#list-of-exception-code-values)                |
+| details.exceptions.code                 | Exception code, see the [list of exceptions](#list-of-exceptioncode-values)                |
 | details.exceptions.description          | Optional field, used in case of custom exception which code is -1 |
 
 > Example of body to be POSTED:
