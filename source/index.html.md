@@ -208,16 +208,16 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
           "isRated": boolean,
           "isDraft": boolean,
           "shipper": string,
-          "shipperCWCode": string,
+          "shipperCode": string,
           "consignee": string,
-          "consigneeCWCode": string,
+          "consigneeCode": string,
           "notify": string,
-          "notifyCWCode": string,
+          "notifyCode": string,
           "secondNotify": string,
-          "secondNotifyCWCode": string,
+          "secondNotifyCode": string,
           "destinationAgent": string,
           "carrier": string,
-          "carrierCWCode": string,
+          "carrierCode": string,
           "grossWeight": string,
           "grossVolume": string,
           "vessel": string,
@@ -272,16 +272,16 @@ Definition of the object attributes
 | files.billOfLading.isRated              | If isRated is True, then the Bill of Lading contains pricing for the transport of the goods                                       |
 | files.billOfLading.isDraft              | If isDraft is True, then this Bills of Lading is a Draft version and not Final                                                    |
 | files.billOfLading.shipper              ||
-| files.billOfLading.shipperCWCode        ||
+| files.billOfLading.shipperCode          ||
 | files.billOfLading.consignee            ||
-| files.billOfLading.consigneeCWCode      ||
+| files.billOfLading.consigneeCode        ||
 | files.billOfLading.notify               ||
-| files.billOfLading.notifyCWCode         ||
+| files.billOfLading.notifyCode           ||
 | files.billOfLading.secondNotify         ||
-| files.billOfLading.secondNotifyCWCode   ||
+| files.billOfLading.secondNotifyCode     ||
 | files.billOfLading.destinationAgent     ||
 | files.billOfLading.carrier              ||
-| files.billOfLading.carrierCWCode        ||
+| files.billOfLading.carrierCode          ||
 | files.billOfLading.grossWeight          ||
 | files.billOfLading.grossVolume          ||
 | files.billOfLading.vessel               ||
@@ -341,16 +341,16 @@ Definition of the object attributes
           "isRated": true,
           "isDraft": false,
           "shipper": "",
-          "shipperCWCode": "",
+          "shipperCode": "",
           "consignee": "",
-          "consigneeCWCode": "",
+          "consigneeCode": "",
           "notify": "",
-          "notifyCWCode": "",
+          "notifyCode": "",
           "secondNotify": "",
-          "secondNotifyCWCode": "",
+          "secondNotifyCode": "",
           "destinationAgent": "",
           "carrier": "",
-          "carrierCWCode": "",
+          "carrierCode": "",
           "grossWeight": "",
           "grossVolume": "",
           "vessel": "",
