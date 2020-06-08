@@ -143,22 +143,10 @@ To verify the message, use your secret key to generate an HMAC-SHA256 hash of th
 For example with a secret of 12345 and a body of
 
 ```json
-{
-  "kind": "#shipamax-webhook",
-  "eventName": "Validation/BillOfLadingGroup/Failure",
-  "payload": {
-    "fileGroupId": 13704,
-    "exceptions": [
-      {
-        "code": 23,
-        "description": "Bill of Lading: Multiple MBLs"
-      }
-    ]
-  }
-}
+{"kind":"#shipamax-webhook","eventName":"Validation/BillOfLadingGroup/Failure","payload":{"exceptions":[{"code":22,"description":"Bill of Lading: Missing MBL"}],"fileGroupId":48751}}
 ```
 
-The resulting hash would be: `254c63d04d5c6d43cf8bb0b84830bfc51e40a97f6855b2357c02afa38a4b739f`
+The resulting hash would be: `9e6066637a3020bd2cc15ce8a6f18e9e43d63e169a6d355c882fe457d87f0130`
 
 # Reference
 
