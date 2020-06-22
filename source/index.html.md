@@ -148,6 +148,16 @@ For example with a secret of 12345 and a body of
 
 The resulting hash would be: `9e6066637a3020bd2cc15ce8a6f18e9e43d63e169a6d355c882fe457d87f0130`
 
+
+## Long-term support and versioning
+
+Shipamax aims to be a partner to our customers, this means continuously improving everything including our APIs. However, this does mean that APIs can only be supported for a given timeframe. We aim to honour the expected End-Of-Life, but in case this is not possible we will work with our customers to find a solution.  
+  
+Version: v1  
+Launch: April 2020  
+Expected End-Of-Live: March 2023  
+
+
 # Reference
 
 ## FileGroup Endpoint
