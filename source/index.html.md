@@ -78,15 +78,16 @@ For webhook security we sign inbound requests to your application with an X-Ship
 }
 ```
 
-The `eventName` property describes what caused the message to be sent. There are currently two events you could receive:
+The `eventName` property describes what caused the message to be sent. There are currently three events you could receive:
   
-| Event Name                                   | Description                          |
-| -------------------------------------------- | ------------------------------------ |
-| Validation/BillOfLadingGroup/Success         | Validation finished and succeed      |
-| Validation/BillOfLadingGroup/Failure         | Validation finished with exceptions  |
+| Event Name                                   | Description                                |
+| -------------------------------------------- | ------------------------------------------ |
+| Validation/BillOfLadingGroup/Success         | Validation finished and succeed            |
+| Validation/BillOfLadingGroup/Failure         | Validation finished with exceptions        |
+| Validation/BillOfLadingGroup/NoBillsOfLading | File received but no bills of lading found |
 
-These events are triggered when the bills of lading in a FileGroup fail and pass validation, respectively.
-​
+These events are triggered when the bills of lading in a FileGroup validation pass, fail or no bill of lading is found in the file, respectively.
+
 For more details of exception codes, check our [list of exceptions](#list-of-exceptioncode-values)
 
 > Example of body sent via webhook:
