@@ -524,6 +524,7 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | OBO         | Original Bill - Surrendered at Origin    |
 | OBR         | Original Bill Required at Destination    |
 | SWB         | Sea Waybill                              |
+| TLX         | Telex Release                            |
 
 ### List of ContainerType values
 
