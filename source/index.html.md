@@ -491,11 +491,15 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 21              | CargoWise: Invoice Number already exists                   |
 | 22              | Bill of Lading: Missing MBL                                |
 | 23              | Bill of Lading: Multiple MBLs                              |
-| 24              | Bill of Lading: MBL likely mis-classified                  |
+| 24              | Bill of Lading: Incorrect Consignee for Consol Type        |
 | 25              | Bill of Lading: Missing HBLs                               |
 | 26              | CargoWise: Manual approval required to post                |
 | 27              | Unable to Match to Job                                     |
 | 28              | Multiple possible Jobs                                     |
+| 29              | Bill Of lading: Missing job references                     |
+| 30              | Bill Of lading: Missing SCAC                               |
+| 31              | Supplied job reference does not exist in CargoWise         |
+| 32              | Bill of Lading: MBL missing Consignee                      |
 | -1              | Custom exception                                           |
 
 ### List of PaymentTerm values
