@@ -233,6 +233,7 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
           "transportMode": TransportMode,
           "containerMode": ContainerMode,
           "shipmentType": ConsolType | ShipmentType,
+          "jobRef": string,
           "container": [
             {
               "containerNo": string,
@@ -269,6 +270,7 @@ Definition of the object attributes
 | files.billOfLading.scac                 | This is the SCAC code for the issuer of the Bill of Lading                                                                        |
 | files.billOfLading.isRated              | If isRated is True, then the Bill of Lading contains pricing for the transport of the goods                                       |
 | files.billOfLading.isDraft              | If isDraft is True, then this Bills of Lading is a Draft version and not Final                                                    |
+| files.billOfLading.jobRef               | Importer Job Ref                                                                                                                  |
 | files.billOfLading.shipper              ||
 | files.billOfLading.shipperCode          ||
 | files.billOfLading.consignee            ||
@@ -366,6 +368,7 @@ Definition of the object attributes
           "transportMode": "",
           "containerMode": "",
           "shipmentType": "",
+          "jobRef": "",
           "container": [
             {
               "containerNo": "ABCD0123456",
