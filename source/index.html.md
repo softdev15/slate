@@ -232,7 +232,8 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
           "goodsDescription": string,
           "transportMode": TransportMode,
           "containerMode": ContainerMode,
-          "shipmentType": ConsolType | ShipmentType,
+          "shipmentType": ShipmentType,
+          "consolType": ConsolType,
           "jobRef": string,
           "container": [
             {
