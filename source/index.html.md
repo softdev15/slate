@@ -470,45 +470,55 @@ These values are show in the following lists.
 Exception codes other than -1 have a specific meaning within the Shipamax system, as listed in the table below. When creating a validation result you should use an existing code where there is an appropriate one available, or -1 if there is not. You can use any description you like for any code, but the default descriptions for each code that Shipamax generates are listed in the table.
 
 
-| Exception code  | Description                                                     |
-| --------------- | --------------------------------------------------------------- |
-| 1               | Supplier Invoice: Missing Invoice Number                        |
-| 2               | Supplier Invoice: Missing Invoice Date                          |
-| 3               | Supplier Invoice: Missing Issuer                                |
-| 4               | Supplier Invoice: Missing Invoice Total                         |
-| 5               | Supplier Invoice: Missing Invoice Currency                      |
-| 6               | Supplier Invoice: No Job references                             |
-| 7               | CargoWise: Invalid Addressee                                    |
-| 8               | CargoWise: Duplicate Invoice Number                             |
-| 9               | CargoWise: Total didn't match accruals                          |
-| 10              | CargoWise: Currencies didn't match                              |
-| 11              | CargoWise: VAT didn't match                                     |
-| 12              | CargoWise: Failed to post to Cargowise                          |
-| 13              | CargoWise: More than 1 accrual combination                      |
-| 14              | CargoWise: Missing CargoWise code for issuer                    |
-| 15              | CargoWise: One or more costs is apportioned to a consol         |
-| 16              | Demo: Document passed validation                                |
-| 17              | Supplier Invoice: Invoice date is in the future                 |
-| 18              | CargoWise: Shipment not found                                   |
-| 19              | CargoWise: Error on Cargowise HTTP request                      |
-| 20              | The validation process itself failed                            |
-| 21              | CargoWise: Invoice Number already exists                        |
-| 22              | Bill of Lading: Missing MBL                                     |
-| 23              | Bill of Lading: Multiple MBLs                                   |
-| 24              | Bill of Lading: Incorrect Consignee for Consol Type             |
-| 25              | Bill of Lading: Missing HBLs                                    |
-| 26              | CargoWise: Manual approval required to post                     |
-| 27              | Unable to Match to Job                                          |
-| 28              | Multiple possible Jobs                                          |
-| 29              | Bill Of lading: Missing job references                          |
-| 30              | Bill Of lading: Missing SCAC                                    |
-| 31              | Supplied job reference does not exist in CargoWise              |
-| 32              | Bill of Lading: MBL missing Consignee                           |
-| 33              | CargoWise: Documents exceeds maximum file size limit of 10MB    |
-| 34              | CargoWise: Jobs don't add up to total                           |
-| 35              | CargoWise: More than 1 accrual combination for highlighted jobs |
-| 36              | CargoWise: Totals didn't match accruals for highlighted jobs    |
-| -1              | Custom exception                                                |
+| Exception code  | Description                                                       |
+| --------------- | ----------------------------------------------------------------- |
+| 1               | Supplier Invoice: Missing Invoice Number                          |
+| 2               | Supplier Invoice: Missing Invoice Date                            |
+| 3               | Supplier Invoice: Missing Issuer                                  |
+| 4               | Supplier Invoice: Missing Invoice Total                           |
+| 5               | Supplier Invoice: Missing Invoice Currency                        |
+| 6               | Supplier Invoice: No Job references                               |
+| 7               | CargoWise: Invalid Addressee                                      |
+| 8               | CargoWise: Duplicate Invoice Number                               |
+| 9               | CargoWise: Total didn't match accruals                            |
+| 10              | CargoWise: Currencies didn't match                                |
+| 11              | CargoWise: VAT didn't match                                       |
+| 12              | CargoWise: Failed to post to Cargowise                            |
+| 13              | CargoWise: More than 1 accrual combination                        |
+| 14              | CargoWise: Missing CargoWise code for issuer                      |
+| 15              | CargoWise: One or more costs is apportioned to a consol           |
+| 16              | Demo: Document passed validation                                  |
+| 17              | Supplier Invoice: Invoice date is in the future                   |
+| 18              | CargoWise: Shipment not found                                     |
+| 19              | CargoWise: Error on Cargowise HTTP request                        |
+| 20              | The validation process itself failed                              |
+| 21              | CargoWise: Invoice Number already exists                          |
+| 22              | Bill of Lading: Missing MBL                                       |
+| 23              | Bill of Lading: Multiple MBLs                                     |
+| 24              | Bill of Lading: Incorrect Consignee for Consol Type               |
+| 25              | Bill of Lading: Missing HBLs                                      |
+| 26              | CargoWise: Manual approval required to post                       |
+| 27              | Unable to Match to Job                                            |
+| 28              | Multiple possible Jobs                                            |
+| 29              | Bill Of lading: Missing job references                            |
+| 30              | Bill Of lading: Missing SCAC                                      |
+| 31              | Supplied job reference does not exist in CargoWise                |
+| 32              | Bill of Lading: MBL missing Consignee                             |
+| 33              | CargoWise: Documents exceeds maximum file size limit of 10MB      |
+| 34              | CargoWise: Jobs don't add up to total                             |
+| 35              | CargoWise: More than 1 accrual combination for highlighted jobs   |
+| 36              | CargoWise: Totals didn't match accruals for highlighted jobs      |
+| 37              | Supplier Invoice: Job not in any clusters                         |
+| 38              | Bill of lading: Missing consignor/consignee                       |
+| 39              | Bill of lading: Missing origin                                    |
+| 40              | Bill Of lading: Missing destination                               |
+| 41              | Bill of lading: Missing container mode                            |
+| 42              | Bill of lading: Missing release type                              |
+| 43              | Bill of lading: Missing packing mode                              |
+| 44              | CargoWise: No accruals found for this creditor on highlighted job |
+| 45              | Error in pre-validator (please contact support)                   |
+| 46              | Error in CargoWise validator (please contact support)             |
+| -1              | Custom exception                                                  |
 
 ### List of PaymentTerm values
 
