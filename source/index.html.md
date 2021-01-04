@@ -634,3 +634,45 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | FCL         | Full Container Load      |
 | LCL         | Less than Container Load |
 | GRP         | Groupage                 |
+
+## Commercial invoice
+
+The commercial invoice extraction API is still work in progress.
+
+> The Commercial invoice API returns JSON structured like this:
+
+```json
+[
+{
+  "CommercialInvoice": {
+  "id": float,
+  "documentId": float,
+  "unqId" : string,
+  "supplier": string,
+  "supplierRecordId": string,
+  "importer": string,
+  "importerRecordId": string,
+  "invoiceNumber": string,
+  "invoiceDate": string,
+  "grossTotal": float,
+  "netTotal": float,
+  "currency": string,
+  "currencyId": string,
+  "incoTerm": string,
+  "commercialInvoiceLineItem": [
+    {
+      "invoiceId": integer,
+      "description": string,
+      "quantity": integer,
+      "unitPrice": float,
+      "lineTotal": float,
+      "unitType": string, 
+      "productCode": string, 
+      "originCountry": string,
+      "originCountryId": integer
+    }  
+  ]
+  }
+}
+]
+```
