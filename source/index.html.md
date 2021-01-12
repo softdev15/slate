@@ -206,18 +206,8 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
           "isRated": boolean,
           "isDraft": boolean,
           "shipper": string,
-          "shipperCode": string,
           "consignee": string,
-          "consigneeCode": string,
-          "notify": string,
-          "notifyCode": string,
-          "secondNotify": string,
-          "secondNotifyCode": string,
-          "destinationAgent": string,
           "carrier": string,
-          "carrierCode": string,
-          "grossWeight": string,
-          "grossVolume": string,
           "vessel": string,
           "vesselIMO": string,
           "voyageNumber": string,
@@ -234,16 +224,25 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
           "containerMode": ContainerMode,
           "shipmentType": ShipmentType,
           "consolType": ConsolType,
-          "jobRef": string,
+          "notify": [
+            {
+              "notifyParty": String
+            }
+          ],
+          "importerReference:": [
+            { 
+              "importerReference": String,
+            }
+          ],
           "container": [
             {
               "containerNo": string,
-              "numberPieces": integer,
-              "pieceType": PackageType,
-              "weight": string,
-              "volume": string,
               "containerType": ContainerType,
-              "seals": [string]
+              "seals": [
+                {
+                  "sealNo": string
+                }
+              ]
             }
           ]
         }
@@ -271,20 +270,11 @@ Definition of the object attributes
 | files.billOfLading.scac                 | This is the SCAC code for the issuer of the Bill of Lading                                                                        |
 | files.billOfLading.isRated              | If isRated is True, then the Bill of Lading contains pricing for the transport of the goods                                       |
 | files.billOfLading.isDraft              | If isDraft is True, then this Bills of Lading is a Draft version and not Final                                                    |
-| files.billOfLading.jobRef               | Importer Job Ref                                                                                                                  |
+| files.billOfLading.importerReference    | Importer Job Ref List                                                                                                             |
+| files.billOfLading.notify               | Notify List                                                                                                                       |
 | files.billOfLading.shipper              ||
-| files.billOfLading.shipperCode          ||
 | files.billOfLading.consignee            ||
-| files.billOfLading.consigneeCode        ||
-| files.billOfLading.notify               ||
-| files.billOfLading.notifyCode           ||
-| files.billOfLading.secondNotify         ||
-| files.billOfLading.secondNotifyCode     ||
-| files.billOfLading.destinationAgent     ||
 | files.billOfLading.carrier              ||
-| files.billOfLading.carrierCode          ||
-| files.billOfLading.grossWeight          ||
-| files.billOfLading.grossVolume          ||
 | files.billOfLading.vessel               ||
 | files.billOfLading.vesselIMO            ||
 | files.billOfLading.voyageNumber         ||
@@ -301,10 +291,6 @@ Definition of the object attributes
 | files.billOfLading.containerMode        ||
 | files.billOfLading.shipmentType         ||
 | files.billOfLading.container.containerNo         ||
-| files.billOfLading.container.numberPieces         ||
-| files.billOfLading.container.pieceType         ||
-| files.billOfLading.container.weight         ||
-| files.billOfLading.container.volume         ||
 | files.billOfLading.container.containerType         ||
 | files.billOfLading.container.seals         ||
 
@@ -342,18 +328,8 @@ Definition of the object attributes
           "isRated": true,
           "isDraft": false,
           "shipper": "",
-          "shipperCode": "",
           "consignee": "",
-          "consigneeCode": "",
-          "notify": "",
-          "notifyCode": "",
-          "secondNotify": "",
-          "secondNotifyCode": "",
-          "destinationAgent": "",
           "carrier": "",
-          "carrierCode": "",
-          "grossWeight": "",
-          "grossVolume": "",
           "vessel": "",
           "vesselIMO": "",
           "voyageNumber": "",
@@ -369,17 +345,24 @@ Definition of the object attributes
           "transportMode": "",
           "containerMode": "",
           "shipmentType": "",
-          "jobRef": "",
+          "notify": [
+            {
+              "notifyParty": ""
+            }
+          ],
+          "importerReference:": [
+            { 
+              "importerReference": "C0000001",
+            }
+          ],
           "container": [
             {
               "containerNo": "ABCD0123456",
-              "numberPieces": 10,
-              "pieceType": "CTN",
-              "weight": "",
-              "volume": "",
               "containerType": "40GP",
               "seals": [
-                "AB1234567"
+                {
+                  "sealNo": "AB1234567"
+                }
               ]
             }
           ]
