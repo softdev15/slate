@@ -436,11 +436,57 @@ Definition of the object attributes
 }
 ```
 
-## Get file Endpoint
+## File Endpoint
+
+### GET File
 
 You can retrieve all files processed by Shipamax. For example you can retrieve a bill of lading which was send to Shipamax as an attachment to an email. Files can be retrieved via their unique ID. The response of the endpoint is a byte stream.
 
 https://public.shipamax-api.com/api/v2/Files/{id}
+
+### POST Files/upload
+
+You are able to upload files directly to Shipamax. The endpoint takes files as `form-data` with a key of `req`, as well as three URL parameters `customId`, `mailbox`, and `documentType` (optional). The endpoint will respond with a `JSON` object
+containing information of all files successfully processed into the system.
+
+The documents will be processed as though they were attachments of a single email sent to the given Shipamax mailbox address. The mailbox settings determine whether all of the files are considered part of one group, and what kinds of documents will be validated.
+
+If the mailbox given does not exist, an error will be returned and the documents will not be processed, as it would not be possible to determine settings for processing and validation.
+
+https://public.shipamax-api.com/api/v2/Files/upload
+
+URL Parameter Definitions
+
+| Parameter                               |  Description                                                      |
+| --------------------------------------- | ----------------------------------------------------------------- |
+| customId                                | Your unique identifier of the documents, could be a uuid4 string. |
+| mailbox                                 | The mailbox address e.g. xxx@yyy.com                              |
+| documentType                            | The documentType of the document(s) you are posting. **If you specify a document type with multiple documents, they will all process as that type** |
+
+
+> Example curl to upload files:
+```shell
+curl -X POST 
+  -H 'Authorization: ${BEARER_TOKEN}'
+  -F 'req=${FILE_LOCATION}'
+  -F 'req=${FILE_LOCATION_2}'
+  'https://public.shipamax-api.com/api/v2/Files/upload?customId=${CUSTOM_ID}\&mailbox=${MAILBOX}'
+```
+
+> The POST /upload endpoint responds with JSON like this:
+```json
+{
+  "customId": "CUSTOM_ID",
+  "companyId": 000000,
+  "filename": "FILE_NAME",
+  "sourceId": 4,
+  "hash": "HASH",
+  "groupId": 00000,
+  "emailId": 000000,
+  "id": 000000,
+  "unqId": "UNQ_ID"
+}
+```
 
 ## Lists of codes for fields
 
@@ -617,3 +663,19 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | FCL         | Full Container Load      |
 | LCL         | Less than Container Load |
 | GRP         | Groupage                 |
+
+### List of DocumentType values
+| Code         | Description
+| ------------ | ------------------------------ |
+| 0            | Miscellaneous                  |
+| 1            | Bill of Lading                 |
+| 2            | Arrival Notice                 |
+| 3            | Delivery Order                 |
+| 4            | Payables Invoice               |
+| 5            | Commercial Invoice             |
+| 6            | Master Bill of Lading          |
+| 7            | House Bill of Lading           |
+| 8            | Packing List                   |
+| 9            | Packing Declaration            |
+| 10           | Certificate of Origin          |
+| 1000         | Multiple documents in one file |
