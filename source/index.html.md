@@ -501,17 +501,18 @@ If the request is empty an error will be returned.
 | ----------------------------- | ------ | ----------------------------------------------------------- |
 | /CargowiseReferences/send     | POST   | Send Cargowise reference data                               |
 
-Send Cargowise reference data (xml) by making a `POST` request to `https://public.shipamax-api.com/api/v2/CargowiseReferences/send`
+Send Cargowise reference data (xml) by making a `POST` request to
+`https://public.shipamax-api.com/api/v2/CargowiseReferences/send`
 
 This endpoint can be used to send Organization/Container Number/Product Code reference data.
 How to send each of these format has been explained in this document below.
 
-Organization data:
+#### Organization data:
 This is a <UniversalInterchange> request.
 XML tag <OrgHeader></OrgHeader> wraps up all the organization related details such as Organization code, name, address etc..
 
 >Example xml format when sending organization data:
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <UniversalInterchange xmlns="http://www.cargowise.com/Schemas/Universal/2011/11" version="1.1">
   <Header>
@@ -619,14 +620,14 @@ XML tag <OrgHeader></OrgHeader> wraps up all the organization related details su
 </UniversalInterchange>
 ```
 
-Container reference data:
+#### Container reference data:
 This is a <UniversalInterchange> request.
 XML tag <UniversalShipment></UniversalShipment> wraps up all the container reference data,
 You can specify multiple containers by repeating the <Container></Container> XML tag.
 Similarly, multiple shipments can be specified by repeating <SubShipment></SubShipment> XML tag.
 
 >Example xml format when sending Container reference data:
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <UniversalInterchange xmlns="http://www.cargowise.com/Schemas/Universal/2011/11" version="1.1">
   <Header>
@@ -693,12 +694,12 @@ Similarly, multiple shipments can be specified by repeating <SubShipment></SubSh
 </UniversalInterchange>
 ```
 
-Product code data:
+#### Product code data:
 This is a <XmlInterchange> request.
 XML tag <Products></Products> wraps up all the product code related data.
 
 >Example xml format when sending product code data:
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <XmlInterchange xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="1" xmlns="http://www.edi.com.au/EnterpriseService/">
   <InterchangeInfo>
@@ -787,7 +788,7 @@ Cragowise Reference endpoint can also accept SOAP message which is a Cargowise d
 you can also take the message encoded within the SOAP message and post it as a request to the Cargowise reference endpoint.
 
 >Example xml format when sending SOAP message:
-```
+```xml
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
   <s:Header>
     <h:SendStreamRequestTrackingID xmlns:h="http://CargoWise.com/eHub/2010/06">8c5e5518-b1b4-4c4e-8c23-14970e00ea0e</h:SendStreamRequestTrackingID>
@@ -815,7 +816,7 @@ you can also take the message encoded within the SOAP message and post it as a r
 ```
 
 >The POST /send endpoint responds with data as 'text/xml' like this
-```
+```xml
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
         <s:Header>
           <o:Security s:mustUnderstand="1" xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
