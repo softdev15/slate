@@ -679,3 +679,82 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 9            | Packing Declaration            |
 | 10           | Certificate of Origin          |
 | 1000         | Multiple documents in one file |
+
+
+## Submit customs declarations endpoint
+This endpoint allows you to submit customs declarations. It has a country-dependent section and a country-independent section.
+
+| Endpoint                         | Verb  | Description                                                                       |
+| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
+| /CustomsDeclarations/Submit/{id} | POST  | Submit a customs declaration  |
+
+> The POST request requires a body JSON structured like this:
+
+```json
+{
+  "custom_id": string, (optional),
+  "goods": [],
+  "submission_details": [],
+  "movement_details": []
+}
+```
+Definition of the object attributes
+
+| Attribute                               |  Description                                                      |
+| --------------------------------------- | ----------------------------------------------------------------- |
+| custom_id                               | Custom submission ID            |
+| goods                               | Details of the goods            |
+| submission_details                               | Country specific submission details            |
+| movement_details                               | Movement specific details of the vehicle, ship or aircraft            |
+
+## Retrieve the status of one customs declarations endpoint
+This endpoint allows you to retrieve the current status of one customs declarations which have been submitted via Shipamax to the customs authorities.  
+
+  
+| Endpoint                         | Verb  | Description                                                                       |
+| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
+| /CustomsDeclarations/Status/{id} | GET  | Get customs declaration status by Shipamax submission ID  |
+
+> The request returns a body JSON structured like this:
+
+```json
+{
+  "status": {
+    "code": integer,
+    "message": string,
+    "authority_status": {
+      "id": integer,
+      "message": string,
+    }
+  }
+}
+```
+
+## Withdraw customs declarations endpoint
+This endpoint allows you to withdraw customs declarations which have been submitted via Shipamax to the customs authorities.  
+
+  
+| Endpoint                         | Verb  | Description                                                                       |
+| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
+| /CustomsDeclarations/Withdraw/{id} | POST  | Withdraws a submitted customs declaration by Shipamax submission ID  |
+
+
+## Register customs declarations notifications webhook endpoint
+Endpoint to register your webhook. Your webhook will receive status updates after a customs declarations have been sumitted. You can also manually retrieve a status.
+
+| Endpoint                         | Verb  | Description                                                                       |
+| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
+| /CustomsDeclarations/RegisterSubmissionsWebhook/{id} | POST  | Registers your webhook  |
+
+> The POST request requires a body JSON structured like this:
+
+```json
+{
+  "url": string,
+}
+```
+Definition of the object attributes
+
+| Attribute                               |  Description                                                      |
+| --------------------------------------- | ----------------------------------------------------------------- |
+| url                               | Url of your webhook            |
