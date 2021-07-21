@@ -488,6 +488,347 @@ curl -X POST
 }
 ```
 
+## Cargowise Reference Endpoint
+
+### POST CargowiseReference/send
+
+You are able to send Cargowise reference data (XML) directly to Shipamax. The endpoint takes the content-type as 'text/xml', and the request body as raw data. The endpoint will respond with a `text/xml`.
+
+The Cargowise reference request will then be saved to the database as text or string('utf-8) and added to a queue to be processed later as a first come first serve basis, hence the API endpoint will mostly always return success status.
+If the request is empty an error will be returned.
+
+| Endpoint                      | Verb   | Description                                                 |
+| ----------------------------- | ------ | ----------------------------------------------------------- |
+| /CargowiseReferences/send     | POST   | Send Cargowise reference data                               |
+
+Send Cargowise reference data (xml) by making a `POST` request to `https://public.shipamax-api.com/api/v2/CargowiseReferences/send`
+
+This endpoint can be used to send Organization/Container Number/Product Code reference data.
+How to send each of these format has been explained in this document below.
+
+Organization data:
+This is a <UniversalInterchange> request.
+XML tag <OrgHeader></OrgHeader> wraps up all the organization related details such as Organization code, name, address etc..
+
+>Example xml format when sending organization data:
+```
+<?xml version="1.0" encoding="utf-8"?>
+<UniversalInterchange xmlns="http://www.cargowise.com/Schemas/Universal/2011/11" version="1.1">
+  <Header>
+    <SenderID>TESTSENDER</SenderID>
+    <RecipientID>SHIPAMAX-ORG</RecipientID>
+  </Header>
+  <Body>
+    <Native xmlns="http://www.cargowise.com/Schemas/Native/2011/11" version="2.0">
+  <Header>
+    <OwnerCode>TESTCODE</OwnerCode>
+    <EnableCodeMapping>true</EnableCodeMapping>
+    <nv:DataContext xmlns="http://www.cargowise.com/Schemas/Universal/2011/11" xmlns:nv="http://www.cargowise.com/Schemas/Native/2011/11">
+      <DataSourceCollection>
+        <DataSource>
+          <Type>Organization</Type>
+          <Key>TESTCODEA</Key>
+        </DataSource>
+      </DataSourceCollection>
+      <Company>
+        <Code>MEL</Code>
+        <Country>
+          <Code>AU</Code>
+          <Name>Australia</Name>
+        </Country>
+        <Name>Shipamax ltd test company</Name>
+      </Company>
+    </nv:DataContext>
+  </Header>
+  <Body>
+    <Organization version="2.0">
+      <OrgHeader Action="MERGE">
+        <Code>TESTCODEA</Code>
+        <FullName>TEST CODE HOME CO.,LTD</FullName>
+        <IsForwarder>false</IsForwarder>
+        <IsShippingProvider>false</IsShippingProvider>
+        <IsAirWholesaler>false</IsAirWholesaler>
+        <IsSeaWholesaler>false</IsSeaWholesaler>
+        <IsRailProvider>false</IsRailProvider>
+        <IsLineHaulProvider>false</IsLineHaulProvider>
+        <IsMiscFreightServices>false</IsMiscFreightServices>
+        <IsAirCTO>false</IsAirCTO>
+        <IsAirLine>false</IsAirLine>
+        <IsBroker>false</IsBroker>
+        <IsLocalTransport>false</IsLocalTransport>
+        <IsPackDepot>false</IsPackDepot>
+        <IsSeaCTO>false</IsSeaCTO>
+        <IsShippingLine>false</IsShippingLine>
+        <IsUnpackDepot>false</IsUnpackDepot>
+        <IsRailHead>false</IsRailHead>
+        <IsRoadFreightDepot>false</IsRoadFreightDepot>
+        <IsShippingConsortium>false</IsShippingConsortium>
+        <IsFumigationContractor>false</IsFumigationContractor>
+        <IsGlobalAccount>false</IsGlobalAccount>
+        <IsNationalAccount>false</IsNationalAccount>
+        <IsSalesLead>false</IsSalesLead>
+        <IsCompetitor>false</IsCompetitor>
+        <IsTempAccount>false</IsTempAccount>
+        <IsPersonalEffectsAccount>false</IsPersonalEffectsAccount>
+        <IsActive>true</IsActive>
+        <IsConsignee>false</IsConsignee>
+        <IsConsignor>true</IsConsignor>
+        <IsTransportClient>false</IsTransportClient>
+        <IsWarehouseClient>false</IsWarehouseClient>
+        <IsContainerYard>false</IsContainerYard>
+        <IsDistributionCentre>false</IsDistributionCentre>
+        <IsControllingCustomer>false</IsControllingCustomer>
+        <IsControllingAgent>false</IsControllingAgent>
+        <OrgAddressCollection>
+          <OrgAddress Action="MERGE">
+            <Code>A ZONE-0933,F15, THE COMP</Code>
+            <CompanyNameOverride></CompanyNameOverride>
+            <Address1>TEST ADDRESS1</Address1>
+            <Address2>TEST ADDRESS2</Address2>
+            <City>TESTCITY</City>
+            <State></State>
+            <PostCode></PostCode>
+            <Phone></Phone>
+            <Fax></Fax>
+            <Mobile></Mobile>
+            <IsActive>true</IsActive>
+            <Email></Email>
+            <RelatedPortCode TableName="RefUNLOCO">
+              <Code>CNFZH</Code>
+              <PK>a47bc3d1-cf72-4ad9-a538-e3c4poklhnk</PK>
+            </RelatedPortCode>
+            <CountryCode TableName="RefCountry">
+              <Code>CN</Code>
+              <PK>21eaa7e3-9009-4e17-9d96-f72d36iloko</PK>
+            </CountryCode>
+          </OrgAddress>
+        </OrgAddressCollection>
+        <OrgCompanyDataCollection>
+          <OrgCompanyData Action="MERGE">
+            <PK>142dc66e-e946-4ffa-95a5-4c5ikikiplo</PK>
+            <IsDebtor>false</IsDebtor>
+            <IsCreditor>false</IsCreditor>
+          </OrgCompanyData>
+        </OrgCompanyDataCollection>
+        <ShippingLine TableName="RefShippingLine" />
+      </OrgHeader>
+    </Organization>
+  </Body>
+</Native>
+  </Body>
+</UniversalInterchange>
+```
+
+Container reference data:
+This is a <UniversalInterchange> request.
+XML tag <UniversalShipment></UniversalShipment> wraps up all the container reference data,
+You can specify multiple containers by repeating the <Container></Container> XML tag.
+Similarly, multiple shipments can be specified by repeating <SubShipment></SubShipment> XML tag.
+
+>Example xml format when sending Container reference data:
+```
+<?xml version="1.0" encoding="utf-8"?>
+<UniversalInterchange xmlns="http://www.cargowise.com/Schemas/Universal/2011/11" version="1.1">
+  <Header>
+    <SenderID>SEIMANHAM</SenderID>
+    <RecipientID>SEIHAMHAM</RecipientID>
+  </Header>
+  <Body>
+    <UniversalShipment xmlns="http://www.cargowise.com/Schemas/Universal/2011/11" version="1.1">
+      <Shipment>
+        <DataContext>
+          <DataSourceCollection>
+            <DataSource>
+              <Type>ForwardingConsol</Type>
+              <Key>C20SMAN00023684</Key>
+            </DataSource>
+          </DataSourceCollection>
+        </DataContext>
+        <ContainerCount>3</ContainerCount>
+        <ContainerMode>
+          <Code>FCL</Code>
+          <Description>Full Container Load</Description>
+        </ContainerMode>
+        <ContainerCollection Content="Complete">
+          <Container>
+            <ContainerCount>1</ContainerCount>
+            <ContainerNumber>HLBU2734800</ContainerNumber>
+          </Container>
+        </ContainerCollection>
+        <SubShipmentCollection>
+          <SubShipment>
+            <DataContext>
+              <DataSourceCollection>
+                <DataSource>
+                  <Type>ForwardingShipment</Type>
+                  <Key>S20SMAN0026986</Key>
+                </DataSource>
+                <DataSource>
+                  <Type>CustomsDeclaration</Type>
+                  <Key>S20SMAN0026986</Key>
+                </DataSource>
+              </DataSourceCollection>
+            </DataContext>
+            <ContainerCount>1</ContainerCount>
+            <ContainerMode>
+              <Code>FCL</Code>
+              <Description>Full Container Load</Description>
+            </ContainerMode>
+            <ContainerCollection>
+              <Container>
+                <ContainerCount>1</ContainerCount>
+                <ContainerNumber>HLBU2734800</ContainerNumber>
+              </Container>
+            </ContainerCollection>
+          </SubShipment>
+        </SubShipmentCollection>
+        <TransportLegCollection Content="Complete">
+          <TransportLeg>
+            <EstimatedArrival>2021-02-16T15:00:00</EstimatedArrival>
+          </TransportLeg>
+        </TransportLegCollection>
+      </Shipment>
+    </UniversalShipment>
+  </Body>
+</UniversalInterchange>
+```
+
+Product code data:
+This is a <XmlInterchange> request.
+XML tag <Products></Products> wraps up all the product code related data.
+
+>Example xml format when sending product code data:
+```
+<?xml version="1.0" encoding="utf-8"?>
+<XmlInterchange xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="1" xmlns="http://www.edi.com.au/EnterpriseService/">
+  <InterchangeInfo>
+    <Date>2021-02-22T16:23:54.063+11:00</Date>
+    <XmlType>Verbose</XmlType>
+    <Target />
+  </InterchangeInfo>
+  <Payload>
+    <Products>
+      <Product>
+        <ProductCode>TESTCODE</ProductCode>
+        <ProductDescription>DESCRIPTION</ProductDescription>
+        <StockUnit>UNT</StockUnit>
+        <RelatedOrganisations>
+          <RelatedOrganisation>
+            <Organisation EDICode="OWNERCODE" OwnerCode="OWNERCODE">
+              <OrganisationDetails>
+                <Name>OWNER NAME</Name>
+                <Location Country="Australia" City="Melbourne">LOC</Location>
+                <Addresses>
+                  <Address AddressType="MAIN">
+                    <AddressLine1>OWNER</AddressLine1>
+                    <AddressCode>OWNER</AddressCode>
+                    <CityOrSuburb>MELBOURNE</CityOrSuburb>
+                    <StateOrProvince>VIC</StateOrProvince>
+                    <PostCode>1000</PostCode>
+                    <TelephoneNumbers>
+                      <TelephoneNumber NumberType="Business">+6</TelephoneNumber>
+                      <TelephoneNumber NumberType="Fax">+6</TelephoneNumber>
+                    </TelephoneNumbers>
+                    <Email>email@email.com</Email>
+                    <Language>EN</Language>
+                    <Location>AUMEL</Location>
+                    <Sequence>1</Sequence>
+                    <AddressCapabilities>
+                      <AddressCapability AddressType="MAIN" />
+                      <AddressCapability IsMainAddress="true" AddressType="APM" />
+                      <AddressCapability IsMainAddress="true" AddressType="ARM" />
+                      <AddressCapability IsMainAddress="true" AddressType="OFC" />
+                      <AddressCapability IsMainAddress="true" AddressType="PST" />
+                    </AddressCapabilities>
+                  </Address>
+                </Addresses>
+              </OrganisationDetails>
+            </Organisation>
+            <RelationshipType>OWN</RelationshipType>
+            <RFAttributeConfirm>NON</RFAttributeConfirm>
+          </RelatedOrganisation>
+          <RelatedOrganisation>
+            <Organisation EDICode="SUPPLIERCODE" OwnerCode="SUPPLIERCODE">
+              <OrganisationDetails>
+                <Name>SUPPLIER NAME</Name>
+                <Location Country="Japan" City="Osaka">LOC</Location>
+                <Addresses>
+                  <Address AddressType="MAIN">
+                    <AddressLine1>SUPPLIER</AddressLine1>
+                    <AddressCode>SUPPLIER</AddressCode>
+                    <CityOrSuburb>TOKYO</CityOrSuburb>
+                    <StateOrProvince>00</StateOrProvince>
+                    <PostCode>100-0000</PostCode>
+                    <Language>EN</Language>
+                    <Location>JPOSA</Location>
+                    <Sequence>1</Sequence>
+                    <AddressCapabilities>
+                      <AddressCapability AddressType="MAIN" />
+                      <AddressCapability IsMainAddress="true" AddressType="OFC" />
+                    </AddressCapabilities>
+                  </Address>
+                </Addresses>
+              </OrganisationDetails>
+            </Organisation>
+            <RelationshipType>SUP</RelationshipType>
+            <RFAttributeConfirm>NON</RFAttributeConfirm>
+          </RelatedOrganisation>
+        </RelatedOrganisations>
+        <DimensionDetails />
+        <ClientDefinedDetails />
+        <BasicStockControl />
+      </Product>
+    </Products>
+  </Payload>
+</XmlInterchange>
+```
+
+Cragowise Reference endpoint can also accept SOAP message which is a Cargowise default i.e, Request that starts with tag <s: Envelope>, Or 
+you can also take the message encoded within the SOAP message and post it as a request to the Cargowise reference endpoint.
+
+>Example xml format when sending SOAP message:
+```
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+  <s:Header>
+    <h:SendStreamRequestTrackingID xmlns:h="http://CargoWise.com/eHub/2010/06">8c5e5518-b1b4-4c4e-8c23-14970e00ea0e</h:SendStreamRequestTrackingID>
+    <o:Security s:mustUnderstand="1" xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <u:Timestamp u:Id="_0">
+        <u:Created>2021-02-17T02:01:43.892Z</u:Created>
+        <u:Expires>2021-02-17T02:06:43.892Z</u:Expires>
+      </u:Timestamp>
+      <o:UsernameToken u:Id="uuid-d93a127c-7214-4dee-859c-c65971b01e12-19">
+        <o:Username>ACPBNEBNE</o:Username>
+        <o:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">139621</o:Password>
+      </o:UsernameToken>
+    </o:Security>
+  </s:Header>
+  <s:Body>
+    <SendStreamRequest xmlns="http://CargoWise.com/eHub/2010/06">
+      <Payload>
+        <Message ApplicationCode="NDM" ClientID="ShipaMax" TrackingID="ef098bf8-c27f-469e-8d5f-9eb89842ac18" SchemaName="http://www.cargowise.com/Schemas/Native" SchemaType="Xml" EmailSubject="" FileName="">
+                    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
+                </Message>
+      </Payload>
+    </SendStreamRequest>
+  </s:Body>
+</s:Envelope>
+```
+
+>The POST /send endpoint responds with data as 'text/xml' like this
+```
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+        <s:Header>
+          <o:Security s:mustUnderstand="1" xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+            <u:Timestamp u:Id="_0">
+              <u:Created>currentDate</u:Created>
+              <u:Expires>ExpirationDate</u:Expires>
+            </u:Timestamp>
+          </o:Security>
+        </s:Header>
+        <s:Body/>
+      </s:Envelope>
+```
+
 ## Lists of codes for fields
 
 Several fields listed in the sections above should usually only contain specific values from a known list. For example, where the type of the `releaseType` field of a billOfLading is given as `ReleaseType`, it means that the expected set of values comes from the [list of ReleaseType values](#list-of-releasetype-values).
