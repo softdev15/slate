@@ -9,12 +9,12 @@ pushd ..  > /dev/null
 
 case "$1" in
   prod)
-    BUCKET=s3://docs.shipamax.com
-    CLOUDFRONT_DISTRIBUTION=E180ZGPYZKHXTO
+    BUCKET=s3://customs-docs.shipamax-api.com
+    CLOUDFRONT_DISTRIBUTION=E1G853F7ECL2P7
     ;;
   staging)
-    BUCKET=s3://docs-staging.shipamax.com
-    CLOUDFRONT_DISTRIBUTION=E4XMQCNIJA2LY
+    BUCKET=s3://customs-docs-staging.shipamax-api.com
+    CLOUDFRONT_DISTRIBUTION=XXX
     ;;
   *)
     echo "Must specify deployment type."
@@ -24,8 +24,8 @@ esac
 
 AWS_ACCOUNT=$(get_aws_account)
 echo "AWS Account: '$AWS_ACCOUNT'"
-if [ "$AWS_ACCOUNT" != "shipamax-bulk" ]; then
-	echo "Wrong AWS account. Double check that the correct AWS credentials are set."
+if [ "$AWS_ACCOUNT" != "freightforwarding" ]; then
+	echo "Wrong AWS account: '$AWS_ACCOUNT'. Double check that the correct AWS credentials are set."
 	exit
 fi
 
@@ -48,7 +48,7 @@ echo "Invalidating cache"
 invalidate_cloudfront_cache $CLOUDFRONT_DISTRIBUTION
 
 echo "Broadcast deployment"
-slack_notify "FF API docs deployed to $DEPLOY_ENV by $USER ($BRANCH/$HASH)"
+slack_notify "Customs declaration API docs deployed to $DEPLOY_ENV by $USER ($BRANCH/$HASH)"
 
 popd > /dev/null
 popd > /dev/null
