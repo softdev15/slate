@@ -507,10 +507,10 @@ Send Cargowise reference data (xml) by making a `POST` request to
 This endpoint can be used to send Organization/Container Number/Product Code reference data.
 How to send each of these format has been explained in this document below.
 
-#### **Organization data**
+**Organization data:**
 
-You can send Organization updates either as **UniversalInterchange** or **Native** request.
-XML tag **OrgHeader** wraps up all the organization related details such as Organization code, name, address etc..
+You can send Organization updates either as `<UniversalInterchange>` or `<Native>` request.
+XML tag `<OrgHeader>` wraps up all the organization related details such as Organization code, name, address etc..
 
 **Following are the important tags we expect in the request:**
 
@@ -551,7 +551,7 @@ XML tag **OrgHeader** wraps up all the organization related details such as Orga
 **RelatedPortCode-**
   *Code*
 
-> Example xml format when sending organization data as **UniversalInterchange** request:
+> Example xml format when sending organization data as `<UniversalInterchange>` request:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -661,7 +661,7 @@ XML tag **OrgHeader** wraps up all the organization related details such as Orga
 </UniversalInterchange>
 ```
 
-> Example xml format when sending organisation data as a **Native** request:
+> Example xml format when sending organisation data as a `<Native>` request:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -727,12 +727,12 @@ XML tag **OrgHeader** wraps up all the organization related details such as Orga
 </Native>
 ```
 
-#### **Container reference data**
+**Container reference data:**
 
-This is a **UniversalInterchange** request.
-XML tag **UniversalShipment** wraps up all the container reference data,
-You can specify multiple containers by repeating the **Container** XML tag.
-Similarly, multiple shipments can be specified by repeating **SubShipment** XML tag.
+This is a `<UniversalInterchange>` request.
+XML tag `<UniversalShipment>` wraps up all the container reference data,
+You can specify multiple containers by repeating the `<Container>` XML tag.
+Similarly, multiple shipments can be specified by repeating `<SubShipment>` XML tag.
 
 **Following are the important tags we expect in the request:**
 
@@ -814,10 +814,10 @@ Similarly, multiple shipments can be specified by repeating **SubShipment** XML 
 </UniversalInterchange>
 ```
 
-#### **Product code data**
+**Product code data:**
 
-This is a **XmlInterchange** request.
-XML tag **Products** wraps up all the product code related data.
+This is a `<XmlInterchange>` request.
+XML tag `<Products>` wraps up all the product code related data.
 
 **Following are the important tags we expect in the request:**
 
@@ -949,7 +949,8 @@ you can also take the message encoded within the SOAP message and post it as a r
 </s:Envelope>
 ```
 
->The POST /send endpoint responds with data as 'text/xml' like this
+> The POST /send endpoint responds with data as 'text/xml' like this
+
 ```xml
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
         <s:Header>
