@@ -166,18 +166,40 @@ Shipamax groups files that are associated with each other into a FileGroup. For 
 ​
 A FileGroup is a collection of Files which may contain a BillOfLading entity. The following endpoint is available.
 
-| Endpoint                   | Verb | Description                                                 |
-| -------------------------- | ---- | ----------------------------------------------------------- |
+| Endpoint                    | Verb | Description                                                 |
+| --------------------------- | ---- | ----------------------------------------------------------- |
 | /FileGroups/{id}            | GET  | Get a Bill of Lading Group based on the given ID.           |
 
 Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/api/v2/FileGroups/{id}`
 
-> The GET FileGroup request returns JSON structured like this:
+URL Parameter Definitions
+
+| Parameter                               |  Description                                                      |
+| --------------------------------------- | ----------------------------------------------------------------- |
+| include                                 | List of inner objects to include in the returned FileGroup        |
+
+List of possible objects to use in the include parameter
+
+| --------------------------------------- |
+| files                                   |
+| lastValidationResult                    |
+| files/billOfLading                      |
+| files/billOfLading/importerReference    |
+| files/billOfLading/notify               |
+| files/billOfLading/container            |
+| files/billOfLading/container/seals      |
+| files/billOfLading/packline             |
+
+
+> The GET FileGroup when requested with all its inner objects returns JSON structured like this:
 
 ```json
 ​{
   "id": integer,
   "created": "[ISO8601 timestamp]",
+  "placeholderJobRef": string,
+  "placeholderBillNumber": string,
+  "status": integer,
   "lastValidationResult": {
     "isSuccess": boolean,
     "details": {
@@ -195,10 +217,11 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
     {
       "id": integer,
       "filename": string,
-      "uniqueId": string,
       "created": "[ISO8601 timestamp]",
+      "fileType": integer,
       "billOfLading": [
         {
+          "id": integer,
           "billOfLadingNo": string,
           "bookingNo": string,
           "exportReference": string,
@@ -206,8 +229,17 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
           "isRated": boolean,
           "isDraft": boolean,
           "shipper": string,
+          "shipperOrgId": integer,
+          "shipperOrgNameId": integer,
+          "shipperOrgAddressId": integer,
           "consignee": string,
+          "consigneeOrgId": integer,
+          "consigneeOrgNameId": integer,
+          "consigneeOrgAddressId": integer,
           "carrier": string,
+          "carrierOrgId": integer,
+          "carrierOrgNameId": integer,
+          "carrierOrgAddressId": integer,
           "vessel": string,
           "vesselIMO": string,
           "voyageNumber": string,
@@ -244,6 +276,22 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
                 }
               ]
             }
+          ],
+          "packLine": [
+            {
+              "id": integer,
+              "hsCode": string,
+              "containerNo": string,
+              "goodsDescription": string,
+              "isGoodsSegment": string,
+              "marksAndNumbers": string,
+              "numberPieces": string,
+              "pieceType": string,
+              "weight": float,
+              "volume": float,
+              "weightUnit": string,
+              "volumeUnit": string
+            }
           ]
         }
       ]
@@ -256,6 +304,9 @@ Definition of the object attributes
 
 | Attribute                               |  Description                                                                                                                      |
 | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| placeholderJobRef                       | In case this group does not have a Master Bill associated with, this placeholder can be used to store the Job Reference           |
+| placeholderBillNumber                   | In case this group does not have a Master Bill associated with, this placeholder can be used to store the Bill Number             |
+| status                                  | Status of the group in the shipamax flow. Possible values can be seen in our [list of group status](#list-of-group-status)        |
 | lastValidationResult                    | The result of the most recent validation                                                                                          |
 | lastValidationResult.isSuccess          | If validation was successful this flag will be true. If not, false.                                                               |
 | lastValidationResult.details            | Further detail on the type of exception                                                                                           |
@@ -263,6 +314,7 @@ Definition of the object attributes
 | lastValidationResult.details.exceptions | The list of exceptions that caused validation to fail. Possible values can be seen in our [list of exceptions](#list-of-exceptioncode-values)     |
 | files                                   | List of files within the FileGroup                                                                                                |
 | files.filename                          | The name of the file as received within the email                                                                                 |
+| files.fileType                          | The type of the file as received within the email. Possible values can be seen in our [list of file types](#list-of-filetype-values)   |
 | files.billOfLading                      | An array of bills of lading extracted from this file, if any.                                                                     |
 | files.billOfLading.billOfLadingNo       | The Bill of Lading number as extracted from the document.                                                                         |
 | files.billOfLading.bookingNo            | The Booking reference as extracted from the document. This is the reference provided by Issuer to the Shipper                     |
@@ -293,14 +345,41 @@ Definition of the object attributes
 | files.billOfLading.container.containerNo         ||
 | files.billOfLading.container.containerType         ||
 | files.billOfLading.container.seals         ||
+| files.billOfLading.packLine.hsCode   ||
+| files.billOfLading.packLine.containerNo   ||
+| files.billOfLading.packLine.goodsDescription   ||
+| files.billOfLading.packLine.isGoodsSegment   ||
+| files.billOfLading.packLine.marksAndNumbers   ||
+| files.billOfLading.packLine.numberPieces   ||
+| files.billOfLading.packLine.pieceType   ||
+| files.billOfLading.packLine.weight   ||
+| files.billOfLading.packLine.volume   ||
+| files.billOfLading.packLine.weightUnit   ||
+| files.billOfLading.packLine.volumeUnit   ||
 
-
-> Example:
+> Example of request without include parameter:
+> /FileGroups/1
 
 ```json
 {
   "id": 1,
   "created": "2020-05-07T15:24:47.338Z",
+  "placeholderJobRef": "S00100101",
+  "placeholderBillNumber": "",
+  "status": 1
+}
+```
+
+> Example of request with lastValidationResult and files included:
+> /FileGroups/2?include=lastValidationResult,files
+
+```json
+{
+  "id": 2,
+  "created": "2020-05-07T15:24:47.338Z",
+  "placeholderJobRef": "",
+  "placeholderBillNumber": "",
+  "status": 1,
   "lastValidationResult": {
     "isSuccess": false,
     "details": {
@@ -319,17 +398,62 @@ Definition of the object attributes
       "id": 442,
       "filename": "file.pdf",
       "created": "2020-05-07T15:24:47.338Z",
+      "fileType": 6,
+    },
+  ]
+}
+```
+
+> Example of request with all inner objects included:
+> /FileGroups/1?include=lastValidationResult,files/billOfLading/importerReference,files/billOfLading/notify,files/billOfLading/container/seals,files/billOfLading/packline
+
+```json
+{
+  "id": 1,
+  "created": "2020-05-07T15:24:47.338Z",
+  "placeholderJobRef": "S00100101",
+  "placeholderBillNumber": "",
+  "status": 1,
+  "lastValidationResult": {
+    "isSuccess": false,
+    "details": {
+      "validator": "BillOfLadingValidator",
+      "exceptions": [
+        {
+          "code": 22,
+          "description": "Bill of Lading: Missing MBL"
+        }
+      ]
+    },
+    "created": "2020-05-07T15:24:47.509Z",
+  },
+  "files": [
+    {
+      "id": 442,
+      "filename": "file.pdf",
+      "created": "2020-05-07T15:24:47.338Z",
+      "fileType": 6,
       "billOfLading": [
         {
+          "id": 111,
           "billOfLadingNo": "BOLGRP2",
           "bookingNo": "121",
           "exportReference": "REF",
           "scac": "scac",
           "isRated": true,
           "isDraft": false,
-          "shipper": "",
-          "consignee": "",
+          "shipper": "ORG123",
+          "shipperOrgId": 11111,
+          "shipperOrgNameId": 22222,
+          "shipperOrgAddressId": 121212,
+          "consignee": "ORG321",
+          "consigneeOrgId": 12344,
+          "consigneeOrgNameId": null,
+          "consigneeOrgAddressId": null,
           "carrier": "",
+          "carrierOrgId": null,
+          "carrierOrgNameId": null,
+          "carrierOrgAddressId": null,
           "vessel": "",
           "vesselIMO": "",
           "voyageNumber": "",
@@ -364,6 +488,22 @@ Definition of the object attributes
                   "sealNo": "AB1234567"
                 }
               ]
+            }
+          ],
+          "packLine": [
+            {
+              "id": 1,
+              "hsCode": "",
+              "containerNo": "CONTAINER123",
+              "goodsDescription": "",
+              "isGoodsSegment": "",
+              "marksAndNumbers": "",
+              "numberPieces": "2",
+              "pieceType": "CAS",
+              "weight": 100,
+              "volume": 100,
+              "weightUnit": "kgs",
+              "volumeUnit": "cbm"
             }
           ]
         }
@@ -438,11 +578,11 @@ Definition of the object attributes
 
 ## File Endpoint
 
-### GET File
+### GET Original File
 
 You can retrieve all files processed by Shipamax. For example you can retrieve a bill of lading which was send to Shipamax as an attachment to an email. Files can be retrieved via their unique ID. The response of the endpoint is a byte stream.
 
-https://public.shipamax-api.com/api/v2/Files/{id}
+https://public.shipamax-api.com/api/v2/Files/{id}/original
 
 ### POST Files/upload
 
@@ -1156,3 +1296,12 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 9            | Packing Declaration            |
 | 10           | Certificate of Origin          |
 | 1000         | Multiple documents in one file |
+
+### List of Group status
+| Code         | Description
+| ------------ | ------------------ |
+| 1            | Unposted           |
+| 2            | Discarded          |
+| 3            | Posted             |
+| 4            | Out Of Sync        |
+| 5            | Done               |
