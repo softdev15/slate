@@ -582,7 +582,10 @@ Definition of the object attributes
 
 You can retrieve all files processed by Shipamax. For example you can retrieve a bill of lading which was send to Shipamax as an attachment to an email. Files can be retrieved via their unique ID. The response of the endpoint is a byte stream.
 
-https://public.shipamax-api.com/api/v2/Files/{id}/original
+| Endpoint                      | Verb   | Description                                                 |
+| ----------------------------- | ------ | ----------------------------------------------------------- |
+| /Files/{id}/original          | GET    | Get original binary file                                    |
+
 
 ### POST Files/upload
 
@@ -617,14 +620,9 @@ curl -X POST
 ```json
 {
   "customId": "CUSTOM_ID",
-  "companyId": 000000,
   "filename": "FILE_NAME",
-  "sourceId": 4,
-  "hash": "HASH",
   "groupId": 00000,
-  "emailId": 000000,
   "id": 000000,
-  "unqId": "UNQ_ID"
 }
 ```
 
