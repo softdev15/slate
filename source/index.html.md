@@ -437,25 +437,59 @@ Definition of the object attributes
 ```
 
 ## Organization Endpoint
-You can upload organization data to Shipamax. Organization data can be retrieved by ID, or by a query filter. You can also update an organization's details and delete an organization by ID.
+An Organization represents a business or other third-party that is referenced from the documents that Shipamax processes, like the shipper or consignee for a bill of lading. Each Organization must have a unique identifier provided by you, usually the identifier used in your own system, which we call `externalId` and is returned in details of processed documents. However, the `id` in the Organization API calls is the Shipamax specific ID.
+
+| Endpoint                         | Verb  | Description                                                                       |
+| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
+| /Organizations | GET | Retrieve a list of your Organizations that match a filter  | 
+| /Organizations | POST  | Create a new Organization  | 
+| /Organizations/{id} | PATCH  | Update an Organization by specifying the fields that have changed  | 
+| /Organizations/{id} | DELETE | Remove an Organization from the system  | 
+
+Definition of the Organization attributes
+
+| Attribute                               |  Description                                                      |
+| --------------------------------------- | ----------------------------------------------------------------- |
+| id                 | Unique identifier of the Organization within the Shipamax system |
+| externalId                               | Unique identifier of the Organization within your own system           |
+| carrier                       | Flag for denoting this Organization is a carrier   |
+| consignee                       | Flag for denoting this Organization is a consignee   |
+| creditor                       | Flag for denoting this Organization is a creditor   |
+| forwarder                       | Flag for denoting this Organization is a forwarder   |
+| debtor                       | Flag for denoting this Organization is a debtor   |
+| shipper                       | Flag for denoting this Organization is a shipper   |
+| active                       | Flag denoting wether this Organization is active or not   |
+| updated | The timestamp of when the Organization was last updated |
 
 ### POST
-Using the following endpoint you can create a new organization, you will need to provide a JSON body with all of the required details. Organizations are unique to their `externalIds`.
+Send a new Organization via `POST` request to `https://public.shipamax-api.com/api/v2/Organizations`
 
-https://public.shipamax-api.com/api/v2/Organizations
-
->Example JSON body to create an organization
+> The POST Organizations request requires a body JSON structured like this:
 ```json
 {
-    "externalId": "A",
+    "externalId": string,
+    "carrier": boolean,
+    "consignee": boolean,
+    "creditor": boolean,
+    "forwarder": boolean,
+    "debtor": boolean,
+    "shipper": boolean,
+    "active": boolean
+}
+```
+
+> Example of body to be POSTED:
+
+```json
+{
+    "externalId": "FF",
     "carrier": false,
     "consignee": true,
     "creditor": true,
     "forwarder": false,
     "debtor": false,
     "shipper": false,
-    "active": false,
-    "updated": "2020-01-01"
+    "active": false
 }
 ```
 
@@ -471,18 +505,15 @@ https://public.shipamax-api.com/api/v2/Organizations
   "debtor": false,
   "shipper": false,
   "active": false,
-  "updated": "2020-01-01T00:00:00.000Z",
-  "companyId": 100000
+  "updated": "2020-01-01T00:00:00.000Z"
 }
 ```
 
-**NOTE: The ID returned by the endpoint is needed to be able to create and relate addresses and names to the organization**
+**NOTE: The ID returned by the endpoint is needed to be able to create and relate addresses and names to the Organization**
 ### GET
-Using the following endpoint and the ID of the organization will return all information about that organization.
+Retrieve an Organization via `GET` request to `https://public.shipamax-api.com/api/v2/Organizations/${id}`
 
-https://public.shipamax-api.com/api/v2/Organizations/{id}
-
->The GET by filter endpoint respond with JSON like this:
+>The GET endpoint responds with JSON like this:
 ```json
 {
   "id": 2,
@@ -494,17 +525,15 @@ https://public.shipamax-api.com/api/v2/Organizations/{id}
   "debtor": false,
   "shipper": true,
   "active": true,
-  "updated": "2021-08-06T09:58:20.384Z",
-  "companyId": 0000000
+  "updated": "2021-08-06T09:58:20.384Z"
 }
 ```
 
 ### GET (Using Query Filter)
-Using the following endpoint, and sending in a JSON body will return all organizations matching the given filter body, or if no filter is provided, all organizations.
 
-https://public.shipamax-api.com/api/v2/Organizations
+Retrieve Organizations via `GET` request to `https://public.shipamax-api.com/api/v2/Organizations` and sending in a JSON body to return all Organizations matching the given filter body, or none for all Organizations.
 
-> An example query filter
+> The GET Organizations query filter body requires JSON structured like this:
 ```json
 {
   "filter": {
@@ -528,25 +557,23 @@ https://public.shipamax-api.com/api/v2/Organizations
     "debtor": false,
     "shipper": true,
     "active": true,
-    "updated": "2021-08-06T09:58:20.384Z",
-    "companyId": 0000000
+    "updated": "2021-08-06T09:58:20.384Z"
   }
 ]
 ```
 
 ### PATCH
-Using the following endpoint, and sending in a JSON body with the details to be updated (it does not need to be a complete set of properties) you can patch the organization's data.
+Patch Organization data via `PATCH` request to `https://public.shipamax-api.com/api/v2/Organizations/${id}` and sending in a JSON body with the data to be updated.
 
-https://public.shipamax-api.com/api/v2/Organizations/{id}
-
-> An example patch body
+> The PATCH Organizations body requires JSON structured like this:
 ```json
 {
-  "externalId": "A"
+  "externalId": "A",
+  "active": false
 }
 ```
 
->The PATCH method responds with the updated organization as JSON like this:
+>The PATCH method responds with the updated Organization as JSON like this:
 ```json
 {
   "id": 1,
@@ -558,18 +585,15 @@ https://public.shipamax-api.com/api/v2/Organizations/{id}
   "debtor": false,
   "shipper": false,
   "active": false,
-  "updated": "2020-01-01T00:00:00.000Z",
-  "companyId": 000000
+  "updated": "2020-01-01T00:00:00.000Z"
 }
 ```
 
 ### DELETE
-Using the following endpoint and the ID of the organization will delete that organization.
-
-https://public.shipamax-api.com/api/v2/Organizations/{id}
+Delete Organization data via `DELETE` request to `https://public.shipamax-api.com/api/v2/Organizations/${id}`.
 
 
->The DELETE method responds with a count of the number of records deleted like below
+>The DELETE method responds with a count of the number of records deleted like this:
 ```json
 {
   "count": 1
@@ -577,15 +601,35 @@ https://public.shipamax-api.com/api/v2/Organizations/{id}
 ```
 
 ## Organization Name Endpoint
-You can upload organization name data to Shipamax. Organization name data can be retrieved by ID, or by a query filter. You can also update an organization name's details and delete an organization name by ID.
+An Organization Name represents a name associated with an Organization, each Organization may have multiple names associated with it. Each Organization Name must have the unique `id` identifier from within Shipamax that associates an Organization Name to an Organization.
+
+| Endpoint                         | Verb  | Description                                                                       |
+| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
+| /OrganizationNames | GET | Retrieve a list of your Organizations Names that match a filter  | 
+| /OrganizationNames | POST  | Create a new Organization Name | 
+| /OrganizationNames/{id} | PATCH  | Update an Organization Name by specifying the fields that have changed  | 
+| /OrganizationNames/{id} | DELETE | Remove an Organization Name from the system  | 
+
+Definition of the Organization Name attributes
+
+| Attribute                               |  Description                                                      |
+| --------------------------------------- | ----------------------------------------------------------------- |
+| id                 | Unique identifier of the Organization Name within the Shipamax system |
+| organizationId                               | Unique ID of the Organization this Organization Name is associated to in Shipamax           |
+| name                       | The name for the Organization   |
+| main                       | Flag denoting whether this is the main name for an Organization. This is unique across Organizations; there can only be one main name per Organization  |
 
 ### POST
-Using the following endpoint you can create a new organization name, you will need to provide a JSON body with all of the required details. 
+Send a new Organization Name via `POST` request to `https://public.shipamax-api.com/api/v2/OrganizationNames`
 
-**NOTE: The `organizationId` is the ID returned from the organization endpoints.**
-
-https://public.shipamax-api.com/api/v2/OrganizationNames
-
+> The POST OrganizationNames request requires a body JSON structured like this:
+```json
+{
+  "organizationId": integer,
+  "name": string,
+  "main": boolean
+}
+```
 >Example JSON body to create an organization
 ```json
 {
@@ -594,6 +638,7 @@ https://public.shipamax-api.com/api/v2/OrganizationNames
   "main": true
 }
 ```
+**NOTE: The `organizationId` is the ID returned from the Organization endpoints.**
 
 >The POST endpoint will respond with JSON like this:
 ```json
@@ -606,11 +651,9 @@ https://public.shipamax-api.com/api/v2/OrganizationNames
 ```
 
 ### GET
-Using the following endpoint and the ID of the organization name will return all information about that organization name.
+Retrieve an Organization Names via `GET` request to `https://public.shipamax-api.com/api/v2/OrganizationNames/${id}`
 
-https://public.shipamax-api.com/api/v2/OrganizationNames/{id}
-
->The GET by filter endpoint respond with JSON like this:
+>The GET endpoint responds with JSON like this:
 ```json
 {
   "id": 1,
@@ -621,11 +664,9 @@ https://public.shipamax-api.com/api/v2/OrganizationNames/{id}
 ```
 
 ### GET (Using Query Filter)
-Using the following endpoint, and sending in a JSON body will return all organization names matching the given filter body, or if no filter is provided, all organization names.
+Retrieve Organization Names via `GET` request to `https://public.shipamax-api.com/api/v2/OrganizationNames` and sending in a JSON body to return all Organization Names matching the given filter body, or none for all Organization Names.
 
-https://public.shipamax-api.com/api/v2/OrganizationNames
-
-> An example query filter
+> The GET OrganizationNames query filter body requires JSON structured like this:
 ```json
 {
   "filter": {
@@ -649,18 +690,16 @@ https://public.shipamax-api.com/api/v2/OrganizationNames
 ```
 
 ### PATCH
-Using the following endpoint, and sending in a JSON body with the details to be updated (it does not need to be a complete set of properties) you can patch the organization name's data.
+Patch Organization Name data via `PATCH` request to `https://public.shipamax-api.com/api/v2/OrganizationNames/${id}` and sending in a JSON body with the data to be updated.
 
-https://public.shipamax-api.com/api/v2/OrganizationNames/{id}
-
-> An example patch body
+> The PATCH Organization Names body requires JSON structured like this:
 ```json
 {
   "name": "A"
 }
 ```
 
->The PATCH method responds with the updated organization name as JSON like this:
+>The PATCH method responds with the updated Organization Name as JSON like this:
 ```json
 {
   "id": 1,
@@ -671,12 +710,9 @@ https://public.shipamax-api.com/api/v2/OrganizationNames/{id}
 ```
 
 ### DELETE
-Using the following endpoint and the ID of the organization name will delete that organization name.
+Delete Organization data via `DELETE` request to `https://public.shipamax-api.com/api/v2/OrganizationNames/${id}`.
 
-https://public.shipamax-api.com/api/v2/OrganizationNames/{id}
-
-
->The DELETE method responds with a count of the number of records deleted like below
+>The DELETE method responds with a count of the number of records deleted like this:
 ```json
 {
   "count": 1
@@ -684,16 +720,42 @@ https://public.shipamax-api.com/api/v2/OrganizationNames/{id}
 ```
 
 ## Organization Address Endpoint
-You can upload organization address data to Shipamax. Organization address data can be retrieved by ID, or by a query filter. You can also update an organization address' details and delete an organization address by ID.
+An Organization Address represents an address associated with an Organization, each Organization may have multiple addresses associated with it. Each Organization Address must have the unique `id` identifier from within Shipamax that associates an Organization Address to an Organization. Organization Addresses are unique based on a composition of `address1`, `postCode`, and `email`.
+
+| Endpoint                         | Verb  | Description                                                                       |
+| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
+| /OrganizationAddresses | GET | Retrieve a list of your Organizations Addresses that match a filter  | 
+| /OrganizationAddresses | POST  | Create a new Organization Address | 
+| /OrganizationAddresses/{id} | PATCH  | Update an Organization Address by specifying the fields that have changed  | 
+| /OrganizationAddresses/{id} | DELETE | Remove an Organization Address from the system  | 
+
+Definition of the Organization Address attributes
+
+| Attribute                               |  Description                                                      |
+| --------------------------------------- | ----------------------------------------------------------------- |
+| id                 | Unique identifier of the Organization Name within the Shipamax system |
+| organizationId                               | Unique ID of the Organization this Organization Name is associated to in Shipamax           |
+| address1                       | The first line of the Organization Address   |
+| postCode                       | The postcode of the Organization Address  |
+| email                       | The email of the Organization Address  |
+| main                       | Flag denoting whether this is the main address for an Organization. This is unique across Organizations; there can only be one main address per Organization  |
 
 ### POST
-Using the following endpoint you can create a new organization address, you will need to provide a JSON body with all of the required details. Organization addresses are unique based on a composite of `address1`, `postCode`, and `email`.
+Send a new Organization Address via `POST` request to `https://public.shipamax-api.com/api/v2/OrganizationAddresses`.
 
-**NOTE: The `organizationId` is the ID returned from the organization endpoints.**
+> The POST OrganizationAddresses request requires a body JSON structured like this:
+```json
+{
+  "organizationId": integer,
+  "address1": string,
+  "postCode": string,
+  "email": string,
+  "main": boolean
+}
+```
+**NOTE: The `organizationId` is the ID returned from the Organization endpoints.**
 
-https://public.shipamax-api.com/api/v2/OrganizationAddresses
-
->Example JSON body to create an organization
+>Example JSON body to create an Organization Address
 ```json
 {
   "organizationId": 2,
@@ -711,16 +773,13 @@ https://public.shipamax-api.com/api/v2/OrganizationAddresses
   "address1": "A",
   "postCode": "AA1 123B",
   "email": "email@email.com",
-  "main": true,
-  "companyId": 0000000
+  "main": true
 }
 ```
 ### GET
-Using the following endpoint and the ID of the organization address will return all information about that organization address.
+Retrieve an Organization Names via `GET` request to `https://public.shipamax-api.com/api/v2/OrganizationAddresses/${id}`
 
-https://public.shipamax-api.com/api/v2/OrganizationAddresses/{id}
-
->The GET by filter endpoint respond with JSON like this:
+>The GET endpoint respond with JSON like this:
 ```json
 {
   "id": 1,
@@ -728,17 +787,14 @@ https://public.shipamax-api.com/api/v2/OrganizationAddresses/{id}
   "address1": "A",
   "postCode": "AA1 123B",
   "email": "email@email.com",
-  "main": true,
-  "companyId": 000000
+  "main": true
 }
 ```
 
 ### GET (Using Query Filter)
-Using the following endpoint, and sending in a JSON body will return all organization addresses matching the given filter body, or if no filter is provided, all organization addresses.
+Retrieve Organization Addresses via `GET` request to `https://public.shipamax-api.com/api/v2/OrganizationAddresses` and sending in a JSON body to return all Organization Addresses matching the given filter body, or none for all Organization Addresses.
 
-https://public.shipamax-api.com/api/v2/OrganizationAddresses
-
-> An example query filter
+> The GET OrganizationAddresses query filter body requires JSON structured like this:
 ```json
 {
   "filter": {
@@ -749,7 +805,7 @@ https://public.shipamax-api.com/api/v2/OrganizationAddresses
 }
 ```
 
->The GET by filter endpoint respond with JSON like this:
+>The GET endpoint respond with JSON like this:
 ```json
 [
   {
@@ -758,18 +814,15 @@ https://public.shipamax-api.com/api/v2/OrganizationAddresses
     "address1": "A",
     "postCode": "AA1 123B",
     "email": "email@email.com",
-    "main": false,
-    "companyId": 000000
+    "main": false
   }
 ]
 ```
 
 ### PATCH
-Using the following endpoint, and sending in a JSON body with the details to be updated (it does not need to be a complete set of properties) you can patch the organization address' data.
+Patch Organization Address data via `PATCH` request to `https://public.shipamax-api.com/api/v2/OrganizationAddresses/${id}` and sending in a JSON body with the data to be updated.
 
-https://public.shipamax-api.com/api/v2/OrganizationAddresses/{id}
-
-> An example patch body
+> The PATCH Organization Addresses body requires JSON structured like this:
 ```json
 {
   "address1": "B"
@@ -789,10 +842,7 @@ https://public.shipamax-api.com/api/v2/OrganizationAddresses/{id}
 ```
 
 ### DELETE
-Using the following endpoint and the ID of the organization name will delete that organization name.
-
-https://public.shipamax-api.com/api/v2/OrganizationAddresses/{id}
-
+Delete Organization data via `DELETE` request to `https://public.shipamax-api.com/api/v2/OrganizationNames/${id}`.
 
 >The DELETE method responds with a count of the number of records deleted like below
 ```json
