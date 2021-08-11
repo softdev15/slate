@@ -166,18 +166,41 @@ Shipamax groups files that are associated with each other into a FileGroup. For 
 ​
 A FileGroup is a collection of Files which may contain a BillOfLading entity. The following endpoint is available.
 
-| Endpoint                   | Verb | Description                                                 |
-| -------------------------- | ---- | ----------------------------------------------------------- |
-| /FileGroups/{id}            | GET  | Get a Bill of Lading Group based on the given ID.           |
+| Endpoint                    | Verb | Description                                                 |
+| --------------------------- | ---- | ----------------------------------------------------------- |
+| /FileGroups/{id}            | GET  | Get File group details using the group's ID                 |
 
 Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/api/v2/FileGroups/{id}`
 
-> The GET FileGroup request returns JSON structured like this:
+URL Parameter Definitions
+
+| Parameter                               |  Description                                                      |
+| --------------------------------------- | ----------------------------------------------------------------- |
+| include                                 | List of inner objects to include in the returned FileGroup        |
+
+List of possible objects to use in the include parameter
+
+| Value                                   |  Description                                                       |
+| --------------------------------------- | ------------------------------------------------------------------ |
+| files                                   | List of all files in the group                                     |
+| lastValidationResult                    | The results of the last validation performed on the group          |
+| files/billOfLading                      | Details of the group's Bill of Lading's                            |
+| files/billOfLading/importerReference    | The list of external references associated with the Bill of Lading |
+| files/billOfLading/notify               | Details of the Notify party on the Bill of Lading                  |
+| files/billOfLading/container            | List of containers associated with the Bill of Lading              |
+| files/billOfLading/container/seals      | List of seals for each container                                   |
+| files/billOfLading/packline             | List of paking lines associated with the Bill of Lading            |
+
+
+> The GET FileGroup when requested with all its inner objects returns JSON structured like this:
 
 ```json
 ​{
   "id": integer,
   "created": "[ISO8601 timestamp]",
+  "placeholderJobRef": string,
+  "placeholderBillNumber": string,
+  "status": integer,
   "lastValidationResult": {
     "isSuccess": boolean,
     "details": {
@@ -195,10 +218,11 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
     {
       "id": integer,
       "filename": string,
-      "uniqueId": string,
       "created": "[ISO8601 timestamp]",
+      "fileType": integer,
       "billOfLading": [
         {
+          "id": integer,
           "billOfLadingNo": string,
           "bookingNo": string,
           "exportReference": string,
@@ -206,8 +230,17 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
           "isRated": boolean,
           "isDraft": boolean,
           "shipper": string,
+          "shipperOrgId": integer,
+          "shipperOrgNameId": integer,
+          "shipperOrgAddressId": integer,
           "consignee": string,
+          "consigneeOrgId": integer,
+          "consigneeOrgNameId": integer,
+          "consigneeOrgAddressId": integer,
           "carrier": string,
+          "carrierOrgId": integer,
+          "carrierOrgNameId": integer,
+          "carrierOrgAddressId": integer,
           "vessel": string,
           "vesselIMO": string,
           "voyageNumber": string,
@@ -226,23 +259,47 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
           "consolType": ConsolType,
           "notify": [
             {
-              "notifyParty": String
+              "id": integer,
+              "notifyParty": String,
+              "notifyPartyOrgId": integer,
+              "notifyPartyOrgNameId":integer,
+              "notifyPartyOrgAddressId": integer,
+              "notifyPartyParsed": String
             }
           ],
           "importerReference:": [
             { 
+              "id": integer,
               "importerReference": String,
             }
           ],
           "container": [
             {
+              "id": integer,
               "containerNo": string,
               "containerType": ContainerType,
               "seals": [
                 {
+                  "id": integer,
                   "sealNo": string
                 }
               ]
+            }
+          ],
+          "packLine": [
+            {
+              "id": integer,
+              "hsCode": string,
+              "containerNo": string,
+              "goodsDescription": string,
+              "isGoodsSegment": boolean,
+              "marksAndNumbers": string,
+              "numberPieces": integer,
+              "pieceType": string,
+              "weight": float,
+              "volume": float,
+              "weightUnit": string,
+              "volumeUnit": string
             }
           ]
         }
@@ -256,6 +313,9 @@ Definition of the object attributes
 
 | Attribute                               |  Description                                                                                                                      |
 | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| placeholderJobRef                       | A reference ID in an external system you would like to associate the Group with (manually added)                                  |
+| placeholderBillNumber                   | An existing MBL ID you would like to associate this Group with (manually added)                                                   |
+| status                                  | Status of the group in the shipamax flow. Possible values can be seen in our [list of group status](#list-of-group-status)        |
 | lastValidationResult                    | The result of the most recent validation                                                                                          |
 | lastValidationResult.isSuccess          | If validation was successful this flag will be true. If not, false.                                                               |
 | lastValidationResult.details            | Further detail on the type of exception                                                                                           |
@@ -263,44 +323,69 @@ Definition of the object attributes
 | lastValidationResult.details.exceptions | The list of exceptions that caused validation to fail. Possible values can be seen in our [list of exceptions](#list-of-exceptioncode-values)     |
 | files                                   | List of files within the FileGroup                                                                                                |
 | files.filename                          | The name of the file as received within the email                                                                                 |
+| files.fileType                          | The type of the file as received within the email. Possible values can be seen in our [list of file types](#list-of-filetype-values)   |
 | files.billOfLading                      | An array of bills of lading extracted from this file, if any.                                                                     |
 | files.billOfLading.billOfLadingNo       | The Bill of Lading number as extracted from the document.                                                                         |
-| files.billOfLading.bookingNo            | The Booking reference as extracted from the document. This is the reference provided by Issuer to the Shipper                     |
+| files.billOfLading.bookingNo            | The Booking reference extracted from the bill of lading. This is the reference provided by Issuer to the Shipper (also known as Carrier Reference).   |
 | files.billOfLading.exportReference      | The Export Reference as extracted from the document. This is the reference given by the Shipper to the Issuer                     |
 | files.billOfLading.scac                 | This is the SCAC code for the issuer of the Bill of Lading                                                                        |
 | files.billOfLading.isRated              | If isRated is True, then the Bill of Lading contains pricing for the transport of the goods                                       |
 | files.billOfLading.isDraft              | If isDraft is True, then this Bills of Lading is a Draft version and not Final                                                    |
 | files.billOfLading.importerReference    | Importer Job Ref List                                                                                                             |
 | files.billOfLading.notify               | Notify List                                                                                                                       |
-| files.billOfLading.shipper              ||
-| files.billOfLading.consignee            ||
-| files.billOfLading.carrier              ||
-| files.billOfLading.vessel               ||
-| files.billOfLading.vesselIMO            ||
-| files.billOfLading.voyageNumber         ||
-| files.billOfLading.loadPort             ||
-| files.billOfLading.loadPortUnlocode     ||
-| files.billOfLading.dischargePort        ||
-| files.billOfLading.dischargePortUnlocode||
-| files.billOfLading.shippedOnBoardDate   ||
-| files.billOfLading.paymentTerms         ||
-| files.billOfLading.category             ||
-| files.billOfLading.releaseType          ||
-| files.billOfLading.goodsDescription     ||
-| files.billOfLading.transportMode        ||
-| files.billOfLading.containerMode        ||
-| files.billOfLading.shipmentType         ||
-| files.billOfLading.container.containerNo         ||
-| files.billOfLading.container.containerType         ||
-| files.billOfLading.container.seals         ||
+| files.billOfLading.shipper              |                                                                                                                                   |
+| files.billOfLading.consignee            |                                                                                                                                   |
+| files.billOfLading.carrier              |                                                                                                                                   |
+| files.billOfLading.vessel               |                                                                                                                                   |
+| files.billOfLading.vesselIMO            |                                                                                                                                   |
+| files.billOfLading.voyageNumber         |                                                                                                                                   |
+| files.billOfLading.loadPort             |                                                                                                                                   |
+| files.billOfLading.loadPortUnlocode     |                                                                                                                                   |
+| files.billOfLading.dischargePort        |                                                                                                                                   |
+| files.billOfLading.dischargePortUnlocode|                                                                                                                                   |
+| files.billOfLading.shippedOnBoardDate   |                                                                                                                                   |
+| files.billOfLading.paymentTerms         |                                                                                                                                   |
+| files.billOfLading.category             |                                                                                                                                   |
+| files.billOfLading.releaseType          |                                                                                                                                   |
+| files.billOfLading.goodsDescription     |                                                                                                                                   |
+| files.billOfLading.transportMode        |                                                                                                                                   |
+| files.billOfLading.containerMode        |                                                                                                                                   |
+| files.billOfLading.shipmentType         |                                                                                                                                   |
+| files.billOfLading.container.containerNo | The container number extracted from the bill of lading                                                                           |
+| files.billOfLading.container.containerType | The container type extracted from the bill of lading. Possible values for this list [List of ContainerType values](#list-of-containertype-values) |
+| files.billOfLading.container.seals         | List of seals included in the container                                                                                        |
+| files.billOfLading.packLine.containerNo | The container number the packing line is stored in                                                                                |
+| files.billOfLading.packLine.goodsDescription |                                                                                                                                   |
+| files.billOfLading.packLine.packageCount | The number of pieces (or packages) in this pack line                                                                             |
+| files.billOfLading.packLine.packageType | The package's type. For list of possible values, see [List of PackageType values](#list-of-packagetype-values)                    |
+| files.billOfLading.packLine.weight      |                                                                                                                                   |
+| files.billOfLading.packLine.volume      |                                                                                                                                   |
+| files.billOfLading.packLine.weightUnit  |                                                                                                                                   |
+| files.billOfLading.packLine.volumeUnit  |                                                                                                                                   |
 
-
-> Example:
+> Example of request without include parameter:
+> /FileGroups/1
 
 ```json
 {
   "id": 1,
   "created": "2020-05-07T15:24:47.338Z",
+  "placeholderJobRef": "S00100101",
+  "placeholderBillNumber": "",
+  "status": 1
+}
+```
+
+> Example of request with lastValidationResult and files included:
+> /FileGroups/2?include=lastValidationResult,files
+
+```json
+{
+  "id": 2,
+  "created": "2020-05-07T15:24:47.338Z",
+  "placeholderJobRef": "",
+  "placeholderBillNumber": "",
+  "status": 1,
   "lastValidationResult": {
     "isSuccess": false,
     "details": {
@@ -319,17 +404,62 @@ Definition of the object attributes
       "id": 442,
       "filename": "file.pdf",
       "created": "2020-05-07T15:24:47.338Z",
+      "fileType": 6,
+    },
+  ]
+}
+```
+
+> Example of request with all inner objects included:
+> /FileGroups/1?include=lastValidationResult,files/billOfLading/importerReference,files/billOfLading/notify,files/billOfLading/container/seals,files/billOfLading/packline
+
+```json
+{
+  "id": 1,
+  "created": "2020-05-07T15:24:47.338Z",
+  "placeholderJobRef": "S00100101",
+  "placeholderBillNumber": "",
+  "status": 1,
+  "lastValidationResult": {
+    "isSuccess": false,
+    "details": {
+      "validator": "BillOfLadingValidator",
+      "exceptions": [
+        {
+          "code": 22,
+          "description": "Bill of Lading: Missing MBL"
+        }
+      ]
+    },
+    "created": "2020-05-07T15:24:47.509Z",
+  },
+  "files": [
+    {
+      "id": 442,
+      "filename": "file.pdf",
+      "created": "2020-05-07T15:24:47.338Z",
+      "fileType": 6,
       "billOfLading": [
         {
+          "id": 111,
           "billOfLadingNo": "BOLGRP2",
           "bookingNo": "121",
           "exportReference": "REF",
           "scac": "scac",
           "isRated": true,
           "isDraft": false,
-          "shipper": "",
-          "consignee": "",
+          "shipper": "ORG123",
+          "shipperOrgId": 11111,
+          "shipperOrgNameId": 22222,
+          "shipperOrgAddressId": 121212,
+          "consignee": "ORG321",
+          "consigneeOrgId": 12344,
+          "consigneeOrgNameId": null,
+          "consigneeOrgAddressId": null,
           "carrier": "",
+          "carrierOrgId": null,
+          "carrierOrgNameId": null,
+          "carrierOrgAddressId": null,
           "vessel": "",
           "vesselIMO": "",
           "voyageNumber": "",
@@ -347,23 +477,47 @@ Definition of the object attributes
           "shipmentType": "",
           "notify": [
             {
-              "notifyParty": ""
+              "id": 211,
+              "notifyParty": "TEST123",
+              "notifyPartyOrgId": 11121,
+              "notifyPartyOrgNameId": 22133,
+              "notifyPartyOrgAddressId": 12312,
+              "notifyPartyParsed": ""
             }
           ],
           "importerReference:": [
             { 
+              "id": 322,
               "importerReference": "C0000001",
             }
           ],
           "container": [
             {
+              "id": 323,
               "containerNo": "ABCD0123456",
               "containerType": "40GP",
               "seals": [
                 {
+                  "id": 120932,
                   "sealNo": "AB1234567"
                 }
               ]
+            }
+          ],
+          "packLine": [
+            {
+              "id": 1,
+              "hsCode": "",
+              "containerNo": "CONTAINER123",
+              "goodsDescription": "",
+              "isGoodsSegment": true,
+              "marksAndNumbers": "",
+              "numberPieces": 2,
+              "pieceType": "CAS",
+              "weight": 100,
+              "volume": 100,
+              "weightUnit": "kgs",
+              "volumeUnit": "cbm"
             }
           ]
         }
@@ -874,11 +1028,14 @@ Delete Organization data via `DELETE` request to `https://public.shipamax-api.co
 
 ## File Endpoint
 
-### GET File
+### GET Original File
 
 You can retrieve all files processed by Shipamax. For example you can retrieve a bill of lading which was send to Shipamax as an attachment to an email. Files can be retrieved via their unique ID. The response of the endpoint is a byte stream.
 
-https://public.shipamax-api.com/api/v2/Files/{id}
+| Endpoint                      | Verb   | Description                                                 |
+| ----------------------------- | ------ | ----------------------------------------------------------- |
+| /Files/{id}/original          | GET    | Get original binary file                                    |
+
 
 ### POST Files/upload
 
@@ -913,14 +1070,9 @@ curl -X POST
 ```json
 {
   "customId": "CUSTOM_ID",
-  "companyId": 000000,
   "filename": "FILE_NAME",
-  "sourceId": 4,
-  "hash": "HASH",
   "groupId": 00000,
-  "emailId": 000000,
   "id": 000000,
-  "unqId": "UNQ_ID"
 }
 ```
 
@@ -1592,3 +1744,12 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 9            | Packing Declaration            |
 | 10           | Certificate of Origin          |
 | 1000         | Multiple documents in one file |
+
+### List of Group status
+| Code         | Description
+| ------------ | ------------------ |
+| 1            | Unposted           |
+| 2            | Discarded          |
+| 3            | Posted             |
+| 4            | Out Of Sync        |
+| 5            | Done               |
