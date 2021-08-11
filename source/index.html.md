@@ -258,20 +258,24 @@ List of possible objects to use in the include parameter
           "consolType": ConsolType,
           "notify": [
             {
+              "id": integer,
               "notifyParty": String
             }
           ],
           "importerReference:": [
             { 
+              "id": integer,
               "importerReference": String,
             }
           ],
           "container": [
             {
+              "id": integer,
               "containerNo": string,
               "containerType": ContainerType,
               "seals": [
                 {
+                  "id": integer,
                   "sealNo": string
                 }
               ]
@@ -283,7 +287,7 @@ List of possible objects to use in the include parameter
               "hsCode": string,
               "containerNo": string,
               "goodsDescription": string,
-              "isGoodsSegment": string,
+              "isGoodsSegment": boolean,
               "marksAndNumbers": string,
               "numberPieces": string,
               "pieceType": string,
@@ -471,20 +475,24 @@ Definition of the object attributes
           "shipmentType": "",
           "notify": [
             {
+              "id": 211,
               "notifyParty": ""
             }
           ],
           "importerReference:": [
             { 
+              "id": 322,
               "importerReference": "C0000001",
             }
           ],
           "container": [
             {
+              "id": 323,
               "containerNo": "ABCD0123456",
               "containerType": "40GP",
               "seals": [
                 {
+                  "id": 120932,
                   "sealNo": "AB1234567"
                 }
               ]
@@ -496,7 +504,7 @@ Definition of the object attributes
               "hsCode": "",
               "containerNo": "CONTAINER123",
               "goodsDescription": "",
-              "isGoodsSegment": "",
+              "isGoodsSegment": true,
               "marksAndNumbers": "",
               "numberPieces": "2",
               "pieceType": "CAS",
