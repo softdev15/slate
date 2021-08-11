@@ -168,7 +168,7 @@ A FileGroup is a collection of Files which may contain a BillOfLading entity. Th
 
 | Endpoint                    | Verb | Description                                                 |
 | --------------------------- | ---- | ----------------------------------------------------------- |
-| /FileGroups/{id}            | GET  | Get a Bill of Lading Group based on the given ID.           |
+| /FileGroups/{id}            | GET  | Get File group details using the group's ID                 |
 
 Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/api/v2/FileGroups/{id}`
 
@@ -180,15 +180,17 @@ URL Parameter Definitions
 
 List of possible objects to use in the include parameter
 
-| --------------------------------------- |
-| files                                   |
-| lastValidationResult                    |
-| files/billOfLading                      |
-| files/billOfLading/importerReference    |
-| files/billOfLading/notify               |
-| files/billOfLading/container            |
-| files/billOfLading/container/seals      |
-| files/billOfLading/packline             |
+
+| Value                                   |  Description                                                       |
+| --------------------------------------- | ------------------------------------------------------------------ |
+| files                                   | List of all files in the group                                     |
+| lastValidationResult                    | The results of the last validation performed on the group          |
+| files/billOfLading                      | Details of the group's Bill of Lading's                            |
+| files/billOfLading/importerReference    | The list of external references associated with the Bill of Lading |
+| files/billOfLading/notify               | Details of the Notify party on the Bill of Lading                  |
+| files/billOfLading/container            | List of containers associated with the Bill of Lading              |
+| files/billOfLading/container/seals      | List of seals for each container                                   |
+| files/billOfLading/packline             | List of paking lines associated with the Bill of Lading            |
 
 
 > The GET FileGroup when requested with all its inner objects returns JSON structured like this:
@@ -308,8 +310,8 @@ Definition of the object attributes
 
 | Attribute                               |  Description                                                                                                                      |
 | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| placeholderJobRef                       | In case this group does not have a Master Bill associated with, this placeholder can be used to store the Job Reference           |
-| placeholderBillNumber                   | In case this group does not have a Master Bill associated with, this placeholder can be used to store the Bill Number             |
+| placeholderJobRef                       | A reference ID in an external system you would like to associate the Group with (manually added)                                  |
+| placeholderBillNumber                   | An existing MBL ID you would like to associate this Group with (manually added)                                                   |
 | status                                  | Status of the group in the shipamax flow. Possible values can be seen in our [list of group status](#list-of-group-status)        |
 | lastValidationResult                    | The result of the most recent validation                                                                                          |
 | lastValidationResult.isSuccess          | If validation was successful this flag will be true. If not, false.                                                               |
@@ -321,45 +323,42 @@ Definition of the object attributes
 | files.fileType                          | The type of the file as received within the email. Possible values can be seen in our [list of file types](#list-of-filetype-values)   |
 | files.billOfLading                      | An array of bills of lading extracted from this file, if any.                                                                     |
 | files.billOfLading.billOfLadingNo       | The Bill of Lading number as extracted from the document.                                                                         |
-| files.billOfLading.bookingNo            | The Booking reference as extracted from the document. This is the reference provided by Issuer to the Shipper                     |
+| files.billOfLading.bookingNo            | The Booking reference extracted from the bill of lading. This is the reference provided by Issuer to the Shipper (also known as Carrier Reference).   |
 | files.billOfLading.exportReference      | The Export Reference as extracted from the document. This is the reference given by the Shipper to the Issuer                     |
 | files.billOfLading.scac                 | This is the SCAC code for the issuer of the Bill of Lading                                                                        |
 | files.billOfLading.isRated              | If isRated is True, then the Bill of Lading contains pricing for the transport of the goods                                       |
 | files.billOfLading.isDraft              | If isDraft is True, then this Bills of Lading is a Draft version and not Final                                                    |
 | files.billOfLading.importerReference    | Importer Job Ref List                                                                                                             |
 | files.billOfLading.notify               | Notify List                                                                                                                       |
-| files.billOfLading.shipper              ||
-| files.billOfLading.consignee            ||
-| files.billOfLading.carrier              ||
-| files.billOfLading.vessel               ||
-| files.billOfLading.vesselIMO            ||
-| files.billOfLading.voyageNumber         ||
-| files.billOfLading.loadPort             ||
-| files.billOfLading.loadPortUnlocode     ||
-| files.billOfLading.dischargePort        ||
-| files.billOfLading.dischargePortUnlocode||
-| files.billOfLading.shippedOnBoardDate   ||
-| files.billOfLading.paymentTerms         ||
-| files.billOfLading.category             ||
-| files.billOfLading.releaseType          ||
-| files.billOfLading.goodsDescription     ||
-| files.billOfLading.transportMode        ||
-| files.billOfLading.containerMode        ||
-| files.billOfLading.shipmentType         ||
-| files.billOfLading.container.containerNo         ||
-| files.billOfLading.container.containerType         ||
-| files.billOfLading.container.seals         ||
-| files.billOfLading.packLine.hsCode   ||
-| files.billOfLading.packLine.containerNo   ||
-| files.billOfLading.packLine.goodsDescription   ||
-| files.billOfLading.packLine.isGoodsSegment   ||
-| files.billOfLading.packLine.marksAndNumbers   ||
-| files.billOfLading.packLine.numberPieces   ||
-| files.billOfLading.packLine.pieceType   ||
-| files.billOfLading.packLine.weight   ||
-| files.billOfLading.packLine.volume   ||
-| files.billOfLading.packLine.weightUnit   ||
-| files.billOfLading.packLine.volumeUnit   ||
+| files.billOfLading.shipper              |                                                                                                                                   |
+| files.billOfLading.consignee            |                                                                                                                                   |
+| files.billOfLading.carrier              |                                                                                                                                   |
+| files.billOfLading.vessel               |                                                                                                                                   |
+| files.billOfLading.vesselIMO            |                                                                                                                                   |
+| files.billOfLading.voyageNumber         |                                                                                                                                   |
+| files.billOfLading.loadPort             |                                                                                                                                   |
+| files.billOfLading.loadPortUnlocode     |                                                                                                                                   |
+| files.billOfLading.dischargePort        |                                                                                                                                   |
+| files.billOfLading.dischargePortUnlocode|                                                                                                                                   |
+| files.billOfLading.shippedOnBoardDate   |                                                                                                                                   |
+| files.billOfLading.paymentTerms         |                                                                                                                                   |
+| files.billOfLading.category             |                                                                                                                                   |
+| files.billOfLading.releaseType          |                                                                                                                                   |
+| files.billOfLading.goodsDescription     |                                                                                                                                   |
+| files.billOfLading.transportMode        |                                                                                                                                   |
+| files.billOfLading.containerMode        |                                                                                                                                   |
+| files.billOfLading.shipmentType         |                                                                                                                                   |
+| files.billOfLading.container.containerNo | The container number extracted from the bill of lading                                                                           |
+| files.billOfLading.container.containerType | The container type extracted from the bill of lading. Possible values for this list [List of ContainerType values](#list-of-containertype-values) |
+| files.billOfLading.container.seals         | List of seals included in the container                                                                                        |
+| files.billOfLading.packLine.containerNo | The container number the packing line is stored in                                                                                |
+| files.billOfLading.packLine.goodsDescription |                                                                                                                                   |
+| files.billOfLading.packLine.packageCount | The number of pieces (or packages) in this pack line                                                                             |
+| files.billOfLading.packLine.packageType | The package's type. For list of possible values, see [List of PackageType values](#list-of-packagetype-values)                    |
+| files.billOfLading.packLine.weight      |                                                                                                                                   |
+| files.billOfLading.packLine.volume      |                                                                                                                                   |
+| files.billOfLading.packLine.weightUnit  |                                                                                                                                   |
+| files.billOfLading.packLine.volumeUnit  |                                                                                                                                   |
 
 > Example of request without include parameter:
 > /FileGroups/1
