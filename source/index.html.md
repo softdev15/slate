@@ -538,7 +538,14 @@ Retrieve Organizations via `GET` request to `https://public.shipamax-api.com/api
 {
   "filter": {
     "where": {
-      "externalId": "XXXYYY"
+      "and": [
+        {
+          "externalId": "XXXYYY"
+        },
+        {
+          "active": true
+        }
+      ]
     }
   }
 }
@@ -671,7 +678,14 @@ Retrieve Organization Names via `GET` request to `https://public.shipamax-api.co
 {
   "filter": {
     "where": {
-      "main": true
+      "and": [
+        {
+          "name": "A"
+        },
+        {
+          "main": true
+        }
+      ]
     }
   }
 }
@@ -799,7 +813,14 @@ Retrieve Organization Addresses via `GET` request to `https://public.shipamax-ap
 {
   "filter": {
     "where": {
-      "main": true
+      "and": [
+        {
+          "address1": "A"
+        },
+        {
+          "main": false
+        }
+      ]
     }
   }
 }
