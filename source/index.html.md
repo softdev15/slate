@@ -180,7 +180,6 @@ URL Parameter Definitions
 
 List of possible objects to use in the include parameter
 
-
 | Value                                   |  Description                                                       |
 | --------------------------------------- | ------------------------------------------------------------------ |
 | files                                   | List of all files in the group                                     |
