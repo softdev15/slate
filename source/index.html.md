@@ -261,7 +261,11 @@ List of possible objects to use in the include parameter
           "notify": [
             {
               "id": integer,
-              "notifyParty": String
+              "notifyParty": String,
+              "notifyPartyOrgId": integer,
+              "notifyPartyOrgNameId":integer,
+              "notifyPartyOrgAddressId": integer,
+              "notifyPartyParsed": String
             }
           ],
           "importerReference:": [
@@ -475,7 +479,11 @@ Definition of the object attributes
           "notify": [
             {
               "id": 211,
-              "notifyParty": ""
+              "notifyParty": "TEST123",
+              "notifyPartyOrgId": 11121,
+              "notifyPartyOrgNameId": 22133,
+              "notifyPartyOrgAddressId": 12312,
+              "notifyPartyParsed": ""
             }
           ],
           "importerReference:": [
