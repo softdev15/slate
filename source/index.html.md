@@ -411,7 +411,8 @@ Definition of the object attributes
 ```
 
 > Example of request with all inner objects included:
-> /FileGroups/1?include=lastValidationResult,files/billOfLading/importerReference,files/billOfLading/notify,files/billOfLading/container/seals,files/billOfLading/packline
+> /FileGroups/1?include=lastValidationResult,files/billOfLading/importerReference,files/billOfLading/notify,
+> files/billOfLading/container/seals,files/billOfLading/packline
 
 ```json
 {
