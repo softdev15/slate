@@ -230,14 +230,17 @@ List of possible objects to use in the include parameter
           "isRated": boolean,
           "isDraft": boolean,
           "shipper": string,
+          "shipperCode": string,
           "shipperOrgId": integer,
           "shipperOrgNameId": integer,
           "shipperOrgAddressId": integer,
           "consignee": string,
+          "consigneeCode": string,
           "consigneeOrgId": integer,
           "consigneeOrgNameId": integer,
           "consigneeOrgAddressId": integer,
           "carrier": string,
+          "carrierCode": string,
           "carrierOrgId": integer,
           "carrierOrgNameId": integer,
           "carrierOrgAddressId": integer,
@@ -261,10 +264,10 @@ List of possible objects to use in the include parameter
             {
               "id": integer,
               "notifyParty": String,
+              "notifyPartyCode": String,
               "notifyPartyOrgId": integer,
               "notifyPartyOrgNameId":integer,
-              "notifyPartyOrgAddressId": integer,
-              "notifyPartyParsed": String
+              "notifyPartyOrgAddressId": integer
             }
           ],
           "importerReference:": [
@@ -449,15 +452,18 @@ Definition of the object attributes
           "scac": "scac",
           "isRated": true,
           "isDraft": false,
-          "shipper": "ORG123",
+          "shipper": "PARSED VALUE",
+          "shipperCode": "ORG123",
           "shipperOrgId": 11111,
           "shipperOrgNameId": 22222,
           "shipperOrgAddressId": 121212,
-          "consignee": "ORG321",
+          "consignee": "PARSED VALUE ORG321",
+          "consigneeCode": "ORG321",
           "consigneeOrgId": 12344,
           "consigneeOrgNameId": null,
           "consigneeOrgAddressId": null,
           "carrier": "",
+          "carrierCode": null,
           "carrierOrgId": null,
           "carrierOrgNameId": null,
           "carrierOrgAddressId": null,
@@ -479,11 +485,11 @@ Definition of the object attributes
           "notify": [
             {
               "id": 211,
-              "notifyParty": "TEST123",
+              "notifyParty": "",
+              "notifyPartyCode": "TEST123",
               "notifyPartyOrgId": 11121,
               "notifyPartyOrgNameId": 22133,
               "notifyPartyOrgAddressId": 12312,
-              "notifyPartyParsed": ""
             }
           ],
           "importerReference:": [
