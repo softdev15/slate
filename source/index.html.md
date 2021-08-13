@@ -819,7 +819,7 @@ Send a new Organization Name via `POST` request to `https://public.shipamax-api.
 ```
 
 ### GET
-Retrieve an Organization Names via `GET` request to `https://public.shipamax-api.com/api/v2/OrganizationNames/${id}`
+Retrieve an Organization Name via `GET` request to `https://public.shipamax-api.com/api/v2/OrganizationNames/${id}`
 
 >The GET endpoint responds with JSON like this:
 ```json
@@ -829,39 +829,6 @@ Retrieve an Organization Names via `GET` request to `https://public.shipamax-api
   "name": "A",
   "main": true
 }
-```
-
-### GET (Using Query Filter)
-Retrieve Organization Names via `GET` request to `https://public.shipamax-api.com/api/v2/OrganizationNames` and sending in a JSON body to return all Organization Names matching the given filter body, or none for all Organization Names.
-
-> The GET OrganizationNames query filter body requires JSON structured like this:
-```json
-{
-  "filter": {
-    "where": {
-      "and": [
-        {
-          "name": "A"
-        },
-        {
-          "main": true
-        }
-      ]
-    }
-  }
-}
-```
-
->The GET by filter endpoint respond with JSON like this:
-```json
-[
-  {
-    "id": 1,
-    "organizationId": 2,
-    "name": "A",
-    "main": true
-  }
-]
 ```
 
 ### PATCH
@@ -951,8 +918,9 @@ Send a new Organization Address via `POST` request to `https://public.shipamax-a
   "main": true
 }
 ```
+
 ### GET
-Retrieve an Organization Names via `GET` request to `https://public.shipamax-api.com/api/v2/OrganizationAddresses/${id}`
+Retrieve an Organization Address via `GET` request to `https://public.shipamax-api.com/api/v2/OrganizationAddresses/${id}`
 
 >The GET endpoint respond with JSON like this:
 ```json
@@ -964,41 +932,6 @@ Retrieve an Organization Names via `GET` request to `https://public.shipamax-api
   "email": "email@email.com",
   "main": true
 }
-```
-
-### GET (Using Query Filter)
-Retrieve Organization Addresses via `GET` request to `https://public.shipamax-api.com/api/v2/OrganizationAddresses` and sending in a JSON body to return all Organization Addresses matching the given filter body, or none for all Organization Addresses.
-
-> The GET OrganizationAddresses query filter body requires JSON structured like this:
-```json
-{
-  "filter": {
-    "where": {
-      "and": [
-        {
-          "address1": "A"
-        },
-        {
-          "main": false
-        }
-      ]
-    }
-  }
-}
-```
-
->The GET endpoint respond with JSON like this:
-```json
-[
-  {
-    "id": 1,
-    "organizationId": 2,
-    "address1": "A",
-    "postCode": "AA1 123B",
-    "email": "email@email.com",
-    "main": false
-  }
-]
 ```
 
 ### PATCH
