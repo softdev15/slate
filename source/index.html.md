@@ -79,7 +79,7 @@ For webhook security we sign inbound requests to your application with an X-Ship
 ```
 
 The `eventName` property describes what caused the message to be sent. There are currently three events you could receive:
-  
+
 | Event Name                                   | Description                                |
 | -------------------------------------------- | ------------------------------------------ |
 | Validation/BillOfLadingGroup/Success         | Validation finished and succeed            |
@@ -151,11 +151,11 @@ The resulting hash would be: `9e6066637a3020bd2cc15ce8a6f18e9e43d63e169a6d355c88
 
 ## Long-term support and versioning
 
-Shipamax aims to be a partner to our customers, this means continuously improving everything including our APIs. However, this does mean that APIs can only be supported for a given timeframe. We aim to honour the expected End-Of-Life, but in case this is not possible we will work with our customers to find a solution.  
-  
-Version: v1  
-Launch: April 2020  
-Expected End-Of-Live: March 2023  
+Shipamax aims to be a partner to our customers, this means continuously improving everything including our APIs. However, this does mean that APIs can only be supported for a given timeframe. We aim to honour the expected End-Of-Life, but in case this is not possible we will work with our customers to find a solution.
+
+Version: v1
+Launch: April 2020
+Expected End-Of-Live: March 2023
 
 
 # Reference
@@ -271,7 +271,7 @@ List of possible objects to use in the include parameter
             }
           ],
           "importerReference:": [
-            { 
+            {
               "id": integer,
               "importerReference": String,
             }
@@ -493,7 +493,7 @@ Definition of the object attributes
             }
           ],
           "importerReference:": [
-            { 
+            {
               "id": 322,
               "importerReference": "C0000001",
             }
@@ -602,10 +602,15 @@ An Organization represents a business or other third-party that is referenced fr
 
 | Endpoint                         | Verb  | Description                                                                       |
 | -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /Organizations | GET | Retrieve a list of your Organizations that match a filter  | 
-| /Organizations | POST  | Create a new Organization  | 
-| /Organizations/{id} | PATCH  | Update an Organization by specifying the fields that have changed  | 
-| /Organizations/{id} | DELETE | Remove an Organization from the system  | 
+| /Organizations | GET | Retrieve a list of your Organizations that match a filter  |
+| /Organizations | POST  | Create a new Organization  |
+| /Organizations/{id} | GET | Retrieve a specific Organization |
+| /Organizations/{id} | PATCH  | Update an Organization by specifying the fields that have changed  |
+| /Organizations/{id} | DELETE | Remove an Organization from the system  |
+| /Organizations/{id}/names | GET | Retrieve a list of OrganizationNames associated with an Organization |
+| /Organizations/{id}/addresses | GET | Retrieve a list of OrganizationAddresses associated with an Organization |
+| /Organizations/{id}/names | POST | Create a new OrganizationName associated with a specific Organization |
+| /Organizations/{id}/addresses | POST | Create a new OrganizationAddress associated with a specific Organization |
 
 Definition of the Organization attributes
 
@@ -769,14 +774,14 @@ Delete Organization data via `DELETE` request to `https://public.shipamax-api.co
 ```
 
 ## Organization Name Endpoint
-An Organization Name represents a name associated with an Organization, each Organization may have multiple names associated with it. Each Organization Name must have the unique `id` identifier from within Shipamax that associates an Organization Name to an Organization.
+An Organization Name represents a name associated with an Organization, each Organization may have multiple names associated with it. Each Organization Name has a unique `id` assigned by Shipamax.
 
 | Endpoint                         | Verb  | Description                                                                       |
 | -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /OrganizationNames | GET | Retrieve a list of your Organizations Names that match a filter  | 
-| /OrganizationNames | POST  | Create a new Organization Name | 
-| /OrganizationNames/{id} | PATCH  | Update an Organization Name by specifying the fields that have changed  | 
-| /OrganizationNames/{id} | DELETE | Remove an Organization Name from the system  | 
+| /OrganizationNames | GET | Retrieve a list of your Organizations Names that match a filter  |
+| /OrganizationNames | POST  | Create a new Organization Name |
+| /OrganizationNames/{id} | PATCH  | Update an Organization Name by specifying the fields that have changed  |
+| /OrganizationNames/{id} | DELETE | Remove an Organization Name from the system  |
 
 Definition of the Organization Name attributes
 
@@ -817,6 +822,8 @@ Send a new Organization Name via `POST` request to `https://public.shipamax-api.
   "main": true
 }
 ```
+
+Alternatively, you can create a new Organization Name via `POST` request to `https://public.shipamax-api.com/api/v2/Organization/${id}/names` which works similarly except that the `organizationId` property will be defaulted to the correct ID.
 
 ### GET
 Retrieve an Organization Name via `GET` request to `https://public.shipamax-api.com/api/v2/OrganizationNames/${id}`
@@ -866,10 +873,10 @@ An Organization Address represents an address associated with an Organization, e
 
 | Endpoint                         | Verb  | Description                                                                       |
 | -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /OrganizationAddresses | GET | Retrieve a list of your Organizations Addresses that match a filter  | 
-| /OrganizationAddresses | POST  | Create a new Organization Address | 
-| /OrganizationAddresses/{id} | PATCH  | Update an Organization Address by specifying the fields that have changed  | 
-| /OrganizationAddresses/{id} | DELETE | Remove an Organization Address from the system  | 
+| /OrganizationAddresses | GET | Retrieve a list of your Organizations Addresses that match a filter  |
+| /OrganizationAddresses | POST  | Create a new Organization Address |
+| /OrganizationAddresses/{id} | PATCH  | Update an Organization Address by specifying the fields that have changed  |
+| /OrganizationAddresses/{id} | DELETE | Remove an Organization Address from the system  |
 
 Definition of the Organization Address attributes
 
@@ -918,6 +925,8 @@ Send a new Organization Address via `POST` request to `https://public.shipamax-a
   "main": true
 }
 ```
+
+Alternatively, you can create a new Organization Address via `POST` request to `https://public.shipamax-api.com/api/v2/Organization/${id}/addresss` which works similarly except that the `organizationId` property will be defaulted to the correct ID.
 
 ### GET
 Retrieve an Organization Address via `GET` request to `https://public.shipamax-api.com/api/v2/OrganizationAddresses/${id}`
@@ -999,7 +1008,7 @@ URL Parameter Definitions
 
 > Example curl to upload files:
 ```shell
-curl -X POST 
+curl -X POST
   -H 'Authorization: ${BEARER_TOKEN}'
   -F 'req=${FILE_LOCATION}'
   -F 'req=${FILE_LOCATION_2}'
@@ -1445,7 +1454,7 @@ XML tag `<Products>` wraps up all the product code related data.
 </XmlInterchange>
 ```
 
-Cragowise Reference endpoint can also accept SOAP message which is a Cargowise default i.e, Request that starts with tag <s: Envelope>, Or 
+Cragowise Reference endpoint can also accept SOAP message which is a Cargowise default i.e, Request that starts with tag <s: Envelope>, Or
 you can also take the message encoded within the SOAP message and post it as a request to the Cargowise reference endpoint.
 
 > Example xml format when sending SOAP message:
