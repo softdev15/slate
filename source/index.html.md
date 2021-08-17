@@ -172,13 +172,14 @@ A FileGroup is a collection of Files which may contain a BillOfLading entity. Th
 
 Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/api/v2/FileGroups/{id}`
 
-URL Parameter Definitions
+### URL Parameter Definitions
 
 | Parameter                               |  Description                                                      |
 | --------------------------------------- | ----------------------------------------------------------------- |
 | include                                 | List of inner objects to include in the returned FileGroup        |
 
-List of possible objects to use in the include parameter
+### Available objects 
+The following objects can be used as parameters in the *include* query
 
 | Value                                   |  Description                                                       |
 | --------------------------------------- | ------------------------------------------------------------------ |
@@ -312,21 +313,35 @@ List of possible objects to use in the include parameter
 }
 ```
 
-Definition of the object attributes
-
+### Root *FileGroup* attributes
 | Attribute                               |  Description                                                                                                                      |
 | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | placeholderJobRef                       | A reference ID in an external system you would like to associate the Group with (manually added)                                  |
 | placeholderBillNumber                   | An existing MBL ID you would like to associate this Group with (manually added)                                                   |
 | status                                  | Status of the group in the shipamax flow. Possible values can be seen in our [list of group status](#list-of-group-status)        |
+
+### *ValidationResults* attributes
+
+| Attribute                               |  Description                                                                                                                      |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | lastValidationResult                    | The result of the most recent validation                                                                                          |
 | lastValidationResult.isSuccess          | If validation was successful this flag will be true. If not, false.                                                               |
 | lastValidationResult.details            | Further detail on the type of exception                                                                                           |
 | lastValidationResult.details.validator  | Shipamax has multiple validators for different workflows and integrations. This specifies from which validator issued this result |
 | lastValidationResult.details.exceptions | The list of exceptions that caused validation to fail. Possible values can be seen in our [list of exceptions](#list-of-exceptioncode-values)     |
+
+### *Files* attributes
+
+| Attribute                               |  Description                                                                                                                      |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | files                                   | List of files within the FileGroup                                                                                                |
 | files.filename                          | The name of the file as received within the email                                                                                 |
 | files.fileType                          | The type of the file as received within the email. Possible values can be seen in our [list of file types](#list-of-filetype-values)   |
+
+### *Files.billOfLading* attributes
+
+| Attribute                               |  Description                                                                                                                      |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | files.billOfLading                      | An array of bills of lading extracted from this file, if any.                                                                     |
 | files.billOfLading.billOfLadingNo       | The Bill of Lading number as extracted from the document.                                                                         |
 | files.billOfLading.bookingNo            | The Booking reference extracted from the bill of lading. This is the reference provided by Issuer to the Shipper (also known as Carrier Reference).   |
@@ -335,36 +350,77 @@ Definition of the object attributes
 | files.billOfLading.isRated              | If isRated is True, then the Bill of Lading contains pricing for the transport of the goods                                       |
 | files.billOfLading.isDraft              | If isDraft is True, then this Bills of Lading is a Draft version and not Final                                                    |
 | files.billOfLading.importerReference    | Importer Job Ref List                                                                                                             |
-| files.billOfLading.notify               | Notify List                                                                                                                       |
-| files.billOfLading.shipper              |                                                                                                                                   |
-| files.billOfLading.consignee            |                                                                                                                                   |
-| files.billOfLading.carrier              |                                                                                                                                   |
-| files.billOfLading.vessel               |                                                                                                                                   |
-| files.billOfLading.vesselIMO            |                                                                                                                                   |
-| files.billOfLading.voyageNumber         |                                                                                                                                   |
-| files.billOfLading.loadPort             |                                                                                                                                   |
-| files.billOfLading.loadPortUnlocode     |                                                                                                                                   |
-| files.billOfLading.dischargePort        |                                                                                                                                   |
-| files.billOfLading.dischargePortUnlocode|                                                                                                                                   |
-| files.billOfLading.shippedOnBoardDate   |                                                                                                                                   |
-| files.billOfLading.paymentTerms         |                                                                                                                                   |
-| files.billOfLading.category             |                                                                                                                                   |
-| files.billOfLading.releaseType          |                                                                                                                                   |
-| files.billOfLading.goodsDescription     |                                                                                                                                   |
-| files.billOfLading.transportMode        |                                                                                                                                   |
-| files.billOfLading.containerMode        |                                                                                                                                   |
-| files.billOfLading.shipmentType         |                                                                                                                                   |
-| files.billOfLading.container.containerNo | The container number extracted from the bill of lading                                                                           |
-| files.billOfLading.container.containerType | The container type extracted from the bill of lading. Possible values for this list [List of ContainerType values](#list-of-containertype-values) |
+| files.billOfLading.shipper              | The raw data extracted for the Shipper field from the bill of lading file                                                         |
+| files.billOfLading.shipperCode          | The code for the selected Shipper (as it appears in the Exception Manager UI, taken from your Organisation data)                                                       |
+| files.billOfLading.shipperOrgId         | The internal ID of the selected Shipper                                                         |
+| files.billOfLading.shipperOrgNameId     | The internal ID of the selected name of the Shipper                                                        |
+| files.billOfLading.shipperOrgAddressId  | The internal ID of the selected address of the Shipper                                                            |
+| files.billOfLading.consignee            | The raw data extracted for the Consignee field from the bill of lading file                                                                                                                                     |
+| files.billOfLading.consigneeCode          | The code for the selected Consignee (as it appears in the Exception Manager UI, taken from your Organisation data)                                                       |
+| files.billOfLading.consigneeOrgId         | The internal ID of the selected Consignee                                                         |
+| files.billOfLading.consigneeOrgNameId     | The internal ID of the selected name of the Consignee                                                        |
+| files.billOfLading.consigneeOrgAddressId  | The internal ID of the selected Address of the Consignee                                                            |
+| files.billOfLading.carrier              | The raw data extracted for the Carrier field from the bill of lading file                                                                                                                                     |
+| files.billOfLading.carrierCode          | The code for the selected Carrier (as it appears in the Exception Manager UI, taken from your Organisation data)                                                       |
+| files.billOfLading.carrierOrgId         | The internal ID of the selected Carrier                                                         |
+| files.billOfLading.carrierOrgNameId     | The internal ID of the selected name of the Carrier                                                        |
+| files.billOfLading.carrierOrgAddressId  | The internal ID of the selected Address of the Carrier                                                            |
+| files.billOfLading.vessel               | The name of the Vessel                                                                                                                                |
+| files.billOfLading.vesselIMO            | The IMO code matching the Vessel name                                                                                                                                  |
+| files.billOfLading.voyageNumber         | The number of the Voyage                                                                                                                            |
+| files.billOfLading.loadPort             | The name of the Loading Port (or Origin)                                                                                                                                  |
+| files.billOfLading.loadPortUnlocode     | The UNL code matching the Load Port name                                                                                                                                 |
+| files.billOfLading.dischargePort        | The name of the Discharge Port (or Destination)                                                                                                                                 |
+| files.billOfLading.dischargePortUnlocode| The UNL code matching the Discharge Port name                                                                                                                                   |
+| files.billOfLading.shippedOnBoardDate   | The date the cargo has been loaded on the vessel (SOB date)                                                                                                                                 |
+| files.billOfLading.paymentTerms         | The paymebt terms. See [List of Payment Terms] (#List-of-PaymentTerm-values) for possible values                                                                                                                               |
+| files.billOfLading.category             | Type of Bill of lading ("True" = Master)                                                                                                                                  |
+| files.billOfLading.releaseType          | The Release Type for this shipment. See [List of Release Types](#List-of-ReleaseType-values) for possible values                                                                                                                               |
+| files.billOfLading.goodsDescription     | Textual description of the goods                                                                                                                                 |
+| files.billOfLading.transportMode        | The transport type of this shipment. See [List of Transport Modes](#List-of-TransportMode-values) for possible values
+]                                                                                                                                  |
+| files.billOfLading.containerMode        | The Container's mode. See [List of Container Modes](#List-of-ContainerMode-values) for possible values                                                                                                                                  |
+
+### *Files.billOfLading.Container* attributes
+
+| Attribute                               |  Description                                                                                                                      |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| files.billOfLading.container.containerNo | The container number                                                                           |
+| files.billOfLading.container.containerType | The container type. Possible values for this list [List of ContainerType values](#list-of-containertype-values) |
 | files.billOfLading.container.seals         | List of seals included in the container                                                                                        |
+
+### *Files.billOfLading.packLine* attributes
+
+| Attribute                               |  Description                                                                                                                      |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | files.billOfLading.packLine.containerNo | The container number the packing line is stored in                                                                                |
-| files.billOfLading.packLine.goodsDescription |                                                                                                                                   |
 | files.billOfLading.packLine.packageCount | The number of pieces (or packages) in this pack line                                                                             |
 | files.billOfLading.packLine.packageType | The package's type. For list of possible values, see [List of PackageType values](#list-of-packagetype-values)                    |
-| files.billOfLading.packLine.weight      |                                                                                                                                   |
-| files.billOfLading.packLine.volume      |                                                                                                                                   |
-| files.billOfLading.packLine.weightUnit  |                                                                                                                                   |
-| files.billOfLading.packLine.volumeUnit  |                                                                                                                                   |
+| files.billOfLading.packLine.weight      | The package's Weight                                                                                                                                 |
+| files.billOfLading.packLine.volume      | The package's Volume                                                                                                                                  |The package's Weight  
+| files.billOfLading.packLine.weightUnit  | The weight units used. Supported values are: 'kg', 't' |
+| files.billOfLading.packLine.volumeUnit  | The volume units used. Supported values are: 'm^3'                                                                                                                                |
+
+### *Files.billOfLading.notify* attributes
+A Bill of Lading can have several Notify party.
+
+
+| Attribute                               |  Description                                                                                                                      |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+                                                                                                                  |
+| files.billOfLading.notify.id            | The NorifyParty object ID      
+          |
+| files.billOfLading.notify.notifyParty            | The raw data extracted for the Notify Party field from the bill of lading file             
+          |
+| files.billOfLading.notify.notifyPartyCode           | The code for the selected Notify Party  (as it appears in the Exception Manager UI, taken from your Organisation data)              
+          |
+| files.billOfLading.notify.notifyPartyOrgId           |  The internal ID of the selected Notify Party                
+          |
+| files.billOfLading.notify.notifyPartyOrgNameId            | The internal ID of the selected Name of the Notify Party            
+          |
+| files.billOfLading.notify.notifyPartyOregAddressId            |   The internal ID of the Address of the selected Notify Party             
+          |
+
 
 > Example of request without include parameter:
 > /FileGroups/1
@@ -571,7 +627,7 @@ Send a new validation result via `POST` request to `https://public.shipamax-api.
   }
 }
 ```
-Definition of the object attributes
+### Attributes
 
 | Attribute                               |  Description                                                      |
 | --------------------------------------- | ----------------------------------------------------------------- |
@@ -598,16 +654,11 @@ Definition of the object attributes
 ```
 
 ## Organization Endpoint
-An Organization represents a business or other third-party that is referenced from the documents that Shipamax processes, like the shipper or consignee for a bill of lading. Each Organization must have a unique identifier provided by you, usually the identifier used in your own system, which we call `externalId` and is returned in details of processed documents. However, the `id` in the Organization API calls is the Shipamax specific ID.
+The Organizations list represents businesses that might be referenced in the documents you send Shipamax to processes (for exmaple, the Shipper on a House Bill of Lading, a Supplier on a Commercial Invoice Creditor etc.). The organisation list is used to improve the accuracy of the parsing process, making sure the most likely organisation is selected. 
+Each Organization must have a unique identifier provided by you (referred to as `externalId`), this is usually the identifier used in your own system. 
+Each organization added is assigned an internal ID unique to Shipamax (referred to as `org_id`). This ID is required in order to DELETE/PATCH the organisation as well as adding Names and Addresses to the Organization
 
-| Endpoint                         | Verb  | Description                                                                       |
-| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /Organizations | GET | Retrieve a list of your Organizations that match a filter  | 
-| /Organizations | POST  | Create a new Organization  | 
-| /Organizations/{id} | PATCH  | Update an Organization by specifying the fields that have changed  | 
-| /Organizations/{id} | DELETE | Remove an Organization from the system  | 
-
-Definition of the Organization attributes
+### Attributes
 
 | Attribute                               |  Description                                                      |
 | --------------------------------------- | ----------------------------------------------------------------- |
@@ -618,14 +669,19 @@ Definition of the Organization attributes
 | creditor                       | Flag for denoting this Organization is a creditor   |
 | forwarder                       | Flag for denoting this Organization is a forwarder   |
 | debtor                       | Flag for denoting this Organization is a debtor   |
-| shipper                       | Flag for denoting this Organization is a shipper   |
+| shipper                       | Flag for denoting this Organization is a shipper (also refferred to as Consignor or Shipping Agent)  |
 | active                       | Flag denoting wether this Organization is active or not   |
 | updated | The timestamp of when the Organization was last updated |
 
-### POST
-Send a new Organization via `POST` request to `https://public.shipamax-api.com/api/v2/Organizations`
 
-> The POST Organizations request requires a body JSON structured like this:
+### POST
+Create a new Organization
+| Endpoint                         | Verb  | Body                              | Response                                       |
+| -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
+| /Organizations | POST | Organization's detials in JSON|  The new Organization object in JSON  |
+
+> **Body structure for POST Organizations request:**
+
 ```json
 {
     "externalId": string,
@@ -639,11 +695,11 @@ Send a new Organization via `POST` request to `https://public.shipamax-api.com/a
 }
 ```
 
-> Example of body to be POSTED:
+> **Example:** POST Organization request body
 
 ```json
 {
-    "externalId": "FF",
+    "externalId": "TRRRRFF",
     "carrier": false,
     "consignee": true,
     "creditor": true,
@@ -654,11 +710,12 @@ Send a new Organization via `POST` request to `https://public.shipamax-api.com/a
 }
 ```
 
->The POST endpoint will respond with JSON like this:
+> **Example:** POST Organization response
+
 ```json
 {
-  "id": 9,
-  "externalId": "FF",
+  "id": 35,
+  "externalId": "TRRRRFF",
   "carrier": false,
   "consignee": true,
   "creditor": true,
@@ -670,15 +727,20 @@ Send a new Organization via `POST` request to `https://public.shipamax-api.com/a
 }
 ```
 
-**NOTE: The ID returned by the endpoint is needed to be able to create and relate addresses and names to the Organization**
-### GET
-Retrieve an Organization via `GET` request to `https://public.shipamax-api.com/api/v2/Organizations/${id}`
+### GET (specific Organisation)
+Retrieve details of a an existing Organization
 
->The GET endpoint responds with JSON like this:
+| Endpoint                         | Verb  | Body                              | Response                                       |
+| -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
+| /Organizations/{org_id} | GET |  | An Organization object in JSON |
+
+
+> **Example:** GET Organization response
+
 ```json
 {
-  "id": 2,
-  "externalId": "XXXYYY",
+  "id": 35,
+  "externalId": "TRRRRFF",
   "carrier": true,
   "consignee": true,
   "creditor": true,
@@ -690,11 +752,17 @@ Retrieve an Organization via `GET` request to `https://public.shipamax-api.com/a
 }
 ```
 
-### GET (Using Query Filter)
+### GET (list of Organistion using Filter)
+Retrieve list of Organizations that match a filter.
+**Note:** When filter is included, Shipamax will return only the Organizations matching the requested pattern.
 
-Retrieve Organizations via `GET` request to `https://public.shipamax-api.com/api/v2/Organizations` and sending in a JSON body to return all Organizations matching the given filter body, or none for all Organizations.
+| Endpoint                         | Verb  | Body                              | Response                                       |
+| -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
+| /Organizations | GET | Filter string in JSON | 
 
-> The GET Organizations query filter body requires JSON structured like this:
+
+> **Body structure for GET Organization request using filter**
+
 ```json
 {
   "filter": {
@@ -705,6 +773,9 @@ Retrieve Organizations via `GET` request to `https://public.shipamax-api.com/api
         },
         {
           "active": true
+        },
+        {
+          "consignee": false
         }
       ]
     }
@@ -712,56 +783,49 @@ Retrieve Organizations via `GET` request to `https://public.shipamax-api.com/api
 }
 ```
 
->The GET by filter endpoint respond with JSON like this:
-```json
-[
-  {
-    "id": 2,
-    "externalId": "XXXYYY",
-    "carrier": true,
-    "consignee": true,
-    "creditor": true,
-    "forwarder": false,
-    "debtor": false,
-    "shipper": true,
-    "active": true,
-    "updated": "2021-08-06T09:58:20.384Z"
-  }
-]
-```
-
 ### PATCH
-Patch Organization data via `PATCH` request to `https://public.shipamax-api.com/api/v2/Organizations/${id}` and sending in a JSON body with the data to be updated.
+Update details of an existing Organization
 
-> The PATCH Organizations body requires JSON structured like this:
+| Endpoint                         | Verb  | Body                              | Response                                       |
+| -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
+| /Organizations/{org_id} | PATCH | The updated Organization details in JSON | 
+
+> **JSON structure for PATCH Organization request**
+
 ```json
 {
-  "externalId": "A",
-  "active": false
+  "externalId": "TRFHEED",
+  "active": true
 }
 ```
 
->The PATCH method responds with the updated Organization as JSON like this:
+> **Example:** PATCH response with the updated Organization as JSON like this:
+
 ```json
 {
-  "id": 1,
-  "externalId": "A",
+  "id": 35,
+  "externalId": "TRFHEED",
   "carrier": false,
   "consignee": true,
   "creditor": true,
   "forwarder": false,
   "debtor": false,
   "shipper": false,
-  "active": false,
+  "active": true,
   "updated": "2020-01-01T00:00:00.000Z"
 }
 ```
 
 ### DELETE
-Delete Organization data via `DELETE` request to `https://public.shipamax-api.com/api/v2/Organizations/${id}`.
+Delete an Organization
+
+| Endpoint                         | Verb  | Body                              | Response                                       |
+| -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
+| /Organizations/{org_id} | DELETE |  | number of of deleted organisations |
 
 
->The DELETE method responds with a count of the number of records deleted like this:
+> **Example:** DELETE Organization response
+
 ```json
 {
   "count": 1
@@ -769,109 +833,112 @@ Delete Organization data via `DELETE` request to `https://public.shipamax-api.co
 ```
 
 ## Organization Name Endpoint
-An Organization Name represents a name associated with an Organization, each Organization may have multiple names associated with it. Each Organization Name must have the unique `id` identifier from within Shipamax that associates an Organization Name to an Organization.
+An Organization Name represents a name associated with an Organization. An Organization can have multiple names associated with it. 
+Each Organization Name added is assigned an internal ID, unique to Shipamax (referred to as `name_id`). This ID is required in order to DELETE/PATCH the name
 
-| Endpoint                         | Verb  | Description                                                                       |
-| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /OrganizationNames | GET | Retrieve a list of your Organizations Names that match a filter  | 
-| /OrganizationNames | POST  | Create a new Organization Name | 
-| /OrganizationNames/{id} | PATCH  | Update an Organization Name by specifying the fields that have changed  | 
-| /OrganizationNames/{id} | DELETE | Remove an Organization Name from the system  | 
 
-Definition of the Organization Name attributes
+### Organization Name attributes
 
 | Attribute                               |  Description                                                      |
 | --------------------------------------- | ----------------------------------------------------------------- |
 | id                 | Unique identifier of the Organization Name within the Shipamax system |
-| organizationId                               | Unique ID of the Organization this Organization Name is associated to in Shipamax           |
+| organizationId                               | Internal ID of the Organization this Name is associated with in Shipamax           |
 | name                       | The name for the Organization   |
 | main                       | Flag denoting whether this is the main name for an Organization. This is unique across Organizations; there can only be one main name per Organization  |
 
 ### POST
-Send a new Organization Name via `POST` request to `https://public.shipamax-api.com/api/v2/OrganizationNames`
+Create a new Name and assign it to an existing Organisation.
 
-> The POST OrganizationNames request requires a body JSON structured like this:
+| Endpoint                         | Verb  | Body                              | Response                                       |
+| -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
+| /Organizations/{org_id}/Names | POST  | The Name details in JSON | The details of the created Name, including its unique ID and the Organization ID |
+
+
+> **JSON structure for POST Organization Name request**
+
 ```json
 {
-  "organizationId": integer,
   "name": string,
   "main": boolean
 }
 ```
->Example JSON body to create an organization
-```json
-{
-  "organizationId": 1,
-  "name": "A",
-  "main": true
-}
-```
-**NOTE: The `organizationId` is the ID returned from the Organization endpoints.**
 
->The POST endpoint will respond with JSON like this:
+> **Example:** POST Organization's Name response
 ```json
 {
   "id": 1,
-  "organizationId": 1,
-  "name": "A",
-  "main": true
+  "organizationId": 35,
+  "name": "Foo",
+  "main": false
 }
 ```
 
 ### GET
-Retrieve an Organization Name via `GET` request to `https://public.shipamax-api.com/api/v2/OrganizationNames/${id}`
+Retrieve all Names assigned to an Organization.
 
->The GET endpoint responds with JSON like this:
+| Endpoint                         | Verb  | Body                              | Response                                       |
+| -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
+| /Organizations/{org_id}/Names | GET  |  | List of the Organisation's Names in JSON  |
+
+> **Example:** GET Organisation's Names response
+
 ```json
+[
 {
-  "id": 1,
-  "organizationId": 2,
-  "name": "A",
-  "main": true
+  "organizationId": 35,
+  "name": "Foo",
+  "main": false,
+  "id": 1
+},
+{
+  "organizationId": 35,
+  "name": "Fee",
+  "main": true,
+  "id": 2
 }
+]
 ```
 
 ### PATCH
-Patch Organization Name data via `PATCH` request to `https://public.shipamax-api.com/api/v2/OrganizationNames/${id}` and sending in a JSON body with the data to be updated.
+Update an existing Organization's Name
 
-> The PATCH Organization Names body requires JSON structured like this:
+| Endpoint                         | Verb  | Body                              | Response                                       |
+| -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
+| /OrganizationNames/{name_id} | PATCH  | The updated details in JSON | The Name object in JSON  |
+
+
+> **Example:** Body of PATCH OrganizationNames request (This change the name to "NewName" and set it as main name) 
+
 ```json
 {
-  "name": "A"
+  "name": "NewName"
+  "Main": true
 }
 ```
 
->The PATCH method responds with the updated Organization Name as JSON like this:
+> **Example:** PATCH OrganizationNames response
+
 ```json
 {
-  "id": 1,
-  "organizationId": 2,
-  "name": "A",
-  "main": true
+  "organizationId": 35,
+  "name": "NewName",
+  "main": true,
+  "id": 1
 }
 ```
 
 ### DELETE
-Delete Organization data via `DELETE` request to `https://public.shipamax-api.com/api/v2/OrganizationNames/${id}`.
+Delete an existing Organization's Name
 
->The DELETE method responds with a count of the number of records deleted like this:
-```json
-{
-  "count": 1
-}
-```
+| Endpoint                         | Verb  | Body                              | Response                                       |
+| -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
+| /OrganizationNames/{name_id} | DELETE  | | number of deleted objects |
 
 ## Organization Address Endpoint
-An Organization Address represents an address associated with an Organization, each Organization may have multiple addresses associated with it. Each Organization Address must have the unique `id` identifier from within Shipamax that associates an Organization Address to an Organization. Organization Addresses are unique based on a composition of `address1`, `postCode`, and `email`.
+An Organization Address represents an Address associated with an Organization. An Organization can have multiple Addresses associated with it. 
+Each Organization Address added is assigned an internal ID unique to Shipamax (referred to as `addr_id`). This ID is required in order to DELETE/PATCH the Address.
 
-| Endpoint                         | Verb  | Description                                                                       |
-| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /OrganizationAddresses | GET | Retrieve a list of your Organizations Addresses that match a filter  | 
-| /OrganizationAddresses | POST  | Create a new Organization Address | 
-| /OrganizationAddresses/{id} | PATCH  | Update an Organization Address by specifying the fields that have changed  | 
-| /OrganizationAddresses/{id} | DELETE | Remove an Organization Address from the system  | 
-
-Definition of the Organization Address attributes
+### Attributes
 
 | Attribute                               |  Description                                                      |
 | --------------------------------------- | ----------------------------------------------------------------- |
@@ -883,36 +950,41 @@ Definition of the Organization Address attributes
 | main                       | Flag denoting whether this is the main address for an Organization. This is unique across Organizations; there can only be one main address per Organization  |
 
 ### POST
-Send a new Organization Address via `POST` request to `https://public.shipamax-api.com/api/v2/OrganizationAddresses`.
+Create a new Address for an existing Organization
 
-> The POST OrganizationAddresses request requires a body JSON structured like this:
+| Endpoint                         | Verb  | Body                              | Response                                       |
+| -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
+| /Organizations/{org_id}/Addresses | POST  | The new Address details in JSON | The details of the created Address, including its unique ID and the Organization ID |
+
+
+> **JSON structure for POST Organizations Address request**
+> 
 ```json
 {
-  "organizationId": integer,
   "address1": string,
   "postCode": string,
   "email": string,
   "main": boolean
 }
 ```
-**NOTE: The `organizationId` is the ID returned from the Organization endpoints.**
 
->Example JSON body to create an Organization Address
+> **Example:** Body of POST Organization's Address request
+ 
 ```json
 {
-  "organizationId": 2,
-  "address1": "A",
+  "address1": "Rue Lars",
   "postCode": "AA1 123B",
   "email": "email@email.com",
   "main": true
 }
 ```
 
->The POST endpoint will respond with JSON like this:
+> **Example:** POST Organization's Address response
+
 ```json
 {
-  "organizationId": 2,
-  "address1": "A",
+  "organizationId": 35,
+  "address1": "Rue Lars",
   "postCode": "AA1 123B",
   "email": "email@email.com",
   "main": true
@@ -920,51 +992,70 @@ Send a new Organization Address via `POST` request to `https://public.shipamax-a
 ```
 
 ### GET
-Retrieve an Organization Address via `GET` request to `https://public.shipamax-api.com/api/v2/OrganizationAddresses/${id}`
+Retrieve all Addresses assigned to an Organization.
 
->The GET endpoint respond with JSON like this:
+| Endpoint                         | Verb  | Body                              | Response                                       |
+| -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
+| /Organizations/{org_id}/Addresses | GET  |  | List of the Organisation's Addresses in JSON  |
+
+> **Example:** GET Organisation's Address response
+
+```json
+[
+{
+  "id": 1,
+  "organizationId": 35,
+  "address1": "Rue Lars",
+  "postCode": "AA1 123B",
+  "email": "email@email.com",
+  "main": true
+},
+{
+  "id": 2,
+  "organizationId": 35,
+  "address1": "Green Hill",
+  "postCode": "S3fdede£",
+  "email": "email@email.com",
+  "main": false
+}
+]
+```
+
+### PATCH
+Update an existing Organization's Address
+
+| Endpoint                         | Verb  | Body                              | Response                                       |
+| -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
+| /OrganizationAddresses/{addr_id} | PATCH  | The updated details in JSON | The Address object in JSON  |
+
+
+> **Example:** Body of PATCH OrganizationAddresses request 
+
+```json
+{
+  "address1": "New Street 1"
+}
+```
+
+> **Example:** PATCH OrganizationAddresses response
+
 ```json
 {
   "id": 1,
-  "organizationId": 2,
-  "address1": "A",
+  "organizationId": 35,
+  "address1": "New Street 1",
   "postCode": "AA1 123B",
   "email": "email@email.com",
   "main": true
 }
 ```
 
-### PATCH
-Patch Organization Address data via `PATCH` request to `https://public.shipamax-api.com/api/v2/OrganizationAddresses/${id}` and sending in a JSON body with the data to be updated.
-
-> The PATCH Organization Addresses body requires JSON structured like this:
-```json
-{
-  "address1": "B"
-}
-```
-
->The PATCH method responds with the updated organization address as JSON like this:
-```json
-{
-  "id": 1,
-  "organizationId": 2,
-  "address1": "B",
-  "postCode": "AA1 123B",
-  "email": "email@email.com",
-  "main": false
-}
-```
-
 ### DELETE
-Delete Organization data via `DELETE` request to `https://public.shipamax-api.com/api/v2/OrganizationNames/${id}`.
+Delete an existing Organization's Name
 
->The DELETE method responds with a count of the number of records deleted like below
-```json
-{
-  "count": 1
-}
-```
+| Endpoint                         | Verb  | Body                              | Response                                       |
+| -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
+| /OrganizationAddresses/{addr_id} | DELETE  | | number of deleted objects |
 
 ## File Endpoint
 
