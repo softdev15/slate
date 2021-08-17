@@ -801,7 +801,7 @@ Send a new Organization Name via `POST` request to `https://public.shipamax-api.
   "organizationId": integer,
   "name": string,
   "main": boolean
-}
+}sdfsdf
 ```
 >Example JSON body to create an organization
 ```json
