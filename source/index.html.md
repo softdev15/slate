@@ -1435,6 +1435,10 @@ Similarly, multiple shipments can be specified by repeating `<SubShipment>` XML 
 
 **Product code data:**
 
+There are two formats you can send product data in; verbose and native.
+
+## Verbose
+
 This is a `<XmlInterchange>` request.
 XML tag `<Products>` wraps up all the product code related data.
 
@@ -1582,6 +1586,57 @@ you can also take the message encoded within the SOAP message and post it as a r
         </s:Header>
         <s:Body/>
       </s:Envelope>
+```
+
+### Native
+
+This is a `<Native>` request.
+XML tag `<Product>` wraps up all the product code related data.
+
+**Following are the important tags we expect in the request:**
+
+**Product-**
+  **OrgSupplierPart-**
+    *PartNum*,
+    *Desc*,
+    *StockKeepingUnit*
+  **OrgPartRelationCollection-**
+    **OrgPartRelation-**
+      *Relationship*,
+      **OrgHeader**
+        *Code*
+
+> Example xml format when sending product code data:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<UniversalInterchange xmlns="http://www.cargowise.com/Schemas/Universal/2011/11" version="1.1">
+    <Header>
+        <SenderID>TST</SenderID>
+        <RecipientID>test</RecipientID>
+    </Header>
+    <Body>
+        <Native xmlns="http://www.cargowise.com/Schemas/Native/2011/11" version="2.0">
+            <Body>
+                <Product version="2.0">
+                    <OrgSupplierPart Action="MERGE">
+                        <PartNum>TESTCODE</PartNum>
+                        <StockKeepingUnit>PCE</StockKeepingUnit>
+                        <Desc>TEST DESCRIPTION</Desc>
+                        <OrgPartRelationCollection>
+                            <OrgPartRelation Action="MERGE">
+                                <Relationship>OWN</Relationship>
+                                <OrgHeader>
+                                    <Code>TESTORGCODE</Code>
+                                </OrgHeader>
+                            </OrgPartRelation>
+                        </OrgPartRelationCollection>
+                    </OrgSupplierPart>
+                </Product>
+            </Body>
+        </Native>
+    </Body>
+</UniversalInterchange>
 ```
 
 ## Lists of codes for fields
