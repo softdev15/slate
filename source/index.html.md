@@ -1760,6 +1760,13 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | FCL         | Full Container Load      |
 | LCL         | Less than Container Load |
 | GRP         | Groupage                 |
+| BLK         | Bulk                     |
+| LQD         | Liquid                   |
+| BBK         | Break Bulk               |
+| BCN         | Buyer's Consolidation    |
+| ROR         | Roll On/Roll Off         |
+| OTH         | Other                    |
+
 
 ### List of FileType values
 | Code         | Description
