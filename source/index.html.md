@@ -313,7 +313,7 @@ The following objects can be used as parameters in the *include* query
 }
 ```
 
-### Root *FileGroup* attributes
+### *FileGroup* root attributes
 | Attribute                               |  Description                                                                                                                      |
 | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | placeholderJobRef                       | A reference ID in an external system you would like to associate the Group with (manually added)                                  |
@@ -338,7 +338,7 @@ The following objects can be used as parameters in the *include* query
 | files.filename                          | The name of the file as received within the email                                                                                 |
 | files.fileType                          | The type of the file as received within the email. Possible values can be seen in our [list of file types](#list-of-filetype-values)   |
 
-### *Files.billOfLading* attributes
+### *Files/billOfLading* attributes
 
 | Attribute                               |  Description                                                                                                                      |
 | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
@@ -351,17 +351,17 @@ The following objects can be used as parameters in the *include* query
 | files.billOfLading.isDraft              | If isDraft is True, then this Bills of Lading is a Draft version and not Final                                                    |
 | files.billOfLading.importerReference    | Importer Job Ref List                                                                                                             |
 | files.billOfLading.shipper              | The raw data extracted for the Shipper field from the bill of lading file                                                         |
-| files.billOfLading.shipperCode          | The code for the selected Shipper (as it appears in the Exception Manager UI, taken from your Organisation data)                                                       |
+| files.billOfLading.shipperCode          | The code for the selected Shipper (as it appears in the Exception Manager UI, taken from your Organization data)                                                       |
 | files.billOfLading.shipperOrgId         | The internal ID of the selected Shipper                                                         |
 | files.billOfLading.shipperOrgNameId     | The internal ID of the selected name of the Shipper                                                        |
 | files.billOfLading.shipperOrgAddressId  | The internal ID of the selected address of the Shipper                                                            |
 | files.billOfLading.consignee            | The raw data extracted for the Consignee field from the bill of lading file                                                                                                                                     |
-| files.billOfLading.consigneeCode          | The code for the selected Consignee (as it appears in the Exception Manager UI, taken from your Organisation data)                                                       |
+| files.billOfLading.consigneeCode          | The code for the selected Consignee (as it appears in the Exception Manager UI, taken from your Organization data)                                                       |
 | files.billOfLading.consigneeOrgId         | The internal ID of the selected Consignee                                                         |
 | files.billOfLading.consigneeOrgNameId     | The internal ID of the selected name of the Consignee                                                        |
 | files.billOfLading.consigneeOrgAddressId  | The internal ID of the selected Address of the Consignee                                                            |
 | files.billOfLading.carrier              | The raw data extracted for the Carrier field from the bill of lading file                                                                                                                                     |
-| files.billOfLading.carrierCode          | The code for the selected Carrier (as it appears in the Exception Manager UI, taken from your Organisation data)                                                       |
+| files.billOfLading.carrierCode          | The code for the selected Carrier (as it appears in the Exception Manager UI, taken from your Organization data)                                                       |
 | files.billOfLading.carrierOrgId         | The internal ID of the selected Carrier                                                         |
 | files.billOfLading.carrierOrgNameId     | The internal ID of the selected name of the Carrier                                                        |
 | files.billOfLading.carrierOrgAddressId  | The internal ID of the selected Address of the Carrier                                                            |
@@ -381,7 +381,7 @@ The following objects can be used as parameters in the *include* query
 ]                                                                                                                                  |
 | files.billOfLading.containerMode        | The Container's mode. See [List of Container Modes](#List-of-ContainerMode-values) for possible values                                                                                                                                  |
 
-### *Files.billOfLading.Container* attributes
+### *Files/billOfLading/Container* attributes
 
 | Attribute                               |  Description                                                                                                                      |
 | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
@@ -389,7 +389,7 @@ The following objects can be used as parameters in the *include* query
 | files.billOfLading.container.containerType | The container type. Possible values for this list [List of ContainerType values](#list-of-containertype-values) |
 | files.billOfLading.container.seals         | List of seals included in the container                                                                                        |
 
-### *Files.billOfLading.packLine* attributes
+### *Files/billOfLading/packLine* attributes
 
 | Attribute                               |  Description                                                                                                                      |
 | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
@@ -401,7 +401,7 @@ The following objects can be used as parameters in the *include* query
 | files.billOfLading.packLine.weightUnit  | The weight units used. Supported values are: 'kg', 't' |
 | files.billOfLading.packLine.volumeUnit  | The volume units used. Supported values are: 'm^3'                                                                                                                                |
 
-### *Files.billOfLading.notify* attributes
+### *Files/billOfLading/notify* attributes
 A Bill of Lading can have several Notify party.
 
 
@@ -412,7 +412,7 @@ A Bill of Lading can have several Notify party.
           |
 | files.billOfLading.notify.notifyParty            | The raw data extracted for the Notify Party field from the bill of lading file             
           |
-| files.billOfLading.notify.notifyPartyCode           | The code for the selected Notify Party  (as it appears in the Exception Manager UI, taken from your Organisation data)              
+| files.billOfLading.notify.notifyPartyCode           | The code for the selected Notify Party  (as it appears in the Exception Manager UI, taken from your Organization data)              
           |
 | files.billOfLading.notify.notifyPartyOrgId           |  The internal ID of the selected Notify Party                
           |
@@ -654,9 +654,9 @@ Send a new validation result via `POST` request to `https://public.shipamax-api.
 ```
 
 ## Organization Endpoint
-The Organizations list represents businesses that might be referenced in the documents you send Shipamax to processes (for exmaple, the Shipper on a House Bill of Lading, a Supplier on a Commercial Invoice Creditor etc.). The organisation list is used to improve the accuracy of the parsing process, making sure the most likely organisation is selected. 
+The Organizations list represents businesses that might be referenced in the documents you send Shipamax to processes (for exmaple, the Shipper on a House Bill of Lading, a Supplier on a Commercial Invoice Creditor etc.). The organization list is used to improve the accuracy of the parsing process, making sure the most likely organization is selected. 
 Each Organization must have a unique identifier provided by you (referred to as `externalId`), this is usually the identifier used in your own system. 
-Each organization added is assigned an internal ID unique to Shipamax (referred to as `org_id`). This ID is required in order to DELETE/PATCH the organisation as well as adding Names and Addresses to the Organization
+Each organization added is assigned an internal ID unique to Shipamax (referred to as `org_id`). This ID is required in order to DELETE/PATCH the organization as well as adding Names and Addresses to the Organization
 
 ### Attributes
 
@@ -676,9 +676,10 @@ Each organization added is assigned an internal ID unique to Shipamax (referred 
 
 ### POST
 Create a new Organization
+
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Organizations | POST | Organization's detials in JSON|  The new Organization object in JSON  |
+| /Organizations                   | POST  | Organization's details in JSON    |  The new Organization object in JSON           |
 
 > **Body structure for POST Organizations request:**
 
@@ -727,12 +728,12 @@ Create a new Organization
 }
 ```
 
-### GET (specific Organisation)
+### GET (specific Organization)
 Retrieve details of a an existing Organization
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Organizations/{org_id} | GET |  | An Organization object in JSON |
+| /Organizations/{org_id} | GET | Not required | An Organization object in JSON |
 
 
 > **Example:** GET Organization response
@@ -758,7 +759,7 @@ Retrieve list of Organizations that match a filter.
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Organizations | GET | Filter string in JSON | 
+| /Organizations | GET | Filter string in JSON | An array of organizations objects in JSON |
 
 
 > **Body structure for GET Organization request using filter**
@@ -821,7 +822,7 @@ Delete an Organization
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Organizations/{org_id} | DELETE |  | number of of deleted organisations |
+| /Organizations/{org_id} | DELETE | Not required | Number of deleted organizations |
 
 
 > **Example:** DELETE Organization response
@@ -847,7 +848,7 @@ Each Organization Name added is assigned an internal ID, unique to Shipamax (ref
 | main                       | Flag denoting whether this is the main name for an Organization. This is unique across Organizations; there can only be one main name per Organization  |
 
 ### POST
-Create a new Name and assign it to an existing Organisation.
+Create a new Name and assign it to an existing organization.
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
@@ -878,9 +879,9 @@ Retrieve all Names assigned to an Organization.
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Organizations/{org_id}/Names | GET  |  | List of the Organisation's Names in JSON  |
+| /Organizations/{org_id}/Names | GET  | Not required | List of the Organization's Names in JSON  |
 
-> **Example:** GET Organisation's Names response
+> **Example:** GET Organization's Names response
 
 ```json
 [
@@ -904,7 +905,7 @@ Update an existing Organization's Name
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /OrganizationNames/{name_id} | PATCH  | The updated details in JSON | The Name object in JSON  |
+| /OrganizationNames/{name_id} | PATCH | The updated details in JSON | The Name object in JSON  |
 
 
 > **Example:** Body of PATCH OrganizationNames request (This change the name to "NewName" and set it as main name) 
@@ -932,7 +933,7 @@ Delete an existing Organization's Name
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /OrganizationNames/{name_id} | DELETE  | | number of deleted objects |
+| /OrganizationNames/{name_id} | DELETE  | Not required | Number of deleted objects |
 
 ## Organization Address Endpoint
 An Organization Address represents an Address associated with an Organization. An Organization can have multiple Addresses associated with it. 
@@ -996,9 +997,9 @@ Retrieve all Addresses assigned to an Organization.
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Organizations/{org_id}/Addresses | GET  |  | List of the Organisation's Addresses in JSON  |
+| /Organizations/{org_id}/Addresses | GET  | Not required | List of the Organization's Addresses in JSON  |
 
-> **Example:** GET Organisation's Address response
+> **Example:** GET Organization's Address response
 
 ```json
 [
@@ -1055,7 +1056,7 @@ Delete an existing Organization's Name
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /OrganizationAddresses/{addr_id} | DELETE  | | number of deleted objects |
+| /OrganizationAddresses/{addr_id} | DELETE  | Not required | Number of deleted objects |
 
 ## File Endpoint
 
@@ -1280,7 +1281,7 @@ XML tag `<OrgHeader>` wraps up all the organization related details such as Orga
 </UniversalInterchange>
 ```
 
-> Example xml format when sending organisation data as a `<Native>` request:
+> Example xml format when sending organization data as a `<Native>` request:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -1445,7 +1446,7 @@ XML tag `<Products>` wraps up all the product code related data.
   *ProductDescription*,
   *StockUnit*
 
-**RelatedOrganisation-**
+**RelatedOrganization-**
   *OwnerCode*,
   *RelationshipType*
 
@@ -1754,11 +1755,18 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | UNT         | Unit               |
 
 ### List of ContainerMode values
-| PackageType | Description              |
+| Mode        | Description              |
 | ----------- | ------------------------ |
 | FCL         | Full Container Load      |
 | LCL         | Less than Container Load |
 | GRP         | Groupage                 |
+| BLK         | Bulk                     |
+| LQD         | Liquid                   |
+| BBK         | Break Bulk               |
+| BCN         | Buyer's Consolidation    |
+| ROR         | Roll On/Roll Off         |
+| OTH         | Other                    |
+
 
 ### List of FileType values
 | Code         | Description
