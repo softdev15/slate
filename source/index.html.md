@@ -1438,7 +1438,7 @@ Similarly, multiple shipments can be specified by repeating `<SubShipment>` XML 
 
 There are two formats you can send product data in; verbose and native.
 
-## Verbose
+### Verbose
 
 This is a `<XmlInterchange>` request.
 XML tag `<Products>` wraps up all the product code related data.
