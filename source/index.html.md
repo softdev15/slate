@@ -185,12 +185,15 @@ The following objects can be used as parameters in the *include* query
 | --------------------------------------- | ------------------------------------------------------------------ |
 | files                                   | List of all files in the group                                     |
 | lastValidationResult                    | The results of the last validation performed on the group          |
-| files/billOfLading                      | Details of the group's Bill of Lading's                            |
+| files/billOfLading                      | Details of the group's Bill of Ladings                             |
 | files/billOfLading/importerReference    | The list of external references associated with the Bill of Lading |
 | files/billOfLading/notify               | Details of the Notify party on the Bill of Lading                  |
 | files/billOfLading/container            | List of containers associated with the Bill of Lading              |
 | files/billOfLading/container/seals      | List of seals for each container                                   |
-| files/billOfLading/packline             | List of paking lines associated with the Bill of Lading            |
+| files/billOfLading/packline             | List of packing lines associated with the Bill of Lading           |
+| files/commercialInvoice                 | Details of the group's Commercial Invoices                         |
+| files/commercialInvoice/lineItem        | List of line items associated with the Commercial Invoice          |
+
 
 
 > The GET FileGroup when requested with all its inner objects returns JSON structured like this:
@@ -307,7 +310,42 @@ The following objects can be used as parameters in the *include* query
             }
           ]
         }
-      ]
+      ],
+      "commercialInvoice": [
+                {
+                    "supplier": string,
+                    "supplierCode": string,
+                    "supplierOrgId": integer,
+                    "supplierOrgNameId": integer,
+                    "supplierOrgAddressId": integer,
+                    "importer": string,
+                    "importerCode": string,
+                    "importerOrgId": integer,
+                    "importerOrgNameId": integer,
+                    "importerOrgAddressId": integer,
+                    "invoiceNumber": string,
+                    "invoiceDate": string,
+                    "invoiceGrossTotal": float,
+                    "netTotal": float,
+                    "currency": string,
+                    "incoTerm": string,
+                    "id": integer,
+                    "lineItem": [
+                        {
+                            "description": string,
+                            "quantity": integer,
+                            "unitPrice": float,
+                            "lineTotal": float,
+                            "unitType": string,
+                            "productCode": string,
+                            "origin": string,
+                            "productCodeMatch": boolean,
+                            "HsCode": string,
+                            "id": integer
+                        }
+                    ]
+                }
+            ]
     }
   ]
 }
@@ -405,21 +443,52 @@ The following objects can be used as parameters in the *include* query
 A Bill of Lading can have several Notify party.
 
 
+| Attribute                               | Description                                                         |
+| --------------------------------------- | ------------------------------------------------------------------- |
+| files.billOfLading.notify.id            | The NotifyParty object ID      |
+| files.billOfLading.notify.notifyParty   | The raw data extracted for the Notify Party field from the bill of lading file  |
+| files.billOfLading.notify.notifyPartyCode | The code for the selected Notify Party  (as it appears in the Exception Manager UI, taken from your Organization data) |
+| files.billOfLading.notify.notifyPartyOrgId           |  The internal ID of the selected Notify Party           |
+| files.billOfLading.notify.notifyPartyOrgNameId            | The internal ID of the selected Name of the Notify Party |
+| files.billOfLading.notify.notifyPartyOregAddressId            |   The internal ID of the Address of the selected Notify Party           |
+
+### *Files/commercialInvoice* attributes
+
 | Attribute                               |  Description                                                                                                                      |
 | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-                                                                                                                  |
-| files.billOfLading.notify.id            | The NorifyParty object ID      
-          |
-| files.billOfLading.notify.notifyParty            | The raw data extracted for the Notify Party field from the bill of lading file             
-          |
-| files.billOfLading.notify.notifyPartyCode           | The code for the selected Notify Party  (as it appears in the Exception Manager UI, taken from your Organization data)              
-          |
-| files.billOfLading.notify.notifyPartyOrgId           |  The internal ID of the selected Notify Party                
-          |
-| files.billOfLading.notify.notifyPartyOrgNameId            | The internal ID of the selected Name of the Notify Party            
-          |
-| files.billOfLading.notify.notifyPartyOregAddressId            |   The internal ID of the Address of the selected Notify Party             
-          |
+| files.commercialInvoice                      | An array of commercial invoices extracted from this file, if any.                                                                     |
+| files.commercialInvoice.id       | The internal ID of the commercial invoice.                                                                         |
+| files.commercialInvoice.supplier            | The raw data extracted for the supplier field from the commercial invoice file.   |
+| files.commercialInvoice.supplierCode      | The code for the selected supplier (as it appears in the Exception Manager UI) taken from your Organization data.                   |
+| files.commercialInvoice.supplierOrgId                 | The internal ID of the selected supplier.                                               |
+| files.commercialInvoice.supplierOrgNameId              | The internal ID of the selected name of the supplier.                              |
+| files.commercialInvoice.supplierOrgAddressId              | The internal ID of the selected Address of the supplier.                                                   |
+| files.commercialInvoice.importer    | The raw data extracted for the importer field from the commercial invoice  file.                                                                                          |
+| files.commercialInvoice.importerCode              | The code for the selected importer (as it appears in the Exception Manager UI), taken from your Organization data.                                                         |
+| files.commercialInvoice.importerOrgId          | The internal ID of the selected importer.                                           |
+| files.commercialInvoice.importerOrgNameId         | The internal ID of the selected name of the importer.                                                    |
+| files.commercialInvoice.importerOrgAddressId     | The internal ID of the selected Address of the importer.                                   |
+| files.commercialInvoice.invoiceNumber  | The commercial invoice number.                                             |
+| files.commercialInvoice.invoiceDate            | The commercial invoice date.                                                  |
+| files.commercialInvoice.invoiceGrossTotal          | The commercial invoice’s total amount.                                 |
+| files.commercialInvoice.netTotal         | The commercial invoice's net total.                                                        |
+| files.commercialInvoice.currency     | The currency used in the commercial invoice.                                           |
+| files.commercialInvoice.incoTerm  | The commercial invoice incoterm.                                                     |
+
+### *Files/commercialInvoice/lineItem* attributes
+
+| Attribute                            | Description                               |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------  |
+| files.commercialInvoice.lineItem.id            | The internal ID of the line item.   |
+| files.commercialInvoice.lineItem.description            | The line item description.     |
+| files.commercialInvoice.lineItem.quantity           | The number of units included in the line item.           |
+| files.commercialInvoice.lineItem.unitPrice           |  The price of a single unit in the line item.              |
+| files.commercialInvoice.lineItem.lineTotal            | The total amount of the line item.         |
+| files.commercialInvoice.lineItem.unitType            |  The type of the unit in the line item.            |
+| files.commercialInvoice.lineItem.productCode            | The code for the product in the line item.        |
+| files.commercialInvoice.lineItem.origin            |  The origin country of the unit in the line item            |
+| files.commercialInvoice.lineItem.productCodeMatch            |   indicate if the product code extracted matched a code taken from your product code data.       |
+| files.commercialInvoice.lineItem.hsCode            |   The HS Code of this line item.             |
 
 
 > Example of request without include parameter:
@@ -472,6 +541,7 @@ A Bill of Lading can have several Notify party.
 > Example of request with all inner objects included:
 > /FileGroups/1?include=lastValidationResult,files/billOfLading/importerReference,files/billOfLading/notify,
 > files/billOfLading/container/seals,files/billOfLading/packline
+> files/commercialInvoice,files/commercialInvoice/lineItem
 
 ```json
 {
@@ -584,7 +654,42 @@ A Bill of Lading can have several Notify party.
             }
           ]
         }
-      ]
+      ],
+      "commercialInvoice": [
+                {
+                    "supplier": "PARSED VALUE",
+                    "supplierCode": "CODE",
+                    "supplierOrgId": 1,
+                    "supplierOrgNameId": 1,
+                    "supplierOrgAddressId": 1,
+                    "importer": "PARSEDVALUE",
+                    "importerCode": "CODE",
+                    "importerOrgId": 1,
+                    "importerOrgNameId": 1,
+                    "importerOrgAddressId": 1,
+                    "invoiceNumber": "ABC12345",
+                    "invoiceDate": "2020-07-03",
+                    "invoiceGrossTotal": 2607.92,
+                    "netTotal": 2607.92,
+                    "currency": "USD",
+                    "incoTerm": "FCA",
+                    "id": 1,
+                    "lineItem": [
+                        {
+                            "description": "ITEM DESCRIPTION",
+                            "quantity": 10,
+                            "unitPrice": 24.95,
+                            "lineTotal": 199.6,
+                            "unitType": "NO",
+                            "productCode": null,
+                            "origin": "MX",
+                            "productCodeMatch": false,
+                            "HsCode": "1234567890",
+                            "id": 1
+                        }
+                    ]
+                }
+            ]
     }
   ]
 }
