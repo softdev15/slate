@@ -490,6 +490,45 @@ A Bill of Lading can have several Notify party.
 | files.commercialInvoice.lineItem.productCodeMatch            |   indicate if the product code extracted matched a code taken from your product code data.       |
 | files.commercialInvoice.lineItem.hsCode            |   The HS Code of this line item.             |
 
+### *Files/apInvoice* attributes
+
+| Attribute                            | Description                               |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------  |
+| files.apInvoice.addressee            | The raw data extracted for the addressee field from the invoice.                   |
+| files.apInvoice.addresseeCode            | The code for the selected addressee (as it appears in the Exception Manager UI) taken from your Organization data.      |
+| files.apInvoice.issuer           | The raw data extracted for the issuer field from the invoice.       |
+| files.apInvoice.issuerCode           | The code for the selected issuer (as it appears in the Exception Manager UI) taken from your Organization data.        |
+| files.apInvoice.invoiceNumber            | The invoice number.                    |
+| files.apInvoice.invoiceDate            |  The invoice date            |
+| files.apInvoice.grossTotal            | The invoice's gross total.        |
+| files.apInvoice.netTotal            |  The invoice's net total.            |
+| files.apInvoice.vatTotal            |   The invoice's total VAT.       |
+| files.apInvoice.currency            |   The currency of the invoice.             |
+| files.apInvoice.currencyId            |  The internal ID of the currency of the invoice.             |
+| files.apInvoice.validationResultId            |   The internal ID of the last validation result.             |
+| files.apInvoice.teamId            |  The internal ID of the currently assigned team for the invoice.             |
+| files.apInvoice.previousTeamId            |   The internal ID of the last assigned team for the invoice.             |
+| files.apInvoice.reassignTime            |   The timestamp of when this invoice was last reassigned.             |
+| files.apInvoice.email            |   The email for this invoice.             |
+| files.apInvoice.website            |   The website for this invoice.             |
+| files.apInvoice.issuerRecordId            |  A composite internal ID for the selected issuer, name and address.             |
+| files.apInvoice.glCode            |   The general ledger code of this invoice.            |
+| files.apInvoice.description            |   The description of the invoice.            |
+| files.apInvoice.departmentCode            |  The department code of this invoice.             |
+| files.apInvoice.branchCountry            |   The branch country of this invoice.             |
+
+### *Files/email* attributes
+
+| Attribute                            | Description                               |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------  |
+| files.email.customId           | The custom ID associated with this email.                   |
+| files.email.emailAccountId            | The internal ID for the email account this was sent to.      |
+| files.email.sender           | The sender of the email.       |
+| files.email.created           | The date this was created in Shipamax.        |
+| files.email.attachmentCount            | The number of attachments this email had.                  |
+| files.email.companyId           | Your internal company ID.     |
+| files.email.subject          | The subject of this email.        |
+| files.email.unqId            | The internal unique ID of this email.                 |
 
 > Example of request without include parameter:
 > /FileGroups/1
@@ -541,7 +580,7 @@ A Bill of Lading can have several Notify party.
 > Example of request with all inner objects included:
 > /FileGroups/1?include=lastValidationResult,files/billOfLading/importerReference,files/billOfLading/notify,
 > files/billOfLading/container/seals,files/billOfLading/packline
-> files/commercialInvoice,files/commercialInvoice/lineItem
+> files/commercialInvoice,files/commercialInvoice/lineItem,files/apInvoice,files/email
 
 ```json
 {
@@ -569,6 +608,42 @@ A Bill of Lading can have several Notify party.
       "filename": "file.pdf",
       "created": "2020-05-07T15:24:47.338Z",
       "fileType": 6,
+      "email": {
+        "customId": "custom001",
+        "emailAccountId": 1,
+        "sender": "test@shipamax.com",
+        "created": "2020-05-07T15:24:47.338Z",
+        "attachmentCount": 1,
+        "companyId": 100000,
+        "subject": "Sending file",
+        "unqId": "6f847a63-bd99-4b79-965c-128ea9b3f104"
+      },
+      "apInvoice": [
+        {
+          "addressee": "PARSED VALUE ADDRESSEE",
+          "addresseeCode": "ADDCODE",
+          "issuer": "PARSED VALUE ISSUER",
+          "issuerCode": "ISSCODE",
+          "invoiceNumber": "ABC12345",
+          "invoiceDate": "2020-07-03",
+          "invoiceGrossTotal": 2607.92,
+          "netTotal": 2600.00,
+          "vatTotal": 7.92,
+          "currency": "GBP",
+          "currencyId": 826,
+          "validationResultId": 1,
+          "teamId": 1,
+          "previousTeamId": 2,
+          "reasssignTime": "2020-07-03",
+          "email": "invoice@invoice.com",
+          "website": "www.invoice.com",
+          "issuerRecordId": "1-1-1",
+          "glCode": "1300.00.00",
+          "description": "This is an invoice",
+          "departmentCode": "DEPTCODE",
+          "branchCountry": "Lithuania"
+        }
+      ]
       "billOfLading": [
         {
           "id": 111,
@@ -1157,7 +1232,7 @@ Update an existing Organization's Address
 ```
 
 ### DELETE
-Delete an existing Organization's Name
+Delete an existing Organization's Address
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
