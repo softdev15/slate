@@ -255,6 +255,10 @@ The following objects can be used as parameters in the *include* query
           "loadPortUnlocode": string,
           "dischargePort": string,
           "dischargePortUnlocode": string,
+          "origin": string,
+          "originUnlocode": string,
+          "destination": string,
+          "destinationUnlocode": string,
           "shippedOnBoardDate": date,
           "paymentTerms": PaymentTerm,
           "category": string,
@@ -406,10 +410,14 @@ The following objects can be used as parameters in the *include* query
 | files.billOfLading.vessel               | The name of the Vessel                                                                                                                                |
 | files.billOfLading.vesselIMO            | The IMO code matching the Vessel name                                                                                                                                  |
 | files.billOfLading.voyageNumber         | The number of the Voyage                                                                                                                            |
-| files.billOfLading.loadPort             | The name of the Loading Port (or Origin)                                                                                                                                  |
+| files.billOfLading.loadPort             | The name of the Loading Port                                                                                                                                  |
 | files.billOfLading.loadPortUnlocode     | The UNL code matching the Load Port name                                                                                                                                 |
-| files.billOfLading.dischargePort        | The name of the Discharge Port (or Destination)                                                                                                                                 |
+| files.billOfLading.dischargePort        | The name of the Discharge Port                                                                                                                                 |
 | files.billOfLading.dischargePortUnlocode| The UNL code matching the Discharge Port name                                                                                                                                   |
+| files.billOfLading.origin               | The Origin Port                                                                                                                                   |
+| files.billOfLading.originUnlocode       | The UNL code matching the Origin name                                                                                                                                   |
+| files.billOfLading.destination          | The Destination Port                                                                                                                                   |
+| files.billOfLading.destinationUnlocode  | The UNL code matching the Destination name                                                                                                                                   |
 | files.billOfLading.shippedOnBoardDate   | The date the cargo has been loaded on the vessel (SOB date)                                                                                                                                 |
 | files.billOfLading.paymentTerms         | The paymebt terms. See [List of Payment Terms] (#List-of-PaymentTerm-values) for possible values                                                                                                                               |
 | files.billOfLading.category             | Type of Bill of lading ("True" = Master)                                                                                                                                  |
@@ -675,6 +683,10 @@ A Bill of Lading can have several Notify party.
           "loadPortUnlocode": "",
           "dischargePort": "",
           "dischargePortUnlocode": "",
+          "origin": "",
+          "originUnlocode": "",
+          "destination": "",
+          "destinationUnlocode": "",
           "shippedOnBoardDate": "2020-05-07T15:24:47.338Z",
           "paymentTerms": "",
           "category": "",
@@ -1884,6 +1896,45 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 49              | Commercial invoice: Gross total missing                                                   |
 | 50              | CargoWise: Failed to find a matching Job Ref for highlighted BL or Container Number       |
 | 51              | CargoWise: No accruals found for this creditor in this currency on highlighted sub total  |
+| 52              | Commercial invoice: Supplier missing |
+| 53              | Commercial invoice: Importer missing |
+| 54              | Commercial Invoice: Could not find Product Code |
+| 55              | CommercialInvoice: Product Code not associated with Importer or Exporter |
+| 56              | Commercial invoice: Mixed group has more than 1 MBL |
+| 57              | Commercial invoice: Mixed group has more than 1 CI |
+| 58              | Commercial invoice: Mixed groups do not support HBLs |
+| 59              | Container number: No reference found for highlighted job |
+| 60              | Container number: Multiple references found for highlighted job |
+| 61              | Supplier Invoice: Timeout while trying to match accruals with total or highlighted sub-total |
+| 62              | Commercial invoice: Mixed group has more than 1 HBL |
+| 63              | Commercial Invoice: Mixed groups of this combination are not supported |
+| 64              | Accruals in CargoWise have changed since previous selection. Please re-select the correct accruals to post |
+| 65              | Multiple accruals with the same charge code detected on the same Shipment. Posting these may have unexpected results in CargoWise |
+| 66              | Modified accrual amounts are not within the tolerated threshold |
+| 67              | Job Reference: Reference extracted from email subject |
+| 68              | Job Reference: Unable to set job references; multiple references found |
+| 69              | Job Reference: Multiple S-Job references found in email subject. If you know the job reference, create a S-Job place holder and update the reference before posting to CW |
+| 70              | Cargowise: Failed to post file to EDocs |
+| 71              | Commercial Invoices: No CIVs found in documFent pack |
+| 72              | Cargowise: Missing job reference |
+| 73              | Job Reference: Job reference not valid for this group |
+| 74              | Error fetching costs from CargoWise (please contact support) |
+| 75              | Error posting invoice to CargoWise (please contact support) |
+| 76              | Error while validating costs (please contact support) |
+| 77              | Error posting invoice to customer system (please contact support) |
+| 78              | Duplicate Invoice Number |
+| 79              | Failed to post to customer system (please try again) |
+| 80              | Error fetching costs from customer system (please contact support) |
+| 81              | Supplier Invoice: Tax subtotals do not sum to invoice total |
+| 82              | Supplier Invoice: Missing GL Code |
+| 83              | Supplier Invoice: Missing Description |
+| 84              | Supplier Invoice: Missing Net Total |
+| 85              | Supplier Invoice: Missing Tax Code |
+| 86              | Supplier Invoice: Missing Tax Total |
+| 87              | Supplier Invoice: Missing Tax Amount |
+| 88              | Line Items: Gross Total does not match Line Total Sum for one or more Commercial Invoices |
+| 89              | Cargowise: Declaration is locked. Make sure it is not worked on and try again |
+| 90              | CargoWise: Job verification failed, please try to post again. If problem persists, please contact support. |
 | -1              | Custom exception                                                                          |
 
 ### List of PaymentTerm values
