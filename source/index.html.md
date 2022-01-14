@@ -2063,7 +2063,7 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 8            | Packing List                   |
 | 9            | Packing Declaration            |
 | 10           | Certificate of Origin          |
-| 11           | Overhead Invoice               |
+| 11           | Overhead AP Invoice               |
 | 1000         | Multiple documents in one file |
 
 ### List of Group status
