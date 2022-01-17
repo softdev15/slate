@@ -423,8 +423,7 @@ The following objects can be used as parameters in the *include* query
 | files.billOfLading.category             | Type of Bill of lading ("True" = Master)                                                                                                                                  |
 | files.billOfLading.releaseType          | The Release Type for this shipment. See [List of Release Types](#List-of-ReleaseType-values) for possible values                                                                                                                               |
 | files.billOfLading.goodsDescription     | Textual description of the goods                                                                                                                                 |
-| files.billOfLading.transportMode        | The transport type of this shipment. See [List of Transport Modes](#List-of-TransportMode-values) for possible values
-]                                                                                                                                  |
+| files.billOfLading.transportMode        | The transport type of this shipment. See [List of Transport Modes](#List-of-TransportMode-values) for possible values                                                                                                                                  |
 | files.billOfLading.containerMode        | The Container's mode. See [List of Container Modes](#List-of-ContainerMode-values) for possible values                                                                                                                                  |
 
 ### *Files/billOfLading/Container* attributes
@@ -514,14 +513,10 @@ A Bill of Lading can have several Notify party.
 | files.apInvoice.currency            |   The currency of the invoice.             |
 | files.apInvoice.currencyId            |  The internal ID of the currency of the invoice.             |
 | files.apInvoice.validationResultId            |   The internal ID of the last validation result.             |
-| files.apInvoice.teamId            |  The internal ID of the currently assigned team for the invoice.             |
-| files.apInvoice.previousTeamId            |   The internal ID of the last assigned team for the invoice.             |
 | files.apInvoice.reassignTime            |   The timestamp of when this invoice was last reassigned.             |
 | files.apInvoice.email            |   The email for this invoice.             |
 | files.apInvoice.website            |   The website for this invoice.             |
 | files.apInvoice.issuerRecordId            |  A composite internal ID for the selected issuer, name and address.             |
-| files.apInvoice.glCode            |   The general ledger code of this invoice.            |
-| files.apInvoice.description            |   The description of the invoice.            |
 | files.apInvoice.departmentCode            |  The department code of this invoice.             |
 | files.apInvoice.branchCountry            |   The branch country of this invoice.             |
 
@@ -1858,7 +1853,7 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 11              | CargoWise: VAT didn't match                                                               |
 | 12              | CargoWise: Failed to post to Cargowise                                                    |
 | 13              | CargoWise: More than one possible set of accruals for the Invoice Total                   |
-| 14              | CargoWise: Missing CargoWise code for issuer                                              |
+| 14              | Missing Issuer Code                                              |
 | 15              | CargoWise: One or more costs is apportioned to a consol                                   |
 | 16              | Demo: Document passed validation                                                          |
 | 17              | Supplier Invoice: Invoice date is in the future                                           |
@@ -2068,6 +2063,7 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 8            | Packing List                   |
 | 9            | Packing Declaration            |
 | 10           | Certificate of Origin          |
+| 11           | Overhead AP Invoice               |
 | 1000         | Multiple documents in one file |
 
 ### List of Group status
@@ -2078,3 +2074,4 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 3            | Posted             |
 | 4            | Out Of Sync        |
 | 5            | Done               |
+| 6            | Processing         |
