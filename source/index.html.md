@@ -494,8 +494,12 @@ A Bill of Lading can have several Notify party.
 | files.commercialInvoice.lineItem.unitType            |  The type of the unit in the line item.            |
 | files.commercialInvoice.lineItem.productCode            | The code for the product in the line item.        |
 | files.commercialInvoice.lineItem.origin            |  The origin country of the unit in the line item            |
-| files.commercialInvoice.lineItem.productCodeMatch            |   indicate if the product code extracted matched a code taken from your product code data.       |
+| files.commercialInvoice.lineItem.productCodeMatch            |   Indicate if the product code extracted matched a code taken from your product code data.       |
 | files.commercialInvoice.lineItem.hsCode            |   The HS Code of this line item.             |
+| files.commercialInvoice.lineItem.matchedProductCode            | The product taken from your product data, if there was a match (productCodeMatch = true).        |
+| files.commercialInvoice.lineItem.matchedDescription            | The description taken from your product data, if there was a match.     |
+| files.commercialInvoice.lineItem.matchedOriginCountryCode            |  The origin country of the unit taken from your product data, if there was a match.           |
+| files.commercialInvoice.lineItem.matchedUnitType            |  The type of the unit taken from your product data, if there was a match.            |
 
 ### *Files/apInvoice* attributes
 
@@ -2034,6 +2038,23 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | TOT         | Tote               |
 | TUB         | Tube               |
 | UNT         | Unit               |
+
+### List of UnitType values
+
+| UnitType    | Description        |
+| ----------- | ------------------ |
+| BOT         | Bottles            |
+| KG          | Kilograms          |
+| LB          | Pounds             |
+| M           | Meters             |
+| M2          | Square Meters      |
+| M3          | Cubic Meters       |
+| NO          | Number             |
+| PCE         | Pieces             |
+| PKG         | Packages           |
+| T           | Tones              |
+| UNT         | Units              |
+| CTN         | Carton             |
 
 ### List of ContainerMode values
 | Mode        | Description              |
