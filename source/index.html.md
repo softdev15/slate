@@ -1934,6 +1934,8 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 88              | Line Items: Gross Total does not match Line Total Sum for one or more Commercial Invoices |
 | 89              | Cargowise: Declaration is locked. Make sure it is not worked on and try again |
 | 90              | CargoWise: Job verification failed, please try to post again. If problem persists, please contact support. |
+| 91              | CargoWise: Bill of lading: Duplicate BL number for one or more documents |
+| 92              | CargoWise: Commercial Invoice: Duplicate CIV number for one or more documents |
 | -1              | Custom exception                                                                          |
 
 ### List of PaymentTerm values
