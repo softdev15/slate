@@ -1920,10 +1920,10 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 74              | Error fetching costs from CargoWise (please contact support) |
 | 75              | Error posting invoice to CargoWise (please contact support) |
 | 76              | Error while validating costs (please contact support) |
-| 77              | Error posting invoice to customer system (please contact support) |
+| 77              | Error posting invoice to TMS (please contact support) |
 | 78              | Duplicate Invoice Number |
-| 79              | Failed to post to customer system (please try again) |
-| 80              | Error fetching costs from customer system (please contact support) |
+| 79              | Failed to post to TMS (please try again) |
+| 80              | Error fetching costs from TMS (please contact support) |
 | 81              | Supplier Invoice: Tax subtotals do not sum to invoice total |
 | 82              | Supplier Invoice: Missing GL Code |
 | 83              | Supplier Invoice: Missing Description |
