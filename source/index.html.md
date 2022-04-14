@@ -1934,8 +1934,14 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 88              | Line Items: Gross Total does not match Line Total Sum for one or more Commercial Invoices |
 | 89              | Cargowise: Declaration is locked. Make sure it is not worked on and try again |
 | 90              | CargoWise: Job verification failed, please try to post again. If problem persists, please contact support. |
-| 91              | CargoWise: Bill of lading: Duplicate BL number for one or more documents |
+| 91              | CargoWise: Bill of Lading: Duplicate BL number for one or more documents |
 | 92              | CargoWise: Commercial Invoice: Duplicate CIV number for one or more documents |
+| 93              | Supplier Invoice: Invalid accrual split |
+| 94              | Cargowise: Pack is missing MBL and a Consol reference. Posting will create a new, empty Consol |
+| 95              | CargoWise: Cargowise: Pack is missing HBL and a Shipment reference for one or more Shipments. Posting will create a new, empty Shipment |
+| 96              | Cargowise: Shipment reference not found in cargowise |
+| 97              | Cargowise: Consol reference not found in cargowise |
+| 98              | CargoWise: Cargowise: One or more Shipment references found in CW but is already linked to an existing Consol |
 | -1              | Custom exception                                                                          |
 
 ### List of PaymentTerm values
