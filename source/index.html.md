@@ -1941,7 +1941,7 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 95              | CargoWise: Cargowise: Pack is missing HBL and a Shipment reference for one or more Shipments. Posting will create a new, empty Shipment |
 | 96              | Cargowise: Shipment reference not found in cargowise |
 | 97              | Cargowise: Consol reference not found in cargowise |
-| 98              | CargoWise: Cargowise: One or more Shipments references found in CW but is already linked to an existing Consol |
+| 98              | CargoWise: Cargowise: One or more Shipment references found in CW but is already linked to an existing Consol |
 | -1              | Custom exception                                                                          |
 
 ### List of PaymentTerm values
