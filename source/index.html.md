@@ -500,6 +500,7 @@ A Bill of Lading can have several Notify party.
 | files.commercialInvoice.lineItem.matchedDescription            | The description taken from your product data, if there was a match.     |
 | files.commercialInvoice.lineItem.matchedOriginCountryCode            |  The origin country of the unit taken from your product data, if there was a match.           |
 | files.commercialInvoice.lineItem.matchedUnitType            |  The type of the unit taken from your product data, if there was a match.            |
+| files.commercialInvoice.lineItem.orderIndex                 |  The order of the line item starting from zero. |
 
 ### *Files/apInvoice* attributes
 
@@ -771,7 +772,8 @@ A Bill of Lading can have several Notify party.
                             "origin": "MX",
                             "productCodeMatch": false,
                             "HsCode": "1234567890",
-                            "id": 1
+                            "id": 1,
+                            "orderIndex": 0
                         }
                     ]
                 }
@@ -1941,7 +1943,9 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 95              | CargoWise: Cargowise: Pack is missing HBL and a Shipment reference for one or more Shipments. Posting will create a new, empty Shipment |
 | 96              | Cargowise: Shipment reference not found in cargowise |
 | 97              | Cargowise: Consol reference not found in cargowise |
-| 98              | CargoWise: Cargowise: One or more Shipment references found in CW but is already linked to an existing Consol |
+| 98              | CargoWise: Cargowise: One or more Shipments references found in CW but is already linked to an existing Consol |
+| 99              | Shipment: Duplicate S-ref numbers |
+| 100             | Consol: Pack includes a Consol reference. Posting will update an existing Consol |
 | -1              | Custom exception                                                                          |
 
 ### List of PaymentTerm values
