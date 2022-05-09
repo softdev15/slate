@@ -500,6 +500,7 @@ A Bill of Lading can have several Notify party.
 | files.commercialInvoice.lineItem.matchedDescription            | The description taken from your product data, if there was a match.     |
 | files.commercialInvoice.lineItem.matchedOriginCountryCode            |  The origin country of the unit taken from your product data, if there was a match.           |
 | files.commercialInvoice.lineItem.matchedUnitType            |  The type of the unit taken from your product data, if there was a match.            |
+| files.commercialInvoice.lineItem.orderIndex                 |  The order of the line item starting from zero. |
 
 ### *Files/apInvoice* attributes
 
@@ -771,7 +772,8 @@ A Bill of Lading can have several Notify party.
                             "origin": "MX",
                             "productCodeMatch": false,
                             "HsCode": "1234567890",
-                            "id": 1
+                            "id": 1,
+                            "orderIndex": 0
                         }
                     ]
                 }
