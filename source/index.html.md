@@ -802,13 +802,17 @@ curl -X GET \
 ```
 
 ## FileClusterScore Endpoint
-File groups that have been sent for clustering, can have their estimated parsing accuracy retrieved via API.
+Get the clustering score of a document.
+
+The endpoint will only return the score of documents that was received via a mailbox which supports the clustering workflow
+
+Note: Each GET call will return the clustering value of a single document. This endpoint support only document groups that consist of a single document
 
 The following endpoint is currently available:
 
 | Endpoint                         | Verb  | Description                                                                       |
 | -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /FileGroups/{id}/fileClusterScore | GET | Retrieve a file group's estimated parsing accuracy for the given file group ID  |
+| /FileGroups/{id}/fileClusterScore | GET | Retrieve the clustering score of document with the given document group ID  |
 
 Send a request via `GET` to `https://public.shipamax-api.com/api/v2/FileClusterScore/{id}`.
 
@@ -838,7 +842,7 @@ The following endpoint is currently available:
 
 | Endpoint                         | Verb  | Description                                                                       |
 | -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /FileGroups/{id}/parse | GET | Trigger the given file group ID for parsing. |
+| /FileGroups/{id}/parse | GET | Trigger the parsing of the document group with the given ID. |
 
 Send a request via `GET` to `https://public.shipamax-api.com/api/v2/FileGroups/{id}/parse`.
 
