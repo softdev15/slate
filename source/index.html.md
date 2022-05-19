@@ -814,17 +814,17 @@ Send a request via `GET` to `https://public.shipamax-api.com/api/v2/FileClusterS
 ```json
 {
   "id": 1,
-  "clusterConfidenceScore": 35.1,
-  "descMin": 1.1,
-  "descFirstQtl": 2.0,
-  "descMedian": 4.2,
-  "descThirdQtl": 7.3,
-  "descMax": 10.0,
-  "liMin": 2.3,
-  "liFirstQtl": 5.5,
-  "liMedian": 8.7,
-  "liThirdQtl": 9.1,
-  "liMax": 11.0,
+  "clusterConfidenceScore": 0.1,
+  "descMin": 0.1,
+  "descFirstQtl": 0.2,
+  "descMedian": 0.4,
+  "descThirdQtl": 0.3,
+  "descMax": 0.3,
+  "liMin": 0.7,
+  "liFirstQtl": 0.8,
+  "liMedian": 0.8,
+  "liThirdQtl": 0.9,
+  "liMax": 1.0,
 }
 ```
 
