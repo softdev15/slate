@@ -799,20 +799,20 @@ curl -X GET \
 ```
 
 ## FileClusterScore Endpoint
-Files that have been sent for clustering, can have their estimated parsing accuracy retrieved via API.
+File groups that have been sent for clustering, can have their estimated parsing accuracy retrieved via API.
 
 The following endpoint is currently available:
 
 | Endpoint                         | Verb  | Description                                                                       |
 | -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /FileClusterScore/{id} | GET | Retrieve a file's estimated parsing accuracy for the given file ID  |
+| /FileGroups/{id}/fileClusterScore | GET | Retrieve a file group's estimated parsing accuracy for the given file group ID  |
 
 Send a request via `GET` to `https://public.shipamax-api.com/api/v2/FileClusterScore/{id}`.
 
 > **Example:** GET FileClusterScore response:
 
 ```json
-{
+[{
   "id": 1,
   "clusterConfidenceScore": 0.1,
   "descMin": 0.1,
@@ -825,7 +825,7 @@ Send a request via `GET` to `https://public.shipamax-api.com/api/v2/FileClusterS
   "liMedian": 0.8,
   "liThirdQtl": 0.9,
   "liMax": 1.0,
-}
+}]
 ```
 
 ## Parsing Endpoint
