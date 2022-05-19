@@ -85,6 +85,9 @@ The `eventName` property describes what caused the message to be sent. There are
 | Validation/BillOfLadingGroup/Success         | Validation finished and succeed            |
 | Validation/BillOfLadingGroup/Failure         | Validation finished with exceptions        |
 | Validation/BillOfLadingGroup/NoBillsOfLading | File received but no bills of lading found |
+| Clustering/Complete                          | Clustering completed                       |
+| Parsing/Complete                             | Parsing completed                          |
+
 
 These events are triggered when the bills of lading in a FileGroup validation pass, fail or no bill of lading is found in the file, respectively.
 
