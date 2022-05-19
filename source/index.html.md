@@ -345,7 +345,9 @@ The following objects can be used as parameters in the *include* query
                             "origin": string,
                             "productCodeMatch": boolean,
                             "HsCode": string,
-                            "id": integer
+                            "id": integer,
+                            "orderIndex": integer,
+                            "descriptionCell": string,
                         }
                     ]
                 }
@@ -500,7 +502,8 @@ A Bill of Lading can have several Notify party.
 | files.commercialInvoice.lineItem.matchedDescription            | The description taken from your product data, if there was a match.     |
 | files.commercialInvoice.lineItem.matchedOriginCountryCode            |  The origin country of the unit taken from your product data, if there was a match.           |
 | files.commercialInvoice.lineItem.matchedUnitType            |  The type of the unit taken from your product data, if there was a match.            |
-| files.commercialInvoice.lineItem.orderIndex                 |  The order of the line item starting from zero. |
+| files.commercialInvoice.lineItem.orderIndex            |  The index of the line, representing the order of it within the commercial invoice..            |
+| files.commercialInvoice.lineItem.descriptionCell            |  The entire cell of the line item description.          |
 
 ### *Files/apInvoice* attributes
 
@@ -522,6 +525,8 @@ A Bill of Lading can have several Notify party.
 | files.apInvoice.email            |   The email for this invoice.             |
 | files.apInvoice.website            |   The website for this invoice.             |
 | files.apInvoice.issuerRecordId            |  A composite internal ID for the selected issuer, name and address.             |
+| files.apInvoice.glCode            |   The general ledger code of this invoice.            |
+| files.apInvoice.description            |   The description of the invoice.            |
 | files.apInvoice.departmentCode            |  The department code of this invoice.             |
 | files.apInvoice.branchCountry            |   The branch country of this invoice.             |
 
@@ -773,7 +778,8 @@ A Bill of Lading can have several Notify party.
                             "productCodeMatch": false,
                             "HsCode": "1234567890",
                             "id": 1,
-                            "orderIndex": 0
+                            "orderIndex": 0,
+                            "descriptionCell": "ITEM DESCRTIPTION 1"
                         }
                     ]
                 }
@@ -791,6 +797,47 @@ curl -X GET \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer {TOKEN}"
 ```
+
+## FileClusterScore Endpoint
+Files that have been sent for clustering, can have their estimated parsing accuracy retrieved via API.
+
+The following endpoint is currently available:
+
+| Endpoint                         | Verb  | Description                                                                       |
+| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
+| /FileClusterScore/{id} | GET | Retrieve a file's estimated parsing accuracy for the given file ID  |
+
+Send a request via `GET` to `https://public.shipamax-api.com/api/v2/FileClusterScore/{id}`.
+
+> **Example:** GET FileClusterScore response:
+
+```json
+{
+  "id": 1,
+  "clusterConfidenceScore": 35.1,
+  "descMin": 1.1,
+  "descFirstQtl": 2.0,
+  "descMedian": 4.2,
+  "descThirdQtl": 7.3,
+  "descMax": 10.0,
+  "liMin": 2.3,
+  "liFirstQtl": 5.5,
+  "liMedian": 8.7,
+  "liThirdQtl": 9.1,
+  "liMax": 11.0,
+}
+```
+
+## Parsing Endpoint
+It is possible to trigger the parsing of a document that already exists in Shipamax via API.
+
+The following endpoint is currently available:
+
+| Endpoint                         | Verb  | Description                                                                       |
+| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
+| /FileGroups/{id}/parse | GET | Trigger the given file group ID for parsing. |
+
+Send a request via `GET` to `https://public.shipamax-api.com/api/v2/FileGroups/{id}/parse`.
 
 ## Validation Endpoint
 
@@ -1264,10 +1311,12 @@ You can retrieve all files processed by Shipamax. For example you can retrieve a
 
 ### POST Files/upload
 
-You are able to upload files directly to Shipamax. The endpoint takes files as `form-data` with a key of `req`, as well as three URL parameters `customId`, `mailbox`, and `fileType` (optional). The endpoint will respond with a `JSON` object
+You are able to upload files directly to Shipamax. The endpoint takes files as `form-data` with a key of `req`, as well as three URL parameters `customId`, `mailbox` (optional), and `fileType` (optional). The endpoint will respond with a `JSON` object
 containing information of all files successfully processed into the system.
 
 The files will be processed as though they were attachments of a single email sent to the given Shipamax mailbox address. The mailbox settings determine whether all of the files are considered part of one group, and what kinds of files will be validated.
+
+The mailbox will also determine whether these files are run against our normal parsing service, or against the clustering service.
 
 If the mailbox given does not exist, an error will be returned and the files will not be processed, as it would not be possible to determine settings for processing and validation.
 
@@ -1278,7 +1327,7 @@ URL Parameter Definitions
 | Parameter                               |  Description                                                      |
 | --------------------------------------- | ----------------------------------------------------------------- |
 | customId                                | Your unique identifier of the files, could be a uuid4 string.     |
-| mailbox                                 | The mailbox address e.g. xxx@yyy.com                              |
+| mailbox                                 | The mailbox address e.g. xxx@yyy.com. If not supplied, your default mailbox will be used.                        |
 | fileType                                | The fileType of the file(s) you are posting. **If you specify a file type with multiple files, they will all process as that type** |
 
 
@@ -1859,7 +1908,7 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 11              | CargoWise: VAT didn't match                                                               |
 | 12              | CargoWise: Failed to post to Cargowise                                                    |
 | 13              | CargoWise: More than one possible set of accruals for the Invoice Total                   |
-| 14              | Missing Issuer Code                                              |
+| 14              | CargoWise: Missing CargoWise code for issuer                                              |
 | 15              | CargoWise: One or more costs is apportioned to a consol                                   |
 | 16              | Demo: Document passed validation                                                          |
 | 17              | Supplier Invoice: Invoice date is in the future                                           |
