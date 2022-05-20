@@ -1341,8 +1341,8 @@ URL Parameter Definitions
 | Parameter                               |  Description                                                      |
 | --------------------------------------- | ----------------------------------------------------------------- |
 | customId                                | Your unique identifier of the files, could be a uuid4 string.     |
-| mailbox                                 | The mailbox address e.g. xxx@yyy.com. If not supplied, your default mailbox will be used.                        |
-| fileType                                | The fileType of the file(s) you are posting. **If you specify a file type with multiple files, they will all process as that type** |
+| mailbox (optional)                          | The mailbox address e.g. xxx@yyy.com. If not supplied, your default mailbox will be used.                        |
+| fileType (optional)                            | The fileType of the file(s) you are posting. **If you specify a file type with multiple files, they will all process as that type** |
 
 
 > Example curl to upload files:
