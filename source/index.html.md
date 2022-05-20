@@ -163,7 +163,7 @@ Expected End-Of-Live: March 2023
 
 # Reference
 
-## FileGroup Endpoint
+## FileGroups Endpoint
 
 Shipamax groups files that are associated with each other into a FileGroup. For example, you may have received a Master BL with associated House BLs and these will be contained within the same FileGroup.
 ​
@@ -171,9 +171,9 @@ A FileGroup is a collection of Files which may contain a BillOfLading entity. Th
 
 | Endpoint                    | Verb | Description                                                 |
 | --------------------------- | ---- | ----------------------------------------------------------- |
-| /FileGroups/{id}            | GET  | Get File group details using the group's ID                 |
+| /FileGroups/{file_group_id}            | GET  | Get File group details using the group's ID                 |
 
-Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/api/v2/FileGroups/{id}`
+Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id}`
 
 ### URL Parameter Definitions
 
@@ -796,7 +796,7 @@ A Bill of Lading can have several Notify party.
 
 ```javascript
 curl -X GET \
-  https://public.shipamax-api.com/api/v2/FileGroups/{id} \
+  https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id} \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer {TOKEN}"
 ```
@@ -806,7 +806,7 @@ Get the clustering score of a document.
 
 The endpoint will only return the score of documents that was received via a mailbox which supports the clustering workflow
 
-Note: Each GET call will return the clustering value of a single document. This endpoint support only document groups that consist of a single document
+**Note:** The endpoint returns the score of a single documents and there for can only support groups that consist of a single file.
 
 The following endpoint is currently available:
 
@@ -842,9 +842,9 @@ The following endpoint is currently available:
 
 | Endpoint                         | Verb  | Description                                                                       |
 | -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /FileGroups/{id}/parse | GET | Trigger the parsing of the document group with the given ID. |
+| /FileGroups/{file_group_id}/parse | GET | Trigger the parsing of the document group with the given ID. |
 
-Send a request via `GET` to `https://public.shipamax-api.com/api/v2/FileGroups/{id}/parse`.
+Send a request via `GET` to `https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id}/parse`.
 
 ## Validation Endpoint
 
@@ -854,9 +854,9 @@ The following endpoint is currently available:
 
 | Endpoint                         | Verb  | Description                                                                       |
 | -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /FileGroups/{id}/validationResult | POST  | Submit a new validationResult making it the lastValidationesult of the FileGroup  |
+| /FileGroups/{file_group_id}/validationResult | POST  | Submit a new validationResult making it the lastValidationesult of the FileGroup  |
 
-Send a new validation result via `POST` request to `https://public.shipamax-api.com/api/v2/FileGroups/{id}/validationResult`
+Send a new validation result via `POST` request to `https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id}/validationResult`
 
 > The POST validationResult request requires a body JSON structured like this:
 
@@ -900,7 +900,7 @@ Send a new validation result via `POST` request to `https://public.shipamax-api.
 }
 ```
 
-## Organization Endpoint
+## Organizations Endpoint
 The Organizations list represents businesses that might be referenced in the documents you send Shipamax to processes (for exmaple, the Shipper on a House Bill of Lading, a Supplier on a Commercial Invoice Creditor etc.). The organization list is used to improve the accuracy of the parsing process, making sure the most likely organization is selected. 
 Each Organization must have a unique identifier provided by you (referred to as `externalId`), this is usually the identifier used in your own system. 
 Each organization added is assigned an internal ID unique to Shipamax (referred to as `org_id`). This ID is required in order to DELETE/PATCH the organization as well as adding Names and Addresses to the Organization
@@ -1080,7 +1080,7 @@ Delete an Organization
 }
 ```
 
-## Organization Name Endpoint
+## Organization Names Endpoint
 An Organization Name represents a name associated with an Organization. An Organization can have multiple names associated with it. 
 Each Organization Name added is assigned an internal ID, unique to Shipamax (referred to as `name_id`). This ID is required in order to DELETE/PATCH the name
 
@@ -1182,7 +1182,7 @@ Delete an existing Organization's Name
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
 | /OrganizationNames/{name_id} | DELETE  | Not required | Number of deleted objects |
 
-## Organization Address Endpoint
+## Organization Addresses Endpoint
 An Organization Address represents an Address associated with an Organization. An Organization can have multiple Addresses associated with it. 
 Each Organization Address added is assigned an internal ID unique to Shipamax (referred to as `addr_id`). This ID is required in order to DELETE/PATCH the Address.
 
@@ -1305,7 +1305,7 @@ Delete an existing Organization's Address
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
 | /OrganizationAddresses/{addr_id} | DELETE  | Not required | Number of deleted objects |
 
-## File Endpoint
+## Files Endpoint
 
 ### GET Original File
 
@@ -1357,7 +1357,7 @@ curl -X POST
 }
 ```
 
-## Cargowise Reference Endpoint
+## Cargowise References Endpoint
 
 ### POST CargowiseReference/send
 
