@@ -802,11 +802,9 @@ curl -X GET \
 ```
 
 ## FileClusterScore Endpoint
-Get the clustering score of a document.
+Get the clustering score of documents in a given file group.
 
-The endpoint will only return the score of documents that was received via a mailbox which supports the clustering workflow
-
-**Note:** The endpoint returns the score of a single documents and there for can only support groups that consist of a single file.
+The endpoint will only return the score of documents that was received via a mailbox which supports the clustering workflow.
 
 The following endpoint is currently available:
 
@@ -816,7 +814,7 @@ The following endpoint is currently available:
 
 Send a request via `GET` to `https://public.shipamax-api.com/api/v2/FileClusterScore/{id}`.
 
-> **Example:** GET FileClusterScore response:
+> **Example:** GET FileClusterScore returns an array of scores for documents in that group, like this:
 
 ```json
 [{
@@ -842,9 +840,18 @@ The following endpoint is currently available:
 
 | Endpoint                         | Verb  | Description                                                                       |
 | -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /FileGroups/{file_group_id}/parse | GET | Trigger the parsing of the document group with the given ID. |
+| /FileGroups/{file_group_id}/parse | POST | Trigger the parsing of the document group with the given ID. |
 
-Send a request via `GET` to `https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id}/parse`.
+Send a request via `POST` to `https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id}/parse`.
+
+> The POST /parse endpoint responds with JSON like this:
+```json
+{
+  "filename": "FILE_NAME",
+  "groupId": 00000,
+  "id": 000000,
+}
+```
 
 ## Validation Endpoint
 
@@ -1355,6 +1362,22 @@ curl -X POST
   "groupId": 00000,
   "id": 000000,
 }
+```
+
+If a mailbox is configured to have one file per group, you will receieve an array response like this:
+```json
+[{
+  "customId": "CUSTOM_ID",
+  "filename": "FILE_NAME",
+  "groupId": 00000,
+  "id": 000000,
+},
+{
+  "customId": "CUSTOM_ID2",
+  "filename": "FILE_NAME2",
+  "groupId": 00001,
+  "id": 000001,
+}]
 ```
 
 ## Cargowise References Endpoint
