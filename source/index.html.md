@@ -810,9 +810,9 @@ The following endpoint is currently available:
 
 | Endpoint                         | Verb  | Description                                                                       |
 | -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /FileGroups/{id}/fileClusterScore | GET | Retrieve the clustering score of document with the given document group ID  |
+| /FileGroups/{file_group_id}/fileClusterScore | GET | Retrieve the clustering score of document with the given document group ID  |
 
-Send a request via `GET` to `https://public.shipamax-api.com/api/v2/FileClusterScore/{id}`.
+Send a request via `GET` to `https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id}/fileClusterScore`.
 
 > **Example:** GET FileClusterScore returns an array of scores for documents in that group, like this:
 
@@ -1320,7 +1320,7 @@ You can retrieve all files processed by Shipamax. For example you can retrieve a
 
 | Endpoint                      | Verb   | Description                                                 |
 | ----------------------------- | ------ | ----------------------------------------------------------- |
-| /Files/{id}/original          | GET    | Get original binary file                                    |
+| /Files/{file_id}/original          | GET    | Get original binary file                                    |
 
 
 ### POST Files/upload
