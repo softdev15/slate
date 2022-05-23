@@ -805,7 +805,7 @@ curl -X GET \
   -H "Authorization: Bearer {TOKEN}"
 ```
 
-## FileClusterScore Endpoint
+## ClusterScore Endpoint
 Get the clustering score of documents in a given file group.
 
 The endpoint will only return the score of documents that was received via a mailbox which supports the clustering workflow.
@@ -814,11 +814,11 @@ The following endpoint is currently available:
 
 | Endpoint                         | Verb  | Description                                                                       |
 | -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /FileGroups/{file_group_id}/fileClusterScore | GET | Retrieve the clustering score of document with the given document group ID  |
+| /FileGroups/{file_group_id}/clusterScore | GET | Retrieve the clustering score of document with the given document group ID  |
 
-Send a request via `GET` to `https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id}/fileClusterScore`.
+Send a request via `GET` to `https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id}/clusterScore`.
 
-> **Example:** GET FileClusterScore returns an array of scores for documents in that group, like this:
+> **Example:** GET ClusterScore returns an array of scores for documents in that group, like this:
 
 ```json
 [{
@@ -837,7 +837,7 @@ Send a request via `GET` to `https://public.shipamax-api.com/api/v2/FileGroups/{
 }]
 ```
 
-## Parsing Endpoint
+## Parse Endpoint
 It is possible to trigger the parsing of a document that already exists in Shipamax via API.
 
 The following endpoint is currently available:
@@ -857,7 +857,7 @@ Send a request via `POST` to `https://public.shipamax-api.com/api/v2/FileGroups/
 }
 ```
 
-## Validation Endpoint
+## ValidationResult Endpoint
 
 For a full workflow Shipamax enables you to provide Validation results via API.
 
@@ -865,7 +865,7 @@ The following endpoint is currently available:
 
 | Endpoint                         | Verb  | Description                                                                       |
 | -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /FileGroups/{file_group_id}/validationResult | POST  | Submit a new validationResult making it the lastValidationesult of the FileGroup  |
+| /FileGroups/{file_group_id}/validationResult | POST  | Submit a new validationResult making it the lastValidationResult of the FileGroup  |
 
 Send a new validation result via `POST` request to `https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id}/validationResult`
 
