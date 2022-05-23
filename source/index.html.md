@@ -99,6 +99,9 @@ The `eventName` property describes what caused the message to be sent. There are
 | Validation/BillOfLadingGroup/Success         | Validation finished and succeed            |
 | Validation/BillOfLadingGroup/Failure         | Validation finished with exceptions        |
 | Validation/BillOfLadingGroup/NoBillsOfLading | File received but no bills of lading found |
+| ClusteringComplete                          | Clustering completed                       |
+| ParsingComplete                             | Parsing completed                          |
+
 
 These events are triggered when the bills of lading in a FileGroup validation pass, fail or no bill of lading is found in the file, respectively.
 
@@ -164,7 +167,7 @@ The resulting hash would be: `9e6066637a3020bd2cc15ce8a6f18e9e43d63e169a6d355c88
 
 # Reference
 
-## FileGroup Endpoint
+## FileGroups Endpoint
 
 Shipamax groups files that are associated with each other into a FileGroup. For example, you may have received a Master BL with associated House BLs and these will be contained within the same FileGroup.
 ​
@@ -172,9 +175,9 @@ A FileGroup is a collection of Files which may contain a BillOfLading entity. Th
 
 | Endpoint                    | Verb | Description                                                 |
 | --------------------------- | ---- | ----------------------------------------------------------- |
-| /FileGroups/{id}            | GET  | Get File group details using the group's ID                 |
+| /FileGroups/{file_group_id}            | GET  | Get File group details using the group's ID                 |
 
-Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/api/v2/FileGroups/{id}`
+Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id}`
 
 ### URL Parameter Definitions
 
@@ -349,7 +352,9 @@ The following objects can be used as parameters in the *include* query
                             "origin": string,
                             "productCodeMatch": boolean,
                             "HsCode": string,
-                            "id": integer
+                            "id": integer,
+                            "orderIndex": integer,
+                            "descriptionCell": string,
                         }
                     ]
                 }
@@ -504,7 +509,8 @@ A Bill of Lading can have several Notify party.
 | files.commercialInvoice.lineItem.matchedDescription            | The description taken from your product data, if there was a match.     |
 | files.commercialInvoice.lineItem.matchedOriginCountryCode            |  The origin country of the unit taken from your product data, if there was a match.           |
 | files.commercialInvoice.lineItem.matchedUnitType            |  The type of the unit taken from your product data, if there was a match.            |
-| files.commercialInvoice.lineItem.orderIndex                 |  The order of the line item starting from zero. |
+| files.commercialInvoice.lineItem.orderIndex            |  The index of the line, representing the order of it within the commercial invoice..            |
+| files.commercialInvoice.lineItem.descriptionCell            |  The entire cell of the line item description.          |
 
 ### *Files/apInvoice* attributes
 
@@ -526,6 +532,8 @@ A Bill of Lading can have several Notify party.
 | files.apInvoice.email            |   The email for this invoice.             |
 | files.apInvoice.website            |   The website for this invoice.             |
 | files.apInvoice.issuerRecordId            |  A composite internal ID for the selected issuer, name and address.             |
+| files.apInvoice.glCode            |   The general ledger code of this invoice.            |
+| files.apInvoice.description            |   The description of the invoice.            |
 | files.apInvoice.departmentCode            |  The department code of this invoice.             |
 | files.apInvoice.branchCountry            |   The branch country of this invoice.             |
 
@@ -777,7 +785,8 @@ A Bill of Lading can have several Notify party.
                             "productCodeMatch": false,
                             "HsCode": "1234567890",
                             "id": 1,
-                            "orderIndex": 0
+                            "orderIndex": 0,
+                            "descriptionCell": "ITEM DESCRTIPTION 1"
                         }
                     ]
                 }
@@ -791,12 +800,64 @@ A Bill of Lading can have several Notify party.
 
 ```javascript
 curl -X GET \
-  https://public.shipamax-api.com/api/v2/FileGroups/{id} \
+  https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id} \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer {TOKEN}"
 ```
 
-## Validation Endpoint
+## ClusterScore Endpoint
+Get the clustering score of documents in a given file group.
+
+The endpoint will only return the score of documents that was received via a mailbox which supports the clustering workflow.
+
+The following endpoint is currently available:
+
+| Endpoint                         | Verb  | Description                                                                       |
+| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
+| /FileGroups/{file_group_id}/clusterScore | GET | Retrieve the clustering score of document with the given document group ID  |
+
+Send a request via `GET` to `https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id}/clusterScore`.
+
+> **Example:** GET ClusterScore returns an array of scores for documents in that group, like this:
+
+```json
+[{
+  "id": 1,
+  "clusterConfidenceScore": 0.1,
+  "descMin": 0.1,
+  "descFirstQtl": 0.2,
+  "descMedian": 0.4,
+  "descThirdQtl": 0.3,
+  "descMax": 0.3,
+  "liMin": 0.7,
+  "liFirstQtl": 0.8,
+  "liMedian": 0.8,
+  "liThirdQtl": 0.9,
+  "liMax": 1.0,
+}]
+```
+
+## Parse Endpoint
+It is possible to trigger the parsing of a document that already exists in Shipamax via API.
+
+The following endpoint is currently available:
+
+| Endpoint                         | Verb  | Description                                                                       |
+| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
+| /FileGroups/{file_group_id}/parse | POST | Trigger the parsing of the document group with the given ID. |
+
+Send a request via `POST` to `https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id}/parse`.
+
+> The POST /parse endpoint responds with JSON like this:
+```json
+{
+  "filename": "FILE_NAME",
+  "groupId": 00000,
+  "id": 000000,
+}
+```
+
+## ValidationResult Endpoint
 
 For a full workflow Shipamax enables you to provide Validation results via API.
 
@@ -804,9 +865,9 @@ The following endpoint is currently available:
 
 | Endpoint                         | Verb  | Description                                                                       |
 | -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /FileGroups/{id}/validationResult | POST  | Submit a new validationResult making it the lastValidationesult of the FileGroup  |
+| /FileGroups/{file_group_id}/validationResult | POST  | Submit a new validationResult making it the lastValidationResult of the FileGroup  |
 
-Send a new validation result via `POST` request to `https://public.shipamax-api.com/api/v2/FileGroups/{id}/validationResult`
+Send a new validation result via `POST` request to `https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id}/validationResult`
 
 > The POST validationResult request requires a body JSON structured like this:
 
@@ -850,7 +911,7 @@ Send a new validation result via `POST` request to `https://public.shipamax-api.
 }
 ```
 
-## Organization Endpoint
+## Organizations Endpoint
 The Organizations list represents businesses that might be referenced in the documents you send Shipamax to processes (for exmaple, the Shipper on a House Bill of Lading, a Supplier on a Commercial Invoice Creditor etc.). The organization list is used to improve the accuracy of the parsing process, making sure the most likely organization is selected. 
 Each Organization must have a unique identifier provided by you (referred to as `externalId`), this is usually the identifier used in your own system. 
 Each organization added is assigned an internal ID unique to Shipamax (referred to as `org_id`). This ID is required in order to DELETE/PATCH the organization as well as adding Names and Addresses to the Organization
@@ -1030,7 +1091,7 @@ Delete an Organization
 }
 ```
 
-## Organization Name Endpoint
+## Organization Names Endpoint
 An Organization Name represents a name associated with an Organization. An Organization can have multiple names associated with it. 
 Each Organization Name added is assigned an internal ID, unique to Shipamax (referred to as `name_id`). This ID is required in order to DELETE/PATCH the name
 
@@ -1132,7 +1193,7 @@ Delete an existing Organization's Name
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
 | /OrganizationNames/{name_id} | DELETE  | Not required | Number of deleted objects |
 
-## Organization Address Endpoint
+## Organization Addresses Endpoint
 An Organization Address represents an Address associated with an Organization. An Organization can have multiple Addresses associated with it. 
 Each Organization Address added is assigned an internal ID unique to Shipamax (referred to as `addr_id`). This ID is required in order to DELETE/PATCH the Address.
 
@@ -1255,7 +1316,7 @@ Delete an existing Organization's Address
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
 | /OrganizationAddresses/{addr_id} | DELETE  | Not required | Number of deleted objects |
 
-## File Endpoint
+## Files Endpoint
 
 ### GET Original File
 
@@ -1263,15 +1324,17 @@ You can retrieve all files processed by Shipamax. For example you can retrieve a
 
 | Endpoint                      | Verb   | Description                                                 |
 | ----------------------------- | ------ | ----------------------------------------------------------- |
-| /Files/{id}/original          | GET    | Get original binary file                                    |
+| /Files/{file_id}/original          | GET    | Get original binary file                                    |
 
 
 ### POST Files/upload
 
-You are able to upload files directly to Shipamax. The endpoint takes files as `form-data` with a key of `req`, as well as three URL parameters `customId`, `mailbox`, and `fileType` (optional). The endpoint will respond with a `JSON` object
+You are able to upload files directly to Shipamax. The endpoint takes files as `form-data` with a key of `req`, as well as three URL parameters `customId`, `mailbox` (optional), and `fileType` (optional). The endpoint will respond with a `JSON` object
 containing information of all files successfully processed into the system.
 
 The files will be processed as though they were attachments of a single email sent to the given Shipamax mailbox address. The mailbox settings determine whether all of the files are considered part of one group, and what kinds of files will be validated.
+
+The mailbox will also determine whether these files are run against our normal parsing service, or against the clustering service.
 
 If the mailbox given does not exist, an error will be returned and the files will not be processed, as it would not be possible to determine settings for processing and validation.
 
@@ -1282,8 +1345,8 @@ URL Parameter Definitions
 | Parameter                               |  Description                                                      |
 | --------------------------------------- | ----------------------------------------------------------------- |
 | customId                                | Your unique identifier of the files, could be a uuid4 string.     |
-| mailbox                                 | The mailbox address e.g. xxx@yyy.com                              |
-| fileType                                | The fileType of the file(s) you are posting. **If you specify a file type with multiple files, they will all process as that type** |
+| mailbox (optional)                          | The mailbox address e.g. xxx@yyy.com. If not supplied, your default mailbox will be used.                        |
+| fileType (optional)                            | The fileType of the file(s) you are posting. **If you specify a file type with multiple files, they will all process as that type** |
 
 
 > Example curl to upload files:
@@ -1305,7 +1368,23 @@ curl -X POST
 }
 ```
 
-## Cargowise Reference Endpoint
+If a mailbox is configured to have one file per group, you will receieve an array response like this:
+```json
+[{
+  "customId": "CUSTOM_ID",
+  "filename": "FILE_NAME",
+  "groupId": 00000,
+  "id": 000000,
+},
+{
+  "customId": "CUSTOM_ID2",
+  "filename": "FILE_NAME2",
+  "groupId": 00001,
+  "id": 000001,
+}]
+```
+
+## Cargowise References Endpoint
 
 ### POST CargowiseReference/send
 
@@ -1863,7 +1942,7 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 11              | CargoWise: VAT didn't match                                                               |
 | 12              | CargoWise: Failed to post to Cargowise                                                    |
 | 13              | CargoWise: More than one possible set of accruals for the Invoice Total                   |
-| 14              | Missing Issuer Code                                              |
+| 14              | CargoWise: Missing CargoWise code for issuer                                              |
 | 15              | CargoWise: One or more costs is apportioned to a consol                                   |
 | 16              | Demo: Document passed validation                                                          |
 | 17              | Supplier Invoice: Invoice date is in the future                                           |
