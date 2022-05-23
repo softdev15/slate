@@ -10,31 +10,36 @@ search: true
 
 # Getting started
 
-The Shipmax Freight Forwarding API allows developers to create applications that automatically extract data from various logistics documents received by their business.
+The Shipmax API enables developers to integrate Shipamax's data extraction and process automation modules into their systems. 
 
-Currently the API supports data extraction from Master and House Bills of Lading. Accounts Payable Invoices and Commercial Invoices will be added in the future.
+Currently the API supports:
+* Data extraction from:
+  * Commercial Invoices
+  * Ocean Bills of Lading 
+  * Accounts Payable Invoices
+* Process automation for:
+  * Accounts Payables Reconciliation
+  * Job building (Shipments, Consols, Brokerage)
+  * Declaration building 
 
-If you would like to use this API and are not already a Shipamax Freight Forwarding customer, please contact our [support team](mailto:support@shipamax.com).
+If you would like to use this API and are not already a Shipamax customer, please contact our [support team](mailto:support@shipamax.com).
 
 
 ## Requirements
 
 1. You will need an access token to authenticate your requests.
 2. You will need to share your webhook endpoint with Shipamax in order to receive notifications of new results.
-3. You will need a Shipamax email address to forward documents to for parsing.
+3. You will need the Shipamax team to have configured a mailbox for your use case. This is how Shipamax configures what happens when you send documents into the system and as such is required whether you provide docs via API or email. 
 
-To arrange any of the above, please contact your Shipamax Customer Success Manager or our [support team](mailto:support@shipamax.com).
+Please contact your Shipamax Customer Success Manager to arrange the above or our [support team](mailto:support@shipamax.com).
 
 ## Workflow
-To start the process, send the emails that you want to be processed to your custom Shipamax email address. You can send these emails manually, or forward them automatically from an external mailbox.
+When you send in Files, Shipamax will process them according to a predefined workflow for your use case. 
 
-When Shipamax receives an email at this address, we begin by looking at all of the attachments. Each attachment becomes a File, and all of the Files in an email are initially part of one FileGroup. Our system first determines what kind of document is in each file, and sends supported document types to be parsed.
+In general, the system will use webhooks to notify you when the Files have reached certain milestones and then the API is available for you to query the results. 
 
-Once parsing has been completed for all Files in the FileGroup, the FileGroup will be validated against a set of rules to determine whether there are any exceptions. On completion of validation, the customer webhook endpoint will be called and provided with the FileGroup ID and the validation result. This ID can then be used to query for the parsing results.
+Ask your CSM for use case specific guides on integrating with Shipamax. 
 
-After receiving the parsing results and processing them in your workflow, you should call the Shipamax validation endpoint to update Shipamax on whether you have successfully processed results or whether there is an exception. This allows Shipamax to provide a workflow for handling the exception in its Exception Manager and to improve the machine learning behind the data extraction.
-
-The Shipamax Exception Manager App enables users to view FileGroups with exceptions and manually make necessary additions or corrections to the data. Once complete they can resubmit the FileGroup for validation which will subsequently trigger another webhook notification.
 
 ## API basics
 
@@ -54,9 +59,18 @@ All API methods require you to be authenticated. This is done using an access to
 
 This access token should be sent in the header of all API requests you make. If your access token was `abc123token`, you would send it as the HTTP header `Authorization: Bearer abc123token`.
 
+## Long-term support and versioning
+
+Shipamax aims to be a partner to our customers, this means continuously improving everything including our APIs. However, this does mean that APIs can only be supported for a given timeframe. We aim to honour the expected End-Of-Life, but in case this is not possible we will work with our customers to find a solution.  
+  
+Version: v1  
+Launch: April 2020  
+Expected End-Of-Live: March 2023  
+
+# Webhooks 
 ## Event Webhooks
 
-The webhooks will be triggered when there is a new validation result for a FileGroup. Currently you are required to manually provide Shipamax with the destination URL which the webhooks should call.
+The webhooks will be triggered when Files reach certain milestones. Currently you are required to manually provide Shipamax with the destination URL which the webhooks should call.
 
 For webhook security we sign inbound requests to your application with an X-Shipamax-Signature HTTP header together with an X-Shipamax-Signature-Version header. See [Validating webhook signatures](#validating-webhook-signatures) for how to validate the requests.
 
@@ -147,16 +161,6 @@ For example with a secret of 12345 and a body of
 ```
 
 The resulting hash would be: `9e6066637a3020bd2cc15ce8a6f18e9e43d63e169a6d355c882fe457d87f0130`
-
-
-## Long-term support and versioning
-
-Shipamax aims to be a partner to our customers, this means continuously improving everything including our APIs. However, this does mean that APIs can only be supported for a given timeframe. We aim to honour the expected End-Of-Life, but in case this is not possible we will work with our customers to find a solution.  
-  
-Version: v1  
-Launch: April 2020  
-Expected End-Of-Live: March 2023  
-
 
 # Reference
 
