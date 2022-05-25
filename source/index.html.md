@@ -850,11 +850,11 @@ Send a request via `POST` to `https://public.shipamax-api.com/api/v2/FileGroups/
 
 > The POST /parse endpoint responds with JSON like this:
 ```json
-{
+[{
   "filename": "FILE_NAME",
   "groupId": 00000,
   "id": 000000,
-}
+}]
 ```
 
 ## ValidationResult Endpoint
