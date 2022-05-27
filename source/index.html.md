@@ -10,17 +10,19 @@ search: true
 
 # Getting started
 
+
 The Shipmax API enables developers to integrate Shipamax's data extraction and process automation modules into their systems. 
 
 Currently the API supports:
-* Data extraction from:
-  * Commercial Invoices
-  * Ocean Bills of Lading 
-  * Accounts Payable Invoices
-* Process automation for:
-  * Accounts Payables Reconciliation
-  * Job building (Shipments, Consols, Brokerage)
-  * Declaration building 
+
+- Data extraction from:
+  + Commercial Invoices
+  + Ocean Bills of Lading 
+  + Accounts Payable Invoices
+- Process automation for:
+  + Accounts Payables Reconciliation
+  + Job building (Shipments, Consols, Brokerage)
+  + Declaration building 
 
 If you would like to use this API and are not already a Shipamax customer, please contact our [support team](mailto:support@shipamax.com).
 
