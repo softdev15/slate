@@ -10,6 +10,7 @@ search: true
 
 # Getting started
 
+
 The Shipmax API enables developers to integrate Shipamax's data extraction and process automation modules into their systems. 
 
 Currently the API supports:
