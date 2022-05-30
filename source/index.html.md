@@ -246,12 +246,16 @@ The following objects can be used as parameters in the *include* query
           "shipperCode": string,
           "shipperOrgId": integer,
           "shipperOrgNameId": integer,
+          "shipperOrgName": string,
           "shipperOrgAddressId": integer,
+          "shipperOrgAddress": string,
           "consignee": string,
           "consigneeCode": string,
           "consigneeOrgId": integer,
           "consigneeOrgNameId": integer,
+          "consigneeOrgName": string,
           "consigneeOrgAddressId": integer,
+          "consigneeOrgAddress": string,
           "carrier": string,
           "carrierCode": string,
           "carrierOrgId": integer,
@@ -284,7 +288,9 @@ The following objects can be used as parameters in the *include* query
               "notifyPartyCode": String,
               "notifyPartyOrgId": integer,
               "notifyPartyOrgNameId":integer,
-              "notifyPartyOrgAddressId": integer
+              "notifyPartyOrgName":string,
+              "notifyPartyOrgAddressId": integer,
+              "notifyPartyOrgAddress": string
             }
           ],
           "importerReference:": [
@@ -330,12 +336,16 @@ The following objects can be used as parameters in the *include* query
                     "supplierCode": string,
                     "supplierOrgId": integer,
                     "supplierOrgNameId": integer,
+                    "supplierOrgName": string,
                     "supplierOrgAddressId": integer,
+                    "supplierOrgAddress": string,
                     "importer": string,
                     "importerCode": string,
                     "importerOrgId": integer,
                     "importerOrgNameId": integer,
+                    "importerOrgName": string,
                     "importerOrgAddressId": integer,
+                    "importerOrgAddress": string,
                     "invoiceNumber": string,
                     "invoiceDate": string,
                     "invoiceGrossTotal": float,
@@ -408,11 +418,15 @@ The following objects can be used as parameters in the *include* query
 | files.billOfLading.shipperOrgId         | The internal ID of the selected Shipper                                                         |
 | files.billOfLading.shipperOrgNameId     | The internal ID of the selected name of the Shipper                                                        |
 | files.billOfLading.shipperOrgAddressId  | The internal ID of the selected address of the Shipper                                                            |
+| files.billOfLading.shipperOrgName       | The selected name of the Shipper                                                        |
+| files.billOfLading.shipperOrgAddress    | The selected address of the Shipper                                                            |
 | files.billOfLading.consignee            | The raw data extracted for the Consignee field from the bill of lading file                                                                                                                                     |
 | files.billOfLading.consigneeCode          | The code for the selected Consignee (as it appears in the Exception Manager UI, taken from your Organization data)                                                       |
 | files.billOfLading.consigneeOrgId         | The internal ID of the selected Consignee                                                         |
 | files.billOfLading.consigneeOrgNameId     | The internal ID of the selected name of the Consignee                                                        |
 | files.billOfLading.consigneeOrgAddressId  | The internal ID of the selected Address of the Consignee                                                            |
+| files.billOfLading.consigneeOrgName     | The selected name of the Consignee                                                        |
+| files.billOfLading.consigneeOrgAddress  | The selected Address of the Consignee                                                            |
 | files.billOfLading.carrier              | The raw data extracted for the Carrier field from the bill of lading file                                                                                                                                     |
 | files.billOfLading.carrierCode          | The code for the selected Carrier (as it appears in the Exception Manager UI, taken from your Organization data)                                                       |
 | files.billOfLading.carrierOrgId         | The internal ID of the selected Carrier                                                         |
@@ -469,6 +483,8 @@ A Bill of Lading can have several Notify party.
 | files.billOfLading.notify.notifyPartyOrgId           |  The internal ID of the selected Notify Party           |
 | files.billOfLading.notify.notifyPartyOrgNameId            | The internal ID of the selected Name of the Notify Party |
 | files.billOfLading.notify.notifyPartyOregAddressId            |   The internal ID of the Address of the selected Notify Party           |
+| files.billOfLading.notify.notifyPartyOrgName            | The selected Name of the Notify Party |
+| files.billOfLading.notify.notifyPartyOregAddress            |   The Address of the selected Notify Party           |
 
 ### *Files/commercialInvoice* attributes
 
@@ -481,11 +497,15 @@ A Bill of Lading can have several Notify party.
 | files.commercialInvoice.supplierOrgId                 | The internal ID of the selected supplier.                                               |
 | files.commercialInvoice.supplierOrgNameId              | The internal ID of the selected name of the supplier.                              |
 | files.commercialInvoice.supplierOrgAddressId              | The internal ID of the selected Address of the supplier.                                                   |
+| files.commercialInvoice.supplierOrgName              | The selected name of the supplier.                              |
+| files.commercialInvoice.supplierOrgAddress              | The selected Address of the supplier.                                                   |
 | files.commercialInvoice.importer    | The raw data extracted for the importer field from the commercial invoice  file.                                                                                          |
 | files.commercialInvoice.importerCode              | The code for the selected importer (as it appears in the Exception Manager UI), taken from your Organization data.                                                         |
 | files.commercialInvoice.importerOrgId          | The internal ID of the selected importer.                                           |
 | files.commercialInvoice.importerOrgNameId         | The internal ID of the selected name of the importer.                                                    |
 | files.commercialInvoice.importerOrgAddressId     | The internal ID of the selected Address of the importer.                                   |
+| files.commercialInvoice.importerOrgName         | The selected name of the importer.                                                    |
+| files.commercialInvoice.importerOrgAddress     | The selected Address of the importer.                                   |
 | files.commercialInvoice.invoiceNumber  | The commercial invoice number.                                             |
 | files.commercialInvoice.invoiceDate            | The commercial invoice date.                                                  |
 | files.commercialInvoice.invoiceGrossTotal          | The commercial invoice’s total amount.                                 |
