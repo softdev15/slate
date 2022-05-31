@@ -297,6 +297,7 @@ The following objects can be used as parameters in the *include* query
             { 
               "id": integer,
               "importerReference": String,
+              "isConsol": boolean
             }
           ],
           "container": [
@@ -743,6 +744,7 @@ A Bill of Lading can have several Notify party.
             { 
               "id": 322,
               "importerReference": "C0000001",
+              "isConsol": true
             }
           ],
           "container": [
