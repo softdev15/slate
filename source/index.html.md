@@ -134,6 +134,7 @@ curl -X POST \
   {CUSTOMER-WEBHOOK-URL} \
   -H 'X-Shipamax-Signature-Version: v1' \
   -H 'X-Shipamax-Signature: {SIGNATURE}' \
+  -H 'X-API-Key: {SIGNATURE}' \
   -d '{
   "kind": "#shipamax-webhook",
   "eventName": "Validation/BillOfLadingGroup/Failure",
@@ -153,11 +154,11 @@ curl -X POST \
 
 When you receive a message on your configured webhook endpoint, you can check that the message really came from Shipamax by validating a signature that Shipamax will send with every request. You will receive a secret key as part of the onboarding process, and may receive new keys from us from time to time. This key is used to generate a cryptographic hash of the request.
 
-Each request will have the two HTTP headers `X-Shipamax-Signature-Version` and `X-Shipamax-Signature`.
+Each request will have the three HTTP headers `X-Shipamax-Signature-Version`, `X-Shipamax-Signature` and `X-API-Key`.
 
 Currently all requests have a value of `v1` for the `X-Shipamax-Signature-Version` header. If in the future we change the method that you need to use to verify the signature, this version will be updated.
 
-To verify the message, use your secret key to generate an HMAC-SHA256 hash of the body of the HTTP request, and compare this to the value in the `X-Shipamax-Signature` header. If they match, then the message came from Shipamax. If they do not match then the message may have come from a malicious third-party, and should be ignored.
+To verify the message, use your secret key to generate an HMAC-SHA256 hash of the body of the HTTP request, and compare this to the value in the `X-Shipamax-Signature` or `X-API-Key` header (both contain the same value). If they match, then the message came from Shipamax. If they do not match then the message may have come from a malicious third-party, and should be ignored.
 
 For example with a secret of 12345 and a body of
 
