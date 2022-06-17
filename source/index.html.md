@@ -1340,6 +1340,176 @@ Delete an existing Organization's Address
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
 | /OrganizationAddresses/{addr_id} | DELETE  | Not required | Number of deleted objects |
 
+-----
+
+## Products Endpoint
+The Products represent line items that might be referenced in the documents you send Shipamax to processes. The product reference data is used to improve the accuracy of the parsing process, making sure the most likely product is selected. 
+Each Product must be unique across its product code, importer and supplier.
+
+### Attributes
+
+| Attribute                               |  Description                                                      |
+| --------------------------------------- | ----------------------------------------------------------------- |
+| id                 | Unique identifier of the Product within the Shipamax system |
+| productCode                               | The code of the Product within your own system           |
+| owner                       | Unique identifier of the owner of the product within your own system     |
+| supplier                       | Unique identifier of the supplier of the product within your own system     |
+| description                       | Description of the product  |
+| unitType                       | The unit the product is quantified by   |
+| tariff                       | The tariff for the product   |
+| origin                       | The origin country of the product |
+
+
+
+### POST
+Create a new Product
+
+| Endpoint                         | Verb  | Body                              | Response                                       |
+| -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
+| /Products                   | POST  | Product's details in JSON    |  The new Product object in JSON           |
+
+> **Body structure for POST Products request:**
+
+```json
+{
+    "productCode": string,
+    "owner": string,
+    "supplier": string,
+    "description": string,
+    "unitType": string,
+    "tariff": string,
+    "origin": string
+}
+```
+
+> **Example:** POST Product request body
+
+```json
+{
+    "productCode": "CODEABC",
+    "owner": "TRRRRFF",
+    "supplier": "BRRRRGG",
+    "description": "Description of product",
+    "unitType": "PKG",
+    "tariff": "123456",
+    "origin": "GB"
+}
+```
+
+> **Example:** POST Product response
+
+```json
+{
+  "id": 35,
+  "productCode": "CODEABC",
+  "owner": "TRRRRFF",
+  "supplier": "BRRRRGG",
+  "description": "Description of product",
+  "unitType": "PKG",
+  "tariff": "123456",
+  "origin": "GB"
+}
+```
+
+### GET (specific Product)
+Retrieve details of a an existing Product
+
+| Endpoint                         | Verb  | Body                              | Response                                       |
+| -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
+| /Products/{product_code} | GET | Not required | An Product object in JSON |
+
+
+> **Example:** GET Product response
+
+```json
+{
+  "id": 35,
+  "productCode": "CODEABC",
+  "owner": "TRRRRFF",
+  "supplier": "BRRRRGG",
+  "description": "Description of product",
+  "unitType": "PKG",
+  "tariff": "123456",
+  "origin": "GB"
+}
+```
+
+### GET (list of Organistion using Filter)
+Retrieve list of Products that match a filter.
+**Note:** When filter is included, Shipamax will return only the Products matching the requested pattern.
+
+| Endpoint                         | Verb  | Body                              | Response                                       |
+| -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
+| /Products | GET | Filter string in JSON | An array of products objects in JSON |
+
+
+> **Body structure for GET Product request using filter**
+
+```json
+{
+  "filter": {
+    "where": {
+      "and": [
+        {
+          "productCode": "TRRRRFF"
+        },
+        {
+          "supplier": "BRRRRGG"
+        }
+      ]
+    }
+  }
+}
+```
+
+### PATCH
+Update details of an existing Product
+
+| Endpoint                         | Verb  | Body                              | Response                                       |
+| -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
+| /Products/{product_id} | PATCH | The updated Product details in JSON | 
+
+> **JSON structure for PATCH Product request**
+
+```json
+{
+  "productCode": "TRFHEED",
+  "owner": "BRFGHH"
+}
+```
+
+> **Example:** PATCH response with the updated Product as JSON like this:
+
+```json
+{
+  "id": 35,
+  "productCode": "CODEABC",
+  "owner": "TRRRRFF",
+  "supplier": "BRRRRGG",
+  "description": "Description of product",
+  "unitType": "PKG",
+  "tariff": "123456",
+  "origin": "GB"
+}
+```
+
+### DELETE
+Delete an Product
+
+| Endpoint                         | Verb  | Body                              | Response                                       |
+| -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
+| /Products/{product_id} | DELETE | Not required | Number of deleted products |
+
+
+> **Example:** DELETE Product response
+
+```json
+{
+  "count": 1
+}
+```
+-----
+
 ## Files Endpoint
 
 ### GET Original File
