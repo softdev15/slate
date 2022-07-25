@@ -72,9 +72,15 @@ Expected End-Of-Live: March 2023
 # Webhooks 
 ## Event Webhooks
 
-The webhooks will be triggered when Files reach certain milestones. Currently you are required to manually provide Shipamax with the destination URL which the webhooks should call.
+A webhook event is triggered when Files reach certain milestones. The main webhook event is the ValidationComplete which is triggered when a pack is posted.
+Additional events exist for specific scenarios.
 
-For webhook security we sign inbound requests to your application with an X-Shipamax-Signature HTTP header together with an X-Shipamax-Signature-Version header. See [Validating webhook signatures](#validating-webhook-signatures) for how to validate the requests.
+To receive an event you first need to register your listener URL in Shipamax. This is a one time process that is done during the onboarding process. 
+To register URL for a webhook event, please contact the support team.
+
+### Security
+Shipamax add two HTTP headers to each webhooks event 'x-shipamax-signature' and 'x-api-key' (optional). See the [Validating webhook signatures](#validating-webhook-signatures) for more details on validating the webhook event.
+
 
 > The webhook endpoint will send a request to the provided endpoint via POST with a body in the following format:
 
@@ -84,25 +90,27 @@ For webhook security we sign inbound requests to your application with an X-Ship
   "eventName": string,
   "payload": {
     "fileGroupId": integer,
-    "exceptions": [
-      {
-        "code": ExceptionCode,
-        "description": string
-      }
-    ]
+    "success": boolean
   }
 }
 ```
 
-The `eventName` property describes what caused the message to be sent. There are currently three events you could receive:
+### Main Webhook Event:
   
 | Event Name                                   | Description                                |
 | -------------------------------------------- | ------------------------------------------ |
-| Validation/BillOfLadingGroup/Success         | Validation finished and succeed            |
-| Validation/BillOfLadingGroup/Failure         | Validation finished with exceptions        |
-| Validation/BillOfLadingGroup/NoBillsOfLading | File received but no bills of lading found |
-| ClusteringComplete                          | Clustering completed                       |
-| ParsingComplete                             | Parsing completed                          |
+| ValidationComplete                              | 	The event includes a json payload with attributes: *GroupID* - The ID of the pack that was posted This value can be used with the <FileGroups Endpoint> to retrieve the data extracted from documents in that pack and/or get the validation results. *Success* - true/false flag indicating whether the internal validation of the pack’s was a successful (true) or failed (false).|
+
+### Additional Webhooks:
+  
+| Event Name                                    | Description                                |
+| --------------------------------------------- | ------------------------------------------ |
+| Validation/BillOfLadingGroup/NoBillsOfLading  | Pack received but did not include a bill of lading (used by Forwarding scenario only)   |
+| ClusteringComplete                            | Clustering calculation of a document has been completed (used by a specific workflow)   |
+| ParsingComplete                               | Parsing of a document, triggered by the [parse endpoint](#parse-endpoint) , has been completed (used by a specific workflow |
+| Validation/BillOfLadingGroup/Success | Validation finished and was successful (used by a specific workflow) |
+| Validation/BillOfLadingGroup/Warning | Validation finished with warnings (used by a specific workflow) |
+| Validation/BillOfLadingGroup/Failure | Validation finished with exceptions (used by a specific workflow) |
 
 
 These events are triggered when the bills of lading in a FileGroup validation pass, fail or no bill of lading is found in the file, respectively.
@@ -114,15 +122,21 @@ For more details of exception codes, check our [list of exceptions](#list-of-exc
 ```javascript
 {
   "kind": "#shipamax-webhook",
-  "eventName": "Validation/BillOfLadingGroup/Failure",
+  "eventName": "ValidationComplete",
   "payload": {
      "fileGroupId": 13704,
-     "exceptions": [
-        {
-          "code": 23,
-          "description": "Bill of Lading: Multiple MBLs"
-        }
-     ]
+     "success": true,
+   }
+}
+
+or
+
+{
+  "kind": "#shipamax-webhook",
+  "eventName": "Validation/BillOfLadingGroup/NoBillsOfLading",
+  "payload": {
+     "fileGroupId": 13704,
+     "exceptions": []
    }
 }
 ```
@@ -136,36 +150,33 @@ curl -X POST \
   -H 'X-Shipamax-Signature: {SIGNATURE}' \
   -d '{
   "kind": "#shipamax-webhook",
-  "eventName": "Validation/BillOfLadingGroup/Failure",
+  "eventName": "ValidationComplete",
   "payload": {
      "fileGroupId": 13704,
-     "exceptions": [
-        {
-          "code": 23,
-          "description": "Bill of Lading: Multiple MBLs"
-        }
-     ]
+     "success": false
    }
   }'
 ```
 
 ## Validating webhook signatures
 
-When you receive a message on your configured webhook endpoint, you can check that the message really came from Shipamax by validating a signature that Shipamax will send with every request. You will receive a secret key as part of the onboarding process, and may receive new keys from us from time to time. This key is used to generate a cryptographic hash of the request.
+Each webhook event includes two custom HTTP headers that can be used for validating that the event and its content where generated by Shipamax:
 
-Each request will have the two HTTP headers `X-Shipamax-Signature-Version` and `X-Shipamax-Signature`.
-
-Currently all requests have a value of `v1` for the `X-Shipamax-Signature-Version` header. If in the future we change the method that you need to use to verify the signature, this version will be updated.
+### 'x-shipamax-signature' and 'x-shipamax-signature-version'
+A signature value unique for each event. 
+During the onboarding process, you will receive a secret key that can be used to generate cryptographic hash of the request.
 
 To verify the message, use your secret key to generate an HMAC-SHA256 hash of the body of the HTTP request, and compare this to the value in the `X-Shipamax-Signature` header. If they match, then the message came from Shipamax. If they do not match then the message may have come from a malicious third-party, and should be ignored.
 
 For example with a secret of 12345 and a body of
 
-```json
-{"kind":"#shipamax-webhook","eventName":"Validation/BillOfLadingGroup/Failure","payload":{"exceptions":[{"code":22,"description":"Bill of Lading: Missing MBL"}],"fileGroupId":48751}}
-```
+`{"kind":"#shipamax-webhook","eventName":"Validation/ValidationComplete","payload":{"fileGroupId":13704,"success":false}}`
 
-The resulting hash would be: `9e6066637a3020bd2cc15ce8a6f18e9e43d63e169a6d355c882fe457d87f0130`
+The resulting hash would be: `da76f9e37775cd072b5dd594926996b1dca3373b82d53756b4cb3cf5c9cafd49`
+
+### 'x-api-key' (optional)
+A static token shared between your system and Shipamax. This token will be the same for all webhook events your receive from Shipamax.
+During the onboarding process you can provide this shared token.
 
 # Reference
 
