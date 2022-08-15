@@ -11,18 +11,18 @@ search: true
 # Getting started
 
 
-The Shipmax API enables developers to integrate Shipamax's data extraction and process automation modules into their systems. 
+The Shipmax API enables developers to integrate Shipamax's data extraction and process automation modules into their systems.
 
 Currently the API supports:
 
 - Data extraction from:
   + Commercial Invoices
-  + Ocean Bills of Lading 
+  + Ocean Bills of Lading
   + Accounts Payable Invoices
 - Process automation for:
   + Accounts Payables Reconciliation
   + Job building (Shipments, Consols, Brokerage)
-  + Declaration building 
+  + Declaration building
 
 If you would like to use this API and are not already a Shipamax customer, please contact our [support team](mailto:support@shipamax.com).
 
@@ -31,16 +31,16 @@ If you would like to use this API and are not already a Shipamax customer, pleas
 
 1. You will need an access token to authenticate your requests.
 2. You will need to share your webhook endpoint with Shipamax in order to receive notifications of new results.
-3. You will need the Shipamax team to have configured a mailbox for your use case. This is how Shipamax configures what happens when you send documents into the system and as such is required whether you provide docs via API or email. 
+3. You will need the Shipamax team to have configured a mailbox for your use case. This is how Shipamax configures what happens when you send documents into the system and as such is required whether you provide docs via API or email.
 
 Please contact your Shipamax Customer Success Manager to arrange the above or our [support team](mailto:support@shipamax.com).
 
 ## Workflow
-When you send in Files, Shipamax will process them according to a predefined workflow for your use case. 
+When you send in Files, Shipamax will process them according to a predefined workflow for your use case.
 
-In general, the system will use webhooks to notify you when the Files have reached certain milestones and then the API is available for you to query the results. 
+In general, the system will use webhooks to notify you when the Files have reached certain milestones and then the API is available for you to query the results.
 
-Ask your CSM for use case specific guides on integrating with Shipamax. 
+Ask your CSM for use case specific guides on integrating with Shipamax.
 
 
 ## API basics
@@ -63,23 +63,28 @@ This access token should be sent in the header of all API requests you make. If 
 
 ## Long-term support and versioning
 
-Shipamax aims to be a partner to our customers, this means continuously improving everything including our APIs. However, this does mean that APIs can only be supported for a given timeframe. We aim to honour the expected End-Of-Life, but in case this is not possible we will work with our customers to find a solution.  
-  
-Version: v1  
-Launch: April 2020  
-Expected End-Of-Live: March 2023  
+Shipamax aims to be a partner to our customers, this means continuously improving everything including our APIs. However, this does mean that API versions will eventually be discontinued. We aim to honour the expected End-Of-Life, but in case this is not possible we will work with our customers to find a solution.
 
-# Webhooks 
-## Event Webhooks
+Version: v1
+Launch: April 2020
+Expected End-Of-Life: Not before March 2023
 
-A webhook event is triggered when Files reach certain milestones. The main webhook event is the ValidationComplete which is triggered when a pack is posted.
-Additional events exist for specific scenarios.
+# Webhooks
 
-To receive an event you first need to register your listener URL in Shipamax. This is a one time process that is done during the onboarding process. 
-To register URL for a webhook event, please contact the support team.
+Sometimes you will want to know when certain events happen in the Shipamax system, and for that purpose we use webhooks. During the onboarding process you can register a URL with us that we will use to inform you when certain events occur. This will consist of sending an HTTP POST message to that endpoint. To register a URL for a webhook event, please contact the support team.
 
-### Security
-Shipamax add two HTTP headers to each webhooks event 'x-shipamax-signature' and 'x-api-key' (optional). See the [Validating webhook signatures](#validating-webhook-signatures) for more details on validating the webhook event.
+All requests will be HTTP POST requests with a `Content-Type` of `application/json`.
+
+## Responses
+
+When we connect to your endpoint to deliver the webhook body your server will need to send back a response. For most requests, any response with a status of 200 OK will be considered a success, and the body of the response is unimportant. We may in the future specify an optional response format, but any response not in that format will be considered as an empty response rather than an error.
+
+Other requests that expect a specific response format are detailed in their own section.
+
+## Security
+All endpoints *must* use HTTPS, so that we can verify that the endpoint is genuine.
+
+To allow our customers to verify that each message is genuine, Shipamax adds one or two HTTP headers to each webhook request, `x-shipamax-signature` and optionally `x-api-key`. See [Validating webhook signatures](#validating-webhook-signatures) for more details on validating the webhook event.
 
 
 > The webhook endpoint will send a request to the provided endpoint via POST with a body in the following format:
@@ -88,21 +93,20 @@ Shipamax add two HTTP headers to each webhooks event 'x-shipamax-signature' and 
 {
   "kind": "#shipamax-webhook",
   "eventName": string,
-  "payload": {
-    "fileGroupId": integer,
-    "success": boolean
-  }
+  "payload": EventSpecificPayload
 }
 ```
 
+## Forwarding Import/Export webhooks
+
 ### Main Webhook Event:
-  
+
 | Event Name                                   | Description                                |
 | -------------------------------------------- | ------------------------------------------ |
 | ValidationComplete                              | 	The event includes a json payload with attributes: *GroupID* - The ID of the pack that was posted This value can be used with the <FileGroups Endpoint> to retrieve the data extracted from documents in that pack and/or get the validation results. *Success* - true/false flag indicating whether the internal validation of the pack’s was a successful (true) or failed (false).|
 
 ### Additional Webhooks:
-  
+
 | Event Name                                    | Description                                |
 | --------------------------------------------- | ------------------------------------------ |
 | Validation/BillOfLadingGroup/NoBillsOfLading  | Pack received but did not include a bill of lading (used by Forwarding scenario only)   |
@@ -158,12 +162,211 @@ curl -X POST \
   }'
 ```
 
+## Webhooks for AP validation
+These are the relevant webhook messages for AP customers.
+
+### Metadata
+In each request belowe, the **metadata** object is an optional parameter that can be used to send company code data relating to the mailbox that the invoice was sent to. If you have no company codes or other company specific data configured on your mailbox, the metadata object will not be included.  Any metadata that is set for a mailbox will be sent with all relevant webhook messages.
+
+### ValidationComplete
+Each time we finish validation, this webhook will be raised. Resubmitting from the Exception Manager starts validation.
+
+The message will look like:
+
+```
+{
+  "kind": "#shipamax-webhook",
+  "eventName": "ValidationComplete",
+  "payload": {
+    "fileGroupId": 13704,
+    "success": true
+  }
+}
+```
+
+Rather than attempt to guess all of the possible things that a customer might find useful to include in this message, we instead provide the file group ID. This can be used with the API to find all of the parsed information as well as details of any validation problems that occurred. However, many customers may only need to take action on failure, so we include a `success` flag that simply indicates whether the validation succeeded.
+
+### AccrualsRequest
+This message is sent as part of validating AP Invoices.
+
+```
+{
+  "kind": "#shipamax-webhook",
+  "eventName": "AccrualsRequest",
+	"metadata": { "companyCode": "ABC" },
+  "payload": {
+    "issuerReference": "SHPMXLON",
+    "jobReferences": ["S00000001", "S00001234"],
+		"billNumbers": ["HWBABC001234"],
+    "containerNumbers": [
+      {
+        "number": "CCLU1234567",
+        "serviceStartDate": "2021-12-16",
+        "serviceEndDate": null
+      }
+    ],
+    "purchaseOrders": ["ABC12345"],
+    "currency": "USD",
+	  "invoiceDate": "2021-10-08",
+	  "fileGroupId": 13704,
+  }
+}
+```
+
+This message is Shipamax asking the customer to provide information about the unpaid accrued costs associated with the invoice being processed.
+
+- The `issuerReference` matches the `externalId` of the Organisation in our system that issued the invoice. We only want to receive accruals that are for this issuer.
+- Job references, bill numbers and container numbers are various references found on the invoice that we believe to be of the associated type. These are used to identify the jobs that the accruals relate to.
+
+Shipamax expects the response to this message to look like:
+
+```json
+{
+  "kind": "#shipamax-webhook",
+  "eventName": "AccrualsResponse",
+  "payload": {
+	  "jobs": [
+      {
+        "jobReference": "S00000001",
+        "billNumbers": [],
+        "containerNumbers": ["CCLU1234567"],
+        "accruals": [
+          {
+						"id": "90111",
+            "currency": "USD",
+            "netAmount": 150,
+            "taxAmount": 30,
+            "localAmount": 200,
+						"exchangeRate": 0.75,
+						"chargeCode": "FRT",
+          }
+        ]
+      },
+      {
+        "jobReference": "S00001234",
+        "billNumbers": [],
+        "containerNumbers": ["CCLU1234567"],
+        "accruals": [
+          {
+						"id": "90112",
+            "currency": "USD",
+            "netAmount": 75,
+            "taxAmount": 15,
+            "localAmount": 100,
+						"exchangeRate": 0.75,
+						"chargeCode": "DOC",
+          },
+          {
+						"id": "90113",
+            "currency": "AUD",
+            "netAmount": 123,
+            "taxAmount": 0,
+            "localAmount": 123,
+						"exchangeRate": 1,
+						"chargeCode": "FRT",
+          }
+        ]
+      },
+      {
+        "jobReference": "S00002222",
+        "billNumbers": ["HWBABC004321"],
+        "containerNumbers": [],
+        "purchaseOrders": ["ABC12345"],
+        "accruals": [
+          {
+						"id": "90114",
+            "currency": "USD",
+            "netAmount": 100,
+            "taxAmount": 0,
+            "localAmount": 133.33,
+						"exchangeRate": 0.75,
+						"chargeCode": "DDOC",
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Accruals are split by job, with each job associated with some references, bills and/or containers. It is important that we can match each accrual to the appropriate jobs/bills/containers as this is how we determine which sub-total to associate the accrual with on invoices that have multiple sub-totals.
+
+It is not essential to include bill numbers and container numbers associated with each job if they were not in the list of requested references, but the response should include at least one job for each valid reference requested, even if there are no accruals. A requested reference that does not appear in the response will be treated as an invalid reference, and *may* result in a validation failure.
+
+Each accrual needs to have an identifier that is unique across all accruals in the customer system. Shipamax receives this as a string and does not attempt to interpret it. This same identifier will be used in the PostInvoice webhook message to identify which accruals have been matched to the invoice.
+
+The response *should* have a `Content-Type` of `application/json`. A response status other than `200 OK`, a body that cannot be parsed as JSON, or a body not in the above format, will be interpreted as a problem with the endpoint, and the message may be retried.
+
+A valid response with no jobs, or jobs with no accruals, *may* cause validation to fail but is otherwise treated as a successful response.
+
+We expect the exchange rate to be sent to us in the following format: **exchangeRate = Local/Foreign**
+
+**PostInvoice**
+
+When the validation process for an AP invoice is complete, Shipamax will send a message to the webhook endpoint that contains the details of the validated invoice. This is instead of simply storing the invoice and letting the customer react to the ValidationComplete webhook because we want to verify that the message was successfully retrieved before marking the validation as complete.
+
+The message will look like:
+
+```json
+{
+  "kind": "#shipamax-webhook",
+  "eventName": "PostInvoice",
+	"metadata": { "companyCode": "ABC" },
+  "payload": {
+		"invoiceNumber": "71431",
+    "issuerReference": "SHPMXLON",
+    "invoiceDate": "2021-10-08",
+    "netTotal": 200,
+    "taxTotal": 30,
+    "currency": "USD",
+    "localTotal": 266.66,
+    "fileGroupId": 13704,
+    "accruals": [
+      { "id": "90111", "netAmount": 150, "taxAmount": 30, "localAmount": 200, "exchangeRate": 0.75, "chargeCode": "FRT" },
+      { "id": "90114", "netAmount": 50, "taxAmount": 0, "localAmount": 66.66, "exchangeRate": 0.75, "chargeCode": "DOC", "partial": true }
+    ]
+  }
+}
+```
+
+Again, the content of the response is not important, but any status other than `200 OK` will be interpreted as a failure, and posting may be retried and/or validation may fail.
+
+For each accrual, the `id` matches the `id` of an accrual previously fetched via the `AccrualRequest` webhook. Shipamax sends the values for the amounts as these can be edited during the validation process. When the optional `partial` flag is false or missing this means that the new amount should be interpreted as the new full amount to be paid for that accrued cost. When `partial` is true it means that the invoice is requesting payment for only part of the accrued cost, and the remaining value of the cost should remain as a separate cost to be paid later.
+
+**PostOverheadInvoice**
+
+When the invoice is an Overhead, there will be no costs accrued in the customer system so there will be no AccrualsRequest webhook sent and no further validation after being submitted from the Exception Manager.
+
+For these invoices the webhook message for posting will be slightly different, as we have slightly different cost data.
+
+```json
+{
+  "kind": "#shipamax-webhook",
+  "eventName": "PostOverheadInvoice",
+	"metadata": { "companyCode": "ABC" },
+  "payload": {
+	  "invoiceNumber": "71431",
+	  "issuerReference": "SHPMXLON",
+	  "invoiceDate": "2021-10-08",
+	  "netTotal": 200,
+	  "taxTotal": 30,
+	  "currency": "USD",
+	  "localTotal": 266.66,
+	  "fileGroupId": 13704,
+	  "costs": [
+	    { "netAmount": 150, "taxAmount": 30, "taxCode": "VAT", "glCode": "3905.00.00", "description": "Equipment" },
+	    { "netAmount": 50, "taxAmount": 0, "taxCode": "VAT", "glCode": "3905.00.00", "description": "Equipment" }
+	  ]
+	}
+}
+```
+
 ## Validating webhook signatures
 
 Each webhook event includes two custom HTTP headers that can be used for validating that the event and its content where generated by Shipamax:
 
 ### 'x-shipamax-signature' and 'x-shipamax-signature-version'
-A signature value unique for each event. 
+A signature value unique for each event.
 During the onboarding process, you will receive a secret key that can be used to generate cryptographic hash of the request.
 
 To verify the message, use your secret key to generate an HMAC-SHA256 hash of the body of the HTTP request, and compare this to the value in the `X-Shipamax-Signature` header. If they match, then the message came from Shipamax. If they do not match then the message may have come from a malicious third-party, and should be ignored.
@@ -198,7 +401,7 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
 | --------------------------------------- | ----------------------------------------------------------------- |
 | include                                 | List of inner objects to include in the returned FileGroup        |
 
-### Available objects 
+### Available objects
 The following objects can be used as parameters in the *include* query
 
 | Value                                   |  Description                                                       |
@@ -305,7 +508,7 @@ The following objects can be used as parameters in the *include* query
             }
           ],
           "importerReference:": [
-            { 
+            {
               "id": integer,
               "importerReference": String,
               "isConsol": boolean
@@ -479,7 +682,7 @@ The following objects can be used as parameters in the *include* query
 | files.billOfLading.packLine.packageCount | The number of pieces (or packages) in this pack line                                                                             |
 | files.billOfLading.packLine.packageType | The package's type. For list of possible values, see [List of PackageType values](#list-of-packagetype-values)                    |
 | files.billOfLading.packLine.weight      | The package's Weight                                                                                                                                 |
-| files.billOfLading.packLine.volume      | The package's Volume                                                                                                                                  |The package's Weight  
+| files.billOfLading.packLine.volume      | The package's Volume                                                                                                                                  |The package's Weight
 | files.billOfLading.packLine.weightUnit  | The weight units used. Supported values are: 'kg', 't' |
 | files.billOfLading.packLine.volumeUnit  | The volume units used. Supported values are: 'm^3'                                                                                                                                |
 
@@ -752,7 +955,7 @@ A Bill of Lading can have several Notify party.
             }
           ],
           "importerReference:": [
-            { 
+            {
               "id": 322,
               "importerReference": "C0000001",
               "isConsol": true
@@ -947,8 +1150,8 @@ Send a new validation result via `POST` request to `https://public.shipamax-api.
 ```
 
 ## Organizations Endpoint
-The Organizations list represents businesses that might be referenced in the documents you send Shipamax to processes (for exmaple, the Shipper on a House Bill of Lading, a Supplier on a Commercial Invoice Creditor etc.). The organization list is used to improve the accuracy of the parsing process, making sure the most likely organization is selected. 
-Each Organization must have a unique identifier provided by you (referred to as `externalId`), this is usually the identifier used in your own system. 
+The Organizations list represents businesses that might be referenced in the documents you send Shipamax to processes (for exmaple, the Shipper on a House Bill of Lading, a Supplier on a Commercial Invoice Creditor etc.). The organization list is used to improve the accuracy of the parsing process, making sure the most likely organization is selected.
+Each Organization must have a unique identifier provided by you (referred to as `externalId`), this is usually the identifier used in your own system.
 Each organization added is assigned an internal ID unique to Shipamax (referred to as `org_id`). This ID is required in order to DELETE/PATCH the organization as well as adding Names and Addresses to the Organization
 
 ### Attributes
@@ -1082,7 +1285,7 @@ Update details of an existing Organization
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Organizations/{org_id} | PATCH | The updated Organization details in JSON | 
+| /Organizations/{org_id} | PATCH | The updated Organization details in JSON |
 
 > **JSON structure for PATCH Organization request**
 
@@ -1127,7 +1330,7 @@ Delete an Organization
 ```
 
 ## Organization Names Endpoint
-An Organization Name represents a name associated with an Organization. An Organization can have multiple names associated with it. 
+An Organization Name represents a name associated with an Organization. An Organization can have multiple names associated with it.
 Each Organization Name added is assigned an internal ID, unique to Shipamax (referred to as `name_id`). This ID is required in order to DELETE/PATCH the name
 
 
@@ -1201,7 +1404,7 @@ Update an existing Organization's Name
 | /OrganizationNames/{name_id} | PATCH | The updated details in JSON | The Name object in JSON  |
 
 
-> **Example:** Body of PATCH OrganizationNames request (This change the name to "NewName" and set it as main name) 
+> **Example:** Body of PATCH OrganizationNames request (This change the name to "NewName" and set it as main name)
 
 ```json
 {
@@ -1229,7 +1432,7 @@ Delete an existing Organization's Name
 | /OrganizationNames/{name_id} | DELETE  | Not required | Number of deleted objects |
 
 ## Organization Addresses Endpoint
-An Organization Address represents an Address associated with an Organization. An Organization can have multiple Addresses associated with it. 
+An Organization Address represents an Address associated with an Organization. An Organization can have multiple Addresses associated with it.
 Each Organization Address added is assigned an internal ID unique to Shipamax (referred to as `addr_id`). This ID is required in order to DELETE/PATCH the Address.
 
 ### Attributes
@@ -1252,7 +1455,7 @@ Create a new Address for an existing Organization
 
 
 > **JSON structure for POST Organizations Address request**
-> 
+>
 ```json
 {
   "address1": string,
@@ -1263,7 +1466,7 @@ Create a new Address for an existing Organization
 ```
 
 > **Example:** Body of POST Organization's Address request
- 
+
 ```json
 {
   "address1": "Rue Lars",
@@ -1323,7 +1526,7 @@ Update an existing Organization's Address
 | /OrganizationAddresses/{addr_id} | PATCH  | The updated details in JSON | The Address object in JSON  |
 
 
-> **Example:** Body of PATCH OrganizationAddresses request 
+> **Example:** Body of PATCH OrganizationAddresses request
 
 ```json
 {
@@ -1481,7 +1684,7 @@ Update details of an existing Product
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Products/{product_id} | PATCH | The updated Product details in JSON | 
+| /Products/{product_id} | PATCH | The updated Product details in JSON |
 
 > **JSON structure for PATCH Product request**
 
@@ -1559,7 +1762,7 @@ URL Parameter Definitions
 
 > Example curl to upload files:
 ```shell
-curl -X POST 
+curl -X POST
   -H 'Authorization: ${BEARER_TOKEN}'
   -F 'req=${FILE_LOCATION}'
   -F 'req=${FILE_LOCATION_2}'
@@ -1594,11 +1797,9 @@ If a mailbox is configured to have one file per group, you will receieve an arra
 
 ## Cargowise References Endpoint
 
-### POST CargowiseReference/send
+You are able to send Cargowise reference data (XML) directly to Shipamax. The endpoint takes the content-type as `text/xml`, and the request body as raw data. The endpoint will respond with a `text/xml`.
 
-You are able to send Cargowise reference data (XML) directly to Shipamax. The endpoint takes the content-type as 'text/xml', and the request body as raw data. The endpoint will respond with a `text/xml`.
-
-The Cargowise reference request will then be saved to the database as text or string('utf-8) and added to a queue to be processed later as a first come first serve basis, hence the API endpoint will mostly always return success status.
+The Cargowise reference request will then be saved to the database, interpreted as UTF-8 encoded text, and added to a queue to be processed later on a first come first served basis, hence the API endpoint will mostly always return success status.
 If the request is empty an error will be returned.
 
 | Endpoint                      | Verb   | Description                                                 |
@@ -1611,7 +1812,7 @@ Send Cargowise reference data (xml) by making a `POST` request to
 This endpoint can be used to send Organization/Container Number/Product Code reference data.
 How to send each of these format has been explained in this document below.
 
-**Organization data:**
+### Organization data:
 
 You can send Organization updates either as `<UniversalInterchange>` or `<Native>` request.
 XML tag `<OrgHeader>` wraps up all the organization related details such as Organization code, name, address etc..
@@ -1831,7 +2032,7 @@ XML tag `<OrgHeader>` wraps up all the organization related details such as Orga
 </Native>
 ```
 
-**Container reference data:**
+### Container reference data:
 
 This is a `<UniversalInterchange>` request.
 XML tag `<UniversalShipment>` wraps up all the container reference data,
@@ -1918,11 +2119,11 @@ Similarly, multiple shipments can be specified by repeating `<SubShipment>` XML 
 </UniversalInterchange>
 ```
 
-**Product code data:**
+### Product code data:
 
 There are two formats you can send product data in; verbose and native.
 
-### Verbose
+#### Verbose
 
 This is a `<XmlInterchange>` request.
 XML tag `<Products>` wraps up all the product code related data.
@@ -2025,7 +2226,7 @@ XML tag `<Products>` wraps up all the product code related data.
 </XmlInterchange>
 ```
 
-Cragowise Reference endpoint can also accept SOAP message which is a Cargowise default i.e, Request that starts with tag <s: Envelope>, Or 
+Cragowise Reference endpoint can also accept SOAP message which is a Cargowise default i.e, Request that starts with tag <s: Envelope>, Or
 you can also take the message encoded within the SOAP message and post it as a request to the Cargowise reference endpoint.
 
 > Example xml format when sending SOAP message:
@@ -2073,7 +2274,7 @@ you can also take the message encoded within the SOAP message and post it as a r
       </s:Envelope>
 ```
 
-### Native
+#### Native
 
 This is a `<Native>` request.
 XML tag `<Product>` wraps up all the product code related data.
