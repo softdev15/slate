@@ -1343,8 +1343,10 @@ Delete an existing Organization's Address
 -----
 
 ## Products Endpoint
-The Products represent line items that might be referenced in the documents you send Shipamax to processes. The product reference data is used to improve the accuracy of the parsing process, making sure the most likely product is selected. 
-Each Product must be unique across its product code, importer and supplier.
+The product reference data is used to improve the accuracy of the line item parsing, making it more likely that the correct product is associated with each line.
+During the processing of a Commercial Invoice, Shipamax will attempt to match the parsed data with the available product reference data. If a match is found, the product reference data (product code, description, type and HS Code) will be used instead of the parsed data.
+
+The Product endpoint allows you to send Shipamax any changes/additions to your product reference data in real-time and keep it up-to-date with your TMS system.
 
 ### Attributes
 
@@ -1352,11 +1354,11 @@ Each Product must be unique across its product code, importer and supplier.
 | --------------------------------------- | ----------------------------------------------------------------- |
 | id                 | Unique identifier of the Product within the Shipamax system |
 | productCode                               | The code of the Product within your own system           |
-| owner                       | Unique identifier of the owner of the product within your own system     |
+| owner                       | Unique identifier of the owner (eg. importer) of the product within your own system     |
 | supplier                       | Unique identifier of the supplier of the product within your own system     |
 | description                       | Description of the product  |
 | unitType                       | The unit the product is quantified by   |
-| tariff                       | The tariff for the product   |
+| tariff                       | The tariff (eg. HS Code) for the product   |
 | origin                       | The origin country of the product |
 
 
@@ -1412,7 +1414,8 @@ Create a new Product
 ```
 
 ### GET (specific Product)
-Retrieve details of a an existing Product
+Retrieve details of a an existing Product reference by using the product code from your system.
+If there are multiple product with the same code they will all be included in the response.
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
