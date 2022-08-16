@@ -10,7 +10,7 @@ pushd ..  > /dev/null
 case "$1" in
   prod)
     BUCKET=s3://docs.shipamax.com
-    CLOUDFRONT_DISTRIBUTION=E180ZGPYZKHXTO
+    CLOUDFRONT_DISTRIBUTION=EGL52CE3UMA8B
     ;;
   staging)
     BUCKET=s3://docs-staging.shipamax.com
