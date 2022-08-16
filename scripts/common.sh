@@ -1,3 +1,5 @@
+set -Eeuo pipefail
+
 function slack_notify() {
   MESSAGE=$1
 
