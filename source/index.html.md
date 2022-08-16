@@ -6,23 +6,24 @@ toc_footers:
 
 
 search: true
+code_clipboard: true
 ---
 
 # Getting started
 
 
-The Shipmax API enables developers to integrate Shipamax's data extraction and process automation modules into their systems. 
+The Shipmax API enables developers to integrate Shipamax's data extraction and process automation modules into their systems.
 
 Currently the API supports:
 
 - Data extraction from:
   + Commercial Invoices
-  + Ocean Bills of Lading 
+  + Ocean Bills of Lading
   + Accounts Payable Invoices
 - Process automation for:
   + Accounts Payables Reconciliation
   + Job building (Shipments, Consols, Brokerage)
-  + Declaration building 
+  + Declaration building
 
 If you would like to use this API and are not already a Shipamax customer, please contact our [support team](mailto:support@shipamax.com).
 
@@ -31,16 +32,16 @@ If you would like to use this API and are not already a Shipamax customer, pleas
 
 1. You will need an access token to authenticate your requests.
 2. You will need to share your webhook endpoint with Shipamax in order to receive notifications of new results.
-3. You will need the Shipamax team to have configured a mailbox for your use case. This is how Shipamax configures what happens when you send documents into the system and as such is required whether you provide docs via API or email. 
+3. You will need the Shipamax team to have configured a mailbox for your use case. This is how Shipamax configures what happens when you send documents into the system and as such is required whether you provide docs via API or email.
 
 Please contact your Shipamax Customer Success Manager to arrange the above or our [support team](mailto:support@shipamax.com).
 
 ## Workflow
-When you send in Files, Shipamax will process them according to a predefined workflow for your use case. 
+When you send in Files, Shipamax will process them according to a predefined workflow for your use case.
 
-In general, the system will use webhooks to notify you when the Files have reached certain milestones and then the API is available for you to query the results. 
+In general, the system will use webhooks to notify you when the Files have reached certain milestones and then the API is available for you to query the results.
 
-Ask your CSM for use case specific guides on integrating with Shipamax. 
+Ask your CSM for use case specific guides on integrating with Shipamax.
 
 
 ## API basics
@@ -63,19 +64,19 @@ This access token should be sent in the header of all API requests you make. If 
 
 ## Long-term support and versioning
 
-Shipamax aims to be a partner to our customers, this means continuously improving everything including our APIs. However, this does mean that APIs can only be supported for a given timeframe. We aim to honour the expected End-Of-Life, but in case this is not possible we will work with our customers to find a solution.  
-  
-Version: v1  
-Launch: April 2020  
-Expected End-Of-Live: March 2023  
+Shipamax aims to be a partner to our customers, this means continuously improving everything including our APIs. However, this does mean that APIs can only be supported for a given timeframe. We aim to honour the expected End-Of-Life, but in case this is not possible we will work with our customers to find a solution.
 
-# Webhooks 
+Version: v1
+Launch: April 2020
+Expected End-Of-Live: March 2023
+
+# Webhooks
 ## Event Webhooks
 
 A webhook event is triggered when Files reach certain milestones. The main webhook event is the ValidationComplete which is triggered when a pack is posted.
 Additional events exist for specific scenarios.
 
-To receive an event you first need to register your listener URL in Shipamax. This is a one time process that is done during the onboarding process. 
+To receive an event you first need to register your listener URL in Shipamax. This is a one time process that is done during the onboarding process.
 To register URL for a webhook event, please contact the support team.
 
 ### Security
@@ -96,13 +97,13 @@ Shipamax add two HTTP headers to each webhooks event 'x-shipamax-signature' and 
 ```
 
 ### Main Webhook Event:
-  
+
 | Event Name                                   | Description                                |
 | -------------------------------------------- | ------------------------------------------ |
 | ValidationComplete                              | 	The event includes a json payload with attributes: *GroupID* - The ID of the pack that was posted This value can be used with the <FileGroups Endpoint> to retrieve the data extracted from documents in that pack and/or get the validation results. *Success* - true/false flag indicating whether the internal validation of the pack’s was a successful (true) or failed (false).|
 
 ### Additional Webhooks:
-  
+
 | Event Name                                    | Description                                |
 | --------------------------------------------- | ------------------------------------------ |
 | Validation/BillOfLadingGroup/NoBillsOfLading  | Pack received but did not include a bill of lading (used by Forwarding scenario only)   |
@@ -163,7 +164,7 @@ curl -X POST \
 Each webhook event includes two custom HTTP headers that can be used for validating that the event and its content where generated by Shipamax:
 
 ### 'x-shipamax-signature' and 'x-shipamax-signature-version'
-A signature value unique for each event. 
+A signature value unique for each event.
 During the onboarding process, you will receive a secret key that can be used to generate cryptographic hash of the request.
 
 To verify the message, use your secret key to generate an HMAC-SHA256 hash of the body of the HTTP request, and compare this to the value in the `X-Shipamax-Signature` header. If they match, then the message came from Shipamax. If they do not match then the message may have come from a malicious third-party, and should be ignored.
@@ -198,7 +199,7 @@ Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/ap
 | --------------------------------------- | ----------------------------------------------------------------- |
 | include                                 | List of inner objects to include in the returned FileGroup        |
 
-### Available objects 
+### Available objects
 The following objects can be used as parameters in the *include* query
 
 | Value                                   |  Description                                                       |
@@ -305,7 +306,7 @@ The following objects can be used as parameters in the *include* query
             }
           ],
           "importerReference:": [
-            { 
+            {
               "id": integer,
               "importerReference": String,
               "isConsol": boolean
@@ -479,7 +480,7 @@ The following objects can be used as parameters in the *include* query
 | files.billOfLading.packLine.packageCount | The number of pieces (or packages) in this pack line                                                                             |
 | files.billOfLading.packLine.packageType | The package's type. For list of possible values, see [List of PackageType values](#list-of-packagetype-values)                    |
 | files.billOfLading.packLine.weight      | The package's Weight                                                                                                                                 |
-| files.billOfLading.packLine.volume      | The package's Volume                                                                                                                                  |The package's Weight  
+| files.billOfLading.packLine.volume      | The package's Volume                                                                                                                                  |The package's Weight
 | files.billOfLading.packLine.weightUnit  | The weight units used. Supported values are: 'kg', 't' |
 | files.billOfLading.packLine.volumeUnit  | The volume units used. Supported values are: 'm^3'                                                                                                                                |
 
@@ -752,7 +753,7 @@ A Bill of Lading can have several Notify party.
             }
           ],
           "importerReference:": [
-            { 
+            {
               "id": 322,
               "importerReference": "C0000001",
               "isConsol": true
@@ -947,8 +948,8 @@ Send a new validation result via `POST` request to `https://public.shipamax-api.
 ```
 
 ## Organizations Endpoint
-The Organizations list represents businesses that might be referenced in the documents you send Shipamax to processes (for exmaple, the Shipper on a House Bill of Lading, a Supplier on a Commercial Invoice Creditor etc.). The organization list is used to improve the accuracy of the parsing process, making sure the most likely organization is selected. 
-Each Organization must have a unique identifier provided by you (referred to as `externalId`), this is usually the identifier used in your own system. 
+The Organizations list represents businesses that might be referenced in the documents you send Shipamax to processes (for exmaple, the Shipper on a House Bill of Lading, a Supplier on a Commercial Invoice Creditor etc.). The organization list is used to improve the accuracy of the parsing process, making sure the most likely organization is selected.
+Each Organization must have a unique identifier provided by you (referred to as `externalId`), this is usually the identifier used in your own system.
 Each organization added is assigned an internal ID unique to Shipamax (referred to as `org_id`). This ID is required in order to DELETE/PATCH the organization as well as adding Names and Addresses to the Organization
 
 ### Attributes
@@ -1082,7 +1083,7 @@ Update details of an existing Organization
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Organizations/{org_id} | PATCH | The updated Organization details in JSON | 
+| /Organizations/{org_id} | PATCH | The updated Organization details in JSON |
 
 > **JSON structure for PATCH Organization request**
 
@@ -1127,7 +1128,7 @@ Delete an Organization
 ```
 
 ## Organization Names Endpoint
-An Organization Name represents a name associated with an Organization. An Organization can have multiple names associated with it. 
+An Organization Name represents a name associated with an Organization. An Organization can have multiple names associated with it.
 Each Organization Name added is assigned an internal ID, unique to Shipamax (referred to as `name_id`). This ID is required in order to DELETE/PATCH the name
 
 
@@ -1201,7 +1202,7 @@ Update an existing Organization's Name
 | /OrganizationNames/{name_id} | PATCH | The updated details in JSON | The Name object in JSON  |
 
 
-> **Example:** Body of PATCH OrganizationNames request (This change the name to "NewName" and set it as main name) 
+> **Example:** Body of PATCH OrganizationNames request (This change the name to "NewName" and set it as main name)
 
 ```json
 {
@@ -1229,7 +1230,7 @@ Delete an existing Organization's Name
 | /OrganizationNames/{name_id} | DELETE  | Not required | Number of deleted objects |
 
 ## Organization Addresses Endpoint
-An Organization Address represents an Address associated with an Organization. An Organization can have multiple Addresses associated with it. 
+An Organization Address represents an Address associated with an Organization. An Organization can have multiple Addresses associated with it.
 Each Organization Address added is assigned an internal ID unique to Shipamax (referred to as `addr_id`). This ID is required in order to DELETE/PATCH the Address.
 
 ### Attributes
@@ -1252,7 +1253,7 @@ Create a new Address for an existing Organization
 
 
 > **JSON structure for POST Organizations Address request**
-> 
+>
 ```json
 {
   "address1": string,
@@ -1263,7 +1264,7 @@ Create a new Address for an existing Organization
 ```
 
 > **Example:** Body of POST Organization's Address request
- 
+
 ```json
 {
   "address1": "Rue Lars",
@@ -1323,7 +1324,7 @@ Update an existing Organization's Address
 | /OrganizationAddresses/{addr_id} | PATCH  | The updated details in JSON | The Address object in JSON  |
 
 
-> **Example:** Body of PATCH OrganizationAddresses request 
+> **Example:** Body of PATCH OrganizationAddresses request
 
 ```json
 {
@@ -1481,7 +1482,7 @@ Update details of an existing Product
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Products/{product_id} | PATCH | The updated Product details in JSON | 
+| /Products/{product_id} | PATCH | The updated Product details in JSON |
 
 > **JSON structure for PATCH Product request**
 
@@ -1559,7 +1560,7 @@ URL Parameter Definitions
 
 > Example curl to upload files:
 ```shell
-curl -X POST 
+curl -X POST
   -H 'Authorization: ${BEARER_TOKEN}'
   -F 'req=${FILE_LOCATION}'
   -F 'req=${FILE_LOCATION_2}'
@@ -2025,7 +2026,7 @@ XML tag `<Products>` wraps up all the product code related data.
 </XmlInterchange>
 ```
 
-Cragowise Reference endpoint can also accept SOAP message which is a Cargowise default i.e, Request that starts with tag <s: Envelope>, Or 
+Cragowise Reference endpoint can also accept SOAP message which is a Cargowise default i.e, Request that starts with tag <s: Envelope>, Or
 you can also take the message encoded within the SOAP message and post it as a request to the Cargowise reference endpoint.
 
 > Example xml format when sending SOAP message:
