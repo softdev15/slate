@@ -6,6 +6,7 @@ toc_footers:
 
 
 search: true
+code_clipboard: true
 ---
 
 # Getting started
