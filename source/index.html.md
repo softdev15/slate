@@ -104,7 +104,7 @@ To allow our customers to verify that each message is genuine, Shipamax adds one
 
 | Event Name                                   | Description                                |
 | -------------------------------------------- | ------------------------------------------ |
-| ValidationComplete                              | 	The event includes a json payload with attributes: *GroupID* - The ID of the pack that was posted This value can be used with the <FileGroups Endpoint> to retrieve the data extracted from documents in that pack and/or get the validation results. *Success* - true/false flag indicating whether the internal validation of the pack’s was a successful (true) or failed (false).|
+| ValidationComplete                              |   The event includes a json payload with attributes: *GroupID* - The ID of the pack that was posted This value can be used with the <FileGroups Endpoint> to retrieve the data extracted from documents in that pack and/or get the validation results. *Success* - true/false flag indicating whether the internal validation of the pack’s was a successful (true) or failed (false).|
 
 ### Additional Webhooks:
 
@@ -170,11 +170,8 @@ These are the relevant webhook messages for AP customers.
 In each request belowe, the **metadata** object is an optional parameter that can be used to send company code data relating to the mailbox that the invoice was sent to. If you have no company codes or other company specific data configured on your mailbox, the metadata object will not be included.  Any metadata that is set for a mailbox will be sent with all relevant webhook messages.
 
 ### ValidationComplete
-Each time we finish validation, this webhook will be raised. Resubmitting from the Exception Manager starts validation.
 
-The message will look like:
-
-```
+```json
 {
   "kind": "#shipamax-webhook",
   "eventName": "ValidationComplete",
@@ -185,20 +182,24 @@ The message will look like:
 }
 ```
 
+Each time we finish validation, this webhook will be raised. Resubmitting from the Exception Manager starts validation.
+
 Rather than attempt to guess all of the possible things that a customer might find useful to include in this message, we instead provide the file group ID. This can be used with the API to find all of the parsed information as well as details of any validation problems that occurred. However, many customers may only need to take action on failure, so we include a `success` flag that simply indicates whether the validation succeeded.
 
-### AccrualsRequest
-This message is sent as part of validating AP Invoices.
 
-```
+<br style="clear: right;"/>
+
+### AccrualsRequest
+
+```json
 {
   "kind": "#shipamax-webhook",
   "eventName": "AccrualsRequest",
-	"metadata": { "companyCode": "ABC" },
+  "metadata": { "companyCode": "ABC" },
   "payload": {
     "issuerReference": "SHPMXLON",
     "jobReferences": ["S00000001", "S00001234"],
-		"billNumbers": ["HWBABC001234"],
+    "billNumbers": ["HWBABC001234"],
     "containerNumbers": [
       {
         "number": "CCLU1234567",
@@ -208,38 +209,33 @@ This message is sent as part of validating AP Invoices.
     ],
     "purchaseOrders": ["ABC12345"],
     "currency": "USD",
-	  "invoiceDate": "2021-10-08",
-	  "fileGroupId": 13704,
+    "invoiceDate": "2021-10-08",
+    "fileGroupId": 13704,
   }
 }
 ```
 
-This message is Shipamax asking the customer to provide information about the unpaid accrued costs associated with the invoice being processed.
-
-- The `issuerReference` matches the `externalId` of the Organisation in our system that issued the invoice. We only want to receive accruals that are for this issuer.
-- Job references, bill numbers and container numbers are various references found on the invoice that we believe to be of the associated type. These are used to identify the jobs that the accruals relate to.
-
-Shipamax expects the response to this message to look like:
+> Shipamax expects the response to this message to look like:
 
 ```json
 {
   "kind": "#shipamax-webhook",
   "eventName": "AccrualsResponse",
   "payload": {
-	  "jobs": [
+    "jobs": [
       {
         "jobReference": "S00000001",
         "billNumbers": [],
         "containerNumbers": ["CCLU1234567"],
         "accruals": [
           {
-						"id": "90111",
+            "id": "90111",
             "currency": "USD",
             "netAmount": 150,
             "taxAmount": 30,
             "localAmount": 200,
-						"exchangeRate": 0.75,
-						"chargeCode": "FRT",
+            "exchangeRate": 0.75,
+            "chargeCode": "FRT",
           }
         ]
       },
@@ -249,22 +245,22 @@ Shipamax expects the response to this message to look like:
         "containerNumbers": ["CCLU1234567"],
         "accruals": [
           {
-						"id": "90112",
+            "id": "90112",
             "currency": "USD",
             "netAmount": 75,
             "taxAmount": 15,
             "localAmount": 100,
-						"exchangeRate": 0.75,
-						"chargeCode": "DOC",
+            "exchangeRate": 0.75,
+            "chargeCode": "DOC",
           },
           {
-						"id": "90113",
+            "id": "90113",
             "currency": "AUD",
             "netAmount": 123,
             "taxAmount": 0,
             "localAmount": 123,
-						"exchangeRate": 1,
-						"chargeCode": "FRT",
+            "exchangeRate": 1,
+            "chargeCode": "FRT",
           }
         ]
       },
@@ -275,13 +271,13 @@ Shipamax expects the response to this message to look like:
         "purchaseOrders": ["ABC12345"],
         "accruals": [
           {
-						"id": "90114",
+            "id": "90114",
             "currency": "USD",
             "netAmount": 100,
             "taxAmount": 0,
             "localAmount": 133.33,
-						"exchangeRate": 0.75,
-						"chargeCode": "DDOC",
+            "exchangeRate": 0.75,
+            "chargeCode": "DDOC",
           }
         ]
       }
@@ -289,6 +285,11 @@ Shipamax expects the response to this message to look like:
   }
 }
 ```
+
+This message is sent as part of validating AP Invoices, and it represents Shipamax asking the customer to provide information about the unpaid accrued costs associated with the invoice being processed.
+
+- The `issuerReference` matches the `externalId` of the Organisation in our system that issued the invoice. We only want to receive accruals that are for this issuer.
+- Job references, bill numbers and container numbers are various references found on the invoice that we believe to be of the associated type. These are used to identify the jobs that the accruals relate to.
 
 Accruals are split by job, with each job associated with some references, bills and/or containers. It is important that we can match each accrual to the appropriate jobs/bills/containers as this is how we determine which sub-total to associate the accrual with on invoices that have multiple sub-totals.
 
@@ -302,19 +303,17 @@ A valid response with no jobs, or jobs with no accruals, *may* cause validation 
 
 We expect the exchange rate to be sent to us in the following format: **exchangeRate = Local/Foreign**
 
+<br style="clear: right;"/>
+
 **PostInvoice**
-
-When the validation process for an AP invoice is complete, Shipamax will send a message to the webhook endpoint that contains the details of the validated invoice. This is instead of simply storing the invoice and letting the customer react to the ValidationComplete webhook because we want to verify that the message was successfully retrieved before marking the validation as complete.
-
-The message will look like:
 
 ```json
 {
   "kind": "#shipamax-webhook",
   "eventName": "PostInvoice",
-	"metadata": { "companyCode": "ABC" },
+  "metadata": { "companyCode": "ABC" },
   "payload": {
-		"invoiceNumber": "71431",
+    "invoiceNumber": "71431",
     "issuerReference": "SHPMXLON",
     "invoiceDate": "2021-10-08",
     "netTotal": 200,
@@ -330,37 +329,41 @@ The message will look like:
 }
 ```
 
+When the validation process for an AP invoice is complete, Shipamax will send a message to the webhook endpoint that contains the details of the validated invoice. This is instead of simply storing the invoice and letting the customer react to the ValidationComplete webhook because we want to verify that the message was successfully retrieved before marking the validation as complete.
+
 Again, the content of the response is not important, but any status other than `200 OK` will be interpreted as a failure, and posting may be retried and/or validation may fail.
 
 For each accrual, the `id` matches the `id` of an accrual previously fetched via the `AccrualRequest` webhook. Shipamax sends the values for the amounts as these can be edited during the validation process. When the optional `partial` flag is false or missing this means that the new amount should be interpreted as the new full amount to be paid for that accrued cost. When `partial` is true it means that the invoice is requesting payment for only part of the accrued cost, and the remaining value of the cost should remain as a separate cost to be paid later.
 
+<br style="clear: right;"/>
+
 **PostOverheadInvoice**
-
-When the invoice is an Overhead, there will be no costs accrued in the customer system so there will be no AccrualsRequest webhook sent and no further validation after being submitted from the Exception Manager.
-
-For these invoices the webhook message for posting will be slightly different, as we have slightly different cost data.
 
 ```json
 {
   "kind": "#shipamax-webhook",
   "eventName": "PostOverheadInvoice",
-	"metadata": { "companyCode": "ABC" },
+  "metadata": { "companyCode": "ABC" },
   "payload": {
-	  "invoiceNumber": "71431",
-	  "issuerReference": "SHPMXLON",
-	  "invoiceDate": "2021-10-08",
-	  "netTotal": 200,
-	  "taxTotal": 30,
-	  "currency": "USD",
-	  "localTotal": 266.66,
-	  "fileGroupId": 13704,
-	  "costs": [
-	    { "netAmount": 150, "taxAmount": 30, "taxCode": "VAT", "glCode": "3905.00.00", "description": "Equipment" },
-	    { "netAmount": 50, "taxAmount": 0, "taxCode": "VAT", "glCode": "3905.00.00", "description": "Equipment" }
-	  ]
-	}
+    "invoiceNumber": "71431",
+    "issuerReference": "SHPMXLON",
+    "invoiceDate": "2021-10-08",
+    "netTotal": 200,
+    "taxTotal": 30,
+    "currency": "USD",
+    "localTotal": 266.66,
+    "fileGroupId": 13704,
+    "costs": [
+      { "netAmount": 150, "taxAmount": 30, "taxCode": "VAT", "glCode": "3905.00.00", "description": "Equipment" },
+      { "netAmount": 50, "taxAmount": 0, "taxCode": "VAT", "glCode": "3905.00.00", "description": "Equipment" }
+    ]
+  }
 }
 ```
+
+When the invoice is an Overhead, there will be no costs accrued in the customer system so there will be no AccrualsRequest webhook sent and no further validation after being submitted from the Exception Manager.
+
+For these invoices the webhook message for posting will be slightly different, as we have slightly different cost data.
 
 ## Validating webhook signatures
 
