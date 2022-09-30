@@ -581,6 +581,7 @@ The following objects can be used as parameters in the *include* query
                             "unitType": string,
                             "productCode": string,
                             "origin": string,
+                            "originCountryCode": string,
                             "productCodeMatch": boolean,
                             "HsCode": string,
                             "id": integer,
@@ -744,6 +745,7 @@ A Bill of Lading can have several Notify party.
 | files.commercialInvoice.lineItem.unitType            |  The type of the unit in the line item.            |
 | files.commercialInvoice.lineItem.productCode            | The code for the product in the line item.        |
 | files.commercialInvoice.lineItem.origin            |  The origin country of the unit in the line item            |
+| files.commercialInvoice.lineItem.originCountryCode            |  The origin (2 letters code) country of the unit in the line item            |
 | files.commercialInvoice.lineItem.productCodeMatch            |   Indicate if the product code extracted matched a code taken from your product code data.       |
 | files.commercialInvoice.lineItem.hsCode            |   The HS Code of this line item.             |
 | files.commercialInvoice.lineItem.matchedProductCode            | The product taken from your product data, if there was a match (productCodeMatch = true).        |
@@ -1023,7 +1025,8 @@ A Bill of Lading can have several Notify party.
                             "lineTotal": 199.6,
                             "unitType": "NO",
                             "productCode": null,
-                            "origin": "MX",
+                            "origin": "Mexico",
+                            "originCountryCode": "MX",
                             "productCodeMatch": false,
                             "HsCode": "1234567890",
                             "id": 1,
