@@ -429,8 +429,6 @@ The following objects can be used as parameters in the *include* query
 ​{
   "id": integer,
   "created": "[ISO8601 timestamp]",
-  "placeholderJobRef": string,
-  "placeholderBillNumber": string,
   "status": integer,
   "lastValidationResult": {
     "isSuccess": boolean,
@@ -599,8 +597,6 @@ The following objects can be used as parameters in the *include* query
 ### *FileGroup* root attributes
 | Attribute                               |  Description                                                                                                                      |
 | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| placeholderJobRef                       | A reference ID in an external system you would like to associate the Group with (manually added)                                  |
-| placeholderBillNumber                   | An existing MBL ID you would like to associate this Group with (manually added)                                                   |
 | status                                  | Status of the group in the shipamax flow. Possible values can be seen in our [list of group status](#list-of-group-status)        |
 
 ### *ValidationResults* attributes
@@ -800,8 +796,6 @@ A Bill of Lading can have several Notify party.
 {
   "id": 1,
   "created": "2020-05-07T15:24:47.338Z",
-  "placeholderJobRef": "S00100101",
-  "placeholderBillNumber": "",
   "status": 1
 }
 ```
@@ -813,8 +807,6 @@ A Bill of Lading can have several Notify party.
 {
   "id": 2,
   "created": "2020-05-07T15:24:47.338Z",
-  "placeholderJobRef": "",
-  "placeholderBillNumber": "",
   "status": 1,
   "lastValidationResult": {
     "isSuccess": false,
@@ -849,8 +841,6 @@ A Bill of Lading can have several Notify party.
 {
   "id": 1,
   "created": "2020-05-07T15:24:47.338Z",
-  "placeholderJobRef": "S00100101",
-  "placeholderBillNumber": "",
   "status": 1,
   "lastValidationResult": {
     "isSuccess": false,
