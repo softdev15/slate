@@ -843,7 +843,7 @@ A Bill of Lading can have several Notify party.
 > Example of request with all inner objects included:
 > /FileGroups/1?include=lastValidationResult,files/billOfLading/importerReference,files/billOfLading/notify,
 > files/billOfLading/container/seals,files/billOfLading/packline
-> files/commercialInvoice,files/commercialInvoice/lineItem,files/apInvoice,files/email
+> files/commercialInvoice,files/commercialInvoice/lineItem,files/apInvoice,files/email,files/parent
 
 ```json
 {
@@ -880,6 +880,9 @@ A Bill of Lading can have several Notify party.
         "companyId": 100000,
         "subject": "Sending file",
         "unqId": "6f847a63-bd99-4b79-965c-128ea9b3f104"
+      },
+      "parent": {
+        "documentId": 22,
       },
       "apInvoice": [
         {
