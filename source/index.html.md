@@ -870,7 +870,7 @@ A Bill of Lading can have several Notify party.
       "id": 442,
       "filename": "file.pdf",
       "created": "2020-05-07T15:24:47.338Z",
-      "fileType": 6,
+      "fileType": 4,
       "email": {
         "customId": "custom001",
         "emailAccountId": 1,
@@ -906,7 +906,26 @@ A Bill of Lading can have several Notify party.
           "departmentCode": "DEPTCODE",
           "branchCountry": "Lithuania"
         }
-      ]
+      ],
+      "billOfLading": [],
+      "commercialInvoice": []
+    },
+    {
+      "id": 443,
+      "filename": "file2.pdf",
+      "created": "2020-05-07T15:24:47.338Z",
+      "fileType": 6,
+      "email": {
+        "customId": "custom001",
+        "emailAccountId": 1,
+        "sender": "test@shipamax.com",
+        "created": "2020-05-07T15:34:47.338Z",
+        "attachmentCount": 1,
+        "companyId": 100000,
+        "subject": "Sending file",
+        "unqId": "6f847a63-bd99-4b79-965c-128ea9b3f104"
+      },
+      "apInvoice": []
       "billOfLading": [
         {
           "id": 111,
@@ -1001,10 +1020,10 @@ A Bill of Lading can have several Notify party.
       "commercialInvoice": []
     },
     {
-      "id": 442,
-      "filename": "file.pdf",
-      "created": "2020-05-07T15:24:47.338Z",
-      "fileType": 6,
+      "id": 444,
+      "filename": "file3.pdf",
+      "created": "2020-05-07T15:44:35.338Z",
+      "fileType": 5,
       "email": {
         "customId": "custom001",
         "emailAccountId": 1,
@@ -1015,72 +1034,47 @@ A Bill of Lading can have several Notify party.
         "subject": "Sending file",
         "unqId": "6f847a63-bd99-4b79-965c-128ea9b3f104"
       },
-      "apInvoice": [
-        {
-          "addressee": "PARSED VALUE ADDRESSEE",
-          "addresseeCode": "ADDCODE",
-          "issuer": "PARSED VALUE ISSUER",
-          "issuerCode": "ISSCODE",
-          "invoiceNumber": "ABC12345",
-          "invoiceDate": "2020-07-03",
-          "invoiceGrossTotal": 2607.92,
-          "netTotal": 2600.00,
-          "vatTotal": 7.92,
-          "currency": "GBP",
-          "currencyId": 826,
-          "validationResultId": 1,
-          "teamId": 1,
-          "previousTeamId": 2,
-          "reasssignTime": "2020-07-03",
-          "email": "invoice@invoice.com",
-          "website": "www.invoice.com",
-          "issuerRecordId": "1-1-1",
-          "glCode": "1300.00.00",
-          "description": "This is an invoice",
-          "departmentCode": "DEPTCODE",
-          "branchCountry": "Lithuania"
-        }
-      ]
+      "apInvoice": [],
       "billOfLading": [],
       "commercialInvoice": [
         {
-            "supplier": "PARSED VALUE",
-            "supplierCode": "CODE",
-            "supplierOrgId": 1,
-            "supplierOrgNameId": 1,
-            "supplierOrgAddressId": 1,
-            "importer": "PARSEDVALUE",
-            "importerCode": "CODE",
-            "importerOrgId": 1,
-            "importerOrgNameId": 1,
-            "importerOrgAddressId": 1,
-            "invoiceNumber": "ABC12345",
-            "invoiceDate": "2020-07-03",
-            "invoiceGrossTotal": 2607.92,
-            "netTotal": 2607.92,
-            "currency": "USD",
-            "incoTerm": "FCA",
-            "id": 1,
-            "lineItem": [
-                {
-                    "description": "ITEM DESCRIPTION",
-                    "quantity": 10,
-                    "unitPrice": 24.95,
-                    "lineTotal": 199.6,
-                    "unitType": "NO",
-                    "productCode": null,
-                    "origin": "Mexico",
-                    "originCountryCode": "MX",
-                    "productCodeMatch": false,
-                    "HsCode": "1234567890",
-                    "id": 1,
-                    "orderIndex": 0,
-                    "descriptionCell": "ITEM DESCRTIPTION 1"
-                }
-            ]
+          "supplier": "PARSED VALUE",
+          "supplierCode": "CODE",
+          "supplierOrgId": 1,
+          "supplierOrgNameId": 1,
+          "supplierOrgAddressId": 1,
+          "importer": "PARSEDVALUE",
+          "importerCode": "CODE",
+          "importerOrgId": 1,
+          "importerOrgNameId": 1,
+          "importerOrgAddressId": 1,
+          "invoiceNumber": "ABC12345",
+          "invoiceDate": "2020-07-03",
+          "invoiceGrossTotal": 2607.92,
+          "netTotal": 2607.92,
+          "currency": "USD",
+          "incoTerm": "FCA",
+          "id": 1,
+          "lineItem": [
+            {
+              "description": "ITEM DESCRIPTION",
+              "quantity": 10,
+              "unitPrice": 24.95,
+              "lineTotal": 199.6,
+              "unitType": "NO",
+              "productCode": null,
+              "origin": "Mexico",
+              "originCountryCode": "MX",
+              "productCodeMatch": false,
+              "HsCode": "1234567890",
+              "id": 1,
+              "orderIndex": 0,
+              "descriptionCell": "ITEM DESCRTIPTION 1"
+            }
+          ]
         }
       ]
-    }
+    },
   ]
 }
 ```
