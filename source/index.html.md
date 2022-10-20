@@ -449,6 +449,9 @@ The following objects can be used as parameters in the *include* query
       "filename": string,
       "created": "[ISO8601 timestamp]",
       "fileType": integer,
+      "parent": {
+        "fileId": integer,
+      },
       "billOfLading": [
         {
           "id": integer,
@@ -616,6 +619,8 @@ The following objects can be used as parameters in the *include* query
 | files                                   | List of files within the FileGroup                                                                                                |
 | files.filename                          | The name of the file as received within the email                                                                                 |
 | files.fileType                          | The type of the file as received within the email. Possible values can be seen in our [list of file types](#list-of-filetype-values)   |
+| files.parent                            | An object that potentially contains the files parent fileId                                                                       |
+| files.parent.fileId                     | The parent file ID, if this file is a child                                                                                       |
 
 ### *Files/billOfLading* attributes
 
@@ -872,7 +877,7 @@ A Bill of Lading can have several Notify party.
         "unqId": "6f847a63-bd99-4b79-965c-128ea9b3f104"
       },
       "parent": {
-        "documentId": 22,
+        "fileId": 22,
       },
       "apInvoice": [
         {
@@ -917,6 +922,9 @@ A Bill of Lading can have several Notify party.
         "companyId": 100000,
         "subject": "Sending file",
         "unqId": "6f847a63-bd99-4b79-965c-128ea9b3f104"
+      },
+      "parent": {
+        "fileId": 22,
       },
       "apInvoice": []
       "billOfLading": [
@@ -1026,6 +1034,9 @@ A Bill of Lading can have several Notify party.
         "companyId": 100000,
         "subject": "Sending file",
         "unqId": "6f847a63-bd99-4b79-965c-128ea9b3f104"
+      },
+      "parent": {
+        "fileId": 22,
       },
       "apInvoice": [],
       "billOfLading": [],
