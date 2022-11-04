@@ -550,48 +550,59 @@ The following objects can be used as parameters in the *include* query
           ]
         }
       ],
+    },
+    {
+      "id": integer,
+      "filename": string,
+      "created": "[ISO8601 timestamp]",
+      "fileType": 5:integer,
       "commercialInvoice": [
-                {
-                    "supplier": string,
-                    "supplierCode": string,
-                    "supplierOrgId": integer,
-                    "supplierOrgNameId": integer,
-                    "supplierOrgName": string,
-                    "supplierOrgAddressId": integer,
-                    "supplierOrgAddress": string,
-                    "importer": string,
-                    "importerCode": string,
-                    "importerOrgId": integer,
-                    "importerOrgNameId": integer,
-                    "importerOrgName": string,
-                    "importerOrgAddressId": integer,
-                    "importerOrgAddress": string,
-                    "invoiceNumber": string,
-                    "invoiceDate": string,
-                    "invoiceGrossTotal": float,
-                    "netTotal": float,
-                    "currency": string,
-                    "incoTerm": string,
-                    "id": integer,
-                    "lineItem": [
-                        {
-                            "description": string,
-                            "quantity": integer,
-                            "unitPrice": float,
-                            "lineTotal": float,
-                            "unitType": string,
-                            "productCode": string,
-                            "origin": string,
-                            "originCountryCode": string,
-                            "productCodeMatch": boolean,
-                            "HsCode": string,
-                            "id": integer,
-                            "orderIndex": integer,
-                            "descriptionCell": string,
-                        }
-                    ]
-                }
-            ]
+          {
+              "supplier": string,
+              "supplierCode": string,
+              "supplierOrgId": integer,
+              "supplierOrgNameId": integer,
+              "supplierOrgName": string,
+              "supplierOrgAddressId": integer,
+              "supplierOrgAddress": string,
+              "importer": string,
+              "importerCode": string,
+              "importerOrgId": integer,
+              "importerOrgNameId": integer,
+              "importerOrgName": string,
+              "importerOrgAddressId": integer,
+              "importerOrgAddress": string,
+              "invoiceNumber": string,
+              "invoiceDate": string,
+              "invoiceGrossTotal": float,
+              "netTotal": float,
+              "currency": string,
+              "incoTerm": string,
+              "id": integer,
+              "lineItem": [
+                  {
+                      "description": string,
+                      "quantity": integer,
+                      "unitPrice": float,
+                      "lineTotal": float,
+                      "unitType": string,
+                      "productCode": string,
+                      "origin": string,
+                      "originCountryCode": string,
+                      "productCodeMatch": boolean,
+                      "hsCode": string,
+                      "matchedHsCode": string,
+                      "matchedProductCode": string,
+                      "matchedDescription": string,
+                      "matchedOriginCountryCode": string,
+                      "matchedUnitType": string,
+                      "id": integer,
+                      "orderIndex": integer,
+                      "descriptionCell": string,
+                  }
+              ]
+          }
+      ]
     }
   ]
 }
@@ -736,6 +747,16 @@ A Bill of Lading can have several Notify party.
 
 ### *Files/commercialInvoice/lineItem* attributes
 
+#### Using the lineItem attributes to determine the product code and description
+The attributes extracted from an invoice for each line item (eg. Product code, description, HS Code, Origin and Unit) are available in the attributes `productCode`, `description`, `hsCode`, `originCountryCode`, `unitType`.
+
+When a line item is successfully matched to a product code from your company’s product code database, the matched values, taken from your product code database, are available in the ‘matched’ attributes (eg. `matchedproductCode`, `matchedDescription`, `matchedHsCode`, `matchedoriginCountryCode`, `matchedUnitType`)
+
+To determine if a line item was matched, use the productCodeMatched attribute:
+
+`productCodeMatched=true` - The line item was successfully matched
+`productCodeMatched=false` - the line item was not matched
+
 | Attribute                            | Description                               |
 | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------  |
 | files.commercialInvoice.lineItem.id            | The internal ID of the line item.   |
@@ -749,6 +770,7 @@ A Bill of Lading can have several Notify party.
 | files.commercialInvoice.lineItem.originCountryCode            |  The origin (2 letters code) country of the unit in the line item            |
 | files.commercialInvoice.lineItem.productCodeMatch            |   Indicate if the product code extracted matched a code taken from your product code data.       |
 | files.commercialInvoice.lineItem.hsCode            |   The HS Code of this line item.             |
+| files.commercialInvoice.lineItem.matchedHsCode            | The hsCode taken from your product data, if there was a match.        |
 | files.commercialInvoice.lineItem.matchedProductCode            | The product taken from your product data, if there was a match (productCodeMatch = true).        |
 | files.commercialInvoice.lineItem.matchedDescription            | The description taken from your product data, if there was a match.     |
 | files.commercialInvoice.lineItem.matchedOriginCountryCode            |  The origin country of the unit taken from your product data, if there was a match.           |
@@ -1070,7 +1092,12 @@ A Bill of Lading can have several Notify party.
               "origin": "Mexico",
               "originCountryCode": "MX",
               "productCodeMatch": false,
-              "HsCode": "1234567890",
+              "hsCode": "1234567890",
+              "matchedHsCode": "1234567890",
+              "matchedProductCode": null,
+              "matchedDescription": "ITEM DESCRIPTION",
+              "matchedOriginCountryCode": "MX",
+              "matchedUnitType": "NO",
               "id": 1,
               "orderIndex": 0,
               "descriptionCell": "ITEM DESCRTIPTION 1"
