@@ -1295,8 +1295,7 @@ Create a new Organization
   "forwarder": false,
   "debtor": false,
   "shipper": false,
-  "active": false,
-  "updated": "2020-01-01T00:00:00.000Z"
+  "active": false
 }
 ```
 
