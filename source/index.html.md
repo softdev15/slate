@@ -320,6 +320,7 @@ We expect the exchange rate to be sent to us in the following format: **exchange
     "taxTotal": 30,
     "currency": "USD",
     "localTotal": 266.66,
+    "fileId": 1820,
     "fileGroupId": 13704,
     "accruals": [
       { "id": "90111", "netAmount": 150, "taxAmount": 30, "localAmount": 200, "exchangeRate": 0.75, "chargeCode": "FRT" },
@@ -352,6 +353,7 @@ For each accrual, the `id` matches the `id` of an accrual previously fetched via
     "taxTotal": 30,
     "currency": "USD",
     "localTotal": 266.66,
+    "fileId": 1820,
     "fileGroupId": 13704,
     "costs": [
       { "netAmount": 150, "taxAmount": 30, "taxCode": "VAT", "glCode": "3905.00.00", "description": "Equipment" },
