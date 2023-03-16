@@ -1279,7 +1279,7 @@ Create a new Organization
     "forwarder": false,
     "debtor": false,
     "shipper": false,
-    "active": false
+    "active": false,
 }
 ```
 
@@ -1295,7 +1295,7 @@ Create a new Organization
   "forwarder": false,
   "debtor": false,
   "shipper": false,
-  "active": false
+  "active": false,
 }
 ```
 
@@ -1669,7 +1669,8 @@ Create a new Product
     "description": string,
     "unitType": string,
     "tariff": string,
-    "origin": string
+    "lookupCode": string,
+    "origin": string,
 }
 ```
 
@@ -1683,6 +1684,7 @@ Create a new Product
     "description": "Description of product",
     "unitType": "PKG",
     "tariff": "123456",
+    "lookupCode": "12345",
     "origin": "GB"
 }
 ```
@@ -1698,6 +1700,7 @@ Create a new Product
   "description": "Description of product",
   "unitType": "PKG",
   "tariff": "123456",
+  "lookupCode": "12345",
   "origin": "GB"
 }
 ```
@@ -2384,6 +2387,13 @@ XML tag `<Product>` wraps up all the product code related data.
                         <PartNum>TESTCODE</PartNum>
                         <StockKeepingUnit>PCE</StockKeepingUnit>
                         <Desc>TEST DESCRIPTION</Desc>
+                         <CusClassPartPivotCollection>
+                          <CusClassPartPivot Action="MERGE">
+                            <CusClassification>
+                              <LookupCode>12345</LookupCode>
+                            </CusClassification>
+                          </CusClassPartPivot>
+                        </CusClassPartPivotCollection>
                         <OrgPartRelationCollection>
                             <OrgPartRelation Action="MERGE">
                                 <Relationship>OWN</Relationship>
