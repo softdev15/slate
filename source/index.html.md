@@ -1650,6 +1650,7 @@ The Product endpoint allows you to send Shipamax any changes/additions to your p
 | description                       | Description of the product  |
 | unitType                       | The unit the product is quantified by   |
 | tariff                       | The tariff (eg. HS Code) for the product   |
+| lookupCode                   | The tariff lookup code |
 | origin                       | The origin country of the product |
 
 
