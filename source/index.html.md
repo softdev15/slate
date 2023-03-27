@@ -598,7 +598,7 @@ The following objects can be used as parameters in the *include* query
                       "matchedDescription": string,
                       "matchedOriginCountryCode": string,
                       "matchedUnitType": string,
-                      "matchedClassification": string,
+                      "matchedClassificationCode": string,
                       "id": integer,
                       "orderIndex": integer,
                       "descriptionCell": string,
@@ -778,7 +778,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
 | files.commercialInvoice.lineItem.matchedDescription            | The description taken from your product data, if there was a match.     |
 | files.commercialInvoice.lineItem.matchedOriginCountryCode            |  The origin country of the unit taken from your product data, if there was a match.           |
 | files.commercialInvoice.lineItem.matchedUnitType            |  The type of the unit taken from your product data, if there was a match.            |
-| files.commercialInvoice.lineItem.matchedClassification            |  The classification / tariff lookup code, if there was a match.            |
+| files.commercialInvoice.lineItem.matchedClassificationCode            |  The classification / tariff lookup code, if there was a match.            |
 | files.commercialInvoice.lineItem.orderIndex            |  The index of the line, representing the order of it within the commercial invoice..            |
 | files.commercialInvoice.lineItem.descriptionCell            |  The entire cell of the line item description.          |
 
@@ -1102,7 +1102,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
               "matchedDescription": "ITEM DESCRIPTION",
               "matchedOriginCountryCode": "MX",
               "matchedUnitType": "NO",
-              "matchedClassification": null,
+              "matchedClassificationCode": null,
               "id": 1,
               "orderIndex": 0,
               "descriptionCell": "ITEM DESCRTIPTION 1"
