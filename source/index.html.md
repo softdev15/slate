@@ -867,6 +867,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
 > /FileGroups/1?include=lastValidationResult,files/billOfLading/importerReference,files/billOfLading/notify,
 > files/billOfLading/container/seals,files/billOfLading/packline
 > files/commercialInvoice,files/commercialInvoice/lineItem,files/apInvoice,files/email,files/parent
+> files/packingList,files/packingList/lineItem
 
 ```json
 {
@@ -932,7 +933,8 @@ To determine if a line item was matched, use the productCodeMatched attribute:
         }
       ],
       "billOfLading": [],
-      "commercialInvoice": []
+      "commercialInvoice": [],
+      "packingList": []
     },
     {
       "id": 443,
@@ -1044,7 +1046,8 @@ To determine if a line item was matched, use the productCodeMatched attribute:
           ]
         }
       ],
-      "commercialInvoice": []
+      "commercialInvoice": [],
+      "packingList": []
     },
     {
       "id": 444,
@@ -1109,7 +1112,72 @@ To determine if a line item was matched, use the productCodeMatched attribute:
             }
           ]
         }
-      ]
+      ],
+      "packingList": []
+    },
+    {
+      "id": 555,
+      "filename": "file3.pdf",
+      "created": "2020-05-07T15:44:35.338Z",
+      "fileType": 5,
+      "email": {
+        "customId": "custom001",
+        "emailAccountId": 1,
+        "sender": "test@shipamax.com",
+        "created": "2020-05-07T15:24:47.338Z",
+        "attachmentCount": 1,
+        "companyId": 100000,
+        "subject": "Sending file",
+        "unqId": "6f847a63-bd99-4b79-965c-128ea9b3f104"
+      },
+      "parent": {
+        "fileId": 22,
+      },
+      "apInvoice": [],
+      "billOfLading": [],
+      "commercialInvoice": [],
+      "packingList": [
+        {
+          "supplier": "PARSED VALUE",
+          "supplierCode": "CODE",
+          "supplierOrgId": 1,
+          "supplierOrgNameId": 1,
+          "supplierOrgAddressId": 1,
+          "importer": "PARSEDVALUE",
+          "importerCode": "CODE",
+          "importerOrgId": 1,
+          "importerOrgNameId": 1,
+          "importerOrgAddressId": 1,
+          "invoiceNumber": "ABC12345",
+          "invoiceDate": "2020-07-03",
+          "weightGrossTotal": 2607.92,
+          "weightNetTotal": 2607.92,
+          "volumeTotal": 500.05,
+          "weightUnit": "kgs",
+          "volumeUnit": "cbm",
+          "packageUnit": "BAG",
+          "packageQuantityTotal": 1000.60,
+          "itemUnit": "BOT",
+          "itemQtyTotal": 5,
+          "id": 1,
+          "lineItem": [
+            {
+              "description": "ITEM DESCRIPTION",
+              "itemQty": 10,
+              "packageQty": 24.95,
+              "netWeight": 199.6,
+              "grossWeight": 199.6,
+              "volume": 500.05,
+              "productCode": null,
+              "hsCode": "1234567890",
+              "id": 1,
+              "descriptionCell": "ITEM DESCRTIPTION 1",
+              "orderIndex": 0,
+              "fullText": "ITEM DESCRTIPTION 1"
+            }
+          ]
+        }
+      ],
     },
   ]
 }
