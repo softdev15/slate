@@ -320,6 +320,7 @@ We expect the exchange rate to be sent to us in the following format: **exchange
     "taxTotal": 30,
     "currency": "USD",
     "localTotal": 266.66,
+    "fileId": 1820,
     "fileGroupId": 13704,
     "accruals": [
       { "id": "90111", "netAmount": 150, "taxAmount": 30, "localAmount": 200, "exchangeRate": 0.75, "chargeCode": "FRT" },
@@ -352,6 +353,7 @@ For each accrual, the `id` matches the `id` of an accrual previously fetched via
     "taxTotal": 30,
     "currency": "USD",
     "localTotal": 266.66,
+    "fileId": 1820,
     "fileGroupId": 13704,
     "costs": [
       { "netAmount": 150, "taxAmount": 30, "taxCode": "VAT", "glCode": "3905.00.00", "description": "Equipment" },
@@ -596,6 +598,7 @@ The following objects can be used as parameters in the *include* query
                       "matchedDescription": string,
                       "matchedOriginCountryCode": string,
                       "matchedUnitType": string,
+                      "matchedClassificationCode": string,
                       "id": integer,
                       "orderIndex": integer,
                       "descriptionCell": string,
@@ -775,6 +778,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
 | files.commercialInvoice.lineItem.matchedDescription            | The description taken from your product data, if there was a match.     |
 | files.commercialInvoice.lineItem.matchedOriginCountryCode            |  The origin country of the unit taken from your product data, if there was a match.           |
 | files.commercialInvoice.lineItem.matchedUnitType            |  The type of the unit taken from your product data, if there was a match.            |
+| files.commercialInvoice.lineItem.matchedClassificationCode            |  The classification / tariff lookup code, if there was a match.            |
 | files.commercialInvoice.lineItem.orderIndex            |  The index of the line, representing the order of it within the commercial invoice..            |
 | files.commercialInvoice.lineItem.descriptionCell            |  The entire cell of the line item description.          |
 
@@ -863,6 +867,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
 > /FileGroups/1?include=lastValidationResult,files/billOfLading/importerReference,files/billOfLading/notify,
 > files/billOfLading/container/seals,files/billOfLading/packline
 > files/commercialInvoice,files/commercialInvoice/lineItem,files/apInvoice,files/email,files/parent
+> files/packingList,files/packingList/lineItem
 
 ```json
 {
@@ -928,7 +933,8 @@ To determine if a line item was matched, use the productCodeMatched attribute:
         }
       ],
       "billOfLading": [],
-      "commercialInvoice": []
+      "commercialInvoice": [],
+      "packingList": []
     },
     {
       "id": 443,
@@ -1040,7 +1046,8 @@ To determine if a line item was matched, use the productCodeMatched attribute:
           ]
         }
       ],
-      "commercialInvoice": []
+      "commercialInvoice": [],
+      "packingList": []
     },
     {
       "id": 444,
@@ -1098,13 +1105,79 @@ To determine if a line item was matched, use the productCodeMatched attribute:
               "matchedDescription": "ITEM DESCRIPTION",
               "matchedOriginCountryCode": "MX",
               "matchedUnitType": "NO",
+              "matchedClassificationCode": null,
               "id": 1,
               "orderIndex": 0,
               "descriptionCell": "ITEM DESCRTIPTION 1"
             }
           ]
         }
-      ]
+      ],
+      "packingList": []
+    },
+    {
+      "id": 555,
+      "filename": "file3.pdf",
+      "created": "2020-05-07T15:44:35.338Z",
+      "fileType": 5,
+      "email": {
+        "customId": "custom001",
+        "emailAccountId": 1,
+        "sender": "test@shipamax.com",
+        "created": "2020-05-07T15:24:47.338Z",
+        "attachmentCount": 1,
+        "companyId": 100000,
+        "subject": "Sending file",
+        "unqId": "6f847a63-bd99-4b79-965c-128ea9b3f104"
+      },
+      "parent": {
+        "fileId": 22,
+      },
+      "apInvoice": [],
+      "billOfLading": [],
+      "commercialInvoice": [],
+      "packingList": [
+        {
+          "supplier": "PARSED VALUE",
+          "supplierCode": "CODE",
+          "supplierOrgId": 1,
+          "supplierOrgNameId": 1,
+          "supplierOrgAddressId": 1,
+          "importer": "PARSEDVALUE",
+          "importerCode": "CODE",
+          "importerOrgId": 1,
+          "importerOrgNameId": 1,
+          "importerOrgAddressId": 1,
+          "invoiceNumber": "ABC12345",
+          "invoiceDate": "2020-07-03",
+          "weightGrossTotal": 2607.92,
+          "weightNetTotal": 2607.92,
+          "volumeTotal": 500.05,
+          "weightUnit": "kgs",
+          "volumeUnit": "cbm",
+          "packageUnit": "BAG",
+          "packageQuantityTotal": 1000.60,
+          "itemUnit": "BOT",
+          "itemQtyTotal": 5,
+          "id": 1,
+          "lineItem": [
+            {
+              "description": "ITEM DESCRIPTION",
+              "itemQty": 10,
+              "packageQty": 24.95,
+              "netWeight": 199.6,
+              "grossWeight": 199.6,
+              "volume": 500.05,
+              "productCode": null,
+              "hsCode": "1234567890",
+              "id": 1,
+              "descriptionCell": "ITEM DESCRTIPTION 1",
+              "orderIndex": 0,
+              "fullText": "ITEM DESCRTIPTION 1"
+            }
+          ]
+        }
+      ],
     },
   ]
 }
@@ -1295,7 +1368,7 @@ Create a new Organization
   "forwarder": false,
   "debtor": false,
   "shipper": false,
-  "active": false,
+  "active": false
 }
 ```
 
@@ -1648,6 +1721,7 @@ The Product endpoint allows you to send Shipamax any changes/additions to your p
 | description                       | Description of the product  |
 | unitType                       | The unit the product is quantified by   |
 | tariff                       | The tariff (eg. HS Code) for the product   |
+| lookupCode                   | The tariff lookup code |
 | origin                       | The origin country of the product |
 
 
@@ -1670,7 +1744,7 @@ Create a new Product
     "unitType": string,
     "tariff": string,
     "lookupCode": string,
-    "origin": string,
+    "origin": string
 }
 ```
 
@@ -2387,7 +2461,7 @@ XML tag `<Product>` wraps up all the product code related data.
                         <PartNum>TESTCODE</PartNum>
                         <StockKeepingUnit>PCE</StockKeepingUnit>
                         <Desc>TEST DESCRIPTION</Desc>
-                         <CusClassPartPivotCollection>
+                        <CusClassPartPivotCollection>
                           <CusClassPartPivot Action="MERGE">
                             <CusClassification>
                               <LookupCode>12345</LookupCode>
