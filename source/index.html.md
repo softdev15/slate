@@ -1352,7 +1352,7 @@ Create a new Organization
     "forwarder": false,
     "debtor": false,
     "shipper": false,
-    "active": false
+    "active": false,
 }
 ```
 
