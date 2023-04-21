@@ -2463,6 +2463,7 @@ XML tag `<Product>` wraps up all the product code related data.
                         <Desc>TEST DESCRIPTION</Desc>
                         <CusClassPartPivotCollection>
                           <CusClassPartPivot Action="MERGE">
+                            <TariffNum>123456</TariffNum>
                             <CusClassification>
                               <LookupCode>12345</LookupCode>
                             </CusClassification>
