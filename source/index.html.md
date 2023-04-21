@@ -1721,7 +1721,7 @@ The Product endpoint allows you to send Shipamax any changes/additions to your p
 | description                       | Description of the product  |
 | unitType                       | The unit the product is quantified by   |
 | tariff                       | The tariff (eg. HS Code) for the product   |
-| lookupCode                   | The tariff lookup code |
+| classificationCode                   | The tariff lookup code |
 | origin                       | The origin country of the product |
 
 
@@ -1743,7 +1743,7 @@ Create a new Product
     "description": string,
     "unitType": string,
     "tariff": string,
-    "lookupCode": string,
+    "classificationCode": string,
     "origin": string
 }
 ```
@@ -1758,7 +1758,7 @@ Create a new Product
     "description": "Description of product",
     "unitType": "PKG",
     "tariff": "123456",
-    "lookupCode": "12345",
+    "classificationCode": "12345",
     "origin": "GB"
 }
 ```
@@ -1774,7 +1774,7 @@ Create a new Product
   "description": "Description of product",
   "unitType": "PKG",
   "tariff": "123456",
-  "lookupCode": "12345",
+  "classificationCode": "12345",
   "origin": "GB"
 }
 ```
