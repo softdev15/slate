@@ -2691,6 +2691,7 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | MIX         | Mix                |
 | PAI         | Pail               |
 | PCE         | Piece              |
+| PK          | Package            |
 | PKG         | Package            |
 | PLT         | Pallet             |
 | REL         | Reel               |
