@@ -12,7 +12,7 @@ code_clipboard: true
 # Getting started
 
 
-The Shipmax API enables developers to integrate Shipamax's data extraction and process automation modules into their systems.
+The Shipamax API enables developers to integrate Shipamax's data extraction and process automation modules into their systems.
 
 Currently the API supports:
 
@@ -130,7 +130,7 @@ For more details of exception codes, check our [list of exceptions](#list-of-exc
   "eventName": "ValidationComplete",
   "payload": {
      "fileGroupId": 13704,
-     "success": true,
+     "success": true
    }
 }
 
@@ -210,7 +210,7 @@ Rather than attempt to guess all of the possible things that a customer might fi
     "purchaseOrders": ["ABC12345"],
     "currency": "USD",
     "invoiceDate": "2021-10-08",
-    "fileGroupId": 13704,
+    "fileGroupId": 13704
   }
 }
 ```
@@ -235,7 +235,7 @@ Rather than attempt to guess all of the possible things that a customer might fi
             "taxAmount": 30,
             "localAmount": 200,
             "exchangeRate": 0.75,
-            "chargeCode": "FRT",
+            "chargeCode": "FRT"
           }
         ]
       },
@@ -251,7 +251,7 @@ Rather than attempt to guess all of the possible things that a customer might fi
             "taxAmount": 15,
             "localAmount": 100,
             "exchangeRate": 0.75,
-            "chargeCode": "DOC",
+            "chargeCode": "DOC"
           },
           {
             "id": "90113",
@@ -260,7 +260,7 @@ Rather than attempt to guess all of the possible things that a customer might fi
             "taxAmount": 0,
             "localAmount": 123,
             "exchangeRate": 1,
-            "chargeCode": "FRT",
+            "chargeCode": "FRT"
           }
         ]
       },
@@ -277,7 +277,7 @@ Rather than attempt to guess all of the possible things that a customer might fi
             "taxAmount": 0,
             "localAmount": 133.33,
             "exchangeRate": 0.75,
-            "chargeCode": "DDOC",
+            "chargeCode": "DDOC"
           }
         ]
       }
@@ -443,7 +443,7 @@ The following objects can be used as parameters in the *include* query
         }
       ]
     },
-    "created": "[ISO8601 timestamp]",
+    "created": "[ISO8601 timestamp]"
   },
   "files": [
     {
@@ -452,7 +452,7 @@ The following objects can be used as parameters in the *include* query
       "created": "[ISO8601 timestamp]",
       "fileType": integer,
       "parent": {
-        "fileId": integer,
+        "fileId": integer
       },
       "billOfLading": [
         {
@@ -551,7 +551,7 @@ The following objects can be used as parameters in the *include* query
             }
           ]
         }
-      ],
+      ]
     },
     {
       "id": integer,
@@ -601,7 +601,7 @@ The following objects can be used as parameters in the *include* query
                       "matchedClassificationCode": string,
                       "id": integer,
                       "orderIndex": integer,
-                      "descriptionCell": string,
+                      "descriptionCell": string
                   }
               ]
           }
@@ -612,9 +612,9 @@ The following objects can be used as parameters in the *include* query
 ```
 
 ### *FileGroup* root attributes
-| Attribute                               |  Description                                                                                                                      |
-| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| status                                  | Status of the group in the shipamax flow. Possible values can be seen in our [list of group status](#list-of-group-status)        |
+| Attribute                               | Description                                                                                                                |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------|
+| status                                  | Status of the group in the Shipamax flow. Possible values can be seen in our [list of group status](#list-of-group-status) |
 
 ### *ValidationResults* attributes
 
@@ -638,53 +638,53 @@ The following objects can be used as parameters in the *include* query
 
 ### *Files/billOfLading* attributes
 
-| Attribute                               |  Description                                                                                                                      |
-| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| files.billOfLading                      | An array of bills of lading extracted from this file, if any.                                                                     |
-| files.billOfLading.billOfLadingNo       | The Bill of Lading number as extracted from the document.                                                                         |
-| files.billOfLading.bookingNo            | The Booking reference extracted from the bill of lading. This is the reference provided by Issuer to the Shipper (also known as Carrier Reference).   |
-| files.billOfLading.exportReference      | The Export Reference as extracted from the document. This is the reference given by the Shipper to the Issuer                     |
-| files.billOfLading.scac                 | This is the SCAC code for the issuer of the Bill of Lading                                                                        |
-| files.billOfLading.isRated              | If isRated is True, then the Bill of Lading contains pricing for the transport of the goods                                       |
-| files.billOfLading.isDraft              | If isDraft is True, then this Bills of Lading is a Draft version and not Final                                                    |
-| files.billOfLading.importerReference    | Importer Job Ref List                                                                                                             |
-| files.billOfLading.shipper              | The raw data extracted for the Shipper field from the bill of lading file                                                         |
-| files.billOfLading.shipperCode          | The code for the selected Shipper (as it appears in the Exception Manager UI, taken from your Organization data)                                                       |
-| files.billOfLading.shipperOrgId         | The internal ID of the selected Shipper                                                         |
-| files.billOfLading.shipperOrgNameId     | The internal ID of the selected name of the Shipper                                                        |
-| files.billOfLading.shipperOrgAddressId  | The internal ID of the selected address of the Shipper                                                            |
-| files.billOfLading.shipperOrgName       | The selected name of the Shipper                                                        |
-| files.billOfLading.shipperOrgAddress    | The selected address of the Shipper                                                            |
-| files.billOfLading.consignee            | The raw data extracted for the Consignee field from the bill of lading file                                                                                                                                     |
-| files.billOfLading.consigneeCode          | The code for the selected Consignee (as it appears in the Exception Manager UI, taken from your Organization data)                                                       |
-| files.billOfLading.consigneeOrgId         | The internal ID of the selected Consignee                                                         |
-| files.billOfLading.consigneeOrgNameId     | The internal ID of the selected name of the Consignee                                                        |
-| files.billOfLading.consigneeOrgAddressId  | The internal ID of the selected Address of the Consignee                                                            |
-| files.billOfLading.consigneeOrgName     | The selected name of the Consignee                                                        |
-| files.billOfLading.consigneeOrgAddress  | The selected Address of the Consignee                                                            |
-| files.billOfLading.carrier              | The raw data extracted for the Carrier field from the bill of lading file                                                                                                                                     |
-| files.billOfLading.carrierCode          | The code for the selected Carrier (as it appears in the Exception Manager UI, taken from your Organization data)                                                       |
-| files.billOfLading.carrierOrgId         | The internal ID of the selected Carrier                                                         |
-| files.billOfLading.carrierOrgNameId     | The internal ID of the selected name of the Carrier                                                        |
-| files.billOfLading.carrierOrgAddressId  | The internal ID of the selected Address of the Carrier                                                            |
-| files.billOfLading.vessel               | The name of the Vessel                                                                                                                                |
-| files.billOfLading.vesselIMO            | The IMO code matching the Vessel name                                                                                                                                  |
+| Attribute                               | Description                                                                                                                                         |
+| --------------------------------------- | -----------------------------------------------------------------------------------------------------------------------------------------------------|
+| files.billOfLading                      | An array of bills of lading extracted from this file, if any.                                                                                       |
+| files.billOfLading.billOfLadingNo       | The Bill of Lading number as extracted from the document.                                                                                           |
+| files.billOfLading.bookingNo            | The Booking reference extracted from the bill of lading. This is the reference provided by Issuer to the Shipper (also known as Carrier Reference). |
+| files.billOfLading.exportReference      | The Export Reference as extracted from the document. This is the reference given by the Shipper to the Issuer                                       |
+| files.billOfLading.scac                 | This is the SCAC code for the issuer of the Bill of Lading                                                                                          |
+| files.billOfLading.isRated              | If isRated is True, then the Bill of Lading contains pricing for the transport of the goods                                                         |
+| files.billOfLading.isDraft              | If isDraft is True, then this Bills of Lading is a Draft version and not Final                                                                      |
+| files.billOfLading.importerReference    | Importer Job Ref List                                                                                                                               |
+| files.billOfLading.shipper              | The raw data extracted for the Shipper field from the bill of lading file                                                                           |
+| files.billOfLading.shipperCode          | The code for the selected Shipper (as it appears in the Exception Manager UI, taken from your Organization data)                                    |
+| files.billOfLading.shipperOrgId         | The internal ID of the selected Shipper                                                                                                             |
+| files.billOfLading.shipperOrgNameId     | The internal ID of the selected name of the Shipper                                                                                                 |
+| files.billOfLading.shipperOrgAddressId  | The internal ID of the selected address of the Shipper                                                                                              |
+| files.billOfLading.shipperOrgName       | The selected name of the Shipper                                                                                                                    |
+| files.billOfLading.shipperOrgAddress    | The selected address of the Shipper                                                                                                                 |
+| files.billOfLading.consignee            | The raw data extracted for the Consignee field from the bill of lading file                                                                         |
+| files.billOfLading.consigneeCode          | The code for the selected Consignee (as it appears in the Exception Manager UI, taken from your Organization data)                                  |
+| files.billOfLading.consigneeOrgId         | The internal ID of the selected Consignee                                                                                                           |
+| files.billOfLading.consigneeOrgNameId     | The internal ID of the selected name of the Consignee                                                                                               |
+| files.billOfLading.consigneeOrgAddressId  | The internal ID of the selected Address of the Consignee                                                                                            |
+| files.billOfLading.consigneeOrgName     | The selected name of the Consignee                                                                                                                  |
+| files.billOfLading.consigneeOrgAddress  | The selected Address of the Consignee                                                                                                               |
+| files.billOfLading.carrier              | The raw data extracted for the Carrier field from the bill of lading file                                                                           |
+| files.billOfLading.carrierCode          | The code for the selected Carrier (as it appears in the Exception Manager UI, taken from your Organization data)                                    |
+| files.billOfLading.carrierOrgId         | The internal ID of the selected Carrier                                                                                                             |
+| files.billOfLading.carrierOrgNameId     | The internal ID of the selected name of the Carrier                                                                                                 |
+| files.billOfLading.carrierOrgAddressId  | The internal ID of the selected Address of the Carrier                                                                                              |
+| files.billOfLading.vessel               | The name of the Vessel                                                                                                                              |
+| files.billOfLading.vesselIMO            | The IMO code matching the Vessel name                                                                                                               |
 | files.billOfLading.voyageNumber         | The number of the Voyage                                                                                                                            |
-| files.billOfLading.loadPort             | The name of the Loading Port                                                                                                                                  |
-| files.billOfLading.loadPortUnlocode     | The UNL code matching the Load Port name                                                                                                                                 |
-| files.billOfLading.dischargePort        | The name of the Discharge Port                                                                                                                                 |
-| files.billOfLading.dischargePortUnlocode| The UNL code matching the Discharge Port name                                                                                                                                   |
-| files.billOfLading.origin               | The Origin Port                                                                                                                                   |
-| files.billOfLading.originUnlocode       | The UNL code matching the Origin name                                                                                                                                   |
-| files.billOfLading.destination          | The Destination Port                                                                                                                                   |
-| files.billOfLading.destinationUnlocode  | The UNL code matching the Destination name                                                                                                                                   |
-| files.billOfLading.shippedOnBoardDate   | The date the cargo has been loaded on the vessel (SOB date)                                                                                                                                 |
-| files.billOfLading.paymentTerms         | The paymebt terms. See [List of Payment Terms] (#List-of-PaymentTerm-values) for possible values                                                                                                                               |
-| files.billOfLading.category             | Type of Bill of lading ("True" = Master)                                                                                                                                  |
-| files.billOfLading.releaseType          | The Release Type for this shipment. See [List of Release Types](#List-of-ReleaseType-values) for possible values                                                                                                                               |
-| files.billOfLading.goodsDescription     | Textual description of the goods                                                                                                                                 |
-| files.billOfLading.transportMode        | The transport type of this shipment. See [List of Transport Modes](#List-of-TransportMode-values) for possible values                                                                                                                                  |
-| files.billOfLading.containerMode        | The Container's mode. See [List of Container Modes](#List-of-ContainerMode-values) for possible values                                                                                                                                  |
+| files.billOfLading.loadPort             | The name of the Loading Port                                                                                                                        |
+| files.billOfLading.loadPortUnlocode     | The UNL code matching the Load Port name                                                                                                            |
+| files.billOfLading.dischargePort        | The name of the Discharge Port                                                                                                                      |
+| files.billOfLading.dischargePortUnlocode| The UNL code matching the Discharge Port name                                                                                                       |
+| files.billOfLading.origin               | The Origin Port                                                                                                                                     |
+| files.billOfLading.originUnlocode       | The UNL code matching the Origin name                                                                                                               |
+| files.billOfLading.destination          | The Destination Port                                                                                                                                |
+| files.billOfLading.destinationUnlocode  | The UNL code matching the Destination name                                                                                                          |
+| files.billOfLading.shippedOnBoardDate   | The date the cargo has been loaded on the vessel (SOB date)                                                                                         |
+| files.billOfLading.paymentTerms         | The payment terms. See [List of Payment Terms] (#List-of-PaymentTerm-values) for possible values                                                    |
+| files.billOfLading.category             | Type of Bill of lading ("True" = Master)                                                                                                            |
+| files.billOfLading.releaseType          | The Release Type for this shipment. See [List of Release Types](#List-of-ReleaseType-values) for possible values                                    |
+| files.billOfLading.goodsDescription     | Textual description of the goods                                                                                                                    |
+| files.billOfLading.transportMode        | The transport type of this shipment. See [List of Transport Modes](#List-of-TransportMode-values) for possible values                               |
+| files.billOfLading.containerMode        | The Container's mode. See [List of Container Modes](#List-of-ContainerMode-values) for possible values                                              |
 
 ### *Files/billOfLading/Container* attributes
 
@@ -850,15 +850,15 @@ To determine if a line item was matched, use the productCodeMatched attribute:
         }
       ]
     },
-    "created": "2020-05-07T15:24:47.509Z",
+    "created": "2020-05-07T15:24:47.509Z"
   },
   "files": [
     {
       "id": 442,
       "filename": "file.pdf",
       "created": "2020-05-07T15:24:47.338Z",
-      "fileType": 6,
-    },
+      "fileType": 6
+    }
   ]
 }
 ```
@@ -885,7 +885,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
         }
       ]
     },
-    "created": "2020-05-07T15:24:47.509Z",
+    "created": "2020-05-07T15:24:47.509Z"
   },
   "files": [
     {
@@ -904,7 +904,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
         "unqId": "6f847a63-bd99-4b79-965c-128ea9b3f104"
       },
       "parent": {
-        "fileId": 22,
+        "fileId": 22
       },
       "apInvoice": [
         {
@@ -922,7 +922,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
           "validationResultId": 1,
           "teamId": 1,
           "previousTeamId": 2,
-          "reasssignTime": "2020-07-03",
+          "reassignTime": "2020-07-03",
           "email": "invoice@invoice.com",
           "website": "www.invoice.com",
           "issuerRecordId": "1-1-1",
@@ -952,7 +952,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
         "unqId": "6f847a63-bd99-4b79-965c-128ea9b3f104"
       },
       "parent": {
-        "fileId": 22,
+        "fileId": 22
       },
       "apInvoice": []
       "billOfLading": [
@@ -1005,7 +1005,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
               "notifyPartyCode": "TEST123",
               "notifyPartyOrgId": 11121,
               "notifyPartyOrgNameId": 22133,
-              "notifyPartyOrgAddressId": 12312,
+              "notifyPartyOrgAddressId": 12312
             }
           ],
           "importerReference:": [
@@ -1065,7 +1065,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
         "unqId": "6f847a63-bd99-4b79-965c-128ea9b3f104"
       },
       "parent": {
-        "fileId": 22,
+        "fileId": 22
       },
       "apInvoice": [],
       "billOfLading": [],
@@ -1108,7 +1108,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
               "matchedClassificationCode": null,
               "id": 1,
               "orderIndex": 0,
-              "descriptionCell": "ITEM DESCRTIPTION 1"
+              "descriptionCell": "ITEM DESCRIPTION 1"
             }
           ]
         }
@@ -1131,7 +1131,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
         "unqId": "6f847a63-bd99-4b79-965c-128ea9b3f104"
       },
       "parent": {
-        "fileId": 22,
+        "fileId": 22
       },
       "apInvoice": [],
       "billOfLading": [],
@@ -1171,14 +1171,14 @@ To determine if a line item was matched, use the productCodeMatched attribute:
               "productCode": null,
               "hsCode": "1234567890",
               "id": 1,
-              "descriptionCell": "ITEM DESCRTIPTION 1",
+              "descriptionCell": "ITEM DESCRIPTION 1",
               "orderIndex": 0,
-              "fullText": "ITEM DESCRTIPTION 1"
+              "fullText": "ITEM DESCRIPTION 1"
             }
           ]
         }
-      ],
-    },
+      ]
+    }
   ]
 }
 ```
@@ -1220,7 +1220,7 @@ Send a request via `GET` to `https://public.shipamax-api.com/api/v2/FileGroups/{
   "liFirstQtl": 0.8,
   "liMedian": 0.8,
   "liThirdQtl": 0.9,
-  "liMax": 1.0,
+  "liMax": 1.0
 }]
 ```
 
@@ -1240,7 +1240,7 @@ Send a request via `POST` to `https://public.shipamax-api.com/api/v2/FileGroups/
 [{
   "filename": "FILE_NAME",
   "groupId": 00000,
-  "id": 000000,
+  "id": 000000
 }]
 ```
 
@@ -1299,24 +1299,24 @@ Send a new validation result via `POST` request to `https://public.shipamax-api.
 ```
 
 ## Organizations Endpoint
-The Organizations list represents businesses that might be referenced in the documents you send Shipamax to processes (for exmaple, the Shipper on a House Bill of Lading, a Supplier on a Commercial Invoice Creditor etc.). The organization list is used to improve the accuracy of the parsing process, making sure the most likely organization is selected.
+The Organizations list represents businesses that might be referenced in the documents you send Shipamax to processes (for example, the Shipper on a House Bill of Lading, a Supplier on a Commercial Invoice Creditor etc.). The organization list is used to improve the accuracy of the parsing process, making sure the most likely organization is selected.
 Each Organization must have a unique identifier provided by you (referred to as `externalId`), this is usually the identifier used in your own system.
 Each organization added is assigned an internal ID unique to Shipamax (referred to as `org_id`). This ID is required in order to DELETE/PATCH the organization as well as adding Names and Addresses to the Organization
 
 ### Attributes
 
-| Attribute                               |  Description                                                      |
-| --------------------------------------- | ----------------------------------------------------------------- |
-| id                 | Unique identifier of the Organization within the Shipamax system |
-| externalId                               | Unique identifier of the Organization within your own system           |
-| carrier                       | Flag for denoting this Organization is a carrier   |
-| consignee                       | Flag for denoting this Organization is a consignee   |
-| creditor                       | Flag for denoting this Organization is a creditor   |
-| forwarder                       | Flag for denoting this Organization is a forwarder   |
-| debtor                       | Flag for denoting this Organization is a debtor   |
-| shipper                       | Flag for denoting this Organization is a shipper (also refferred to as Consignor or Shipping Agent)  |
-| active                       | Flag denoting wether this Organization is active or not   |
-| updated | The timestamp of when the Organization was last updated |
+| Attribute                               | Description                                                                                        |
+| --------------------------------------- |----------------------------------------------------------------------------------------------------|
+| id                 | Unique identifier of the Organization within the Shipamax system                                   |
+| externalId                               | Unique identifier of the Organization within your own system                                       |
+| carrier                       | Flag for denoting this Organization is a carrier                                                   |
+| consignee                       | Flag for denoting this Organization is a consignee                                                 |
+| creditor                       | Flag for denoting this Organization is a creditor                                                  |
+| forwarder                       | Flag for denoting this Organization is a forwarder                                                 |
+| debtor                       | Flag for denoting this Organization is a debtor                                                    |
+| shipper                       | Flag for denoting this Organization is a shipper (also referred to as Consignor or Shipping Agent) |
+| active                       | Flag denoting weather this Organization is active or not                                           |
+| updated | The timestamp of when the Organization was last updated                                            |
 
 
 ### POST
@@ -1352,7 +1352,7 @@ Create a new Organization
     "forwarder": false,
     "debtor": false,
     "shipper": false,
-    "active": false,
+    "active": false
 }
 ```
 
@@ -1397,7 +1397,7 @@ Retrieve details of a an existing Organization
 }
 ```
 
-### GET (list of Organistion using Filter)
+### GET (list of Organisation using Filter)
 Retrieve list of Organizations that match a filter.
 **Note:** When filter is included, Shipamax will return only the Organizations matching the requested pattern.
 
@@ -1462,7 +1462,7 @@ Update details of an existing Organization
 ```
 
 ### DELETE
-Delete an Organization
+Delete an Organization. Instead of an actual delete of the Organization it sets the flag `active` to `FALSE`, so it can be still displayed for existing documents.
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
@@ -1556,7 +1556,7 @@ Update an existing Organization's Name
 
 ```json
 {
-  "name": "NewName"
+  "name": "NewName",
   "Main": true
 }
 ```
@@ -1573,7 +1573,7 @@ Update an existing Organization's Name
 ```
 
 ### DELETE
-Delete an existing Organization's Name
+Delete an existing Organization's Name. Instead of an actual delete of the Organization's Name it sets the flag `active` to `FALSE`, so it can be still displayed for existing documents.
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
@@ -1696,7 +1696,7 @@ Update an existing Organization's Address
 ```
 
 ### DELETE
-Delete an existing Organization's Address
+Delete an existing Organization's Address. Instead of an actual delete of the Organization's Address it sets the flag `active` to `FALSE`, so it can be still displayed for existing documents.
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
@@ -1803,7 +1803,7 @@ If there are multiple product with the same code they will all be included in th
 }
 ```
 
-### GET (list of Organistion using Filter)
+### GET (list of Organisation using Filter)
 Retrieve list of Products that match a filter.
 **Note:** When filter is included, Shipamax will return only the Products matching the requested pattern.
 
@@ -1863,7 +1863,7 @@ Update details of an existing Product
 ```
 
 ### DELETE
-Delete an Product
+Delete a Product
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
@@ -1883,7 +1883,7 @@ Delete an Product
 
 ### GET Original File
 
-You can retrieve all files processed by Shipamax. For example you can retrieve a bill of lading which was send to Shipamax as an attachment to an email. Files can be retrieved via their unique ID. The response of the endpoint is a byte stream.
+You can retrieve all files processed by Shipamax. For example you can retrieve a bill of lading which was sent to Shipamax as an attachment to an email. Files can be retrieved via their unique ID. The response of the endpoint is a byte stream.
 
 | Endpoint                      | Verb   | Description                                                 |
 | ----------------------------- | ------ | ----------------------------------------------------------- |
@@ -1927,23 +1927,23 @@ curl -X POST
   "customId": "CUSTOM_ID",
   "filename": "FILE_NAME",
   "groupId": 00000,
-  "id": 000000,
+  "id": 000000
 }
 ```
 
-If a mailbox is configured to have one file per group, you will receieve an array response like this:
+If a mailbox is configured to have one file per group, you will receive an array response like this:
 ```json
 [{
   "customId": "CUSTOM_ID",
   "filename": "FILE_NAME",
   "groupId": 00000,
-  "id": 000000,
+  "id": 000000
 },
 {
   "customId": "CUSTOM_ID2",
   "filename": "FILE_NAME2",
   "groupId": 00001,
-  "id": 000001,
+  "id": 000001
 }]
 ```
 
@@ -2378,7 +2378,7 @@ XML tag `<Products>` wraps up all the product code related data.
 </XmlInterchange>
 ```
 
-Cragowise Reference endpoint can also accept SOAP message which is a Cargowise default i.e, Request that starts with tag <s: Envelope>, Or
+Cargowise Reference endpoint can also accept SOAP message which is a Cargowise default i.e, Request that starts with tag <s: Envelope>, Or
 you can also take the message encoded within the SOAP message and post it as a request to the Cargowise reference endpoint.
 
 > Example xml format when sending SOAP message:
@@ -2495,59 +2495,59 @@ These values are show in the following lists.
 Exception codes other than -1 have a specific meaning within the Shipamax system, as listed in the table below. When creating a validation result you should use an existing code where there is an appropriate one available, or -1 if there is not. You can use any description you like for any code, but the default descriptions for each code that Shipamax generates are listed in the table.
 
 
-| Exception code  | Description                                                                               |
-| --------------- | ----------------------------------------------------------------------------------------- |
-| 1               | Supplier Invoice: Missing Invoice Number                                                  |
-| 2               | Supplier Invoice: Missing Invoice Date                                                    |
-| 3               | Supplier Invoice: Missing Issuer                                                          |
-| 4               | Supplier Invoice: Missing Invoice Total                                                   |
-| 5               | Supplier Invoice: Missing Invoice Currency                                                |
-| 6               | Supplier Invoice: No Job references                                                       |
-| 7               | CargoWise: Invalid Addressee                                                              |
-| 8               | CargoWise: Duplicate Invoice Number                                                       |
-| 9               | CargoWise: Failed to match a set of accruals to the Invoice Total                         |
-| 10              | CargoWise: Currencies didn't match                                                        |
-| 11              | CargoWise: VAT didn't match                                                               |
-| 12              | CargoWise: Failed to post to Cargowise                                                    |
-| 13              | CargoWise: More than one possible set of accruals for the Invoice Total                   |
-| 14              | CargoWise: Missing CargoWise code for issuer                                              |
-| 15              | CargoWise: One or more costs is apportioned to a consol                                   |
-| 16              | Demo: Document passed validation                                                          |
-| 17              | Supplier Invoice: Invoice date is in the future                                           |
-| 18              | CargoWise: Shipment not found                                                             |
-| 19              | CargoWise: Error on Cargowise HTTP request                                                |
-| 20              | The validation process itself failed                                                      |
-| 21              | CargoWise: Invoice Number already exists                                                  |
-| 22              | Bill of Lading: Missing MBL                                                               |
-| 23              | Bill of Lading: Multiple MBLs                                                             |
-| 24              | Bill of Lading: Incorrect Consignee for Consol Type                                       |
-| 25              | Bill of Lading: Missing HBLs                                                              |
-| 26              | CargoWise: Manual approval required to post                                               |
-| 27              | Unable to Match to Job                                                                    |
-| 28              | Multiple possible Jobs                                                                    |
-| 29              | Bill Of lading: Missing job references                                                    |
-| 30              | Bill Of lading: Missing SCAC                                                              |
-| 31              | Supplied job reference does not exist in CargoWise                                        |
-| 32              | Bill of Lading: MBL missing Consignee                                                     |
-| 33              | CargoWise: Documents exceeds maximum file size limit of 10MB                              |
-| 34              | Supplier Invoice: Sub totals don’t add up to invoice total                                |
-| 35              | CargoWise: More than one possible set of accruals for highlighted sub total               |
-| 36              | CargoWise: Failed to match a set of accruals for highlighted sub total                    |
-| 37              | Supplier Invoice: Job not in any clusters                                                 |
-| 38              | Bill of lading: Missing consignor/consignee                                               |
-| 39              | Bill of lading: Missing origin                                                            |
-| 40              | Bill Of lading: Missing destination                                                       |
-| 41              | Bill of lading: Missing container mode                                                    |
-| 42              | Bill of lading: Missing release type                                                      |
-| 43              | Bill of lading: Missing packing mode                                                      |
-| 44              | CargoWise: No accruals found for this creditor in this currency                           |
-| 45              | Error in pre-validator (please contact support)                                           |
-| 46              | Error in CargoWise validator (please contact support)                                     |
-| 47              | Commercial invoice: Mixed invoice/bill groups not supported                               |
-| 48              | Commercial invoice: Invoice number missing                                                |
-| 49              | Commercial invoice: Gross total missing                                                   |
-| 50              | CargoWise: Failed to find a matching Job Ref for highlighted BL or Container Number       |
-| 51              | CargoWise: No accruals found for this creditor in this currency on highlighted sub total  |
+| Exception code  | Description                                                                              |
+| --------------- | ---------------------------------------------------------------------------------------- |
+| 1               | Supplier Invoice: Missing Invoice Number                                                 |
+| 2               | Supplier Invoice: Missing Invoice Date                                                   |
+| 3               | Supplier Invoice: Missing Issuer                                                         |
+| 4               | Supplier Invoice: Missing Invoice Total                                                  |
+| 5               | Supplier Invoice: Missing Invoice Currency                                               |
+| 6               | Supplier Invoice: No Job references                                                      |
+| 7               | CargoWise: Invalid Addressee                                                             |
+| 8               | CargoWise: Duplicate Invoice Number                                                      |
+| 9               | CargoWise: Failed to match a set of accruals to the Invoice Total                        |
+| 10              | CargoWise: Currencies didn't match                                                       |
+| 11              | CargoWise: VAT didn't match                                                              |
+| 12              | CargoWise: Failed to post to Cargowise                                                   |
+| 13              | CargoWise: More than one possible set of accruals for the Invoice Total                  |
+| 14              | CargoWise: Missing CargoWise code for issuer                                             |
+| 15              | CargoWise: One or more costs is apportioned to a consol                                  |
+| 16              | Demo: Document passed validation                                                         |
+| 17              | Supplier Invoice: Invoice date is in the future                                          |
+| 18              | CargoWise: Shipment not found                                                            |
+| 19              | CargoWise: Error on Cargowise HTTP request                                               |
+| 20              | The validation process itself failed                                                     |
+| 21              | CargoWise: Invoice Number already exists                                                 |
+| 22              | Bill of Lading: Missing MBL                                                              |
+| 23              | Bill of Lading: Multiple MBLs                                                            |
+| 24              | Bill of Lading: Incorrect Consignee for Consol Type                                      |
+| 25              | Bill of Lading: Missing HBLs                                                             |
+| 26              | CargoWise: Manual approval required to post                                              |
+| 27              | Unable to Match to Job                                                                   |
+| 28              | Multiple possible Jobs                                                                   |
+| 29              | Bill Of lading: Missing job references                                                   |
+| 30              | Bill Of lading: Missing SCAC                                                             |
+| 31              | Supplied job reference does not exist in CargoWise                                       |
+| 32              | Bill of Lading: MBL missing Consignee                                                    |
+| 33              | CargoWise: Documents exceeds maximum file size limit of 10MB                             |
+| 34              | Supplier Invoice: Sub totals don’t add up to invoice total                               |
+| 35              | CargoWise: More than one possible set of accruals for highlighted sub total              |
+| 36              | CargoWise: Failed to match a set of accruals for highlighted sub total                   |
+| 37              | Supplier Invoice: Job not in any clusters                                                |
+| 38              | Bill of lading: Missing consignor/consignee                                              |
+| 39              | Bill of lading: Missing origin                                                           |
+| 40              | Bill Of lading: Missing destination                                                      |
+| 41              | Bill of lading: Missing container mode                                                   |
+| 42              | Bill of lading: Missing release type                                                     |
+| 43              | Bill of lading: Missing packing mode                                                     |
+| 44              | CargoWise: No accruals found for this creditor in this currency                          |
+| 45              | Error in pre-validator (please contact support)                                          |
+| 46              | Error in CargoWise validator (please contact support)                                    |
+| 47              | Commercial invoice: Mixed invoice/bill groups not supported                              |
+| 48              | Commercial invoice: Invoice number missing                                               |
+| 49              | Commercial invoice: Gross total missing                                                  |
+| 50              | CargoWise: Failed to find a matching Job Ref for highlighted BL or Container Number      |
+| 51              | CargoWise: No accruals found for this creditor in this currency on highlighted sub total |
 | 52              | Commercial invoice: Supplier missing |
 | 53              | Commercial invoice: Importer missing |
 | 54              | Commercial Invoice: Could not find Product Code |
@@ -2567,7 +2567,7 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 68              | Job Reference: Unable to set job references; multiple references found |
 | 69              | Job Reference: Multiple S-Job references found in email subject. If you know the job reference, create a S-Job place holder and update the reference before posting to CW |
 | 70              | Cargowise: Failed to post file to EDocs |
-| 71              | Commercial Invoices: No CIVs found in documFent pack |
+| 71              | Commercial Invoices: No CIVs found in document pack |
 | 72              | Cargowise: Missing job reference |
 | 73              | Job Reference: Job reference not valid for this group |
 | 74              | Error fetching costs from CargoWise (please contact support) |
@@ -2597,7 +2597,7 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 98              | CargoWise: Cargowise: One or more Shipments references found in CW but is already linked to an existing Consol |
 | 99              | Shipment: Duplicate S-ref numbers |
 | 100             | Consol: Pack includes a Consol reference. Posting will update an existing Consol |
-| -1              | Custom exception                                                                          |
+| -1              | Custom exception                                                                         |
 
 ### List of PaymentTerm values
 
