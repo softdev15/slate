@@ -1305,18 +1305,18 @@ Each organization added is assigned an internal ID unique to Shipamax (referred 
 
 ### Attributes
 
-| Attribute                               | Description                                                                                        |
-| --------------------------------------- |----------------------------------------------------------------------------------------------------|
-| id                 | Unique identifier of the Organization within the Shipamax system                                   |
-| externalId                               | Unique identifier of the Organization within your own system                                       |
-| carrier                       | Flag for denoting this Organization is a carrier                                                   |
-| consignee                       | Flag for denoting this Organization is a consignee                                                 |
-| creditor                       | Flag for denoting this Organization is a creditor                                                  |
-| forwarder                       | Flag for denoting this Organization is a forwarder                                                 |
-| debtor                       | Flag for denoting this Organization is a debtor                                                    |
+| Attribute                               | Description                                                                                       |
+| --------------------------------------- |---------------------------------------------------------------------------------------------------|
+| id                 | Unique identifier of the Organization within the Shipamax system                                  |
+| externalId                               | Unique identifier of the Organization within your own system                                      |
+| carrier                       | Flag for denoting this Organization is a carrier                                                  |
+| consignee                       | Flag for denoting this Organization is a consignee                                                |
+| creditor                       | Flag for denoting this Organization is a creditor                                                 |
+| forwarder                       | Flag for denoting this Organization is a forwarder                                                |
+| debtor                       | Flag for denoting this Organization is a debtor                                                   |
 | shipper                       | Flag for denoting this Organization is a shipper (also referred to as Consignor or Shipping Agent) |
-| active                       | Flag denoting weather this Organization is active or not                                           |
-| updated | The timestamp of when the Organization was last updated                                            |
+| active                       | Flag denoting whether this Organization is active or not                                          |
+| updated | The timestamp of when the Organization was last updated                                           |
 
 
 ### POST
