@@ -422,8 +422,8 @@ The following objects can be used as parameters in the *include* query
 | files/billOfLading/packline             | List of packing lines associated with the Bill of Lading           |
 | files/commercialInvoice                 | Details of the group's Commercial Invoices                         |
 | files/commercialInvoice/lineItem        | List of line items associated with the Commercial Invoice          |
-
-
+| files/packingList                       | Details of the group's Packing Lists                               |
+| files/packingList/lineItem              | List of line items associated with the Packing List                |
 
 > The GET FileGroup when requested with all its inner objects returns JSON structured like this:
 
@@ -606,7 +606,61 @@ The following objects can be used as parameters in the *include* query
               ]
           }
       ]
-    }
+    },
+    {
+      "id": integer,
+      "filename": string,
+      "created": "[ISO8601 timestamp]",
+      "fileType": 8:integer,
+      "packingList": [
+          {
+              "documentId": string,
+              "supplier": string,
+              "supplierCode": string,
+              "supplierOrgId": integer,
+              "supplierOrgNameId": integer,
+              "supplierOrgName": string,
+              "supplierOrgAddressId": integer,
+              "supplierOrgAddress": string,
+              "importer": string,
+              "importerCode": string,
+              "importerOrgId": integer,
+              "importerOrgNameId": integer,
+              "importerOrgName": string,
+              "importerOrgAddressId": integer,
+              "importerOrgAddress": string,
+              "invoiceNumber": string,
+              "invoiceDate": string,
+              "weightGrossTotal": integer,
+              "weightNetTotal": integer,
+              "volumeTotal": integer,
+              "weightUnit": string,
+              "volumeUnit": string,
+              "packageUnit": string,
+              "packageQuantityTotal": integer,
+              "itemUnit": string,
+              "itemQtyTotal": integer,
+              "id": integer,
+              "lineItem": [
+                  {
+                    "packingListId": integer,
+                    "description": string,
+                    "itemQty": string,
+                    "packageQty": string,
+                    "netWeight": integer,
+                    "grossWeight": integer,
+                    "volume": string,
+                    "productCode": string,
+                    "hsCode": string,
+                    "id": integer,
+                    "orderIndex": string,
+                    "descriptionCell": string,
+                    "fullText": string,
+                  }
+              ]
+          }
+      ]
+    },
   ]
 }
 ```
@@ -819,6 +873,57 @@ To determine if a line item was matched, use the productCodeMatched attribute:
 | files.email.companyId           | Your internal company ID.     |
 | files.email.subject          | The subject of this email.        |
 | files.email.unqId            | The internal unique ID of this email.                 |
+
+### *Files/packingList* attributes
+
+| Attribute                               |  Description                                                                                                                      |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| files.packingList                       | An array of packing invoices extracted from this file, if any. |
+| files.packingList.documentId            | The internal ID of the packing list document. |
+| files.packingList.supplier              | The raw data extracted for the supplier field from the packing list file. |
+| files.packingList.supplierCode          | The code for the selected supplier (as it appears in the Exception Manager UI) taken from your Organization data. |
+| files.packingList.supplierOrgId         | The internal ID of the selected supplier. |
+| files.packingList.supplierOrgNameId     | The internal ID of the selected name of the supplier. |
+| files.packingList.supplierOrgName       | The selected name of the supplier. |
+| files.packingList.supplierOrgAddressId  | The internal ID of the selected Address of the supplier |
+| files.packingList.supplierOrgAddress    | The selected Address of the supplier. |
+| files.packingList.importer              | The raw data extracted for the importer field from the packing list file. |
+| files.packingList.importerCode          | The code for the selected importer (as it appears in the Exception Manager UI), taken from your Organization data. |
+| files.packingList.importerOrgId         | The internal ID of the selected importer. |
+| files.packingList.importerOrgNameId     | The internal ID of the selected name of the importer. |
+| files.packingList.importerOrgName       | The selected name of the importer. |
+| files.packingList.importerOrgAddressId  | The internal ID of the selected Address of the importer. |
+| files.packingList.importerOrgAddress    | The selected Address of the importer. |
+| files.packingList.invoiceNumber         | The packing list invoice number. |
+| files.packingList.invoiceDate           | The packing list invoice date. |
+| files.packingList.weightGrossTotal      | The packing lists total gross weight. |
+| files.packingList.weightNetTotal        | The packing lists total net weight. |
+| files.packingList.volumeTotal           | The packing lists total volume. |
+| files.packingList.weightUnit            | The packing lists weight unit. |
+| files.packingList.volumeUnit            | The packing lists volume unit. |
+| files.packingList.packageUnit           | The packing lists package unit type. |
+| files.packingList.itemUnit              | The packing lists item unit. |
+| files.packingList.itemQtyTotal          | The packing lists total item quanity. |
+| files.packingList.id                    | The internal ID of the packing list. |
+
+#### Using the lineItem attributes to determine the product code and description
+The attributes extracted from an invoice for each line item (eg. Product code, description, HS Code, Origin and Unit) are available in the attributes `productCode`, `description`, `hsCode`, `originCountryCode`, `unitType`.
+
+### *Files/packingList/lineItem* attributes
+
+| Attribute                            | Description                               |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------  |
+| files.packingList.lineItem.packingListId   | The internal ID of the line items packing list. |
+| files.packingList.lineItem.description     | The description of the line item. |
+| files.packingList.lineItem.itemQty         | The line items total item quantity. |
+| files.packingList.lineItem.packageQty      | The line items total package quantity. |
+| files.packingList.lineItem.netWeight       | The line items net weight. |
+| files.packingList.lineItem.grossWeight     | The line items gross weight. |
+| files.packingList.lineItem.volume          | The line items volume. |
+| files.packingList.lineItem.productCode     | The code for the product in the line item. |
+| files.packingList.lineItem.hsCode          | The HS Code of this line item. |
+| files.packingList.lineItem.id              | The internal ID of the line item. |
+| files.packingList.lineItem.orderIndex      | The index of the line, representing the order of it within the commercial invoice. |
 
 > Example of request without include parameter:
 > /FileGroups/1
@@ -1171,9 +1276,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
               "productCode": null,
               "hsCode": "1234567890",
               "id": 1,
-              "descriptionCell": "ITEM DESCRIPTION 1",
               "orderIndex": 0,
-              "fullText": "ITEM DESCRIPTION 1"
             }
           ]
         }
