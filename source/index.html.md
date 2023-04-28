@@ -906,17 +906,10 @@ To determine if a line item was matched, use the productCodeMatched attribute:
 | files.packingList.itemQtyTotal          | The packing lists total item quanity. |
 | files.packingList.id                    | The internal ID of the packing list. |
 
-### *Files/packingList/lineItem* attributes
-
 #### Using the lineItem attributes to determine the product code and description
 The attributes extracted from an invoice for each line item (eg. Product code, description, HS Code, Origin and Unit) are available in the attributes `productCode`, `description`, `hsCode`, `originCountryCode`, `unitType`.
 
-When a line item is successfully matched to a product code from your company’s product code database, the matched values, taken from your product code database, are available in the ‘matched’ attributes (eg. `matchedproductCode`, `matchedDescription`, `matchedHsCode`, `matchedoriginCountryCode`, `matchedUnitType`)
-
-To determine if a line item was matched, use the productCodeMatched attribute:
-
-`productCodeMatched=true` - The line item was successfully matched
-`productCodeMatched=false` - the line item was not matched
+### *Files/packingList/lineItem* attributes
 
 | Attribute                            | Description                               |
 | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------  |
@@ -931,8 +924,6 @@ To determine if a line item was matched, use the productCodeMatched attribute:
 | files.packingList.lineItem.hsCode          | The HS Code of this line item. |
 | files.packingList.lineItem.id              | The internal ID of the line item. |
 | files.packingList.lineItem.orderIndex      | The index of the line, representing the order of it within the commercial invoice. |
-| files.packingList.lineItem.descriptionCell | The entire cell of the line item description. |
-| files.packingList.lineItem.fullText        | The text extract from the document. |
 
 > Example of request without include parameter:
 > /FileGroups/1
@@ -1285,9 +1276,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
               "productCode": null,
               "hsCode": "1234567890",
               "id": 1,
-              "descriptionCell": "ITEM DESCRIPTION 1",
               "orderIndex": 0,
-              "fullText": "ITEM DESCRIPTION 1"
             }
           ]
         }
