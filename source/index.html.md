@@ -2415,61 +2415,17 @@ XML tag `<Products>` wraps up all the product code related data.
             <Organisation EDICode="OWNERCODE" OwnerCode="OWNERCODE">
               <OrganisationDetails>
                 <Name>OWNER NAME</Name>
-                <Location Country="Australia" City="Melbourne">LOC</Location>
-                <Addresses>
-                  <Address AddressType="MAIN">
-                    <AddressLine1>OWNER</AddressLine1>
-                    <AddressCode>OWNER</AddressCode>
-                    <CityOrSuburb>MELBOURNE</CityOrSuburb>
-                    <StateOrProvince>VIC</StateOrProvince>
-                    <PostCode>1000</PostCode>
-                    <TelephoneNumbers>
-                      <TelephoneNumber NumberType="Business">+6</TelephoneNumber>
-                      <TelephoneNumber NumberType="Fax">+6</TelephoneNumber>
-                    </TelephoneNumbers>
-                    <Email>email@email.com</Email>
-                    <Language>EN</Language>
-                    <Location>AUMEL</Location>
-                    <Sequence>1</Sequence>
-                    <AddressCapabilities>
-                      <AddressCapability AddressType="MAIN" />
-                      <AddressCapability IsMainAddress="true" AddressType="APM" />
-                      <AddressCapability IsMainAddress="true" AddressType="ARM" />
-                      <AddressCapability IsMainAddress="true" AddressType="OFC" />
-                      <AddressCapability IsMainAddress="true" AddressType="PST" />
-                    </AddressCapabilities>
-                  </Address>
-                </Addresses>
               </OrganisationDetails>
             </Organisation>
             <RelationshipType>OWN</RelationshipType>
-            <RFAttributeConfirm>NON</RFAttributeConfirm>
           </RelatedOrganisation>
           <RelatedOrganisation>
             <Organisation EDICode="SUPPLIERCODE" OwnerCode="SUPPLIERCODE">
               <OrganisationDetails>
                 <Name>SUPPLIER NAME</Name>
-                <Location Country="Japan" City="Osaka">LOC</Location>
-                <Addresses>
-                  <Address AddressType="MAIN">
-                    <AddressLine1>SUPPLIER</AddressLine1>
-                    <AddressCode>SUPPLIER</AddressCode>
-                    <CityOrSuburb>TOKYO</CityOrSuburb>
-                    <StateOrProvince>00</StateOrProvince>
-                    <PostCode>100-0000</PostCode>
-                    <Language>EN</Language>
-                    <Location>JPOSA</Location>
-                    <Sequence>1</Sequence>
-                    <AddressCapabilities>
-                      <AddressCapability AddressType="MAIN" />
-                      <AddressCapability IsMainAddress="true" AddressType="OFC" />
-                    </AddressCapabilities>
-                  </Address>
-                </Addresses>
               </OrganisationDetails>
             </Organisation>
             <RelationshipType>SUP</RelationshipType>
-            <RFAttributeConfirm>NON</RFAttributeConfirm>
           </RelatedOrganisation>
         </RelatedOrganisations>
         <DimensionDetails />
@@ -2479,6 +2435,65 @@ XML tag `<Products>` wraps up all the product code related data.
     </Products>
   </Payload>
 </XmlInterchange>
+```
+
+#### Native
+
+This is a `<Native>` request.
+XML tag `<Product>` wraps up all the product code related data.
+
+**Following are the important tags we expect in the request:**
+
+**Product-**
+  **OrgSupplierPart-**
+    *PartNum*,
+    *Desc*,
+    *StockKeepingUnit*
+  **OrgPartRelationCollection-**
+    **OrgPartRelation-**
+      *Relationship*,
+      **OrgHeader**
+        *Code*
+
+> Example xml format when sending product code data:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<UniversalInterchange xmlns="http://www.cargowise.com/Schemas/Universal/2011/11" version="1.1">
+    <Header>
+        <SenderID>TST</SenderID>
+        <RecipientID>test</RecipientID>
+    </Header>
+    <Body>
+        <Native xmlns="http://www.cargowise.com/Schemas/Native/2011/11" version="2.0">
+            <Body>
+                <Product version="2.0">
+                    <OrgSupplierPart Action="MERGE">
+                        <PartNum>TESTCODE</PartNum>
+                        <StockKeepingUnit>PCE</StockKeepingUnit>
+                        <Desc>TEST DESCRIPTION</Desc>
+                        <CusClassPartPivotCollection>
+                          <CusClassPartPivot Action="MERGE">
+                            <TariffNum>T4RIF</TariffNum>
+                            <CusClassification>
+                              <LookupCode>12345</LookupCode>
+                            </CusClassification>
+                          </CusClassPartPivot>
+                        </CusClassPartPivotCollection>
+                        <OrgPartRelationCollection>
+                            <OrgPartRelation Action="MERGE">
+                                <Relationship>OWN</Relationship>
+                                <OrgHeader>
+                                    <Code>TESTORGCODE</Code>
+                                </OrgHeader>
+                            </OrgPartRelation>
+                        </OrgPartRelationCollection>
+                    </OrgSupplierPart>
+                </Product>
+            </Body>
+        </Native>
+    </Body>
+</UniversalInterchange>
 ```
 
 Cargowise Reference endpoint can also accept SOAP message which is a Cargowise default i.e, Request that starts with tag <s: Envelope>, Or
@@ -2527,64 +2542,6 @@ you can also take the message encoded within the SOAP message and post it as a r
         </s:Header>
         <s:Body/>
       </s:Envelope>
-```
-
-#### Native
-
-This is a `<Native>` request.
-XML tag `<Product>` wraps up all the product code related data.
-
-**Following are the important tags we expect in the request:**
-
-**Product-**
-  **OrgSupplierPart-**
-    *PartNum*,
-    *Desc*,
-    *StockKeepingUnit*
-  **OrgPartRelationCollection-**
-    **OrgPartRelation-**
-      *Relationship*,
-      **OrgHeader**
-        *Code*
-
-> Example xml format when sending product code data:
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<UniversalInterchange xmlns="http://www.cargowise.com/Schemas/Universal/2011/11" version="1.1">
-    <Header>
-        <SenderID>TST</SenderID>
-        <RecipientID>test</RecipientID>
-    </Header>
-    <Body>
-        <Native xmlns="http://www.cargowise.com/Schemas/Native/2011/11" version="2.0">
-            <Body>
-                <Product version="2.0">
-                    <OrgSupplierPart Action="MERGE">
-                        <PartNum>TESTCODE</PartNum>
-                        <StockKeepingUnit>PCE</StockKeepingUnit>
-                        <Desc>TEST DESCRIPTION</Desc>
-                        <CusClassPartPivotCollection>
-                          <CusClassPartPivot Action="MERGE">
-                            <CusClassification>
-                              <LookupCode>12345</LookupCode>
-                            </CusClassification>
-                          </CusClassPartPivot>
-                        </CusClassPartPivotCollection>
-                        <OrgPartRelationCollection>
-                            <OrgPartRelation Action="MERGE">
-                                <Relationship>OWN</Relationship>
-                                <OrgHeader>
-                                    <Code>TESTORGCODE</Code>
-                                </OrgHeader>
-                            </OrgPartRelation>
-                        </OrgPartRelationCollection>
-                    </OrgSupplierPart>
-                </Product>
-            </Body>
-        </Native>
-    </Body>
-</UniversalInterchange>
 ```
 
 ## Lists of codes for fields
