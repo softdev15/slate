@@ -502,6 +502,16 @@ The following objects can be used as parameters in the *include* query
           "containerMode": ContainerMode,
           "shipmentType": ShipmentType,
           "consolType": ConsolType,
+          "firstArrivalPort": string,
+          "firstArrivalPortUnlocode": string,
+          "firstArrivalPortEta": string,
+          "ownersReference": string,
+          "originEtd": string,
+          "destinationEta": string,
+          "coLoader": string,
+          "coLoaderMblNumber": string,
+          "loadPortEtd": string,
+          "dispatchPortEta": string,
           "notify": [
             {
               "id": integer,
@@ -739,6 +749,18 @@ The following objects can be used as parameters in the *include* query
 | files.billOfLading.goodsDescription     | Textual description of the goods                                                                                                                    |
 | files.billOfLading.transportMode        | The transport type of this shipment. See [List of Transport Modes](#List-of-TransportMode-values) for possible values                               |
 | files.billOfLading.containerMode        | The Container's mode. See [List of Container Modes](#List-of-ContainerMode-values) for possible values                                              |
+| files.billOfLading.shipmentType         | The shipment type                                                                                                                                   |
+| files.billOfLading.consolType           | The consol type                                                                                                                                     |
+| files.billOfLading.firstArrivalPort     | The first arrival port                                                                                                                              |
+| files.billOfLading.firstArrivalPortUnlocode | The first arrival port's unlocode                                                                                                               |
+| files.billOfLading.firstArrivalPortEta  | The first arrival port's ETA                                                                                                                        |
+| files.billOfLading.ownersReference      | The owners reference                                                                                                                                |
+| files.billOfLading.originEtd            | The origin ETD                                                                                                                                      |
+| files.billOfLading.destinationEta       | The destination ETA                                                                                                                                 |
+| files.billOfLading.coLoader             | The co loader                                                                                                                                       |
+| files.billOfLading.coLoaderMblNumber    | The co loader's MBL number                                                                                                                          |
+| files.billOfLading.loadPortEtd          | The load port's ETD                                                                                                                                 |
+| files.billOfLading.dispatchPortEta      | The dispatch port's ETA                                                                                                                             |
 
 ### *Files/billOfLading/Container* attributes
 
@@ -1103,6 +1125,16 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
           "transportMode": "",
           "containerMode": "",
           "shipmentType": "",
+          "consolType": "",
+          "firstArrivalPortUnlocode": "",
+          "firstArrivalPortEta": "2020-05-07T15:24:47.338Z",
+          "ownersReference": "",
+          "originEtd": "2020-05-07T15:24:47.338Z",
+          "destinationEta": "2020-05-07T15:24:47.338Z",
+          "coLoader": "",
+          "coLoaderMblNumber": "",
+          "loadPortEtd": "2020-05-07T15:24:47.338Z",
+          "dispatchPortEta": "2020-05-07T15:24:47.338Z",
           "notify": [
             {
               "id": 211,
