@@ -1125,6 +1125,16 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
           "transportMode": "",
           "containerMode": "",
           "shipmentType": "",
+          "consolType": "",
+          "firstArrivalPortUnlocode": "",
+          "firstArrivalPortEta": "2020-05-07T15:24:47.338Z",
+          "ownersReference": "",
+          "originEtd": "2020-05-07T15:24:47.338Z",
+          "destinationEta": "2020-05-07T15:24:47.338Z",
+          "coLoader": "",
+          "coLoaderMblNumber": "",
+          "loadPortEtd": "2020-05-07T15:24:47.338Z",
+          "dispatchPortEta": "2020-05-07T15:24:47.338Z",
           "notify": [
             {
               "id": 211,
