@@ -2630,110 +2630,139 @@ These values are show in the following lists.
 Exception codes other than -1 have a specific meaning within the Shipamax system, as listed in the table below. When creating a validation result you should use an existing code where there is an appropriate one available, or -1 if there is not. You can use any description you like for any code, but the default descriptions for each code that Shipamax generates are listed in the table.
 
 
-| Exception code | Description                                                                                                                                                            |
-|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1              | Missing Info: Missing Invoice Number                                                                                                                                   |
-| 2              | Missing Info: Missing Invoice Date                                                                                                                                     |
-| 3              | Missing Info: Missing Issuer                                                                                                                                           |
-| 4              | Missing Info: Missing Invoice Total                                                                                                                                    |
-| 5              | Missing Info: Missing Invoice Currency                                                                                                                                 |
-| 6              | Missing Info: No Job references                                                                                                                                        |
-| 7              | Business Validation Failure: Invalid Addressee                                                                                                                         |
-| 8              | Business Validation Failure: Duplicate Invoice Number                                                                                                                  |
-| 9              | Costs: Failed to match a set of accruals to the Invoice Total                                                                                                          |
-| 10             | CargoWise: Currencies didn't match                                                                                                                                     |
-| 11             | Costs: Tax amounts on accruals do not sum to invoice tax total                                                                                                         |
-| 12             | Error: Request to TMS failed.                                                                                                                                          |
-| 13             | Costs: Multiple possible accrual combinations                                                                                                                          |
-| 14             | Error: Missing Issuer Code                                                                                                                                             |
-| 16             | Demo: Document passed validation                                                                                                                                       |
-| 17             | Business Validation Failure: Invoice date is in the future                                                                                                             |
-| 18             | Error: Shipment not found                                                                                                                                              |
-| 19             | Error: Request to TMS failed                                                                                                                                           |
-| 20             | Error in validation process                                                                                                                                            |
-| 21             | Business Validation Failure: (Unallocated) Invoice Number already exists                                                                                               |
-| 22             | Bill of Lading: Missing MBL                                                                                                                                            |
-| 23             | Bill of Lading: Multiple MBLs                                                                                                                                          |
-| 24             | Bill of Lading: Incorrect Consignee for Consol Type                                                                                                                    |
-| 25             | Bill of Lading: Missing HBLs                                                                                                                                           |
-| 26             | Manual approval required to post                                                                                                                            |
-| 27             | Unable to Match to Job                                                                                                                                                 |
-| 28             | Multiple possible Jobs                                                                                                                                                 |
-| 29             | Bill of Lading: Missing job references                                                                                                                                 |
-| 30             | Bill of Lading: Missing SCAC                                                                                                                                           |
-| 31             | Supplied job reference does not exist in CargoWise                                                                                                                     |
-| 32             | Bill of Lading: MBL missing Consignee                                                                                                                                  |
-| 33             | Error: Documents exceeds maximum file size limit of 10MB                                                                                                               |
-| 34             | Costs: Net subtotals do not sum to invoice total                                                                                                                       |
-| 35             | Costs: Multiple possible accrual combinations                                                                                          |
-| 36             | Costs: Failed to match a set of accruals for highlighted sub total                                                                                               |
-| 37             | Business Validation Failure: Job not in any clusters                                                                                                                   |
-| 38             | Bill of Lading: Missing consignor/consignee                                                                                                                            |
-| 39             | Bill of Lading: Missing origin                                                                                                                                         |
-| 40             | Bill of Lading: Missing destination                                                                                                                                    |
-| 41             | Bill of Lading: Missing container mode                                                                                                                                 |
-| 42             | Bill of Lading: Missing release type                                                                                                                                   |
-| 43             | Bill of Lading: Missing packing mode                                                                                                                                   |
-| 44             | Costs: No accruals found for this creditor                                                                                                                             |
-| 45             | Error in validation process                                                                                                                                            |
-| 46             | Error in CargoWise validator                                                                                                                                           |
-| 47             | Commercial invoice: Mixed invoice/bill groups not supported                                                                                                            |
-| 48             | Commercial invoice: Invoice number missing                                                                                                                             |
-| 49             | Commercial invoice: Gross total missing                                                                                                                                |
-| 50             | Costs: Failed to find a matching Job Ref for highlighted BL or Container Number                                                                                        |
-| 51             | Costs: No accruals found for this creditor on highlighted sub total                                                                                                    |
-| 52             | Commercial invoice: Supplier missing                                                                                                                                   |
-| 53             | Commercial invoice: Importer missing                                                                                                                                   |
-| 54             | Commercial Invoice: Could not find Product Code                                                                                                                        |
-| 55             | CommercialInvoice: Product Code not associated with Importer or Exporter                                                                                               |
-| 56             | Commercial invoice: Mixed group has more than 1 MBL                                                                                                                    |
-| 57             | Commercial invoice: Mixed group has more than 1 CI                                                                                                                     |
-| 58             | Commercial invoice: Mixed groups do not support HBLs                                                                                                                   |
-| 59             | Container number: No reference found for highlighted job                                                                                                               |
-| 60             | Container number: Multiple references found for highlighted job                                                                                                        |
-| 61             | Error: Too many accruals to automatically find a match. Please select the correct costs manually                                                                       |
-| 62             | Commercial invoice: Mixed group has more than 1 HBL                                                                                                                    |
-| 63             | Commercial Invoice: Mixed groups of this combination are not supported                                                                                                 |
-| 64             | Business Validation Failure: Accruals in TMS have changed since previous updates were made in Shipamax.                                                                |
-| 65             | Business Validation Failure: Other accruals with the same charge code detected on the same Job. Posting these accruals may delete information in CargoWise             |
-| 66             | Costs: Modified accrual amounts are not within the tolerated threshold                                                                                                 |
-| 67             | Job Reference: Reference extracted from email subject                                                                                                                  |
-| 68             | Job Reference: Unable to set job references; multiple references found                                                                                                 |
-| 69             | Cargowise: Failed to post file to EDocs                                                                                                                                |
-| 70             | Commercial Invoices: No CIVs found in document pack                                                                                                                    |
-| 71             | Job Reference: Multiple S-Job references found in email subject. If you know the job reference, create a S-Job place holder and update the reference before posting to CW |
-| 72             | Cargowise: Missing job reference                                                                                                                                       |
-| 73             | Job Reference REF is not valid reference                                                                                                                               |
-| 74             | Error fetching costs from CargoWise                                                                                                                                    |
-| 75             | Error posting invoice to CargoWise                                                                                                                                     |
-| 76             | Error while validating costs                                                                                                                                           |
-| 77             | Error posting invoice to TMS                                                                                                                                           |
-| 78             | Business Validation Failure: Duplicate Invoice Number                                                                                                                  |
-| 79             | Failed to post to TMS (please try again)                                                                                                                               |
-| 80             | Error fetching costs from TMS                                                                                                                                          |
-| 81             | Costs: Tax subtotals do not sum to invoice total                                                                                                            |
-| 82             | Missing Info: Missing GL Code                                                                                                                                          |
-| 83             | Missing Info: Missing Description                                                                                                                                      |
-| 84             | Missing Info: Missing Net Total                                                                                                                                        |
-| 85             | Missing Info: Missing Tax Code                                                                                                                                         |
-| 86             | Missing Info: Missing Tax Total                                                                                                                                        |
-| 87             | Missing Info: Missing Tax Amount                                                                                                                                       |
-| 88             | Line Items: Gross Total does not match Line Total Sum for one or more Commercial Invoices                                                                              |
-| 89             | Cargowise: Declaration is locked. Make sure it is not worked on and try again                                                                                          |
-| 90             | CargoWise: Job verification failed, please try to post again. If problem persists, please raise an eRequest.                                                           |
-| 91             | CargoWise: Bill of Lading: Duplicate BL number for one or more documents                                                                                               |
-| 92             | CargoWise: Commercial Invoice: Duplicate CIV number for one or more documents                                                                                          |
-| 93             | Costs: Invalid accrual split                                                                                                                                           |
-| 94             | Cargowise: Pack is missing MBL and a Consol reference. Posting will create a new, empty Consol                                                                         |
-| 95             | CargoWise: Cargowise: Pack is missing HBL and a Shipment reference for one or more Shipments. Posting will create a new, empty Shipment                                |
-| 96             | Cargowise: Shipment reference not found in cargowise                                                                                                                   |
-| 97             | Cargowise: Consol reference not found in cargowise                                                                                                                     |
-| 98             | CargoWise: Cargowise: One or more Shipments references found in CW but is already linked to an existing Consol                                                         |
-| 99             | Shipment: Duplicate S-ref numbers                                                                                                                                      |
-| 100            | Consol: Pack includes a Consol reference. Posting will update an existing Consol                                                                                       |
-| 101            | Costs: Modified exchange rate is not within the tolerated threshold                                                                                      |
-| 106            | Business Validation Failure: Consol costs must have all sub-shipment apportioned costs posted at once                                                                               |
-| -1             | Custom exception                                                                                                                                                       |
+| Exception code | Description                                                                                                                                                               |
+|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1              | Missing Info: Missing Invoice Number                                                                                                                                      
+| 2              | Missing Info: Missing Invoice Date                                                                                                                                        
+| 3              | Missing Info: Missing Issuer                                                                                                                                              
+| 4              | Missing Info: Missing Invoice Total                                                                                                                                       
+| 5              | Missing Info: Missing Invoice Currency                                                                                                                                    
+| 6              | Missing Info: No Job references                                                                                                                                           
+| 7              | Business Validation Failure: Invalid Addressee                                                                                                                            
+| 8              | Business Validation Failure: Duplicate Invoice Number                                                                                                                     
+| 9              | Costs: Failed to match a set of accruals to the Invoice Total                                                                                                             
+| 10             | CargoWise: Currencies didn't match                                                                                                                                        
+| 11             | Costs: Tax amounts on accruals do not sum to invoice tax total                                                                                                            
+| 12             | Error: Request to TMS failed.                                                                                                                                             
+| 13             | Costs: Multiple possible accrual combinations                                                                                                                             
+| 14             | Error: Missing Issuer Code                                                                                                                                                
+| 15             | Costs: One or more costs is apportioned to a consol                                                                                                                       
+| 16             | Demo: Document passed validation                                                                                                                                          
+| 17             | Business Validation Failure: Invoice date is in the future                                                                                                                
+| 18             | Error: Job not found                                                                                                                                                      
+| 19             | Error: Request to TMS failed                                                                                                                                              
+| 20             | Error in validation process                                                                                                                                               
+| 21             | Business Validation Failure: (Unallocated) Invoice Number already exists                                                                                                  
+| 22             | Bill of Lading: Missing MBL                                                                                                                                               
+| 23             | Multiple MBLs. Pack can include 0 or 1 MBL. Change the type of the extra MBLs and/or split the pack                                                                       
+| 24             | Consol: Receiving Agent might be incorrect for the selected Consol Type                                                                                                   
+| 25             | Bill of Lading: Missing HBLs                                                                                                                                              
+| 26             | Manual approval required to post                                                                                                                                          
+| 27             | Unable to Match to Job                                                                                                                                                    
+| 28             | Multiple possible Jobs                                                                                                                                                    
+| 29             | Bill of Lading: Missing References                                                                                                                                        
+| 30             | Bill of Lading: Missing SCAC                                                                                                                                              
+| 31             | Supplied job reference does not exist in CargoWise                                                                                                                        
+| 32             | Bill of Lading: MBL missing Consignee                                                                                                                                     
+| 33             | Error: Documents exceeds maximum file size limit: X MB                                                                                                                   
+| 34             | Costs: Net subtotals do not sum to invoice total                                                                                                                          
+| 35             | Costs: Multiple possible accrual combinations                                                                                                                             
+| 36             | Costs: Failed to match a set of accruals for highlighted sub total                                                                                                        
+| 37             | Business Validation Failure: Job not in any clusters                                                                                                                      
+| 38             | Bill of Lading: Missing consignor/consignee                                                                                                                               
+| 39             | Bill of Lading: Missing origin                                                                                                                                            
+| 40             | Bill of Lading: Missing destination                                                                                                                                       
+| 41             | Bill of Lading: Missing container mode                                                                                                                                    
+| 42             | Bill of Lading: Missing release type                                                                                                                                      
+| 43             | Bill of Lading: Missing packing mode                                                                                                                                      
+| 44             | Costs: No accruals found for this creditor                                                                                                                                
+| 45             | Error in validation process                                                                                                                                               
+| 46             | Error in CargoWise validator                                                                                                                                              
+| 47             | Commercial Invoice: Mixed invoice/bill groups must be MBL and CI                                                                                                          
+| 48             | Commercial Invoice: Invoice number missing                                                                                                                                
+| 49             | Commercial Invoice: Gross total missing                                                                                                                                   
+| 50             | Costs: Failed to find a matching Job Ref for highlighted BL or Container Number                                                                                           
+| 51             | Costs: No accruals found for this creditor on highlighted sub total                                                                                                       
+| 52             | Commercial Invoice: Supplier missing                                                                                                                                      
+| 53             | Commercial Invoice: Importer missing                                                                                                                                      
+| 54             | Commercial Invoice: One or more product codes could not be found                                                                                                          
+| 55             | Commercial Invoice: One or more product codes not associated with Importer or Exporter                                                                                    
+| 56             | Commercial Invoice: Mixed group has more than 1 MBL                                                                                                                       
+| 57             | Commercial Invoice: Mixed group has more than 1 CI                                                                                                                        
+| 58             | Commercial Invoice: Mixed groups do not support HBLs                                                                                                                      
+| 59             | Container number: No reference found for highlighted job                                                                                                                  
+| 60             | Container number: Multiple references found for highlighted job                                                                                                           
+| 61             | Error: Too many accruals to automatically find a match. Please select the correct costs manually                                                                          
+| 62             | Commercial Invoice: Mixed group has more than 1 HBL                                                                                                                       
+| 63             | Multiple MBLs. This pack can’t be used to create a Brokerage Job. Recategorise the extra MBL(s) or split the pack                                                         
+| 64             | Business Validation Failure: Accruals in TMS have changed since previous updates were made in Shipamax.                                                                   
+| 65             | Business Validation Failure: Other accruals with the same charge code detected on the same Job. Posting these accruals may delete information in CargoWise                
+| 66             | Costs: Modified accrual amounts are not within the tolerated threshold                                                                                                    
+| 67             | Job Reference: Reference extracted from email subject                                                                                                                     
+| 68             | Job Reference: Unable to set job references; multiple references found                                                                                                    
+| 69             | Error: CargoWise: Failed to post file to EDocs                                                                                                                            
+| 70             | Commercial Invoices: No CIVs found in document pack                                                                                                                       
+| 71             | Job Reference: Multiple S-Job references found in email subject. If you know the job reference, create a S-Job place holder and update the reference before posting to CW 
+| 72             | CargoWise: Missing job reference                                                                                                                                          
+| 73             | Job Reference REF is not valid CONSOL/SHIPMENT reference                                                                                                                                
+| 74             | Error fetching costs from CargoWise                                                                                                                                       
+| 75             | Error posting invoice to CargoWise                                                                                                                                        
+| 76             | Error while validating costs                                                                                                                                              
+| 77             | Error posting invoice to TMS                                                                                                                                              
+| 78             | Business Validation Failure: Duplicate Invoice Number                                                                                                                     
+| 79             | Error: Failed to post to TMS. Please try again.                                                                                                                           
+| 80             | Error fetching costs from TMS.                                                                                                                                            
+| 81             | Costs: Tax subtotals do not sum to invoice total                                                                                                                          
+| 82             | Missing Info: Missing GL Code                                                                                                                                             
+| 83             | Missing Info: Missing Description                                                                                                                                         
+| 84             | Missing Info: Missing Net Total                                                                                                                                           
+| 85             | Missing Info: Missing Tax Code                                                                                                                                            
+| 86             | Missing Info: Missing Tax Amount                                                                                                                                          
+| 87             | Missing Info: Missing Tax Total                                                                                                                                           
+| 88             | Line Items: Gross Total does not match Line Total Sum for one or more Commercial Invoices                                                                                 
+| 89             | CargoWise: Declaration is locked. Make sure it is not worked on and try again                                                                                             
+| 90             | CargoWise: Job verification failed, please try to post again. If problem persists, please raise an eRequest.                                                              
+| 91             | Shipment: Duplicate HBL numbers                                                                                                                                           
+| 92             | Commercial Invoice: Duplicate CIV numbers                                                                                                                                 
+| 93             | Costs: Invalid accrual split                                                                                                                                              
+| 94             | Consol: Missing MBL and Consol reference. Posting will create a new, empty Consol                                                                                         
+| 95             | CargoWise: Pack is missing HBL and a Shipment reference for one or more Shipments. Posting will create a new, empty Shipment                                              
+| 96             | Reference mismatch: Shipment REF not found in CargoWise                                                                                                                  
+| 97             | Reference mismatch: Consol REF not found in CargoWise                                                                                                                    
+| 98             | Reference mismatch: Shipment REF is linked to an existing Consol (CONSOL_REF) in Cargowise                                                                                     
+| 99             | Shipment: Duplicate S-ref numbers                                                                                                                                         
+| 100            | Consol: Pack includes a Consol reference. Posting will update an existing Consol                                                                                          
+| 101            | Costs: Modified exchange rate is not within the tolerated threshold                                                                                                       
+| 102            | Total packages' volume in CW for job REF (Xm3) differ from HBL                                                                                                            
+| 103            | Total packages' weight in CW for job REF (Xkg) differ from HBL                                                                                                            
+| 104            | Could not compare volumes for job REF - Multiple unit types in HBL                                                                                                         
+| 105            | Could not compare weights for job REF - Multiple unit types in HBL                                                                                                         
+| 106            | Business Validation Failure: Consol costs must have all sub-shipment apportioned costs posted at once                                                                     
+| 107            | Multiple HBLs. This pack can’t be used to create a Brokerage Job. Recategorise the extra HBL(s) or split the pack                                                         
+| 108            | Multiple HBLs in zip file. Grouping was not created                                                                                                                       
+| 109            | There exists another open invoice with this invoice number                                                                                                                
+| 110            | Costs: Invoice exchange rate does not match accruals                                                                                                                      
+| 111            | Reference update: BL NUMBER found in Cargowise. Job card updated with the matching reference                                                                                 
+| 112            | Reference mismatch: BL NUMBER does not match job REF in Cargowise                                                                                                            
+| 113            | Reference mismatch: BL NUMBER is associated with Shipment SHIPMENT_REF that is linked to an existing Consol (CONSOL_REF) in Cargowise                                                     
+| 114            | Difference between the accrued local costs and the updated local costs exceeds the tolerated exchange rate threshold of X CUR or Y% per Job                              
+| 115            | Commercial Invoice: Importer Name Missing                                                                                                                                 
+| 116            | Commercial Invoice: Importer Address Missing                                                                                                                              
+| 117            | Commercial Invoice: Supplier Name Missing                                                                                                                                 
+| 118            | Commercial Invoice: Supplier Address Missing                                                                                                                              
+| 119            | Master Bill of Lading: Sending Agent Name Missing                                                                                                                         
+| 120            | Master Bill of Lading: Sending Agent Address Missing                                                                                                                      
+| 121            | Master Bill of Lading: Receiving Agent Name Missing                                                                                                                       
+| 122            | Master Bill of Lading: Receiving Agent Address Missing                                                                                                                    
+| 123            | Master Bill of Lading: Carrier Missing                                                                                                                                    
+| 124            | House Bill of Lading: Shipper Name Missing                                                                                                                                
+| 125            | House Bill of Lading: Shipper Address Missing                                                                                                                             
+| 126            | House Bill of Lading: Consignee Name Missing                                                                                                                              
+| 127            | House Bill of Lading: Consignee Address Missing                                                                                                                           
+| 128            | Bill of Lading: Missing Bill of Lading Number                                                                                                                             
+| 129            | Failed to update accruals to avoid rollup up of costs with same charge code                                                                                               
+| 130            | Commercial Invoice: Total, QTY and PPU do not match for some of the line items. Review the highlighted line items before posting                                          |
+| -1             | Custom exception                                                                                                                                                          |
 
 ### List of PaymentTerm values
 
