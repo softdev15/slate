@@ -511,7 +511,7 @@ The following objects can be used as parameters in the *include* query
           "coLoader": string,
           "coLoaderMblNumber": string,
           "loadPortEtd": string,
-          "dispatchPortEta": string,
+          "dischargePortEta": string,
           "notify": [
             {
               "id": integer,
@@ -760,7 +760,7 @@ The following objects can be used as parameters in the *include* query
 | files.billOfLading.coLoader             | The co loader                                                                                                                                       |
 | files.billOfLading.coLoaderMblNumber    | The co loader's MBL number                                                                                                                          |
 | files.billOfLading.loadPortEtd          | The load port's ETD                                                                                                                                 |
-| files.billOfLading.dispatchPortEta      | The dispatch port's ETA                                                                                                                             |
+| files.billOfLading.dischargePortEta      | The dispatch port's ETA                                                                                                                             |
 
 ### *Files/billOfLading/Container* attributes
 
@@ -1134,7 +1134,7 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
           "coLoader": "",
           "coLoaderMblNumber": "",
           "loadPortEtd": "2020-05-07T15:24:47.338Z",
-          "dispatchPortEta": "2020-05-07T15:24:47.338Z",
+          "dischargePortEta": "2020-05-07T15:24:47.338Z",
           "notify": [
             {
               "id": 211,
