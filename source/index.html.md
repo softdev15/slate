@@ -62,6 +62,9 @@ All API methods require you to be authenticated. This is done using an access to
 
 This access token should be sent in the header of all API requests you make. If your access token was `abc123token`, you would send it as the HTTP header `Authorization: Bearer abc123token`.
 
+Alternatively, we also support the token in the URL as a GET parameter. In that case the URL looks like `https://public.shipamax-api.com/api/v2/someEndpoint?token=abc123token`.
+**However, this is not a recommended authentication method and we'll disable this option in near future**.
+
 ## Long-term support and versioning
 
 Shipamax aims to be a partner to our customers, this means continuously improving everything including our APIs. However, this does mean that API versions will eventually be discontinued. We aim to honour the expected End-Of-Life, but in case this is not possible we will work with our customers to find a solution.
