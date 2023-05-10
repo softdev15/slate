@@ -2646,7 +2646,6 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 12             | Error: Request to TMS failed.                                                                                                                                             
 | 13             | Costs: Multiple possible accrual combinations                                                                                                                             
 | 14             | Error: Missing Issuer Code                                                                                                                                                
-| 15             | Costs: One or more costs is apportioned to a consol                                                                                                                       
 | 16             | Demo: Document passed validation                                                                                                                                          
 | 17             | Business Validation Failure: Invoice date is in the future                                                                                                                
 | 18             | Error: Job not found                                                                                                                                                      
@@ -2668,7 +2667,6 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 34             | Costs: Net subtotals do not sum to invoice total                                                                                                                          
 | 35             | Costs: Multiple possible accrual combinations                                                                                                                             
 | 36             | Costs: Failed to match a set of accruals for highlighted sub total                                                                                                        
-| 37             | Business Validation Failure: Job not in any clusters                                                                                                                      
 | 38             | Bill of Lading: Missing consignor/consignee                                                                                                                               
 | 39             | Bill of Lading: Missing origin                                                                                                                                            
 | 40             | Bill of Lading: Missing destination                                                                                                                                       
@@ -2741,7 +2739,6 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 107            | Multiple HBLs. This pack can’t be used to create a Brokerage Job. Recategorise the extra HBL(s) or split the pack                                                         
 | 108            | Multiple HBLs in zip file. Grouping was not created                                                                                                                       
 | 109            | There exists another open invoice with this invoice number                                                                                                                
-| 110            | Costs: Invoice exchange rate does not match accruals                                                                                                                      
 | 111            | Reference update: BL NUMBER found in Cargowise. Job card updated with the matching reference                                                                                 
 | 112            | Reference mismatch: BL NUMBER does not match job REF in Cargowise                                                                                                            
 | 113            | Reference mismatch: BL NUMBER is associated with Shipment SHIPMENT_REF that is linked to an existing Consol (CONSOL_REF) in Cargowise                                                     
