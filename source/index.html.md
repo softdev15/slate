@@ -392,6 +392,52 @@ During the onboarding process you can provide this shared token.
 
 # Reference
 
+## FileGroups Search Ids Endpoint
+
+| Endpoint                    | Verb | Description                                                 |
+| --------------------------- | ---- | ----------------------------------------------------------- |
+| /FileGroups/searchIds       | GET  | Get File group IDs                                          |
+
+Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/api/v2/FileGroups/searchIds`
+
+### URL Parameter Definitions
+
+| Parameter                               |  Description                                                      |
+| --------------------------------------- | ----------------------------------------------------------------- |
+| filter                                  | *Required* Filter used to search group ids                        |
+| limit                                   | Limit number of ids returned. Max/Default 200                     |
+| skip                                    | Amount of rows to skip/offset. Default 0                          |
+
+### Available objects
+The following objects can be used as parameters in the *filter*
+
+| Value                                   |  Description                                                       |
+| --------------------------------------- | ------------------------------------------------------------------ |
+| mailboxTypeId                           | *Required* The Mailbox Validation Type Id                          |
+| packStatusId                            | *Required* The Group/Pack status                                   |
+| receiveDateFrom                         | The start range for receive date                                   |
+| receiveDateTo                           | The end range for receive date                                     |
+| postedDateFrom                          | The start range for last posted date                               |
+| postedDateTo                            | The end range for last posted date                                 |
+
+
+> Example of search ids request - The filter object is an encoded JSON string
+> You can achieve this on JS like so:
+    let filter = {
+      mailboxTypeId: 2,
+      packStatusId: 3,
+      postedDateFrom: '2016-06-01 11:00',
+      postedDateTo: '2017-06-01 23:00',
+    }
+    filter = encodeURIComponent(JSON.stringify(filter))
+> /FileGroups/searchIds?filter=%7B%22mailboxTypeId%22%3A2%2C%22packStatusId%22%3A3%2C%22postedDateFrom%22%3A%222016-06-01%2011%3A00%22%2C%22postedDateTo%22%3A%222017-06-01%2023%3A00%22%7D
+
+> An array of groupIds will be returned:
+
+```json
+​[5021, 5022, 5054]
+```
+
 ## FileGroups Endpoint
 
 Shipamax groups files that are associated with each other into a FileGroup. For example, you may have received a Master BL with associated House BLs and these will be contained within the same FileGroup.
