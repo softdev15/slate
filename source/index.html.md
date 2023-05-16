@@ -420,10 +420,22 @@ The following objects can be used as parameters in the *filter*
 | postedDateFrom                          | The start range for last posted date                               |
 | postedDateTo                            | The end range for last posted date                                 |
 
+
+> Example of search ids request - The filter object is an encoded JSON string
+> You can achieve this on JS like so:
+    let filter = {
+      mailboxTypeId: 2,
+      packStatusId: 3,
+      postedDateFrom: '2016-06-01 11:00',
+      postedDateTo: '2017-06-01 23:00',
+    }
+    filter = encodeURIComponent(JSON.stringify(filter))
+> /FileGroups/searchIds?filter=%7B%22mailboxTypeId%22%3A2%2C%22packStatusId%22%3A3%2C%22postedDateFrom%22%3A%222016-06-01%2011%3A00%22%2C%22postedDateTo%22%3A%222017-06-01%2023%3A00%22%7D
+
 > An array of groupIds will be returned:
 
 ```json
-​["5021", "5022", "etc."]
+​[5021, 5022, 5054]
 ```
 
 ## FileGroups Endpoint
