@@ -2457,25 +2457,103 @@ Similarly, multiple shipments can be specified by repeating `<SubShipment>` XML 
 
 ### Product code data:
 
-There are two formats you can send product data in; verbose and native.
+There are two formats you can use to send product code updates: Legacy (`XmlInterchange`) or Native (`UniversalInterchange`).
 
-#### Verbose
+#### **Native**
+This uses the `<UniversalInterchange>` xml format. The XML tag `<Product>` wraps all the relevant data.
+The following elements will be processed form the XML:
 
-This is a `<XmlInterchange>` request.
-XML tag `<Products>` wraps up all the product code related data.
+| Section                       | Elements                                                    |
+| ------------------------------| ----------------------------------------------------------- |
+| OrgSupplierPart               | PartNum, StockKeepingUnit, Desc                             |
+| cusClassPartPivotCollection   | Tariff                                                    |
+| cusClassification             |  LookupCode, OrgHeader, Relationship                      |
+  
 
-**Following are the important tags we expect in the request:**
+> Product code update example with Native xml (`UniversalInterchange`) format:
+    
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<UniversalInterchange xmlns="http://www.cargowise.com/Schemas/Universal/2011/11">
+    <Header>
+        <SenderID>TESTSENDER</SenderID>
+        <RecipientID>EVT-SHIPAMAX</RecipientID>
+    </Header>
 
-**Product-**
-  *ProductCode*,
-  *ProductDescription*,
-  *StockUnit*
-
-**RelatedOrganization-**
-  *OwnerCode*,
-  *RelationshipType*
-
-> Example xml format when sending product code data:
+    <Body>
+        <Native version="2.0" xmlns="http://www.cargowise.com/Schemas/Native/2011/11">
+            <Header>
+                <OwnerCode>TESTCODE</OwnerCode>
+                <EnableCodeMapping>true</EnableCodeMapping>
+                <nv:DataContext xmlns="http://www.cargowise.com/Schemas/Universal/2011/11" xmlns:nv="http://www.cargowise.com/Schemas/Native/2011/11">
+                    <DataSourceCollection>
+                        <DataSource>
+                            <Type>Product</Type>
+                            <Key>TESTCODE</Key>
+                        </DataSource>
+                    </DataSourceCollection>
+                    <Company>
+                        <Code>TST</Code>
+                        <Country>
+                            <Code>US</Code>
+                            <Name>United States</Name>
+                        </Country>
+                        <Name>Shipamax ltd test company</Name>
+                    </Company>
+                    <EnterpriseID>ENT</EnterpriseID>
+                    <EventType>
+                        <Code>ADD</Code>
+                        <Description>Added a record to the system</Description>
+                    </EventType>
+                    <EventBranch>
+                        <Code>BRN</Code>
+                        <Name>Shipamax ltd Brunch</Name>
+                    </EventBranch>
+                </nv:DataContext>
+            </Header>
+            <Body>
+                <Product version="2.0">
+                    <OrgSupplierPart Action="MERGE">
+                        <PartNum>ProductCode</PartNum>
+                        <StockKeepingUnit>NO</StockKeepingUnit>
+                        <Desc>3732 - CONNECTOR ANCHORAGE 1/2" CLEAR CHROMATE</Desc>
+                        <CusClassPartPivotCollection>
+                            <CusClassPartPivot Action="MERGE">
+                                <TariffNum>7326908688</TariffNum>
+                                <CusClassificationCollection>
+                                    <CusClassification Action="MERGE">
+                                        <CountryCode>AU</CountryCode>
+                                        <LookupCode>84148020-62</LookupCode>
+                                    </CusClassification>
+                                    <CountryOfOrigin TableName="RefDbEntUS_USCCountry" />
+                                </CusClassificationCollection>
+                            </CusClassPartPivot>
+                        </CusClassPartPivotCollection>
+                        <OrgPartRelationCollection>
+                            <OrgPartRelation Action="MERGE">
+                                <Relationship>OWN</Relationship>
+                                <OrgHeader>
+                                    <Code>LJBILM</Code>
+                                </OrgHeader>
+                            </OrgPartRelation>
+                        </OrgPartRelationCollection>
+                    </OrgSupplierPart>
+                </Product>
+            </Body>
+        </Native>
+    </Body>
+</UniversalInterchange>
+```
+ #### **Legacy**
+This uses the `<XmlInterchange>` format. The XML tag `<Products>` wraps all the relevant data.
+The following elements are processed from the XML:
+    
+| Section                       | Elements                                                    |
+| ------------------------------| ----------------------------------------------------------- |
+| Product                       | ProductCode, ProductDescription, StockUnit                  |
+| RelatedOrganization           |  OwnerCode, RelationshipType                               |
+    
+> Product code update example with Legacy xml (`XmlInterchange`) format:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -2608,64 +2686,6 @@ you can also take the message encoded within the SOAP message and post it as a r
         </s:Header>
         <s:Body/>
       </s:Envelope>
-```
-
-#### Native
-
-This is a `<Native>` request.
-XML tag `<Product>` wraps up all the product code related data.
-
-**Following are the important tags we expect in the request:**
-
-**Product-**
-  **OrgSupplierPart-**
-    *PartNum*,
-    *Desc*,
-    *StockKeepingUnit*
-  **OrgPartRelationCollection-**
-    **OrgPartRelation-**
-      *Relationship*,
-      **OrgHeader**
-        *Code*
-
-> Example xml format when sending product code data:
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<UniversalInterchange xmlns="http://www.cargowise.com/Schemas/Universal/2011/11" version="1.1">
-    <Header>
-        <SenderID>TST</SenderID>
-        <RecipientID>test</RecipientID>
-    </Header>
-    <Body>
-        <Native xmlns="http://www.cargowise.com/Schemas/Native/2011/11" version="2.0">
-            <Body>
-                <Product version="2.0">
-                    <OrgSupplierPart Action="MERGE">
-                        <PartNum>TESTCODE</PartNum>
-                        <StockKeepingUnit>PCE</StockKeepingUnit>
-                        <Desc>TEST DESCRIPTION</Desc>
-                        <CusClassPartPivotCollection>
-                          <CusClassPartPivot Action="MERGE">
-                            <CusClassification>
-                              <LookupCode>12345</LookupCode>
-                            </CusClassification>
-                          </CusClassPartPivot>
-                        </CusClassPartPivotCollection>
-                        <OrgPartRelationCollection>
-                            <OrgPartRelation Action="MERGE">
-                                <Relationship>OWN</Relationship>
-                                <OrgHeader>
-                                    <Code>TESTORGCODE</Code>
-                                </OrgHeader>
-                            </OrgPartRelation>
-                        </OrgPartRelationCollection>
-                    </OrgSupplierPart>
-                </Product>
-            </Body>
-        </Native>
-    </Body>
-</UniversalInterchange>
 ```
 
 ## Lists of codes for fields
