@@ -2466,8 +2466,8 @@ The following elements will be processed form the XML:
 | Section                       | Elements                                                    |
 | ------------------------------| ----------------------------------------------------------- |
 | OrgSupplierPart               | PartNum, StockKeepingUnit, Desc                             |
-| cusClassPartPivotCollection   | Tariff                                                    |
-| cusClassification             |  LookupCode, OrgHeader, Relationship                      |
+| CusClassPartPivotCollection   | Tariff                                                    |
+| CusClassification             |  LookupCode, OrgHeader, Relationship                      |
   
 
 > Product code update example with Native xml (`UniversalInterchange`) format:
