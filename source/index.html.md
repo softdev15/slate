@@ -700,6 +700,7 @@ The following objects can be used as parameters in the *include* query
               "itemUnit": string,
               "itemQtyTotal": integer,
               "id": integer,
+              "packingListNumber": string,
               "lineItem": [
                   {
                     "packingListId": integer,
@@ -976,6 +977,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
 | files.packingList.itemUnit              | The packing lists item unit. |
 | files.packingList.itemQtyTotal          | The packing lists total item quanity. |
 | files.packingList.id                    | The internal ID of the packing list. |
+| files.packingList.packingListNumber     | The packing list number. |
 
 #### Using the lineItem attributes to determine the product code and description
 The attributes extracted from an invoice for each line item (eg. Product code, description, HS Code, Origin and Unit) are available in the attributes `productCode`, `description`, `hsCode`, `originCountryCode`, `unitType`.
@@ -1346,6 +1348,7 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
           "itemUnit": "BOT",
           "itemQtyTotal": 5,
           "id": 1,
+          "packingListNumber": "PKL123",
           "lineItem": [
             {
               "description": "ITEM DESCRIPTION",
