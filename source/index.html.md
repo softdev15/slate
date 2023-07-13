@@ -705,6 +705,7 @@ The following objects can be used as parameters in the *include* query
                   {
                     "packingListId": integer,
                     "description": string,
+                    "marks": string,
                     "itemQty": string,
                     "packageQty": string,
                     "netWeight": integer,
@@ -988,6 +989,7 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
 | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------  |
 | files.packingList.lineItem.packingListId   | The internal ID of the line items packing list. |
 | files.packingList.lineItem.description     | The description of the line item. |
+| files.packingList.lineItem.marks           | The line item marks. |
 | files.packingList.lineItem.itemQty         | The line items total item quantity. |
 | files.packingList.lineItem.packageQty      | The line items total package quantity. |
 | files.packingList.lineItem.netWeight       | The line items net weight. |
@@ -1352,6 +1354,7 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
           "lineItem": [
             {
               "description": "ITEM DESCRIPTION",
+              "marks": "",
               "itemQty": 10,
               "packageQty": 24.95,
               "netWeight": 199.6,
