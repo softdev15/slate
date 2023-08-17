@@ -12,7 +12,7 @@ code_clipboard: true
 # Getting started
 
 
-The Shipmax API enables developers to integrate Shipamax's data extraction and process automation modules into their systems.
+The Shipamax API enables developers to integrate Shipamax's data extraction and process automation modules into their systems.
 
 Currently the API supports:
 
@@ -61,6 +61,9 @@ Unless specified otherwise, requests with a body attached should be sent with a 
 All API methods require you to be authenticated. This is done using an access token which will be given to you by the Shipamax team.
 
 This access token should be sent in the header of all API requests you make. If your access token was `abc123token`, you would send it as the HTTP header `Authorization: Bearer abc123token`.
+
+Alternatively, we also support the token in the URL as a GET parameter. In that case the URL looks like `https://public.shipamax-api.com/api/v2/someEndpoint?token=abc123token`.
+**However, this is not a recommended authentication method and we'll disable this option in near future**.
 
 ## Long-term support and versioning
 
@@ -130,7 +133,7 @@ For more details of exception codes, check our [list of exceptions](#list-of-exc
   "eventName": "ValidationComplete",
   "payload": {
      "fileGroupId": 13704,
-     "success": true,
+     "success": true
    }
 }
 
@@ -210,7 +213,7 @@ Rather than attempt to guess all of the possible things that a customer might fi
     "purchaseOrders": ["ABC12345"],
     "currency": "USD",
     "invoiceDate": "2021-10-08",
-    "fileGroupId": 13704,
+    "fileGroupId": 13704
   }
 }
 ```
@@ -235,7 +238,7 @@ Rather than attempt to guess all of the possible things that a customer might fi
             "taxAmount": 30,
             "localAmount": 200,
             "exchangeRate": 0.75,
-            "chargeCode": "FRT",
+            "chargeCode": "FRT"
           }
         ]
       },
@@ -251,7 +254,7 @@ Rather than attempt to guess all of the possible things that a customer might fi
             "taxAmount": 15,
             "localAmount": 100,
             "exchangeRate": 0.75,
-            "chargeCode": "DOC",
+            "chargeCode": "DOC"
           },
           {
             "id": "90113",
@@ -260,7 +263,7 @@ Rather than attempt to guess all of the possible things that a customer might fi
             "taxAmount": 0,
             "localAmount": 123,
             "exchangeRate": 1,
-            "chargeCode": "FRT",
+            "chargeCode": "FRT"
           }
         ]
       },
@@ -277,7 +280,7 @@ Rather than attempt to guess all of the possible things that a customer might fi
             "taxAmount": 0,
             "localAmount": 133.33,
             "exchangeRate": 0.75,
-            "chargeCode": "DDOC",
+            "chargeCode": "DDOC"
           }
         ]
       }
@@ -320,6 +323,7 @@ We expect the exchange rate to be sent to us in the following format: **exchange
     "taxTotal": 30,
     "currency": "USD",
     "localTotal": 266.66,
+    "fileId": 1820,
     "fileGroupId": 13704,
     "accruals": [
       { "id": "90111", "netAmount": 150, "taxAmount": 30, "localAmount": 200, "exchangeRate": 0.75, "chargeCode": "FRT" },
@@ -352,6 +356,7 @@ For each accrual, the `id` matches the `id` of an accrual previously fetched via
     "taxTotal": 30,
     "currency": "USD",
     "localTotal": 266.66,
+    "fileId": 1820,
     "fileGroupId": 13704,
     "costs": [
       { "netAmount": 150, "taxAmount": 30, "taxCode": "VAT", "glCode": "3905.00.00", "description": "Equipment" },
@@ -387,6 +392,52 @@ During the onboarding process you can provide this shared token.
 
 # Reference
 
+## FileGroups Search Ids Endpoint
+
+| Endpoint                    | Verb | Description                                                 |
+| --------------------------- | ---- | ----------------------------------------------------------- |
+| /FileGroups/searchIds       | GET  | Get File group IDs                                          |
+
+Get a FileGroup by making a `GET` request to `https://public.shipamax-api.com/api/v2/FileGroups/searchIds`
+
+### URL Parameter Definitions
+
+| Parameter                               |  Description                                                      |
+| --------------------------------------- | ----------------------------------------------------------------- |
+| filter                                  | *Required* Filter used to search group ids                        |
+| limit                                   | Limit number of ids returned. Max/Default 200                     |
+| skip                                    | Amount of rows to skip/offset. Default 0                          |
+
+### Available objects
+The following objects can be used as parameters in the *filter*
+
+| Value                                   |  Description                                                       |
+| --------------------------------------- | ------------------------------------------------------------------ |
+| mailboxTypeId                           | *Required* The Mailbox Validation Type Id                          |
+| packStatusId                            | *Required* The Group/Pack status                                   |
+| receiveDateFrom                         | The start range for receive date                                   |
+| receiveDateTo                           | The end range for receive date                                     |
+| postedDateFrom                          | The start range for last posted date                               |
+| postedDateTo                            | The end range for last posted date                                 |
+
+
+> Example of search ids request - The filter object is an encoded JSON string
+> You can achieve this on JS like so:
+    let filter = {
+      mailboxTypeId: 2,
+      packStatusId: 3,
+      postedDateFrom: '2016-06-01 11:00',
+      postedDateTo: '2017-06-01 23:00',
+    }
+    filter = encodeURIComponent(JSON.stringify(filter))
+> /FileGroups/searchIds?filter=%7B%22mailboxTypeId%22%3A2%2C%22packStatusId%22%3A3%2C%22postedDateFrom%22%3A%222016-06-01%2011%3A00%22%2C%22postedDateTo%22%3A%222017-06-01%2023%3A00%22%7D
+
+> An array of groupIds will be returned:
+
+```json
+​[5021, 5022, 5054]
+```
+
 ## FileGroups Endpoint
 
 Shipamax groups files that are associated with each other into a FileGroup. For example, you may have received a Master BL with associated House BLs and these will be contained within the same FileGroup.
@@ -420,8 +471,8 @@ The following objects can be used as parameters in the *include* query
 | files/billOfLading/packline             | List of packing lines associated with the Bill of Lading           |
 | files/commercialInvoice                 | Details of the group's Commercial Invoices                         |
 | files/commercialInvoice/lineItem        | List of line items associated with the Commercial Invoice          |
-
-
+| files/packingList                       | Details of the group's Packing Lists                               |
+| files/packingList/lineItem              | List of line items associated with the Packing List                |
 
 > The GET FileGroup when requested with all its inner objects returns JSON structured like this:
 
@@ -441,7 +492,7 @@ The following objects can be used as parameters in the *include* query
         }
       ]
     },
-    "created": "[ISO8601 timestamp]",
+    "created": "[ISO8601 timestamp]"
   },
   "files": [
     {
@@ -450,7 +501,7 @@ The following objects can be used as parameters in the *include* query
       "created": "[ISO8601 timestamp]",
       "fileType": integer,
       "parent": {
-        "fileId": integer,
+        "fileId": integer
       },
       "billOfLading": [
         {
@@ -500,6 +551,16 @@ The following objects can be used as parameters in the *include* query
           "containerMode": ContainerMode,
           "shipmentType": ShipmentType,
           "consolType": ConsolType,
+          "firstArrivalPort": string,
+          "firstArrivalPortUnlocode": string,
+          "firstArrivalPortEta": string,
+          "ownersReference": string,
+          "originEtd": string,
+          "destinationEta": string,
+          "coLoader": string,
+          "coLoaderMblNumber": string,
+          "loadPortEtd": string,
+          "dischargePortEta": string,
           "notify": [
             {
               "id": integer,
@@ -549,7 +610,7 @@ The following objects can be used as parameters in the *include* query
             }
           ]
         }
-      ],
+      ]
     },
     {
       "id": integer,
@@ -596,22 +657,79 @@ The following objects can be used as parameters in the *include* query
                       "matchedDescription": string,
                       "matchedOriginCountryCode": string,
                       "matchedUnitType": string,
+                      "matchedClassificationCode": string,
                       "id": integer,
                       "orderIndex": integer,
-                      "descriptionCell": string,
+                      "descriptionCell": string
                   }
               ]
           }
       ]
-    }
+    },
+    {
+      "id": integer,
+      "filename": string,
+      "created": "[ISO8601 timestamp]",
+      "fileType": 8:integer,
+      "packingList": [
+          {
+              "documentId": string,
+              "supplier": string,
+              "supplierCode": string,
+              "supplierOrgId": integer,
+              "supplierOrgNameId": integer,
+              "supplierOrgName": string,
+              "supplierOrgAddressId": integer,
+              "supplierOrgAddress": string,
+              "importer": string,
+              "importerCode": string,
+              "importerOrgId": integer,
+              "importerOrgNameId": integer,
+              "importerOrgName": string,
+              "importerOrgAddressId": integer,
+              "importerOrgAddress": string,
+              "invoiceNumber": string,
+              "invoiceDate": string,
+              "weightGrossTotal": integer,
+              "weightNetTotal": integer,
+              "volumeTotal": integer,
+              "weightUnit": string,
+              "volumeUnit": string,
+              "packageUnit": string,
+              "packageQuantityTotal": integer,
+              "itemUnit": string,
+              "itemQtyTotal": integer,
+              "id": integer,
+              "packingListNumber": string,
+              "lineItem": [
+                  {
+                    "packingListId": integer,
+                    "description": string,
+                    "marks": string,
+                    "itemQty": string,
+                    "packageQty": string,
+                    "netWeight": integer,
+                    "grossWeight": integer,
+                    "volume": string,
+                    "productCode": string,
+                    "hsCode": string,
+                    "id": integer,
+                    "orderIndex": string,
+                    "descriptionCell": string,
+                    "fullText": string,
+                  }
+              ]
+          }
+      ]
+    },
   ]
 }
 ```
 
 ### *FileGroup* root attributes
-| Attribute                               |  Description                                                                                                                      |
-| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| status                                  | Status of the group in the shipamax flow. Possible values can be seen in our [list of group status](#list-of-group-status)        |
+| Attribute                               | Description                                                                                                                |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------|
+| status                                  | Status of the group in the Shipamax flow. Possible values can be seen in our [list of group status](#list-of-group-status) |
 
 ### *ValidationResults* attributes
 
@@ -635,53 +753,65 @@ The following objects can be used as parameters in the *include* query
 
 ### *Files/billOfLading* attributes
 
-| Attribute                               |  Description                                                                                                                      |
-| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| files.billOfLading                      | An array of bills of lading extracted from this file, if any.                                                                     |
-| files.billOfLading.billOfLadingNo       | The Bill of Lading number as extracted from the document.                                                                         |
-| files.billOfLading.bookingNo            | The Booking reference extracted from the bill of lading. This is the reference provided by Issuer to the Shipper (also known as Carrier Reference).   |
-| files.billOfLading.exportReference      | The Export Reference as extracted from the document. This is the reference given by the Shipper to the Issuer                     |
-| files.billOfLading.scac                 | This is the SCAC code for the issuer of the Bill of Lading                                                                        |
-| files.billOfLading.isRated              | If isRated is True, then the Bill of Lading contains pricing for the transport of the goods                                       |
-| files.billOfLading.isDraft              | If isDraft is True, then this Bills of Lading is a Draft version and not Final                                                    |
-| files.billOfLading.importerReference    | Importer Job Ref List                                                                                                             |
-| files.billOfLading.shipper              | The raw data extracted for the Shipper field from the bill of lading file                                                         |
-| files.billOfLading.shipperCode          | The code for the selected Shipper (as it appears in the Exception Manager UI, taken from your Organization data)                                                       |
-| files.billOfLading.shipperOrgId         | The internal ID of the selected Shipper                                                         |
-| files.billOfLading.shipperOrgNameId     | The internal ID of the selected name of the Shipper                                                        |
-| files.billOfLading.shipperOrgAddressId  | The internal ID of the selected address of the Shipper                                                            |
-| files.billOfLading.shipperOrgName       | The selected name of the Shipper                                                        |
-| files.billOfLading.shipperOrgAddress    | The selected address of the Shipper                                                            |
-| files.billOfLading.consignee            | The raw data extracted for the Consignee field from the bill of lading file                                                                                                                                     |
-| files.billOfLading.consigneeCode          | The code for the selected Consignee (as it appears in the Exception Manager UI, taken from your Organization data)                                                       |
-| files.billOfLading.consigneeOrgId         | The internal ID of the selected Consignee                                                         |
-| files.billOfLading.consigneeOrgNameId     | The internal ID of the selected name of the Consignee                                                        |
-| files.billOfLading.consigneeOrgAddressId  | The internal ID of the selected Address of the Consignee                                                            |
-| files.billOfLading.consigneeOrgName     | The selected name of the Consignee                                                        |
-| files.billOfLading.consigneeOrgAddress  | The selected Address of the Consignee                                                            |
-| files.billOfLading.carrier              | The raw data extracted for the Carrier field from the bill of lading file                                                                                                                                     |
-| files.billOfLading.carrierCode          | The code for the selected Carrier (as it appears in the Exception Manager UI, taken from your Organization data)                                                       |
-| files.billOfLading.carrierOrgId         | The internal ID of the selected Carrier                                                         |
-| files.billOfLading.carrierOrgNameId     | The internal ID of the selected name of the Carrier                                                        |
-| files.billOfLading.carrierOrgAddressId  | The internal ID of the selected Address of the Carrier                                                            |
-| files.billOfLading.vessel               | The name of the Vessel                                                                                                                                |
-| files.billOfLading.vesselIMO            | The IMO code matching the Vessel name                                                                                                                                  |
+| Attribute                               | Description                                                                                                                                         |
+| --------------------------------------- | -----------------------------------------------------------------------------------------------------------------------------------------------------|
+| files.billOfLading                      | An array of bills of lading extracted from this file, if any.                                                                                       |
+| files.billOfLading.billOfLadingNo       | The Bill of Lading number as extracted from the document.                                                                                           |
+| files.billOfLading.bookingNo            | The Booking reference extracted from the bill of lading. This is the reference provided by Issuer to the Shipper (also known as Carrier Reference). |
+| files.billOfLading.exportReference      | The Export Reference as extracted from the document. This is the reference given by the Shipper to the Issuer                                       |
+| files.billOfLading.scac                 | This is the SCAC code for the issuer of the Bill of Lading                                                                                          |
+| files.billOfLading.isRated              | If isRated is True, then the Bill of Lading contains pricing for the transport of the goods                                                         |
+| files.billOfLading.isDraft              | If isDraft is True, then this Bills of Lading is a Draft version and not Final                                                                      |
+| files.billOfLading.importerReference    | Importer Job Ref List                                                                                                                               |
+| files.billOfLading.shipper              | The raw data extracted for the Shipper field from the bill of lading file                                                                           |
+| files.billOfLading.shipperCode          | The code for the selected Shipper (as it appears in the Exception Manager UI, taken from your Organization data)                                    |
+| files.billOfLading.shipperOrgId         | The internal ID of the selected Shipper                                                                                                             |
+| files.billOfLading.shipperOrgNameId     | The internal ID of the selected name of the Shipper                                                                                                 |
+| files.billOfLading.shipperOrgAddressId  | The internal ID of the selected address of the Shipper                                                                                              |
+| files.billOfLading.shipperOrgName       | The selected name of the Shipper                                                                                                                    |
+| files.billOfLading.shipperOrgAddress    | The selected address of the Shipper                                                                                                                 |
+| files.billOfLading.consignee            | The raw data extracted for the Consignee field from the bill of lading file                                                                         |
+| files.billOfLading.consigneeCode          | The code for the selected Consignee (as it appears in the Exception Manager UI, taken from your Organization data)                                  |
+| files.billOfLading.consigneeOrgId         | The internal ID of the selected Consignee                                                                                                           |
+| files.billOfLading.consigneeOrgNameId     | The internal ID of the selected name of the Consignee                                                                                               |
+| files.billOfLading.consigneeOrgAddressId  | The internal ID of the selected Address of the Consignee                                                                                            |
+| files.billOfLading.consigneeOrgName     | The selected name of the Consignee                                                                                                                  |
+| files.billOfLading.consigneeOrgAddress  | The selected Address of the Consignee                                                                                                               |
+| files.billOfLading.carrier              | The raw data extracted for the Carrier field from the bill of lading file                                                                           |
+| files.billOfLading.carrierCode          | The code for the selected Carrier (as it appears in the Exception Manager UI, taken from your Organization data)                                    |
+| files.billOfLading.carrierOrgId         | The internal ID of the selected Carrier                                                                                                             |
+| files.billOfLading.carrierOrgNameId     | The internal ID of the selected name of the Carrier                                                                                                 |
+| files.billOfLading.carrierOrgAddressId  | The internal ID of the selected Address of the Carrier                                                                                              |
+| files.billOfLading.vessel               | The name of the Vessel                                                                                                                              |
+| files.billOfLading.vesselIMO            | The IMO code matching the Vessel name                                                                                                               |
 | files.billOfLading.voyageNumber         | The number of the Voyage                                                                                                                            |
-| files.billOfLading.loadPort             | The name of the Loading Port                                                                                                                                  |
-| files.billOfLading.loadPortUnlocode     | The UNL code matching the Load Port name                                                                                                                                 |
-| files.billOfLading.dischargePort        | The name of the Discharge Port                                                                                                                                 |
-| files.billOfLading.dischargePortUnlocode| The UNL code matching the Discharge Port name                                                                                                                                   |
-| files.billOfLading.origin               | The Origin Port                                                                                                                                   |
-| files.billOfLading.originUnlocode       | The UNL code matching the Origin name                                                                                                                                   |
-| files.billOfLading.destination          | The Destination Port                                                                                                                                   |
-| files.billOfLading.destinationUnlocode  | The UNL code matching the Destination name                                                                                                                                   |
-| files.billOfLading.shippedOnBoardDate   | The date the cargo has been loaded on the vessel (SOB date)                                                                                                                                 |
-| files.billOfLading.paymentTerms         | The paymebt terms. See [List of Payment Terms] (#List-of-PaymentTerm-values) for possible values                                                                                                                               |
-| files.billOfLading.category             | Type of Bill of lading ("True" = Master)                                                                                                                                  |
-| files.billOfLading.releaseType          | The Release Type for this shipment. See [List of Release Types](#List-of-ReleaseType-values) for possible values                                                                                                                               |
-| files.billOfLading.goodsDescription     | Textual description of the goods                                                                                                                                 |
-| files.billOfLading.transportMode        | The transport type of this shipment. See [List of Transport Modes](#List-of-TransportMode-values) for possible values                                                                                                                                  |
-| files.billOfLading.containerMode        | The Container's mode. See [List of Container Modes](#List-of-ContainerMode-values) for possible values                                                                                                                                  |
+| files.billOfLading.loadPort             | The name of the Loading Port                                                                                                                        |
+| files.billOfLading.loadPortUnlocode     | The UNL code matching the Load Port name                                                                                                            |
+| files.billOfLading.dischargePort        | The name of the Discharge Port                                                                                                                      |
+| files.billOfLading.dischargePortUnlocode| The UNL code matching the Discharge Port name                                                                                                       |
+| files.billOfLading.origin               | The Origin Port                                                                                                                                     |
+| files.billOfLading.originUnlocode       | The UNL code matching the Origin name                                                                                                               |
+| files.billOfLading.destination          | The Destination Port                                                                                                                                |
+| files.billOfLading.destinationUnlocode  | The UNL code matching the Destination name                                                                                                          |
+| files.billOfLading.shippedOnBoardDate   | The date the cargo has been loaded on the vessel (SOB date)                                                                                         |
+| files.billOfLading.paymentTerms         | The payment terms. See [List of Payment Terms] (#List-of-PaymentTerm-values) for possible values                                                    |
+| files.billOfLading.category             | Type of Bill of lading ("True" = Master)                                                                                                            |
+| files.billOfLading.releaseType          | The Release Type for this shipment. See [List of Release Types](#List-of-ReleaseType-values) for possible values                                    |
+| files.billOfLading.goodsDescription     | Textual description of the goods                                                                                                                    |
+| files.billOfLading.transportMode        | The transport type of this shipment. See [List of Transport Modes](#List-of-TransportMode-values) for possible values                               |
+| files.billOfLading.containerMode        | The Container's mode. See [List of Container Modes](#List-of-ContainerMode-values) for possible values                                              |
+| files.billOfLading.shipmentType         | The shipment type                                                                                                                                   |
+| files.billOfLading.consolType           | The consol type                                                                                                                                     |
+| files.billOfLading.firstArrivalPort     | The first arrival port                                                                                                                              |
+| files.billOfLading.firstArrivalPortUnlocode | The first arrival port's unlocode                                                                                                               |
+| files.billOfLading.firstArrivalPortEta  | The first arrival port's ETA                                                                                                                        |
+| files.billOfLading.ownersReference      | The owners reference                                                                                                                                |
+| files.billOfLading.originEtd            | The origin ETD                                                                                                                                      |
+| files.billOfLading.destinationEta       | The destination ETA                                                                                                                                 |
+| files.billOfLading.coLoader             | The co loader                                                                                                                                       |
+| files.billOfLading.coLoaderMblNumber    | The co loader's MBL number                                                                                                                          |
+| files.billOfLading.loadPortEtd          | The load port's ETD                                                                                                                                 |
+| files.billOfLading.dischargePortEta      | The dispatch port's ETA                                                                                                                             |
 
 ### *Files/billOfLading/Container* attributes
 
@@ -775,6 +905,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
 | files.commercialInvoice.lineItem.matchedDescription            | The description taken from your product data, if there was a match.     |
 | files.commercialInvoice.lineItem.matchedOriginCountryCode            |  The origin country of the unit taken from your product data, if there was a match.           |
 | files.commercialInvoice.lineItem.matchedUnitType            |  The type of the unit taken from your product data, if there was a match.            |
+| files.commercialInvoice.lineItem.matchedClassificationCode            |  The classification / tariff lookup code, if there was a match.            |
 | files.commercialInvoice.lineItem.orderIndex            |  The index of the line, representing the order of it within the commercial invoice..            |
 | files.commercialInvoice.lineItem.descriptionCell            |  The entire cell of the line item description.          |
 
@@ -816,6 +947,59 @@ To determine if a line item was matched, use the productCodeMatched attribute:
 | files.email.subject          | The subject of this email.        |
 | files.email.unqId            | The internal unique ID of this email.                 |
 
+### *Files/packingList* attributes
+
+| Attribute                               |  Description                                                                                                                      |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| files.packingList                       | An array of packing invoices extracted from this file, if any. |
+| files.packingList.documentId            | The internal ID of the packing list document. |
+| files.packingList.supplier              | The raw data extracted for the supplier field from the packing list file. |
+| files.packingList.supplierCode          | The code for the selected supplier (as it appears in the Exception Manager UI) taken from your Organization data. |
+| files.packingList.supplierOrgId         | The internal ID of the selected supplier. |
+| files.packingList.supplierOrgNameId     | The internal ID of the selected name of the supplier. |
+| files.packingList.supplierOrgName       | The selected name of the supplier. |
+| files.packingList.supplierOrgAddressId  | The internal ID of the selected Address of the supplier |
+| files.packingList.supplierOrgAddress    | The selected Address of the supplier. |
+| files.packingList.importer              | The raw data extracted for the importer field from the packing list file. |
+| files.packingList.importerCode          | The code for the selected importer (as it appears in the Exception Manager UI), taken from your Organization data. |
+| files.packingList.importerOrgId         | The internal ID of the selected importer. |
+| files.packingList.importerOrgNameId     | The internal ID of the selected name of the importer. |
+| files.packingList.importerOrgName       | The selected name of the importer. |
+| files.packingList.importerOrgAddressId  | The internal ID of the selected Address of the importer. |
+| files.packingList.importerOrgAddress    | The selected Address of the importer. |
+| files.packingList.invoiceNumber         | The packing list invoice number. |
+| files.packingList.invoiceDate           | The packing list invoice date. |
+| files.packingList.weightGrossTotal      | The packing lists total gross weight. |
+| files.packingList.weightNetTotal        | The packing lists total net weight. |
+| files.packingList.volumeTotal           | The packing lists total volume. |
+| files.packingList.weightUnit            | The packing lists weight unit. |
+| files.packingList.volumeUnit            | The packing lists volume unit. |
+| files.packingList.packageUnit           | The packing lists package unit type. |
+| files.packingList.itemUnit              | The packing lists item unit. |
+| files.packingList.itemQtyTotal          | The packing lists total item quanity. |
+| files.packingList.id                    | The internal ID of the packing list. |
+| files.packingList.packingListNumber     | The packing list number. |
+
+#### Using the lineItem attributes to determine the product code and description
+The attributes extracted from an invoice for each line item (eg. Product code, description, HS Code, Origin and Unit) are available in the attributes `productCode`, `description`, `hsCode`, `originCountryCode`, `unitType`.
+
+### *Files/packingList/lineItem* attributes
+
+| Attribute                            | Description                               |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------  |
+| files.packingList.lineItem.packingListId   | The internal ID of the line items packing list. |
+| files.packingList.lineItem.description     | The description of the line item. |
+| files.packingList.lineItem.marks           | The line item marks. |
+| files.packingList.lineItem.itemQty         | The line items total item quantity. |
+| files.packingList.lineItem.packageQty      | The line items total package quantity. |
+| files.packingList.lineItem.netWeight       | The line items net weight. |
+| files.packingList.lineItem.grossWeight     | The line items gross weight. |
+| files.packingList.lineItem.volume          | The line items volume. |
+| files.packingList.lineItem.productCode     | The code for the product in the line item. |
+| files.packingList.lineItem.hsCode          | The HS Code of this line item. |
+| files.packingList.lineItem.id              | The internal ID of the line item. |
+| files.packingList.lineItem.orderIndex      | The index of the line, representing the order of it within the commercial invoice. |
+
 > Example of request without include parameter:
 > /FileGroups/1
 
@@ -846,15 +1030,15 @@ To determine if a line item was matched, use the productCodeMatched attribute:
         }
       ]
     },
-    "created": "2020-05-07T15:24:47.509Z",
+    "created": "2020-05-07T15:24:47.509Z"
   },
   "files": [
     {
       "id": 442,
       "filename": "file.pdf",
       "created": "2020-05-07T15:24:47.338Z",
-      "fileType": 6,
-    },
+      "fileType": 6
+    }
   ]
 }
 ```
@@ -863,6 +1047,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
 > /FileGroups/1?include=lastValidationResult,files/billOfLading/importerReference,files/billOfLading/notify,
 > files/billOfLading/container/seals,files/billOfLading/packline
 > files/commercialInvoice,files/commercialInvoice/lineItem,files/apInvoice,files/email,files/parent
+> files/packingList,files/packingList/lineItem
 
 ```json
 {
@@ -880,7 +1065,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
         }
       ]
     },
-    "created": "2020-05-07T15:24:47.509Z",
+    "created": "2020-05-07T15:24:47.509Z"
   },
   "files": [
     {
@@ -899,7 +1084,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
         "unqId": "6f847a63-bd99-4b79-965c-128ea9b3f104"
       },
       "parent": {
-        "fileId": 22,
+        "fileId": 22
       },
       "apInvoice": [
         {
@@ -917,7 +1102,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
           "validationResultId": 1,
           "teamId": 1,
           "previousTeamId": 2,
-          "reasssignTime": "2020-07-03",
+          "reassignTime": "2020-07-03",
           "email": "invoice@invoice.com",
           "website": "www.invoice.com",
           "issuerRecordId": "1-1-1",
@@ -928,7 +1113,8 @@ To determine if a line item was matched, use the productCodeMatched attribute:
         }
       ],
       "billOfLading": [],
-      "commercialInvoice": []
+      "commercialInvoice": [],
+      "packingList": []
     },
     {
       "id": 443,
@@ -946,7 +1132,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
         "unqId": "6f847a63-bd99-4b79-965c-128ea9b3f104"
       },
       "parent": {
-        "fileId": 22,
+        "fileId": 22
       },
       "apInvoice": []
       "billOfLading": [
@@ -992,6 +1178,16 @@ To determine if a line item was matched, use the productCodeMatched attribute:
           "transportMode": "",
           "containerMode": "",
           "shipmentType": "",
+          "consolType": "",
+          "firstArrivalPortUnlocode": "",
+          "firstArrivalPortEta": "2020-05-07T15:24:47.338Z",
+          "ownersReference": "",
+          "originEtd": "2020-05-07T15:24:47.338Z",
+          "destinationEta": "2020-05-07T15:24:47.338Z",
+          "coLoader": "",
+          "coLoaderMblNumber": "",
+          "loadPortEtd": "2020-05-07T15:24:47.338Z",
+          "dischargePortEta": "2020-05-07T15:24:47.338Z",
           "notify": [
             {
               "id": 211,
@@ -999,7 +1195,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
               "notifyPartyCode": "TEST123",
               "notifyPartyOrgId": 11121,
               "notifyPartyOrgNameId": 22133,
-              "notifyPartyOrgAddressId": 12312,
+              "notifyPartyOrgAddressId": 12312
             }
           ],
           "importerReference:": [
@@ -1040,7 +1236,8 @@ To determine if a line item was matched, use the productCodeMatched attribute:
           ]
         }
       ],
-      "commercialInvoice": []
+      "commercialInvoice": [],
+      "packingList": []
     },
     {
       "id": 444,
@@ -1058,7 +1255,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
         "unqId": "6f847a63-bd99-4b79-965c-128ea9b3f104"
       },
       "parent": {
-        "fileId": 22,
+        "fileId": 22
       },
       "apInvoice": [],
       "billOfLading": [],
@@ -1098,14 +1295,80 @@ To determine if a line item was matched, use the productCodeMatched attribute:
               "matchedDescription": "ITEM DESCRIPTION",
               "matchedOriginCountryCode": "MX",
               "matchedUnitType": "NO",
+              "matchedClassificationCode": null,
               "id": 1,
               "orderIndex": 0,
-              "descriptionCell": "ITEM DESCRTIPTION 1"
+              "descriptionCell": "ITEM DESCRIPTION 1"
+            }
+          ]
+        }
+      ],
+      "packingList": []
+    },
+    {
+      "id": 555,
+      "filename": "file3.pdf",
+      "created": "2020-05-07T15:44:35.338Z",
+      "fileType": 5,
+      "email": {
+        "customId": "custom001",
+        "emailAccountId": 1,
+        "sender": "test@shipamax.com",
+        "created": "2020-05-07T15:24:47.338Z",
+        "attachmentCount": 1,
+        "companyId": 100000,
+        "subject": "Sending file",
+        "unqId": "6f847a63-bd99-4b79-965c-128ea9b3f104"
+      },
+      "parent": {
+        "fileId": 22
+      },
+      "apInvoice": [],
+      "billOfLading": [],
+      "commercialInvoice": [],
+      "packingList": [
+        {
+          "supplier": "PARSED VALUE",
+          "supplierCode": "CODE",
+          "supplierOrgId": 1,
+          "supplierOrgNameId": 1,
+          "supplierOrgAddressId": 1,
+          "importer": "PARSEDVALUE",
+          "importerCode": "CODE",
+          "importerOrgId": 1,
+          "importerOrgNameId": 1,
+          "importerOrgAddressId": 1,
+          "invoiceNumber": "ABC12345",
+          "invoiceDate": "2020-07-03",
+          "weightGrossTotal": 2607.92,
+          "weightNetTotal": 2607.92,
+          "volumeTotal": 500.05,
+          "weightUnit": "kgs",
+          "volumeUnit": "cbm",
+          "packageUnit": "BAG",
+          "packageQuantityTotal": 1000.60,
+          "itemUnit": "BOT",
+          "itemQtyTotal": 5,
+          "id": 1,
+          "packingListNumber": "PKL123",
+          "lineItem": [
+            {
+              "description": "ITEM DESCRIPTION",
+              "marks": "",
+              "itemQty": 10,
+              "packageQty": 24.95,
+              "netWeight": 199.6,
+              "grossWeight": 199.6,
+              "volume": 500.05,
+              "productCode": null,
+              "hsCode": "1234567890",
+              "id": 1,
+              "orderIndex": 0,
             }
           ]
         }
       ]
-    },
+    }
   ]
 }
 ```
@@ -1147,7 +1410,7 @@ Send a request via `GET` to `https://public.shipamax-api.com/api/v2/FileGroups/{
   "liFirstQtl": 0.8,
   "liMedian": 0.8,
   "liThirdQtl": 0.9,
-  "liMax": 1.0,
+  "liMax": 1.0
 }]
 ```
 
@@ -1167,7 +1430,7 @@ Send a request via `POST` to `https://public.shipamax-api.com/api/v2/FileGroups/
 [{
   "filename": "FILE_NAME",
   "groupId": 00000,
-  "id": 000000,
+  "id": 000000
 }]
 ```
 
@@ -1226,24 +1489,24 @@ Send a new validation result via `POST` request to `https://public.shipamax-api.
 ```
 
 ## Organizations Endpoint
-The Organizations list represents businesses that might be referenced in the documents you send Shipamax to processes (for exmaple, the Shipper on a House Bill of Lading, a Supplier on a Commercial Invoice Creditor etc.). The organization list is used to improve the accuracy of the parsing process, making sure the most likely organization is selected.
+The Organizations list represents businesses that might be referenced in the documents you send Shipamax to processes (for example, the Shipper on a House Bill of Lading, a Supplier on a Commercial Invoice Creditor etc.). The organization list is used to improve the accuracy of the parsing process, making sure the most likely organization is selected.
 Each Organization must have a unique identifier provided by you (referred to as `externalId`), this is usually the identifier used in your own system.
 Each organization added is assigned an internal ID unique to Shipamax (referred to as `org_id`). This ID is required in order to DELETE/PATCH the organization as well as adding Names and Addresses to the Organization
 
 ### Attributes
 
-| Attribute                               |  Description                                                      |
-| --------------------------------------- | ----------------------------------------------------------------- |
-| id                 | Unique identifier of the Organization within the Shipamax system |
-| externalId                               | Unique identifier of the Organization within your own system           |
-| carrier                       | Flag for denoting this Organization is a carrier   |
-| consignee                       | Flag for denoting this Organization is a consignee   |
-| creditor                       | Flag for denoting this Organization is a creditor   |
-| forwarder                       | Flag for denoting this Organization is a forwarder   |
-| debtor                       | Flag for denoting this Organization is a debtor   |
-| shipper                       | Flag for denoting this Organization is a shipper (also refferred to as Consignor or Shipping Agent)  |
-| active                       | Flag denoting wether this Organization is active or not   |
-| updated | The timestamp of when the Organization was last updated |
+| Attribute                               | Description                                                                                       |
+| --------------------------------------- |---------------------------------------------------------------------------------------------------|
+| id                 | Unique identifier of the Organization within the Shipamax system                                  |
+| externalId                               | Unique identifier of the Organization within your own system                                      |
+| carrier                       | Flag for denoting this Organization is a carrier                                                  |
+| consignee                       | Flag for denoting this Organization is a consignee                                                |
+| creditor                       | Flag for denoting this Organization is a creditor                                                 |
+| forwarder                       | Flag for denoting this Organization is a forwarder                                                |
+| debtor                       | Flag for denoting this Organization is a debtor                                                   |
+| shipper                       | Flag for denoting this Organization is a shipper (also referred to as Consignor or Shipping Agent) |
+| active                       | Flag denoting whether this Organization is active or not                                          |
+| updated | The timestamp of when the Organization was last updated                                           |
 
 
 ### POST
@@ -1324,7 +1587,7 @@ Retrieve details of a an existing Organization
 }
 ```
 
-### GET (list of Organistion using Filter)
+### GET (list of Organisation using Filter)
 Retrieve list of Organizations that match a filter.
 **Note:** When filter is included, Shipamax will return only the Organizations matching the requested pattern.
 
@@ -1389,7 +1652,7 @@ Update details of an existing Organization
 ```
 
 ### DELETE
-Delete an Organization
+Delete an Organization. Instead of an actual delete of the Organization it sets the flag `active` to `FALSE`, so it can be still displayed for existing documents.
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
@@ -1483,7 +1746,7 @@ Update an existing Organization's Name
 
 ```json
 {
-  "name": "NewName"
+  "name": "NewName",
   "Main": true
 }
 ```
@@ -1500,7 +1763,7 @@ Update an existing Organization's Name
 ```
 
 ### DELETE
-Delete an existing Organization's Name
+Delete an existing Organization's Name. Instead of an actual delete of the Organization's Name it sets the flag `active` to `FALSE`, so it can be still displayed for existing documents.
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
@@ -1623,7 +1886,7 @@ Update an existing Organization's Address
 ```
 
 ### DELETE
-Delete an existing Organization's Address
+Delete an existing Organization's Address. Instead of an actual delete of the Organization's Address it sets the flag `active` to `FALSE`, so it can be still displayed for existing documents.
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
@@ -1648,6 +1911,7 @@ The Product endpoint allows you to send Shipamax any changes/additions to your p
 | description                       | Description of the product  |
 | unitType                       | The unit the product is quantified by   |
 | tariff                       | The tariff (eg. HS Code) for the product   |
+| lookupCode                   | The tariff lookup code |
 | origin                       | The origin country of the product |
 
 
@@ -1669,6 +1933,7 @@ Create a new Product
     "description": string,
     "unitType": string,
     "tariff": string,
+    "lookupCode": string,
     "origin": string
 }
 ```
@@ -1683,6 +1948,7 @@ Create a new Product
     "description": "Description of product",
     "unitType": "PKG",
     "tariff": "123456",
+    "lookupCode": "12345",
     "origin": "GB"
 }
 ```
@@ -1698,6 +1964,7 @@ Create a new Product
   "description": "Description of product",
   "unitType": "PKG",
   "tariff": "123456",
+  "lookupCode": "12345",
   "origin": "GB"
 }
 ```
@@ -1726,7 +1993,7 @@ If there are multiple product with the same code they will all be included in th
 }
 ```
 
-### GET (list of Organistion using Filter)
+### GET (list of Organisation using Filter)
 Retrieve list of Products that match a filter.
 **Note:** When filter is included, Shipamax will return only the Products matching the requested pattern.
 
@@ -1786,7 +2053,7 @@ Update details of an existing Product
 ```
 
 ### DELETE
-Delete an Product
+Delete a Product
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
@@ -1806,7 +2073,7 @@ Delete an Product
 
 ### GET Original File
 
-You can retrieve all files processed by Shipamax. For example you can retrieve a bill of lading which was send to Shipamax as an attachment to an email. Files can be retrieved via their unique ID. The response of the endpoint is a byte stream.
+You can retrieve all files processed by Shipamax. For example you can retrieve a bill of lading which was sent to Shipamax as an attachment to an email. Files can be retrieved via their unique ID. The response of the endpoint is a byte stream.
 
 | Endpoint                      | Verb   | Description                                                 |
 | ----------------------------- | ------ | ----------------------------------------------------------- |
@@ -1850,23 +2117,23 @@ curl -X POST
   "customId": "CUSTOM_ID",
   "filename": "FILE_NAME",
   "groupId": 00000,
-  "id": 000000,
+  "id": 000000
 }
 ```
 
-If a mailbox is configured to have one file per group, you will receieve an array response like this:
+If a mailbox is configured to have one file per group, you will receive an array response like this:
 ```json
 [{
   "customId": "CUSTOM_ID",
   "filename": "FILE_NAME",
   "groupId": 00000,
-  "id": 000000,
+  "id": 000000
 },
 {
   "customId": "CUSTOM_ID2",
   "filename": "FILE_NAME2",
   "groupId": 00001,
-  "id": 000001,
+  "id": 000001
 }]
 ```
 
@@ -2196,25 +2463,103 @@ Similarly, multiple shipments can be specified by repeating `<SubShipment>` XML 
 
 ### Product code data:
 
-There are two formats you can send product data in; verbose and native.
+There are two formats you can use to send product code updates: Legacy (`XmlInterchange`) or Native (`UniversalInterchange`).
 
-#### Verbose
+#### **Native**
+This uses the `<UniversalInterchange>` xml format. The XML tag `<Product>` wraps all the relevant data.
+The following elements will be processed form the XML:
 
-This is a `<XmlInterchange>` request.
-XML tag `<Products>` wraps up all the product code related data.
+| Section                       | Elements                                                    |
+| ------------------------------| ----------------------------------------------------------- |
+| OrgSupplierPart               | PartNum, StockKeepingUnit, Desc                             |
+| CusClassPartPivotCollection   | Tariff                                                    |
+| CusClassification             |  LookupCode, OrgHeader, Relationship                      |
+  
 
-**Following are the important tags we expect in the request:**
+> Product code update example with Native xml (`UniversalInterchange`) format:
+    
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<UniversalInterchange xmlns="http://www.cargowise.com/Schemas/Universal/2011/11">
+    <Header>
+        <SenderID>TESTSENDER</SenderID>
+        <RecipientID>EVT-SHIPAMAX</RecipientID>
+    </Header>
 
-**Product-**
-  *ProductCode*,
-  *ProductDescription*,
-  *StockUnit*
-
-**RelatedOrganization-**
-  *OwnerCode*,
-  *RelationshipType*
-
-> Example xml format when sending product code data:
+    <Body>
+        <Native version="2.0" xmlns="http://www.cargowise.com/Schemas/Native/2011/11">
+            <Header>
+                <OwnerCode>TESTCODE</OwnerCode>
+                <EnableCodeMapping>true</EnableCodeMapping>
+                <nv:DataContext xmlns="http://www.cargowise.com/Schemas/Universal/2011/11" xmlns:nv="http://www.cargowise.com/Schemas/Native/2011/11">
+                    <DataSourceCollection>
+                        <DataSource>
+                            <Type>Product</Type>
+                            <Key>TESTCODE</Key>
+                        </DataSource>
+                    </DataSourceCollection>
+                    <Company>
+                        <Code>TST</Code>
+                        <Country>
+                            <Code>US</Code>
+                            <Name>United States</Name>
+                        </Country>
+                        <Name>Shipamax ltd test company</Name>
+                    </Company>
+                    <EnterpriseID>ENT</EnterpriseID>
+                    <EventType>
+                        <Code>ADD</Code>
+                        <Description>Added a record to the system</Description>
+                    </EventType>
+                    <EventBranch>
+                        <Code>BRN</Code>
+                        <Name>Shipamax ltd Brunch</Name>
+                    </EventBranch>
+                </nv:DataContext>
+            </Header>
+            <Body>
+                <Product version="2.0">
+                    <OrgSupplierPart Action="MERGE">
+                        <PartNum>ProductCode</PartNum>
+                        <StockKeepingUnit>NO</StockKeepingUnit>
+                        <Desc>3732 - CONNECTOR ANCHORAGE 1/2" CLEAR CHROMATE</Desc>
+                        <CusClassPartPivotCollection>
+                            <CusClassPartPivot Action="MERGE">
+                                <TariffNum>7326908688</TariffNum>
+                                <CusClassificationCollection>
+                                    <CusClassification Action="MERGE">
+                                        <CountryCode>AU</CountryCode>
+                                        <LookupCode>84148020-62</LookupCode>
+                                    </CusClassification>
+                                    <CountryOfOrigin TableName="RefDbEntUS_USCCountry" />
+                                </CusClassificationCollection>
+                            </CusClassPartPivot>
+                        </CusClassPartPivotCollection>
+                        <OrgPartRelationCollection>
+                            <OrgPartRelation Action="MERGE">
+                                <Relationship>OWN</Relationship>
+                                <OrgHeader>
+                                    <Code>LJBILM</Code>
+                                </OrgHeader>
+                            </OrgPartRelation>
+                        </OrgPartRelationCollection>
+                    </OrgSupplierPart>
+                </Product>
+            </Body>
+        </Native>
+    </Body>
+</UniversalInterchange>
+```
+ #### **Legacy**
+This uses the `<XmlInterchange>` format. The XML tag `<Products>` wraps all the relevant data.
+The following elements are processed from the XML:
+    
+| Section                       | Elements                                                    |
+| ------------------------------| ----------------------------------------------------------- |
+| Product                       | ProductCode, ProductDescription, StockUnit                  |
+| RelatedOrganization           |  OwnerCode, RelationshipType                               |
+    
+> Product code update example with Legacy xml (`XmlInterchange`) format:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -2301,7 +2646,7 @@ XML tag `<Products>` wraps up all the product code related data.
 </XmlInterchange>
 ```
 
-Cragowise Reference endpoint can also accept SOAP message which is a Cargowise default i.e, Request that starts with tag <s: Envelope>, Or
+Cargowise Reference endpoint can also accept SOAP message which is a Cargowise default i.e, Request that starts with tag <s: Envelope>, Or
 you can also take the message encoded within the SOAP message and post it as a request to the Cargowise reference endpoint.
 
 > Example xml format when sending SOAP message:
@@ -2349,57 +2694,6 @@ you can also take the message encoded within the SOAP message and post it as a r
       </s:Envelope>
 ```
 
-#### Native
-
-This is a `<Native>` request.
-XML tag `<Product>` wraps up all the product code related data.
-
-**Following are the important tags we expect in the request:**
-
-**Product-**
-  **OrgSupplierPart-**
-    *PartNum*,
-    *Desc*,
-    *StockKeepingUnit*
-  **OrgPartRelationCollection-**
-    **OrgPartRelation-**
-      *Relationship*,
-      **OrgHeader**
-        *Code*
-
-> Example xml format when sending product code data:
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<UniversalInterchange xmlns="http://www.cargowise.com/Schemas/Universal/2011/11" version="1.1">
-    <Header>
-        <SenderID>TST</SenderID>
-        <RecipientID>test</RecipientID>
-    </Header>
-    <Body>
-        <Native xmlns="http://www.cargowise.com/Schemas/Native/2011/11" version="2.0">
-            <Body>
-                <Product version="2.0">
-                    <OrgSupplierPart Action="MERGE">
-                        <PartNum>TESTCODE</PartNum>
-                        <StockKeepingUnit>PCE</StockKeepingUnit>
-                        <Desc>TEST DESCRIPTION</Desc>
-                        <OrgPartRelationCollection>
-                            <OrgPartRelation Action="MERGE">
-                                <Relationship>OWN</Relationship>
-                                <OrgHeader>
-                                    <Code>TESTORGCODE</Code>
-                                </OrgHeader>
-                            </OrgPartRelation>
-                        </OrgPartRelationCollection>
-                    </OrgSupplierPart>
-                </Product>
-            </Body>
-        </Native>
-    </Body>
-</UniversalInterchange>
-```
-
 ## Lists of codes for fields
 
 Several fields listed in the sections above should usually only contain specific values from a known list. For example, where the type of the `releaseType` field of a billOfLading is given as `ReleaseType`, it means that the expected set of values comes from the [list of ReleaseType values](#list-of-releasetype-values).
@@ -2411,109 +2705,136 @@ These values are show in the following lists.
 Exception codes other than -1 have a specific meaning within the Shipamax system, as listed in the table below. When creating a validation result you should use an existing code where there is an appropriate one available, or -1 if there is not. You can use any description you like for any code, but the default descriptions for each code that Shipamax generates are listed in the table.
 
 
-| Exception code  | Description                                                                               |
-| --------------- | ----------------------------------------------------------------------------------------- |
-| 1               | Supplier Invoice: Missing Invoice Number                                                  |
-| 2               | Supplier Invoice: Missing Invoice Date                                                    |
-| 3               | Supplier Invoice: Missing Issuer                                                          |
-| 4               | Supplier Invoice: Missing Invoice Total                                                   |
-| 5               | Supplier Invoice: Missing Invoice Currency                                                |
-| 6               | Supplier Invoice: No Job references                                                       |
-| 7               | CargoWise: Invalid Addressee                                                              |
-| 8               | CargoWise: Duplicate Invoice Number                                                       |
-| 9               | CargoWise: Failed to match a set of accruals to the Invoice Total                         |
-| 10              | CargoWise: Currencies didn't match                                                        |
-| 11              | CargoWise: VAT didn't match                                                               |
-| 12              | CargoWise: Failed to post to Cargowise                                                    |
-| 13              | CargoWise: More than one possible set of accruals for the Invoice Total                   |
-| 14              | CargoWise: Missing CargoWise code for issuer                                              |
-| 15              | CargoWise: One or more costs is apportioned to a consol                                   |
-| 16              | Demo: Document passed validation                                                          |
-| 17              | Supplier Invoice: Invoice date is in the future                                           |
-| 18              | CargoWise: Shipment not found                                                             |
-| 19              | CargoWise: Error on Cargowise HTTP request                                                |
-| 20              | The validation process itself failed                                                      |
-| 21              | CargoWise: Invoice Number already exists                                                  |
-| 22              | Bill of Lading: Missing MBL                                                               |
-| 23              | Bill of Lading: Multiple MBLs                                                             |
-| 24              | Bill of Lading: Incorrect Consignee for Consol Type                                       |
-| 25              | Bill of Lading: Missing HBLs                                                              |
-| 26              | CargoWise: Manual approval required to post                                               |
-| 27              | Unable to Match to Job                                                                    |
-| 28              | Multiple possible Jobs                                                                    |
-| 29              | Bill Of lading: Missing job references                                                    |
-| 30              | Bill Of lading: Missing SCAC                                                              |
-| 31              | Supplied job reference does not exist in CargoWise                                        |
-| 32              | Bill of Lading: MBL missing Consignee                                                     |
-| 33              | CargoWise: Documents exceeds maximum file size limit of 10MB                              |
-| 34              | Supplier Invoice: Sub totals don’t add up to invoice total                                |
-| 35              | CargoWise: More than one possible set of accruals for highlighted sub total               |
-| 36              | CargoWise: Failed to match a set of accruals for highlighted sub total                    |
-| 37              | Supplier Invoice: Job not in any clusters                                                 |
-| 38              | Bill of lading: Missing consignor/consignee                                               |
-| 39              | Bill of lading: Missing origin                                                            |
-| 40              | Bill Of lading: Missing destination                                                       |
-| 41              | Bill of lading: Missing container mode                                                    |
-| 42              | Bill of lading: Missing release type                                                      |
-| 43              | Bill of lading: Missing packing mode                                                      |
-| 44              | CargoWise: No accruals found for this creditor in this currency                           |
-| 45              | Error in pre-validator (please contact support)                                           |
-| 46              | Error in CargoWise validator (please contact support)                                     |
-| 47              | Commercial invoice: Mixed invoice/bill groups not supported                               |
-| 48              | Commercial invoice: Invoice number missing                                                |
-| 49              | Commercial invoice: Gross total missing                                                   |
-| 50              | CargoWise: Failed to find a matching Job Ref for highlighted BL or Container Number       |
-| 51              | CargoWise: No accruals found for this creditor in this currency on highlighted sub total  |
-| 52              | Commercial invoice: Supplier missing |
-| 53              | Commercial invoice: Importer missing |
-| 54              | Commercial Invoice: Could not find Product Code |
-| 55              | CommercialInvoice: Product Code not associated with Importer or Exporter |
-| 56              | Commercial invoice: Mixed group has more than 1 MBL |
-| 57              | Commercial invoice: Mixed group has more than 1 CI |
-| 58              | Commercial invoice: Mixed groups do not support HBLs |
-| 59              | Container number: No reference found for highlighted job |
-| 60              | Container number: Multiple references found for highlighted job |
-| 61              | Supplier Invoice: Timeout while trying to match accruals with total or highlighted sub-total |
-| 62              | Commercial invoice: Mixed group has more than 1 HBL |
-| 63              | Commercial Invoice: Mixed groups of this combination are not supported |
-| 64              | Accruals in CargoWise have changed since previous selection. Please re-select the correct accruals to post |
-| 65              | Multiple accruals with the same charge code detected on the same Shipment. Posting these may have unexpected results in CargoWise |
-| 66              | Modified accrual amounts are not within the tolerated threshold |
-| 67              | Job Reference: Reference extracted from email subject |
-| 68              | Job Reference: Unable to set job references; multiple references found |
-| 69              | Job Reference: Multiple S-Job references found in email subject. If you know the job reference, create a S-Job place holder and update the reference before posting to CW |
-| 70              | Cargowise: Failed to post file to EDocs |
-| 71              | Commercial Invoices: No CIVs found in documFent pack |
-| 72              | Cargowise: Missing job reference |
-| 73              | Job Reference: Job reference not valid for this group |
-| 74              | Error fetching costs from CargoWise (please contact support) |
-| 75              | Error posting invoice to CargoWise (please contact support) |
-| 76              | Error while validating costs (please contact support) |
-| 77              | Error posting invoice to TMS (please contact support) |
-| 78              | Duplicate Invoice Number |
-| 79              | Failed to post to TMS (please try again) |
-| 80              | Error fetching costs from TMS (please contact support) |
-| 81              | Supplier Invoice: Tax subtotals do not sum to invoice total |
-| 82              | Supplier Invoice: Missing GL Code |
-| 83              | Supplier Invoice: Missing Description |
-| 84              | Supplier Invoice: Missing Net Total |
-| 85              | Supplier Invoice: Missing Tax Code |
-| 86              | Supplier Invoice: Missing Tax Total |
-| 87              | Supplier Invoice: Missing Tax Amount |
-| 88              | Line Items: Gross Total does not match Line Total Sum for one or more Commercial Invoices |
-| 89              | Cargowise: Declaration is locked. Make sure it is not worked on and try again |
-| 90              | CargoWise: Job verification failed, please try to post again. If problem persists, please contact support. |
-| 91              | CargoWise: Bill of Lading: Duplicate BL number for one or more documents |
-| 92              | CargoWise: Commercial Invoice: Duplicate CIV number for one or more documents |
-| 93              | Supplier Invoice: Invalid accrual split |
-| 94              | Cargowise: Pack is missing MBL and a Consol reference. Posting will create a new, empty Consol |
-| 95              | CargoWise: Cargowise: Pack is missing HBL and a Shipment reference for one or more Shipments. Posting will create a new, empty Shipment |
-| 96              | Cargowise: Shipment reference not found in cargowise |
-| 97              | Cargowise: Consol reference not found in cargowise |
-| 98              | CargoWise: Cargowise: One or more Shipments references found in CW but is already linked to an existing Consol |
-| 99              | Shipment: Duplicate S-ref numbers |
-| 100             | Consol: Pack includes a Consol reference. Posting will update an existing Consol |
-| -1              | Custom exception                                                                          |
+| Exception code | Description                                                                                                                                                               |
+|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1              | Missing Info: Missing Invoice Number                                                                                                                                      
+| 2              | Missing Info: Missing Invoice Date                                                                                                                                        
+| 3              | Missing Info: Missing Issuer                                                                                                                                              
+| 4              | Missing Info: Missing Invoice Total                                                                                                                                       
+| 5              | Missing Info: Missing Invoice Currency                                                                                                                                    
+| 6              | Missing Info: No Job references                                                                                                                                           
+| 7              | Business Validation Failure: Invalid Addressee                                                                                                                            
+| 8              | Business Validation Failure: Duplicate Invoice Number                                                                                                                     
+| 9              | Costs: Failed to match a set of accruals to the Invoice Total                                                                                                             
+| 10             | CargoWise: Currencies didn't match                                                                                                                                        
+| 11             | Costs: Tax amounts on accruals do not sum to invoice tax total                                                                                                            
+| 12             | Error: Request to TMS failed.                                                                                                                                             
+| 13             | Costs: Multiple possible accrual combinations                                                                                                                             
+| 14             | Error: Missing Issuer Code                                                                                                                                                
+| 16             | Demo: Document passed validation                                                                                                                                          
+| 17             | Business Validation Failure: Invoice date is in the future                                                                                                                
+| 18             | Error: Job not found                                                                                                                                                      
+| 19             | Error: Request to TMS failed                                                                                                                                              
+| 20             | Error in validation process                                                                                                                                               
+| 21             | Business Validation Failure: (Unallocated) Invoice Number already exists                                                                                                  
+| 22             | Bill of Lading: Missing MBL                                                                                                                                               
+| 23             | Multiple MBLs. Pack can include 0 or 1 MBL. Change the type of the extra MBLs and/or split the pack                                                                       
+| 24             | Consol: Receiving Agent might be incorrect for the selected Consol Type                                                                                                   
+| 25             | Bill of Lading: Missing HBLs                                                                                                                                              
+| 26             | Manual approval required to post                                                                                                                                          
+| 27             | Unable to Match to Job                                                                                                                                                    
+| 28             | Multiple possible Jobs                                                                                                                                                    
+| 29             | Bill of Lading: Missing References                                                                                                                                        
+| 30             | Bill of Lading: Missing SCAC                                                                                                                                              
+| 31             | Supplied job reference does not exist in CargoWise                                                                                                                        
+| 32             | Bill of Lading: MBL missing Consignee                                                                                                                                     
+| 33             | Error: Documents exceeds maximum file size limit: X MB                                                                                                                   
+| 34             | Costs: Net subtotals do not sum to invoice total                                                                                                                          
+| 35             | Costs: Multiple possible accrual combinations                                                                                                                             
+| 36             | Costs: Failed to match a set of accruals for highlighted sub total                                                                                                        
+| 38             | Bill of Lading: Missing consignor/consignee                                                                                                                               
+| 39             | Bill of Lading: Missing origin                                                                                                                                            
+| 40             | Bill of Lading: Missing destination                                                                                                                                       
+| 41             | Bill of Lading: Missing container mode                                                                                                                                    
+| 42             | Bill of Lading: Missing release type                                                                                                                                      
+| 43             | Bill of Lading: Missing packing mode                                                                                                                                      
+| 44             | Costs: No accruals found for this creditor                                                                                                                                
+| 45             | Error in validation process                                                                                                                                               
+| 46             | Error in CargoWise validator                                                                                                                                              
+| 47             | Commercial Invoice: Mixed invoice/bill groups must be MBL and CI                                                                                                          
+| 48             | Commercial Invoice: Invoice number missing                                                                                                                                
+| 49             | Commercial Invoice: Gross total missing                                                                                                                                   
+| 50             | Costs: Failed to find a matching Job Ref for highlighted BL or Container Number                                                                                           
+| 51             | Costs: No accruals found for this creditor on highlighted sub total                                                                                                       
+| 52             | Commercial Invoice: Supplier missing                                                                                                                                      
+| 53             | Commercial Invoice: Importer missing                                                                                                                                      
+| 54             | Commercial Invoice: One or more product codes could not be found                                                                                                          
+| 55             | Commercial Invoice: One or more product codes not associated with Importer or Exporter                                                                                    
+| 56             | Commercial Invoice: Mixed group has more than 1 MBL                                                                                                                       
+| 57             | Commercial Invoice: Mixed group has more than 1 CI                                                                                                                        
+| 58             | Commercial Invoice: Mixed groups do not support HBLs                                                                                                                      
+| 59             | Container number: No reference found for highlighted job                                                                                                                  
+| 60             | Container number: Multiple references found for highlighted job                                                                                                           
+| 61             | Error: Too many accruals to automatically find a match. Please select the correct costs manually                                                                          
+| 62             | Commercial Invoice: Mixed group has more than 1 HBL                                                                                                                       
+| 63             | Multiple MBLs. This pack can’t be used to create a Brokerage Job. Recategorise the extra MBL(s) or split the pack                                                         
+| 64             | Business Validation Failure: Accruals in TMS have changed since previous updates were made in Shipamax.                                                                   
+| 65             | Business Validation Failure: Other accruals with the same charge code detected on the same Job. Posting these accruals may delete information in CargoWise                
+| 66             | Costs: Modified accrual amounts are not within the tolerated threshold                                                                                                    
+| 67             | Job Reference: Reference extracted from email subject                                                                                                                     
+| 68             | Job Reference: Unable to set job references; multiple references found                                                                                                    
+| 69             | Error: CargoWise: Failed to post file to EDocs                                                                                                                            
+| 70             | Commercial Invoices: No CIVs found in document pack                                                                                                                       
+| 71             | Job Reference: Multiple S-Job references found in email subject. If you know the job reference, create a S-Job place holder and update the reference before posting to CW 
+| 72             | CargoWise: Missing job reference                                                                                                                                          
+| 73             | Job Reference REF is not valid CONSOL/SHIPMENT reference                                                                                                                                
+| 74             | Error fetching costs from CargoWise                                                                                                                                       
+| 75             | Error posting invoice to CargoWise                                                                                                                                        
+| 76             | Error while validating costs                                                                                                                                              
+| 77             | Error posting invoice to TMS                                                                                                                                              
+| 78             | Business Validation Failure: Duplicate Invoice Number                                                                                                                     
+| 79             | Error: Failed to post to TMS. Please try again.                                                                                                                           
+| 80             | Error fetching costs from TMS.                                                                                                                                            
+| 81             | Costs: Tax subtotals do not sum to invoice total                                                                                                                          
+| 82             | Missing Info: Missing GL Code                                                                                                                                             
+| 83             | Missing Info: Missing Description                                                                                                                                         
+| 84             | Missing Info: Missing Net Total                                                                                                                                           
+| 85             | Missing Info: Missing Tax Code                                                                                                                                            
+| 86             | Missing Info: Missing Tax Amount                                                                                                                                          
+| 87             | Missing Info: Missing Tax Total                                                                                                                                           
+| 88             | Line Items: Gross Total does not match Line Total Sum for one or more Commercial Invoices                                                                                 
+| 89             | CargoWise: Declaration is locked. Make sure it is not worked on and try again                                                                                             
+| 90             | CargoWise: Job verification failed, please try to post again. If problem persists, please raise an eRequest.                                                              
+| 91             | Shipment: Duplicate HBL numbers                                                                                                                                           
+| 92             | Commercial Invoice: Duplicate CIV numbers                                                                                                                                 
+| 93             | Costs: Invalid accrual split                                                                                                                                              
+| 94             | Consol: Missing MBL and Consol reference. Posting will create a new, empty Consol                                                                                         
+| 95             | CargoWise: Pack is missing HBL and a Shipment reference for one or more Shipments. Posting will create a new, empty Shipment                                              
+| 96             | Reference mismatch: Shipment REF not found in CargoWise                                                                                                                  
+| 97             | Reference mismatch: Consol REF not found in CargoWise                                                                                                                    
+| 98             | Reference mismatch: Shipment REF is linked to an existing Consol (CONSOL_REF) in Cargowise                                                                                     
+| 99             | Shipment: Duplicate S-ref numbers                                                                                                                                         
+| 100            | Consol: Pack includes a Consol reference. Posting will update an existing Consol                                                                                          
+| 101            | Costs: Modified exchange rate is not within the tolerated threshold                                                                                                       
+| 102            | Total packages' volume in CW for job REF (Xm3) differ from HBL                                                                                                            
+| 103            | Total packages' weight in CW for job REF (Xkg) differ from HBL                                                                                                            
+| 104            | Could not compare volumes for job REF - Multiple unit types in HBL                                                                                                         
+| 105            | Could not compare weights for job REF - Multiple unit types in HBL                                                                                                         
+| 106            | Business Validation Failure: Consol costs must have all sub-shipment apportioned costs posted at once                                                                     
+| 107            | Multiple HBLs. This pack can’t be used to create a Brokerage Job. Recategorise the extra HBL(s) or split the pack                                                         
+| 108            | Multiple HBLs in zip file. Grouping was not created                                                                                                                       
+| 109            | There exists another open invoice with this invoice number                                                                                                                
+| 111            | Reference update: BL NUMBER found in Cargowise. Job card updated with the matching reference                                                                                 
+| 112            | Reference mismatch: BL NUMBER does not match job REF in Cargowise                                                                                                            
+| 113            | Reference mismatch: BL NUMBER is associated with Shipment SHIPMENT_REF that is linked to an existing Consol (CONSOL_REF) in Cargowise                                                     
+| 114            | Difference between the accrued local costs and the updated local costs exceeds the tolerated exchange rate threshold of X CUR or Y% per Job                              
+| 115            | Commercial Invoice: Importer Name Missing                                                                                                                                 
+| 116            | Commercial Invoice: Importer Address Missing                                                                                                                              
+| 117            | Commercial Invoice: Supplier Name Missing                                                                                                                                 
+| 118            | Commercial Invoice: Supplier Address Missing                                                                                                                              
+| 119            | Master Bill of Lading: Sending Agent Name Missing                                                                                                                         
+| 120            | Master Bill of Lading: Sending Agent Address Missing                                                                                                                      
+| 121            | Master Bill of Lading: Receiving Agent Name Missing                                                                                                                       
+| 122            | Master Bill of Lading: Receiving Agent Address Missing                                                                                                                    
+| 123            | Master Bill of Lading: Carrier Missing                                                                                                                                    
+| 124            | House Bill of Lading: Shipper Name Missing                                                                                                                                
+| 125            | House Bill of Lading: Shipper Address Missing                                                                                                                             
+| 126            | House Bill of Lading: Consignee Name Missing                                                                                                                              
+| 127            | House Bill of Lading: Consignee Address Missing                                                                                                                           
+| 128            | Bill of Lading: Missing Bill of Lading Number                                                                                                                             
+| 129            | Failed to update accruals to avoid rollup up of costs with same charge code                                                                                               
+| 130            | Commercial Invoice: Total, QTY and PPU do not match for some of the line items. Review the highlighted line items before posting                                          |
+| -1             | Custom exception                                                                                                                                                          |
 
 ### List of PaymentTerm values
 
@@ -2607,6 +2928,7 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | MIX         | Mix                |
 | PAI         | Pail               |
 | PCE         | Piece              |
+| PK          | Package            |
 | PKG         | Package            |
 | PLT         | Pallet             |
 | REL         | Reel               |
