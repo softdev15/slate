@@ -2881,6 +2881,7 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 40OT          | Forty foot open top              |
 | 40REHC        | Forty foot high cube reefer      |
 | 20HC          | Twenty foot high cube            |
+| 20TK          | Twenty foot tank                 |
 
 ### List of ConsolType values
 
