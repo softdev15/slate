@@ -473,6 +473,7 @@ The following objects can be used as parameters in the *include* query
 | files/commercialInvoice/lineItem        | List of line items associated with the Commercial Invoice          |
 | files/packingList                       | Details of the group's Packing Lists                               |
 | files/packingList/lineItem              | List of line items associated with the Packing List                |
+| files/apInvoice                         | Details of the AP Invoice                                          |
 
 > The GET FileGroup when requested with all its inner objects returns JSON structured like this:
 
@@ -2880,6 +2881,7 @@ Exception codes other than -1 have a specific meaning within the Shipamax system
 | 40OT          | Forty foot open top              |
 | 40REHC        | Forty foot high cube reefer      |
 | 20HC          | Twenty foot high cube            |
+| 20TK          | Twenty foot tank                 |
 
 ### List of ConsolType values
 
