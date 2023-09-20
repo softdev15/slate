@@ -1922,7 +1922,7 @@ Create a new Product
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Products                   | POST  | Product's details in JSON    |  The new Product object in JSON           |
+| /ReferenceProducts                   | POST  | Product's details in JSON    |  The new Product object in JSON           |
 
 > **Body structure for POST Products request:**
 
@@ -1976,7 +1976,7 @@ If there are multiple product with the same code they will all be included in th
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Products/{product_code} | GET | Not required | An Product object in JSON |
+| /ReferenceProducts/{product_code} | GET | Not required | An Product object in JSON |
 
 
 > **Example:** GET Product response
@@ -2000,7 +2000,7 @@ Retrieve list of Products that match a filter.
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Products | GET | Filter string in JSON | An array of products objects in JSON |
+| /ReferenceProducts | GET | Filter string in JSON | An array of products objects in JSON |
 
 
 > **Body structure for GET Product request using filter**
@@ -2027,7 +2027,7 @@ Update details of an existing Product
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Products/{product_id} | PATCH | The updated Product details in JSON |
+| /ReferenceProducts/{product_id} | PATCH | The updated Product details in JSON |
 
 > **JSON structure for PATCH Product request**
 
@@ -2058,7 +2058,7 @@ Delete a Product
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Products/{product_id} | DELETE | Not required | Number of deleted products |
+| /ReferenceProducts/{product_id} | DELETE | Not required | Number of deleted products |
 
 
 > **Example:** DELETE Product response
