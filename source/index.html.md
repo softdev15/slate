@@ -1383,112 +1383,6 @@ curl -X GET \
   -H "Authorization: Bearer {TOKEN}"
 ```
 
-## ClusterScore Endpoint
-Get the clustering score of documents in a given file group.
-
-The endpoint will only return the score of documents that was received via a mailbox which supports the clustering workflow.
-
-The following endpoint is currently available:
-
-| Endpoint                         | Verb  | Description                                                                       |
-| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /FileGroups/{file_group_id}/clusterScore | GET | Retrieve the clustering score of document with the given document group ID  |
-
-Send a request via `GET` to `https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id}/clusterScore`.
-
-> **Example:** GET ClusterScore returns an array of scores for documents in that group, like this:
-
-```json
-[{
-  "id": 1,
-  "clusterConfidenceScore": 0.1,
-  "descMin": 0.1,
-  "descFirstQtl": 0.2,
-  "descMedian": 0.4,
-  "descThirdQtl": 0.3,
-  "descMax": 0.3,
-  "liMin": 0.7,
-  "liFirstQtl": 0.8,
-  "liMedian": 0.8,
-  "liThirdQtl": 0.9,
-  "liMax": 1.0
-}]
-```
-
-## Parse Endpoint
-It is possible to trigger the parsing of a document that already exists in Shipamax via API.
-
-The following endpoint is currently available:
-
-| Endpoint                         | Verb  | Description                                                                       |
-| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /FileGroups/{file_group_id}/parse | POST | Trigger the parsing of the document group with the given ID. |
-
-Send a request via `POST` to `https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id}/parse`.
-
-> The POST /parse endpoint responds with JSON like this:
-```json
-[{
-  "filename": "FILE_NAME",
-  "groupId": 00000,
-  "id": 000000
-}]
-```
-
-## ValidationResult Endpoint
-
-For a full workflow Shipamax enables you to provide Validation results via API.
-
-The following endpoint is currently available:
-
-| Endpoint                         | Verb  | Description                                                                       |
-| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /FileGroups/{file_group_id}/validationResult | POST  | Submit a new validationResult making it the lastValidationResult of the FileGroup  |
-
-Send a new validation result via `POST` request to `https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id}/validationResult`
-
-> The POST validationResult request requires a body JSON structured like this:
-
-```json
-{
-  "isSuccess": boolean,
-  "details":  {
-    "validator": string,
-    "exceptions": [
-      {
-        "code": integer,
-        "description": string (optional)
-      }
-    ]
-  }
-}
-```
-### Attributes
-
-| Attribute                               |  Description                                                      |
-| --------------------------------------- | ----------------------------------------------------------------- |
-| isSuccess                               | Definition whether the validation is successful or not            |
-| details.validator                       | Optional name of the application that produced this result, e.g. "CompanyABCValidator"   |
-| details.exceptions.code                 | Exception code, see the [list of exceptions](#list-of-exceptioncode-values)                |
-| details.exceptions.description          | Optional field, used in case of custom exception which code is -1 |
-
-> Example of body to be POSTED:
-
-```json
-{
-  "isSuccess": false,
-  "details":  {
-    "validator": "CompanyABCValidator",
-    "exceptions": [
-      {
-        "code": -1,
-        "description": "Custom message for Invalid value"
-      }
-    ]
-  }
-}
-```
-
 ## Organizations Endpoint
 The Organizations list represents businesses that might be referenced in the documents you send Shipamax to processes (for example, the Shipper on a House Bill of Lading, a Supplier on a Commercial Invoice Creditor etc.). The organization list is used to improve the accuracy of the parsing process, making sure the most likely organization is selected.
 Each Organization must have a unique identifier provided by you (referred to as `externalId`), this is usually the identifier used in your own system.
@@ -1922,7 +1816,7 @@ Create a new Product
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Products                   | POST  | Product's details in JSON    |  The new Product object in JSON           |
+| /ReferenceProducts                   | POST  | Product's details in JSON    |  The new Product object in JSON           |
 
 > **Body structure for POST Products request:**
 
@@ -1976,7 +1870,7 @@ If there are multiple product with the same code they will all be included in th
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Products/{product_code} | GET | Not required | An Product object in JSON |
+| /ReferenceProducts/{product_code} | GET | Not required | An Product object in JSON |
 
 
 > **Example:** GET Product response
@@ -2000,7 +1894,7 @@ Retrieve list of Products that match a filter.
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Products | GET | Filter string in JSON | An array of products objects in JSON |
+| /ReferenceProducts | GET | Filter string in JSON | An array of products objects in JSON |
 
 
 > **Body structure for GET Product request using filter**
@@ -2027,7 +1921,7 @@ Update details of an existing Product
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Products/{product_id} | PATCH | The updated Product details in JSON |
+| /ReferenceProducts/{product_id} | PATCH | The updated Product details in JSON |
 
 > **JSON structure for PATCH Product request**
 
@@ -2058,7 +1952,7 @@ Delete a Product
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Products/{product_id} | DELETE | Not required | Number of deleted products |
+| /ReferenceProducts/{product_id} | DELETE | Not required | Number of deleted products |
 
 
 > **Example:** DELETE Product response
