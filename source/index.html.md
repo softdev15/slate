@@ -474,6 +474,7 @@ The following objects can be used as parameters in the *include* query
 | files/packingList                       | Details of the group's Packing Lists                               |
 | files/packingList/lineItem              | List of line items associated with the Packing List                |
 | files/apInvoice                         | Details of the AP Invoice                                          |
+| files/email                             | Details of the Email                                          |
 
 
 > You can use comma separated values for the include parameter. Example usage of include parameter
