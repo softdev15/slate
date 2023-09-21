@@ -475,6 +475,10 @@ The following objects can be used as parameters in the *include* query
 | files/packingList/lineItem              | List of line items associated with the Packing List                |
 | files/apInvoice                         | Details of the AP Invoice                                          |
 
+
+> You can use comma separated values for the include parameter. Example usage of include parameter
+>/FileGroups/{file_group_id}?include=files/billOfLading,files/commercialInvoice
+
 > The GET FileGroup when requested with all its inner objects returns JSON structured like this:
 
 ```json
