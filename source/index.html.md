@@ -473,7 +473,7 @@ The following objects can be used as parameters in the *include* query
 | files/commercialInvoice/lineItem        | List of line items associated with the Commercial Invoice          |
 | files/packingList                       | Details of the group's Packing Lists                               |
 | files/packingList/lineItem              | List of line items associated with the Packing List                |
-| files/apInvoice                         | Details of the AP Invoice                                          |
+| files/apInvoice                         | Details of the Accounts Payable Invoice                            |
 | files/email                             | Details of the Email                                               |
 
 
