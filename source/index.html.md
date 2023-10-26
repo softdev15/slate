@@ -474,6 +474,8 @@ The following objects can be used as parameters in the *include* query
 | files/packingList                       | Details of the group's Packing Lists                               |
 | files/packingList/lineItem              | List of line items associated with the Packing List                |
 | files/apInvoice                         | Details of the Accounts Payable Invoice                            |
+| files/apInvoice/cluster                 | List of clusters associated with Payable Invoice                   |
+| files/apInvoice/cluster/extractedLine   | List of extracterd Line Items associated with Payable Invoice      |
 | files/email                             | Details of the Email                                               |
 
 
@@ -728,6 +730,68 @@ The following objects can be used as parameters in the *include* query
           }
       ]
     },
+    {
+      "id": integer,
+      "filename": string,
+      "created": "[ISO8601 timestamp]",
+      "fileType": 4:integer,
+      "apInvoice": [
+        {
+          "addressee": string,
+          "addresseeCode": string,
+          "issuer": string,
+          "issuerCode": string,
+          "invoiceNumber": string,
+          "invoiceDate": string,
+          "invoiceGrossTotal": float,
+          "netTotal": float,
+          "vatTotal": float,
+          "currency": string,
+          "currencyId": integer,
+          "validationResultId": integer,
+          "reassignTime": string,
+          "email": string,
+          "website": string,
+          "issuerRecordId": string,
+          "glCode": string,
+          "description": string,
+          "departmentCode": string,
+          "branchCountry": string,
+          "cluster": [
+            {
+              "total": float,
+              "description": string,
+              "glCode": string,
+              "vatTotal": float,
+              "taxCode": string,
+              "orderIndex": integer,
+              "branch": string,
+              "departmentCode": string,
+              "extractedLine": [
+                {
+                  "jobRef": string,
+                  "bolNum": string,
+                  "containerNum": string,
+                  "purchaseOrder": sring,
+                  "serviceStartDate": "[ISO8601 timestamp]",
+                  "serviceEndDate": "[ISO8601 timestamp]",
+                  "orderIndex": integer
+                },
+                {
+                  "jobRef": string,
+                  "bolNum": string,
+                  "containerNum": string,
+                  "purchaseOrder": string,
+                  "serviceStartDate": "[ISO8601 timestamp]",
+                  "serviceEndDate": "[ISO8601 timestamp]",
+                  "orderIndex": integer,
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
   ]
 }
 ```
@@ -940,6 +1004,26 @@ To determine if a line item was matched, use the productCodeMatched attribute:
 | files.apInvoice.departmentCode            |  The department code of this invoice.             |
 | files.apInvoice.branchCountry            |   The branch country of this invoice.             |
 
+### *Files/apInvoice/Cluster* attributes
+
+| Attribute                               |  Description                                                                                                                      |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| files.billOfLading.cluster.total   | The cluster total Value                                                      |
+| files.billOfLading.cluster.description | The cluster description                                                  |
+| files.billOfLading.cluster.glCode         | The Cluster GL Code                                                      |
+| files.billOfLading.cluster.vatTotal         | The Cluster total VAT Value                                                  |
+| files.billOfLading.cluster.taxCode         | Tax Code                                                     |
+| files.billOfLading.cluster.branch         | The Branch code                                                      |
+| files.billOfLading.cluster.departmentCode         | The Department Code                                                      |
+| files.billOfLading.cluster.orderIndex         | The position which the cluster is displayed in relation with the other clusters                     |
+| files.billOfLading.cluster.extractedLine.jobRef         | The Job Ref                                                      |
+| files.billOfLading.cluster.extractedLine.bolNum         | The Bol Number                                                      |
+| files.billOfLading.cluster.extractedLine.containerNum         | The Container  Number                                                      |
+| files.billOfLading.cluster.extractedLine.purchaseOrder         | The Purchase Order                                                     |
+| files.billOfLading.cluster.extractedLine.serviceStartDate         |  The Service start date                                                    |
+| files.billOfLading.cluster.extractedLine.serviceEndDate         | The Service end date                                                      |
+| files.billOfLading.cluster.extractedLine.orderIndex         | The position which the Job ref is displayed in relation with the other refs         |
+
 ### *Files/email* attributes
 
 | Attribute                            | Description                               |
@@ -1052,7 +1136,7 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
 > Example of request with all inner objects included:
 > /FileGroups/1?include=lastValidationResult,files/billOfLading/importerReference,files/billOfLading/notify,
 > files/billOfLading/container/seals,files/billOfLading/packline
-> files/commercialInvoice,files/commercialInvoice/lineItem,files/apInvoice,files/email,files/parent
+> files/commercialInvoice,files/commercialInvoice/lineItem,files/apInvoice/cluster/extractedLine,files/email,files/parent
 > files/packingList,files/packingList/lineItem
 
 ```json
@@ -1106,8 +1190,6 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
           "currency": "GBP",
           "currencyId": 826,
           "validationResultId": 1,
-          "teamId": 1,
-          "previousTeamId": 2,
           "reassignTime": "2020-07-03",
           "email": "invoice@invoice.com",
           "website": "www.invoice.com",
@@ -1115,7 +1197,39 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
           "glCode": "1300.00.00",
           "description": "This is an invoice",
           "departmentCode": "DEPTCODE",
-          "branchCountry": "Lithuania"
+          "branchCountry": "Lithuania",
+          "cluster": [
+            {
+              "total": 100,
+              "description": null,
+              "glCode": null,
+              "vatTotal": 5,
+              "taxCode": null,
+              "orderIndex": 1,
+              "branch": null,
+              "departmentCode": null,
+              "extractedLine": [
+                {
+                  "jobRef": "C00000118",
+                  "bolNum": null,
+                  "containerNum": null,
+                  "purchaseOrder": null,
+                  "serviceStartDate": null,
+                  "serviceEndDate": null,
+                  "orderIndex": 1
+                },
+                {
+                  "jobRef": "C00000119",
+                  "bolNum": null,
+                  "containerNum": null,
+                  "purchaseOrder": null,
+                  "serviceStartDate": null,
+                  "serviceEndDate": null,
+                  "orderIndex": 2,
+                }
+              ]
+            }
+          ]
         }
       ],
       "billOfLading": [],
@@ -1140,7 +1254,7 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
       "parent": {
         "fileId": 22
       },
-      "apInvoice": []
+      "apInvoice": [],
       "billOfLading": [
         {
           "id": 111,
