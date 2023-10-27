@@ -476,7 +476,7 @@ The following objects can be used as parameters in the *include* query
 | files/apInvoice                         | Details of the Accounts Payable Invoice                            |
 | files/apInvoice/cluster                 | List of clusters associated with Payable Invoice                   |
 | files/apInvoice/cluster/jobReference    | List of References associated with Payable Invoice's cluster       |
-| files/apInvoice/cluster/extractedLine   | List of extracterd Line associated with Payable Invoice'cluster    |
+| files/apInvoice/cluster/extractedLine   | List of extracted charge lines associated with Payable invoice's cluster   |
 | files/email                             | Details of the Email                                               |
 
 
@@ -762,12 +762,7 @@ The following objects can be used as parameters in the *include* query
             {
               "total": float,
               "description": string,
-              "glCode": string,
               "vatTotal": float,
-              "taxCode": string,
-              "orderIndex": integer,
-              "branch": string,
-              "departmentCode": string,
               "extractedLine": [
                 {
                   "service": string,
@@ -788,8 +783,7 @@ The following objects can be used as parameters in the *include* query
                   "containerNum": string,
                   "purchaseOrder": sring,
                   "serviceStartDate": "[ISO8601 timestamp]",
-                  "serviceEndDate": "[ISO8601 timestamp]",
-                  "orderIndex": integer
+                  "serviceEndDate": "[ISO8601 timestamp]"
                 },
                 {
                   "jobRef": string,
@@ -797,8 +791,7 @@ The following objects can be used as parameters in the *include* query
                   "containerNum": string,
                   "purchaseOrder": string,
                   "serviceStartDate": "[ISO8601 timestamp]",
-                  "serviceEndDate": "[ISO8601 timestamp]",
-                  "orderIndex": integer,
+                  "serviceEndDate": "[ISO8601 timestamp]"
                 }
               ]
             }
@@ -1022,29 +1015,23 @@ To determine if a line item was matched, use the productCodeMatched attribute:
 
 | Attribute                               |  Description                                                                                                                      |
 | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| files.apInvoice.cluster.total   | The cluster total Value                                                      |
-| files.apInvoice.cluster.description | The cluster description                                                  |
-| files.apInvoice.cluster.glCode         | The Cluster GL Code                                                      |
-| files.apInvoice.cluster.vatTotal         | The Cluster total VAT Value                                                  |
-| files.apInvoice.cluster.taxCode         | Tax Code                                                     |
-| files.apInvoice.cluster.branch         | The Branch code                                                      |
-| files.apInvoice.cluster.departmentCode         | The Department Code                                                      |
-| files.apInvoice.cluster.orderIndex         | The position which the cluster is displayed in relation with the other clusters                     |
-| files.apInvoice.cluster.jobReference.jobRef         | The Job Ref                                                      |
+| files.apInvoice.cluster.total   | The cluster total, subtotal of the invoice                                                 |
+| files.apInvoice.cluster.description | Textual description of a cluster on the invoice                                                 |
+| files.apInvoice.cluster.vatTotal         | Total tax amount of the cluster                                                  |
+| files.apInvoice.cluster.jobReference.jobRef         | The shipment or consol reference                                 |
 | files.apInvoice.cluster.jobReference.bolNum         | The Bol Number                                                      |
 | files.apInvoice.cluster.jobReference.containerNum         | The Container  Number                                                      |
 | files.apInvoice.cluster.jobReference.purchaseOrder         | The Purchase Order                                                     |
 | files.apInvoice.cluster.jobReference.serviceStartDate         |  The Service start date                                                    |
 | files.apInvoice.cluster.jobReference.serviceEndDate         | The Service end date                                                      |
-| files.apInvoice.cluster.jobReference.orderIndex         | The position which the Job ref is displayed in relation with the other refs         |
-| files.apInvoice.cluster.extractedLine.service         | The Service of the extracted Line       |
-| files.apInvoice.cluster.extractedLine.journey         | The Journey of the extraxted Line       |
-| files.apInvoice.cluster.extractedLine.unitPrice         | The Unit price of the extracted Line         |
-| files.apInvoice.cluster.extractedLine.quantity         | The quantity of the extracted Line         |
-| files.apInvoice.cluster.extractedLine.currency         | The currency of the extraxcted Line        |
-| files.apInvoice.cluster.extractedLine.lineVat         | The VAT of the extracted Line         |
-| files.apInvoice.cluster.extractedLine.lineGross         | The Gross value of the extracted Line     |
-| files.apInvoice.cluster.extractedLine.exchangeRate         | The exchange rate of the currency of the extracted line       |
+| files.apInvoice.cluster.extractedLine.service         | The service of the charge line       |
+| files.apInvoice.cluster.extractedLine.journey         | The Journey of the charge Line       |
+| files.apInvoice.cluster.extractedLine.unitPrice         | The Unit price of the charge Line         |
+| files.apInvoice.cluster.extractedLine.quantity         | The quantity of the charge Line         |
+| files.apInvoice.cluster.extractedLine.currency         | The currency of the charge Line        |
+| files.apInvoice.cluster.extractedLine.lineVat         | Total tax amount of the charge line        |
+| files.apInvoice.cluster.extractedLine.lineGross         | The Gross value of the charge Line     |
+| files.apInvoice.cluster.extractedLine.exchangeRate         | The exchange rate of the charge line       |
 
 ### *Files/email* attributes
 
@@ -1224,12 +1211,7 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
             {
               "total": 100,
               "description": null,
-              "glCode": null,
               "vatTotal": 5,
-              "taxCode": null,
-              "orderIndex": 1,
-              "branch": null,
-              "departmentCode": null,
               "extractedLine": [
                 {
                   "service": "A2",
@@ -1251,8 +1233,7 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
                   "containerNum": null,
                   "purchaseOrder": null,
                   "serviceStartDate": null,
-                  "serviceEndDate": null,
-                  "orderIndex": 1
+                  "serviceEndDate": null
                 },
                 {
                   "jobRef": "C00000119",
@@ -1260,8 +1241,7 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
                   "containerNum": null,
                   "purchaseOrder": null,
                   "serviceStartDate": null,
-                  "serviceEndDate": null,
-                  "orderIndex": 2,
+                  "serviceEndDate": null
                 }
               ]
             }
