@@ -475,7 +475,8 @@ The following objects can be used as parameters in the *include* query
 | files/packingList/lineItem              | List of line items associated with the Packing List                |
 | files/apInvoice                         | Details of the Accounts Payable Invoice                            |
 | files/apInvoice/cluster                 | List of clusters associated with Payable Invoice                   |
-| files/apInvoice/cluster/extractedLine   | List of extracterd Line Items associated with Payable Invoice      |
+| files/apInvoice/cluster/jobReference    | List of References associated with Payable Invoice's cluster       |
+| files/apInvoice/cluster/extractedLine   | List of extracterd Line associated with Payable Invoice'cluster    |
 | files/email                             | Details of the Email                                               |
 
 
@@ -769,6 +770,19 @@ The following objects can be used as parameters in the *include* query
               "departmentCode": string,
               "extractedLine": [
                 {
+                  "service": string,
+                  "journey": string,
+                  "unitPrice": float,
+                  "quantity": float,
+                  "currency": string,
+                  "lineVat": float,
+                  "lineNet": float,
+                  "lineGross": float,
+                  "exchangeRate": float
+                }
+              ],
+              "jobReference": [
+                {
                   "jobRef": string,
                   "bolNum": string,
                   "containerNum": string,
@@ -1008,21 +1022,29 @@ To determine if a line item was matched, use the productCodeMatched attribute:
 
 | Attribute                               |  Description                                                                                                                      |
 | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| files.billOfLading.cluster.total   | The cluster total Value                                                      |
-| files.billOfLading.cluster.description | The cluster description                                                  |
-| files.billOfLading.cluster.glCode         | The Cluster GL Code                                                      |
-| files.billOfLading.cluster.vatTotal         | The Cluster total VAT Value                                                  |
-| files.billOfLading.cluster.taxCode         | Tax Code                                                     |
-| files.billOfLading.cluster.branch         | The Branch code                                                      |
-| files.billOfLading.cluster.departmentCode         | The Department Code                                                      |
-| files.billOfLading.cluster.orderIndex         | The position which the cluster is displayed in relation with the other clusters                     |
-| files.billOfLading.cluster.extractedLine.jobRef         | The Job Ref                                                      |
-| files.billOfLading.cluster.extractedLine.bolNum         | The Bol Number                                                      |
-| files.billOfLading.cluster.extractedLine.containerNum         | The Container  Number                                                      |
-| files.billOfLading.cluster.extractedLine.purchaseOrder         | The Purchase Order                                                     |
-| files.billOfLading.cluster.extractedLine.serviceStartDate         |  The Service start date                                                    |
-| files.billOfLading.cluster.extractedLine.serviceEndDate         | The Service end date                                                      |
-| files.billOfLading.cluster.extractedLine.orderIndex         | The position which the Job ref is displayed in relation with the other refs         |
+| files.apInvoice.cluster.total   | The cluster total Value                                                      |
+| files.apInvoice.cluster.description | The cluster description                                                  |
+| files.apInvoice.cluster.glCode         | The Cluster GL Code                                                      |
+| files.apInvoice.cluster.vatTotal         | The Cluster total VAT Value                                                  |
+| files.apInvoice.cluster.taxCode         | Tax Code                                                     |
+| files.apInvoice.cluster.branch         | The Branch code                                                      |
+| files.apInvoice.cluster.departmentCode         | The Department Code                                                      |
+| files.apInvoice.cluster.orderIndex         | The position which the cluster is displayed in relation with the other clusters                     |
+| files.apInvoice.cluster.jobReference.jobRef         | The Job Ref                                                      |
+| files.apInvoice.cluster.jobReference.bolNum         | The Bol Number                                                      |
+| files.apInvoice.cluster.jobReference.containerNum         | The Container  Number                                                      |
+| files.apInvoice.cluster.jobReference.purchaseOrder         | The Purchase Order                                                     |
+| files.apInvoice.cluster.jobReference.serviceStartDate         |  The Service start date                                                    |
+| files.apInvoice.cluster.jobReference.serviceEndDate         | The Service end date                                                      |
+| files.apInvoice.cluster.jobReference.orderIndex         | The position which the Job ref is displayed in relation with the other refs         |
+| files.apInvoice.cluster.extractedLine.service         | The Service of the extracted Line       |
+| files.apInvoice.cluster.extractedLine.journey         | The Journey of the extraxted Line       |
+| files.apInvoice.cluster.extractedLine.unitPrice         | The Unit price of the extracted Line         |
+| files.apInvoice.cluster.extractedLine.quantity         | The quantity of the extracted Line         |
+| files.apInvoice.cluster.extractedLine.currency         | The currency of the extraxcted Line        |
+| files.apInvoice.cluster.extractedLine.lineVat         | The VAT of the extracted Line         |
+| files.apInvoice.cluster.extractedLine.lineGross         | The Gross value of the extracted Line     |
+| files.apInvoice.cluster.extractedLine.exchangeRate         | The exchange rate of the currency of the extracted line       |
 
 ### *Files/email* attributes
 
@@ -1136,7 +1158,7 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
 > Example of request with all inner objects included:
 > /FileGroups/1?include=lastValidationResult,files/billOfLading/importerReference,files/billOfLading/notify,
 > files/billOfLading/container/seals,files/billOfLading/packline
-> files/commercialInvoice,files/commercialInvoice/lineItem,files/apInvoice/cluster/extractedLine,files/email,files/parent
+> files/commercialInvoice,files/commercialInvoice/lineItem,files/apInvoice/cluster/extractedLine,files/apInvoice/cluster/jobReference,files/email,files/parent
 > files/packingList,files/packingList/lineItem
 
 ```json
@@ -1209,6 +1231,20 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
               "branch": null,
               "departmentCode": null,
               "extractedLine": [
+                {
+                  "service": "A2",
+                  "journey": "B2",
+                  "unitPrice": 10,
+                  "quantity": 10,
+                  "currency": "EUR",
+                  "lineVat": 20,
+                  "lineNet": 80,
+                  "lineGross": 100,
+                  "exchangeRate": 1.3,
+                  "id": 2
+                }
+              ],
+              "jobReference": [
                 {
                   "jobRef": "C00000118",
                   "bolNum": null,
