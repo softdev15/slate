@@ -473,7 +473,15 @@ The following objects can be used as parameters in the *include* query
 | files/commercialInvoice/lineItem        | List of line items associated with the Commercial Invoice          |
 | files/packingList                       | Details of the group's Packing Lists                               |
 | files/packingList/lineItem              | List of line items associated with the Packing List                |
-| files/apInvoice                         | Details of the AP Invoice                                          |
+| files/apInvoice                         | Details of the Accounts Payable Invoice                            |
+| files/apInvoice/cluster                 | List of clusters associated with Payable Invoice                   |
+| files/apInvoice/cluster/jobReference    | List of References associated with Payable Invoice's cluster       |
+| files/apInvoice/cluster/extractedLine   | List of extracted charge lines associated with Payable invoice's cluster   |
+| files/email                             | Details of the Email                                               |
+
+
+> You can use comma separated values for the include parameter. Example usage of include parameter
+>/FileGroups/{file_group_id}?include=files/billOfLading,files/commercialInvoice
 
 > The GET FileGroup when requested with all its inner objects returns JSON structured like this:
 
@@ -723,6 +731,74 @@ The following objects can be used as parameters in the *include* query
           }
       ]
     },
+    {
+      "id": integer,
+      "filename": string,
+      "created": "[ISO8601 timestamp]",
+      "fileType": 4:integer,
+      "apInvoice": [
+        {
+          "addressee": string,
+          "addresseeCode": string,
+          "issuer": string,
+          "issuerCode": string,
+          "invoiceNumber": string,
+          "invoiceDate": string,
+          "invoiceGrossTotal": float,
+          "netTotal": float,
+          "vatTotal": float,
+          "currency": string,
+          "currencyId": integer,
+          "validationResultId": integer,
+          "reassignTime": string,
+          "email": string,
+          "website": string,
+          "issuerRecordId": string,
+          "glCode": string,
+          "description": string,
+          "departmentCode": string,
+          "branchCountry": string,
+          "cluster": [
+            {
+              "total": float,
+              "description": string,
+              "vatTotal": float,
+              "extractedLine": [
+                {
+                  "service": string,
+                  "journey": string,
+                  "unitPrice": float,
+                  "quantity": float,
+                  "currency": string,
+                  "lineVat": float,
+                  "lineNet": float,
+                  "lineGross": float,
+                  "exchangeRate": float
+                }
+              ],
+              "jobReference": [
+                {
+                  "jobRef": string,
+                  "bolNum": string,
+                  "containerNum": string,
+                  "purchaseOrder": sring,
+                  "serviceStartDate": "[ISO8601 timestamp]",
+                  "serviceEndDate": "[ISO8601 timestamp]"
+                },
+                {
+                  "jobRef": string,
+                  "bolNum": string,
+                  "containerNum": string,
+                  "purchaseOrder": string,
+                  "serviceStartDate": "[ISO8601 timestamp]",
+                  "serviceEndDate": "[ISO8601 timestamp]"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
   ]
 }
 ```
@@ -935,6 +1011,28 @@ To determine if a line item was matched, use the productCodeMatched attribute:
 | files.apInvoice.departmentCode            |  The department code of this invoice.             |
 | files.apInvoice.branchCountry            |   The branch country of this invoice.             |
 
+### *Files/apInvoice/Cluster* attributes
+
+| Attribute                               |  Description                                                                                                                      |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| files.apInvoice.cluster.total   | The cluster total, subtotal of the invoice                                                 |
+| files.apInvoice.cluster.description | Textual description of a cluster on the invoice                                                 |
+| files.apInvoice.cluster.vatTotal         | Total tax amount of the cluster                                                  |
+| files.apInvoice.cluster.jobReference.jobRef         | The shipment or consol reference                                 |
+| files.apInvoice.cluster.jobReference.bolNum         | The Bol Number                                                      |
+| files.apInvoice.cluster.jobReference.containerNum         | The Container  Number                                                      |
+| files.apInvoice.cluster.jobReference.purchaseOrder         | The Purchase Order                                                     |
+| files.apInvoice.cluster.jobReference.serviceStartDate         |  The Service start date                                                    |
+| files.apInvoice.cluster.jobReference.serviceEndDate         | The Service end date                                                      |
+| files.apInvoice.cluster.extractedLine.service         | The service of the charge line       |
+| files.apInvoice.cluster.extractedLine.journey         | The Journey of the charge Line       |
+| files.apInvoice.cluster.extractedLine.unitPrice         | The Unit price of the charge Line         |
+| files.apInvoice.cluster.extractedLine.quantity         | The quantity of the charge Line         |
+| files.apInvoice.cluster.extractedLine.currency         | The currency of the charge Line        |
+| files.apInvoice.cluster.extractedLine.lineVat         | Total tax amount of the charge line        |
+| files.apInvoice.cluster.extractedLine.lineGross         | The Gross value of the charge Line     |
+| files.apInvoice.cluster.extractedLine.exchangeRate         | The exchange rate of the charge line       |
+
 ### *Files/email* attributes
 
 | Attribute                            | Description                               |
@@ -1047,7 +1145,7 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
 > Example of request with all inner objects included:
 > /FileGroups/1?include=lastValidationResult,files/billOfLading/importerReference,files/billOfLading/notify,
 > files/billOfLading/container/seals,files/billOfLading/packline
-> files/commercialInvoice,files/commercialInvoice/lineItem,files/apInvoice,files/email,files/parent
+> files/commercialInvoice,files/commercialInvoice/lineItem,files/apInvoice/cluster/extractedLine,files/apInvoice/cluster/jobReference,files/email,files/parent
 > files/packingList,files/packingList/lineItem
 
 ```json
@@ -1101,8 +1199,6 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
           "currency": "GBP",
           "currencyId": 826,
           "validationResultId": 1,
-          "teamId": 1,
-          "previousTeamId": 2,
           "reassignTime": "2020-07-03",
           "email": "invoice@invoice.com",
           "website": "www.invoice.com",
@@ -1110,7 +1206,46 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
           "glCode": "1300.00.00",
           "description": "This is an invoice",
           "departmentCode": "DEPTCODE",
-          "branchCountry": "Lithuania"
+          "branchCountry": "Lithuania",
+          "cluster": [
+            {
+              "total": 100,
+              "description": null,
+              "vatTotal": 5,
+              "extractedLine": [
+                {
+                  "service": "A2",
+                  "journey": "B2",
+                  "unitPrice": 10,
+                  "quantity": 10,
+                  "currency": "EUR",
+                  "lineVat": 20,
+                  "lineNet": 80,
+                  "lineGross": 100,
+                  "exchangeRate": 1.3,
+                  "id": 2
+                }
+              ],
+              "jobReference": [
+                {
+                  "jobRef": "C00000118",
+                  "bolNum": null,
+                  "containerNum": null,
+                  "purchaseOrder": null,
+                  "serviceStartDate": null,
+                  "serviceEndDate": null
+                },
+                {
+                  "jobRef": "C00000119",
+                  "bolNum": null,
+                  "containerNum": null,
+                  "purchaseOrder": null,
+                  "serviceStartDate": null,
+                  "serviceEndDate": null
+                }
+              ]
+            }
+          ]
         }
       ],
       "billOfLading": [],
@@ -1135,7 +1270,7 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
       "parent": {
         "fileId": 22
       },
-      "apInvoice": []
+      "apInvoice": [],
       "billOfLading": [
         {
           "id": 111,
@@ -1381,112 +1516,6 @@ curl -X GET \
   https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id} \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer {TOKEN}"
-```
-
-## ClusterScore Endpoint
-Get the clustering score of documents in a given file group.
-
-The endpoint will only return the score of documents that was received via a mailbox which supports the clustering workflow.
-
-The following endpoint is currently available:
-
-| Endpoint                         | Verb  | Description                                                                       |
-| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /FileGroups/{file_group_id}/clusterScore | GET | Retrieve the clustering score of document with the given document group ID  |
-
-Send a request via `GET` to `https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id}/clusterScore`.
-
-> **Example:** GET ClusterScore returns an array of scores for documents in that group, like this:
-
-```json
-[{
-  "id": 1,
-  "clusterConfidenceScore": 0.1,
-  "descMin": 0.1,
-  "descFirstQtl": 0.2,
-  "descMedian": 0.4,
-  "descThirdQtl": 0.3,
-  "descMax": 0.3,
-  "liMin": 0.7,
-  "liFirstQtl": 0.8,
-  "liMedian": 0.8,
-  "liThirdQtl": 0.9,
-  "liMax": 1.0
-}]
-```
-
-## Parse Endpoint
-It is possible to trigger the parsing of a document that already exists in Shipamax via API.
-
-The following endpoint is currently available:
-
-| Endpoint                         | Verb  | Description                                                                       |
-| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /FileGroups/{file_group_id}/parse | POST | Trigger the parsing of the document group with the given ID. |
-
-Send a request via `POST` to `https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id}/parse`.
-
-> The POST /parse endpoint responds with JSON like this:
-```json
-[{
-  "filename": "FILE_NAME",
-  "groupId": 00000,
-  "id": 000000
-}]
-```
-
-## ValidationResult Endpoint
-
-For a full workflow Shipamax enables you to provide Validation results via API.
-
-The following endpoint is currently available:
-
-| Endpoint                         | Verb  | Description                                                                       |
-| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
-| /FileGroups/{file_group_id}/validationResult | POST  | Submit a new validationResult making it the lastValidationResult of the FileGroup  |
-
-Send a new validation result via `POST` request to `https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id}/validationResult`
-
-> The POST validationResult request requires a body JSON structured like this:
-
-```json
-{
-  "isSuccess": boolean,
-  "details":  {
-    "validator": string,
-    "exceptions": [
-      {
-        "code": integer,
-        "description": string (optional)
-      }
-    ]
-  }
-}
-```
-### Attributes
-
-| Attribute                               |  Description                                                      |
-| --------------------------------------- | ----------------------------------------------------------------- |
-| isSuccess                               | Definition whether the validation is successful or not            |
-| details.validator                       | Optional name of the application that produced this result, e.g. "CompanyABCValidator"   |
-| details.exceptions.code                 | Exception code, see the [list of exceptions](#list-of-exceptioncode-values)                |
-| details.exceptions.description          | Optional field, used in case of custom exception which code is -1 |
-
-> Example of body to be POSTED:
-
-```json
-{
-  "isSuccess": false,
-  "details":  {
-    "validator": "CompanyABCValidator",
-    "exceptions": [
-      {
-        "code": -1,
-        "description": "Custom message for Invalid value"
-      }
-    ]
-  }
-}
 ```
 
 ## Organizations Endpoint
@@ -1922,7 +1951,7 @@ Create a new Product
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Products                   | POST  | Product's details in JSON    |  The new Product object in JSON           |
+| /ReferenceProducts                   | POST  | Product's details in JSON    |  The new Product object in JSON           |
 
 > **Body structure for POST Products request:**
 
@@ -1976,7 +2005,7 @@ If there are multiple product with the same code they will all be included in th
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Products/{product_code} | GET | Not required | An Product object in JSON |
+| /ReferenceProducts/{product_code} | GET | Not required | An Product object in JSON |
 
 
 > **Example:** GET Product response
@@ -2000,7 +2029,7 @@ Retrieve list of Products that match a filter.
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Products | GET | Filter string in JSON | An array of products objects in JSON |
+| /ReferenceProducts | GET | Filter string in JSON | An array of products objects in JSON |
 
 
 > **Body structure for GET Product request using filter**
@@ -2027,7 +2056,7 @@ Update details of an existing Product
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Products/{product_id} | PATCH | The updated Product details in JSON |
+| /ReferenceProducts/{product_id} | PATCH | The updated Product details in JSON |
 
 > **JSON structure for PATCH Product request**
 
@@ -2058,7 +2087,7 @@ Delete a Product
 
 | Endpoint                         | Verb  | Body                              | Response                                       |
 | -------------------------------- | ----- | ----------------------------------| ---------------------------------------------- |
-| /Products/{product_id} | DELETE | Not required | Number of deleted products |
+| /ReferenceProducts/{product_id} | DELETE | Not required | Number of deleted products |
 
 
 > **Example:** DELETE Product response
