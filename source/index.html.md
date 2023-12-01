@@ -742,6 +742,7 @@ The following objects can be used as parameters in the *include* query
           "addresseeCode": string,
           "issuer": string,
           "issuerCode": string,
+          "issuerRecordId": string,
           "invoiceNumber": string,
           "invoiceDate": string,
           "invoiceGrossTotal": float,
@@ -750,18 +751,11 @@ The following objects can be used as parameters in the *include* query
           "currency": string,
           "currencyId": integer,
           "validationResultId": integer,
-          "reassignTime": string,
-          "email": string,
-          "website": string,
-          "issuerRecordId": string,
-          "glCode": string,
-          "description": string,
-          "departmentCode": string,
-          "branchCountry": string,
           "cluster": [
             {
               "total": float,
-              "description": string,
+              "glCode": string,
+              "glDescription": string,
               "vatTotal": float,
               "extractedLine": [
                 {
@@ -781,15 +775,6 @@ The following objects can be used as parameters in the *include* query
                   "jobRef": string,
                   "bolNum": string,
                   "containerNum": string,
-                  "purchaseOrder": sring,
-                  "serviceStartDate": "[ISO8601 timestamp]",
-                  "serviceEndDate": "[ISO8601 timestamp]"
-                },
-                {
-                  "jobRef": string,
-                  "bolNum": string,
-                  "containerNum": string,
-                  "purchaseOrder": string,
                   "serviceStartDate": "[ISO8601 timestamp]",
                   "serviceEndDate": "[ISO8601 timestamp]"
                 }
@@ -1015,6 +1000,8 @@ To determine if a line item was matched, use the productCodeMatched attribute:
 | files.apInvoice.cluster.jobReference.jobRef         | The shipment or consol reference, either extracted or added by the user.                                 |
 | files.apInvoice.cluster.jobReference.bolNum         | The Bol Number, either extracted or added by the user.                                                      |
 | files.apInvoice.cluster.jobReference.containerNum         | The Container  Number, either extracted or added by the user.                                                      |
+| files.apInvoice.cluster.jobReference.serviceStartDate         |  The extracted service start date                                                    |
+| files.apInvoice.cluster.jobReference.serviceEndDate         | The extracted service end date                                                      |
 | files.apInvoice.cluster.extractedLine.service         | The extracted service of the charge line.       |
 | files.apInvoice.cluster.extractedLine.journey         | The extracted journey of the charge line.       |
 | files.apInvoice.cluster.extractedLine.unitPrice         | The extracted unit price of the charge line.         |
@@ -1182,6 +1169,7 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
           "addresseeCode": "ADDCODE",
           "issuer": "PARSED VALUE ISSUER",
           "issuerCode": "ISSCODE",
+          "issuerRecordId": "1-1-1",
           "invoiceNumber": "ABC12345",
           "invoiceDate": "2020-07-03",
           "invoiceGrossTotal": 2607.92,
@@ -1190,18 +1178,11 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
           "currency": "GBP",
           "currencyId": 826,
           "validationResultId": 1,
-          "reassignTime": "2020-07-03",
-          "email": "invoice@invoice.com",
-          "website": "www.invoice.com",
-          "issuerRecordId": "1-1-1",
-          "glCode": "1300.00.00",
-          "description": "This is an invoice",
-          "departmentCode": "DEPTCODE",
-          "branchCountry": "Lithuania",
           "cluster": [
             {
               "total": 100,
-              "description": null,
+              "glCode": "1300.00.00",
+              "glDescription": null,
               "vatTotal": 5,
               "extractedLine": [
                 {
@@ -1222,7 +1203,6 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
                   "jobRef": "C00000118",
                   "bolNum": null,
                   "containerNum": null,
-                  "purchaseOrder": null,
                   "serviceStartDate": null,
                   "serviceEndDate": null
                 },
@@ -1230,7 +1210,6 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
                   "jobRef": "C00000119",
                   "bolNum": null,
                   "containerNum": null,
-                  "purchaseOrder": null,
                   "serviceStartDate": null,
                   "serviceEndDate": null
                 }
