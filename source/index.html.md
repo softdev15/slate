@@ -742,6 +742,7 @@ The following objects can be used as parameters in the *include* query
           "addresseeCode": string,
           "issuer": string,
           "issuerCode": string,
+          "issuerRecordId": string,
           "invoiceNumber": string,
           "invoiceDate": string,
           "invoiceGrossTotal": float,
@@ -750,18 +751,11 @@ The following objects can be used as parameters in the *include* query
           "currency": string,
           "currencyId": integer,
           "validationResultId": integer,
-          "reassignTime": string,
-          "email": string,
-          "website": string,
-          "issuerRecordId": string,
-          "glCode": string,
-          "description": string,
-          "departmentCode": string,
-          "branchCountry": string,
           "cluster": [
             {
               "total": float,
-              "description": string,
+              "glCode": string,
+              "glDescription": string,
               "vatTotal": float,
               "extractedLine": [
                 {
@@ -781,15 +775,6 @@ The following objects can be used as parameters in the *include* query
                   "jobRef": string,
                   "bolNum": string,
                   "containerNum": string,
-                  "purchaseOrder": sring,
-                  "serviceStartDate": "[ISO8601 timestamp]",
-                  "serviceEndDate": "[ISO8601 timestamp]"
-                },
-                {
-                  "jobRef": string,
-                  "bolNum": string,
-                  "containerNum": string,
-                  "purchaseOrder": string,
                   "serviceStartDate": "[ISO8601 timestamp]",
                   "serviceEndDate": "[ISO8601 timestamp]"
                 }
@@ -990,48 +975,41 @@ To determine if a line item was matched, use the productCodeMatched attribute:
 
 | Attribute                            | Description                               |
 | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------  |
-| files.apInvoice.addressee            | The raw data extracted for the addressee field from the invoice.                   |
-| files.apInvoice.addresseeCode            | The code for the selected addressee (as it appears in the Exception Manager UI) taken from your Organization data.      |
-| files.apInvoice.issuer           | The raw data extracted for the issuer field from the invoice.       |
-| files.apInvoice.issuerCode           | The code for the selected issuer (as it appears in the Exception Manager UI) taken from your Organization data.        |
-| files.apInvoice.invoiceNumber            | The invoice number.                    |
-| files.apInvoice.invoiceDate            |  The invoice date            |
-| files.apInvoice.grossTotal            | The invoice's gross total.        |
-| files.apInvoice.netTotal            |  The invoice's net total.            |
-| files.apInvoice.vatTotal            |   The invoice's total VAT.       |
-| files.apInvoice.currency            |   The currency of the invoice.             |
+| files.apInvoice.addressee            | The raw data extracted for the addressee field from the invoice.                 |
+| files.apInvoice.addresseeCode           | The code for the selected addressee (as it appears in the Exception Manager UI) taken from your Organization data.      |
+| files.apInvoice.issuer          | The raw data extracted for the issuer field from the invoice.       |
+| files.apInvoice.issuerCode         | The code for the selected issuer (as it appears in the Exception Manager UI) taken from your Organization data.        |
+| files.apInvoice.issuerRecordId            |  A composite internal ID for the selected issuer, name and address.                 |
+| files.apInvoice.invoiceNumber          | The extracted invoice number.                    |
+| files.apInvoice.invoiceDate           |  The extracted invoice date.            |
+| files.apInvoice.grossTotal            | The extracted invoice's gross total.        |
+| files.apInvoice.netTotal            |  The extracted invoice's net total.            |
+| files.apInvoice.vatTotal            |   The extracted invoice's total VAT.       |
+| files.apInvoice.currency            |   The extracted currency of the invoice.             |
 | files.apInvoice.currencyId            |  The internal ID of the currency of the invoice.             |
 | files.apInvoice.validationResultId            |   The internal ID of the last validation result.             |
-| files.apInvoice.reassignTime            |   The timestamp of when this invoice was last reassigned.             |
-| files.apInvoice.email            |   The email for this invoice.             |
-| files.apInvoice.website            |   The website for this invoice.             |
-| files.apInvoice.issuerRecordId            |  A composite internal ID for the selected issuer, name and address.             |
-| files.apInvoice.glCode            |   The general ledger code of this invoice.            |
-| files.apInvoice.description            |   The description of the invoice.            |
-| files.apInvoice.departmentCode            |  The department code of this invoice.             |
-| files.apInvoice.branchCountry            |   The branch country of this invoice.             |
 
 ### *Files/apInvoice/Cluster* attributes
 
 | Attribute                               |  Description                                                                                                                      |
 | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| files.apInvoice.cluster.total   | The cluster total, subtotal of the invoice                                                 |
-| files.apInvoice.cluster.description | Textual description of a cluster on the invoice                                                 |
-| files.apInvoice.cluster.vatTotal         | Total tax amount of the cluster                                                  |
-| files.apInvoice.cluster.jobReference.jobRef         | The shipment or consol reference                                 |
-| files.apInvoice.cluster.jobReference.bolNum         | The Bol Number                                                      |
-| files.apInvoice.cluster.jobReference.containerNum         | The Container  Number                                                      |
-| files.apInvoice.cluster.jobReference.purchaseOrder         | The Purchase Order                                                     |
-| files.apInvoice.cluster.jobReference.serviceStartDate         |  The Service start date                                                    |
-| files.apInvoice.cluster.jobReference.serviceEndDate         | The Service end date                                                      |
-| files.apInvoice.cluster.extractedLine.service         | The service of the charge line       |
-| files.apInvoice.cluster.extractedLine.journey         | The Journey of the charge Line       |
-| files.apInvoice.cluster.extractedLine.unitPrice         | The Unit price of the charge Line         |
-| files.apInvoice.cluster.extractedLine.quantity         | The quantity of the charge Line         |
-| files.apInvoice.cluster.extractedLine.currency         | The currency of the charge Line        |
-| files.apInvoice.cluster.extractedLine.lineVat         | Total tax amount of the charge line        |
-| files.apInvoice.cluster.extractedLine.lineGross         | The Gross value of the charge Line     |
-| files.apInvoice.cluster.extractedLine.exchangeRate         | The exchange rate of the charge line       |
+| files.apInvoice.cluster.total   | The extracted cluster total, subtotal of the invoice.                                                 |
+| files.apInvoice.cluster.glCode | The general ledger code, specific to overhead invoices.  |
+| files.apInvoice.cluster.glDescription | The general ledger code  description specififc to overhead invoices.                                                  |
+| files.apInvoice.cluster.vatTotal         | Total extracted tax amount of the cluster.                                                  |
+| files.apInvoice.cluster.jobReference.jobRef         | The shipment or consol reference, either extracted or added by the user.                                 |
+| files.apInvoice.cluster.jobReference.bolNum         | The Bol Number, either extracted or added by the user.                                                      |
+| files.apInvoice.cluster.jobReference.containerNum         | The Container  Number, either extracted or added by the user.                                                      |
+| files.apInvoice.cluster.jobReference.serviceStartDate         |  The extracted service start date                                                    |
+| files.apInvoice.cluster.jobReference.serviceEndDate         | The extracted service end date                                                      |
+| files.apInvoice.cluster.extractedLine.service         | The extracted service of the charge line.       |
+| files.apInvoice.cluster.extractedLine.journey         | The extracted journey of the charge line.       |
+| files.apInvoice.cluster.extractedLine.unitPrice         | The extracted unit price of the charge line.         |
+| files.apInvoice.cluster.extractedLine.quantity         | The extracted quantity of the charge line.         |
+| files.apInvoice.cluster.extractedLine.currency         | The extracted currency of the charge line.        |
+| files.apInvoice.cluster.extractedLine.lineVat         | Total extracted tax amount of the charge line.        |
+| files.apInvoice.cluster.extractedLine.lineGross         | The extracted gross value of the charge line.     |
+| files.apInvoice.cluster.extractedLine.exchangeRate         | The extractedexchange rate of the charge line.       |
 
 ### *Files/email* attributes
 
@@ -1191,6 +1169,7 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
           "addresseeCode": "ADDCODE",
           "issuer": "PARSED VALUE ISSUER",
           "issuerCode": "ISSCODE",
+          "issuerRecordId": "1-1-1",
           "invoiceNumber": "ABC12345",
           "invoiceDate": "2020-07-03",
           "invoiceGrossTotal": 2607.92,
@@ -1199,18 +1178,11 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
           "currency": "GBP",
           "currencyId": 826,
           "validationResultId": 1,
-          "reassignTime": "2020-07-03",
-          "email": "invoice@invoice.com",
-          "website": "www.invoice.com",
-          "issuerRecordId": "1-1-1",
-          "glCode": "1300.00.00",
-          "description": "This is an invoice",
-          "departmentCode": "DEPTCODE",
-          "branchCountry": "Lithuania",
           "cluster": [
             {
               "total": 100,
-              "description": null,
+              "glCode": "1300.00.00",
+              "glDescription": null,
               "vatTotal": 5,
               "extractedLine": [
                 {
@@ -1231,7 +1203,6 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
                   "jobRef": "C00000118",
                   "bolNum": null,
                   "containerNum": null,
-                  "purchaseOrder": null,
                   "serviceStartDate": null,
                   "serviceEndDate": null
                 },
@@ -1239,7 +1210,6 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
                   "jobRef": "C00000119",
                   "bolNum": null,
                   "containerNum": null,
-                  "purchaseOrder": null,
                   "serviceStartDate": null,
                   "serviceEndDate": null
                 }
