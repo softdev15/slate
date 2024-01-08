@@ -133,7 +133,8 @@ For more details of exception codes, check our [list of exceptions](#list-of-exc
   "eventName": "ValidationComplete",
   "payload": {
      "fileGroupId": 13704,
-     "success": true
+     "success": true,
+     "workflowId": 67
    }
 }
 
@@ -144,6 +145,7 @@ or
   "eventName": "Validation/BillOfLadingGroup/NoBillsOfLading",
   "payload": {
      "fileGroupId": 13704,
+     "workflowId": 67,
      "exceptions": []
    }
 }
@@ -161,6 +163,7 @@ curl -X POST \
   "eventName": "ValidationComplete",
   "payload": {
      "fileGroupId": 13704,
+     "workflowId": 67,
      "success": false
    }
   }'
@@ -180,6 +183,7 @@ In each request belowe, the **metadata** object is an optional parameter that ca
   "eventName": "ValidationComplete",
   "payload": {
     "fileGroupId": 13704,
+    "workflowId": 67,
     "success": true
   }
 }
@@ -213,7 +217,8 @@ Rather than attempt to guess all of the possible things that a customer might fi
     "purchaseOrders": ["ABC12345"],
     "currency": "USD",
     "invoiceDate": "2021-10-08",
-    "fileGroupId": 13704
+    "fileGroupId": 13704,
+    "workflowId": 68
   }
 }
 ```
@@ -325,6 +330,7 @@ We expect the exchange rate to be sent to us in the following format: **exchange
     "localTotal": 266.66,
     "fileId": 1820,
     "fileGroupId": 13704,
+    "workflowId": 68,
     "accruals": [
       { "id": "90111", "netAmount": 150, "taxAmount": 30, "localAmount": 200, "exchangeRate": 0.75, "chargeCode": "FRT" },
       { "id": "90114", "netAmount": 50, "taxAmount": 0, "localAmount": 66.66, "exchangeRate": 0.75, "chargeCode": "DOC", "partial": true }
@@ -358,6 +364,7 @@ For each accrual, the `id` matches the `id` of an accrual previously fetched via
     "localTotal": 266.66,
     "fileId": 1820,
     "fileGroupId": 13704,
+    "workflowId": 68,
     "costs": [
       { "netAmount": 150, "taxAmount": 30, "taxCode": "VAT", "glCode": "3905.00.00", "description": "Equipment" },
       { "netAmount": 50, "taxAmount": 0, "taxCode": "VAT", "glCode": "3905.00.00", "description": "Equipment" }
@@ -382,7 +389,7 @@ To verify the message, use your secret key to generate an HMAC-SHA256 hash of th
 
 For example with a secret of 12345 and a body of
 
-`{"kind":"#shipamax-webhook","eventName":"Validation/ValidationComplete","payload":{"fileGroupId":13704,"success":false}}`
+`{"kind":"#shipamax-webhook","eventName":"Validation/ValidationComplete","payload":{"fileGroupId":13704,"success":false,"workflowId":68}}`
 
 The resulting hash would be: `da76f9e37775cd072b5dd594926996b1dca3373b82d53756b4cb3cf5c9cafd49`
 
@@ -1016,7 +1023,7 @@ To determine if a line item was matched, use the productCodeMatched attribute:
 | Attribute                            | Description                               |
 | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------  |
 | files.email.customId           | The custom ID associated with this email.                   |
-| files.email.emailAccountId            | The internal ID for the email account this was sent to.      |
+| files.email.workflowId            | The internal ID for the email account this was sent to.      |
 | files.email.sender           | The sender of the email.       |
 | files.email.created           | The date this was created in Shipamax.        |
 | files.email.attachmentCount            | The number of attachments this email had.                  |
@@ -1152,7 +1159,7 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
       "fileType": 4,
       "email": {
         "customId": "custom001",
-        "emailAccountId": 1,
+        "workflowId": 1,
         "sender": "test@shipamax.com",
         "created": "2020-05-07T15:24:47.338Z",
         "attachmentCount": 1,
@@ -1229,7 +1236,7 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
       "fileType": 6,
       "email": {
         "customId": "custom001",
-        "emailAccountId": 1,
+        "workflowId": 1,
         "sender": "test@shipamax.com",
         "created": "2020-05-07T15:34:47.338Z",
         "attachmentCount": 1,
@@ -1352,7 +1359,7 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
       "fileType": 5,
       "email": {
         "customId": "custom001",
-        "emailAccountId": 1,
+        "workflowId": 1,
         "sender": "test@shipamax.com",
         "created": "2020-05-07T15:24:47.338Z",
         "attachmentCount": 1,
@@ -1418,7 +1425,7 @@ The attributes extracted from an invoice for each line item (eg. Product code, d
       "fileType": 5,
       "email": {
         "customId": "custom001",
-        "emailAccountId": 1,
+        "workflowId": 1,
         "sender": "test@shipamax.com",
         "created": "2020-05-07T15:24:47.338Z",
         "attachmentCount": 1,
