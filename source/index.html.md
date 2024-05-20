@@ -1495,6 +1495,58 @@ curl -X GET \
   -H "Authorization: Bearer {TOKEN}"
 ```
 
+## ValidationResult Endpoint
+
+For a full workflow Shipamax enables you to provide Validation results via API.
+
+The following endpoint is currently available:
+
+| Endpoint                         | Verb  | Description                                                                       |
+| -------------------------------- | ----- | --------------------------------------------------------------------------------- |
+| /FileGroups/{file_group_id}/validationResult | POST  | Submit a new validationResult making it the lastValidationResult of the FileGroup  |
+
+Send a new validation result via `POST` request to `https://public.shipamax-api.com/api/v2/FileGroups/{file_group_id}/validationResult`
+
+> The POST validationResult request requires a body JSON structured like this:
+```json
+{
+  "isSuccess": boolean,
+  "details":  {
+    "validator": string,
+    "exceptions": [
+      {
+        "code": integer,
+        "description": string (optional)
+      }
+    ]
+  }
+}
+```
+### Attributes
+
+| Attribute                               |  Description                                                      |
+| --------------------------------------- | ----------------------------------------------------------------- |
+| isSuccess                               | Definition whether the validation is successful or not            |
+| details.validator                       | Optional name of the application that produced this result, e.g. "CompanyABCValidator"   |
+| details.exceptions.code                 | Exception code, see the [list of exceptions](#list-of-exceptioncode-values)                |
+| details.exceptions.description          | Optional field, used in case of custom exception which code is -1 |
+
+> Example of body to be POSTED:
+```json
+{
+  "isSuccess": false,
+  "details":  {
+    "validator": "CompanyABCValidator",
+    "exceptions": [
+      {
+        "code": -1,
+        "description": "Custom message for Invalid value"
+      }
+    ]
+  }
+}
+```
+
 ## Organizations Endpoint
 The Organizations list represents businesses that might be referenced in the documents you send Shipamax to processes (for example, the Shipper on a House Bill of Lading, a Supplier on a Commercial Invoice Creditor etc.). The organization list is used to improve the accuracy of the parsing process, making sure the most likely organization is selected.
 Each Organization must have a unique identifier provided by you (referred to as `externalId`), this is usually the identifier used in your own system.
